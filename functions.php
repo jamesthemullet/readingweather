@@ -167,8 +167,6 @@ if ( defined( 'JETPACK__VERSION' ) ) {
 
 add_action( 'wp_enqueue_scripts', 'enqueue_parent_styles' );
 
-print_r(get_template_directory_uri()); die();
-
 function enqueue_parent_styles() {
    wp_enqueue_style( 'readingweather', get_template_directory_uri().'/style.css' );
 }
