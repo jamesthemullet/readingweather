@@ -115,7 +115,7 @@ function readingweather_widgets_init() {
 	) );
 }
 add_action( 'widgets_init', 'readingweather_widgets_init' );
-
+echo get_stylesheet_directory_uri();
 /**
  * Enqueue scripts and styles.
  */
@@ -168,7 +168,7 @@ if ( defined( 'JETPACK__VERSION' ) ) {
 add_action( 'wp_enqueue_scripts', 'enqueue_parent_styles' );
 
 function enqueue_parent_styles() {
-   wp_enqueue_style( 'readingweather', get_template_directory_uri().'/style.css' );
+   wp_enqueue_style( 'readingweather', get_stylesheet_directory_uri().'/style.css' );
 }
 
 function my_custom_posttypes() {
