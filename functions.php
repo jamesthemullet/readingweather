@@ -165,11 +165,7 @@ if ( defined( 'JETPACK__VERSION' ) ) {
 	require get_template_directory() . '/inc/jetpack.php';
 }
 
-add_action( 'wp_enqueue_scripts', 'enqueue_parent_styles' );
-
-function enqueue_parent_styles() {
-   wp_enqueue_style( 'https//www.readingweather.co.uk/wp-content/themes/readingnew/test.css' );
-}
+wp_enqueue_style( 'my-style', get_template_directory_uri() . '/style.css', false, '1.0', 'all' );
 
 function my_custom_posttypes() {
     
