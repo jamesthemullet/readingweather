@@ -165,13 +165,19 @@ if ( defined( 'JETPACK__VERSION' ) ) {
 	require get_template_directory() . '/inc/jetpack.php';
 }
 
-print( './style.css' );
+// print( get_template_directory_uri() . '/style.css' );
 
 // add_action( 'wp_enqueue_styles', 'enqueue_parent_styles' );
 
 // function enqueue_parent_styles() {
-//    wp_enqueue_style( '/style.css'  );
+//    wp_enqueue_style( 'https//www.readingweather.co.uk/wp-content/themes/readingnew/style.css' );
 // }
+
+function wpdocs_theme_name_scripts() {
+	wp_enqueue_style( 'style-name', get_stylesheet_uri() );
+	wp_enqueue_script( 'script-name', get_template_directory_uri() . '/js/example.js', array(), '1.0.0', true );
+}
+add_action( 'wp_enqueue_scripts', 'wpdocs_theme_name_scripts' );
 
 function my_custom_posttypes() {
     
