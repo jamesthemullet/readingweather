@@ -124,7 +124,7 @@ function readingweather_scripts() {
 
 	wp_enqueue_style( 'bootstrap_css', 'https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css');
 	wp_enqueue_style('font-awesome', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css'); 
-	wp_enqueue_style('readingweather-style', get_stylesheet_directory_uri() . '/style.css'); 
+	wp_enqueue_style('readingweather', get_stylesheet_directory_uri() . '/style.css'); 
     
     wp_deregister_script('jquery');
 	wp_enqueue_script('jquery', 'https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js', array(), null, true);    
