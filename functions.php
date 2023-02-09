@@ -165,13 +165,13 @@ if ( defined( 'JETPACK__VERSION' ) ) {
 	require get_template_directory() . '/inc/jetpack.php';
 }
 
-print( '/style.css' );
+print( './style.css' );
 
-add_action( 'wp_enqueue_styles', 'enqueue_parent_styles' );
+// add_action( 'wp_enqueue_styles', 'enqueue_parent_styles' );
 
-function enqueue_parent_styles() {
-   wp_enqueue_style( '/style.css'  );
-}
+// function enqueue_parent_styles() {
+//    wp_enqueue_style( '/style.css'  );
+// }
 
 function my_custom_posttypes() {
     
