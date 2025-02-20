@@ -26,17 +26,10 @@ body {
 	font-family: 'Fira Sans', sans-serif;
 	margin: 0;
 	padding: 0;
+	font-size: 18px;
 }
 
 h1,
 h2 {
 	font-family: var(--heading-font);
-}
-
-body {
-	background-color: var(--background-color);
-	color: var(--text-color);
-	font-family: sans-serif;
-	margin: 0;
-	padding: 0;
 }
