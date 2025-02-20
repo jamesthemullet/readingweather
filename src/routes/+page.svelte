@@ -4,10 +4,7 @@
 	let { data }: PageProps = $props();
 </script>
 
-<h1>Welcome to SvelteKit</h1>
-<p>
-	Visit <a href="https://svelte.dev/docs/kit">svelte.dev/docs/kit</a> to read the documentation
-</p>
+<h1>Weather Forecast For Reading & Berkshire</h1>
 
 <ul>
 	{#each data.posts.nodes as post}
