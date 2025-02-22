@@ -4,5 +4,12 @@ import type { PageLoad } from './$types';
 
 export const load: PageLoad = async () => {
 	const posts = await fetchGraphQL(ALL_POSTS_QUERY);
-	return posts;
+
+	const meta = {
+		title: 'Weather Forecast For Reading & Berkshire',
+		description:
+			'Your local, human-written weather forecast – especially for people in Reading and the surrounding areas'
+	};
+
+	return { posts, meta };
 };
