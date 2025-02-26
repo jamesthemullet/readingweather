@@ -5,4 +5,10 @@
 </script>
 
 <NavBar />
-<slot />
+<main>
+	<slot />
+</main>
+
+<footer>
+	<p>&copy; {new Date().getFullYear()} Weather Forecast For Reading & Berkshire</p>
+</footer>
