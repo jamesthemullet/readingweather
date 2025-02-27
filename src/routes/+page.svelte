@@ -2,6 +2,8 @@
 	import type { PageProps } from './$types';
 
 	let { data }: PageProps = $props();
+
+	import '../styles/index.css';
 </script>
 
 <svelte:head>
@@ -17,8 +19,18 @@
 	{#each data.posts.posts.nodes as post}
 		<li>
 			<a href="/blog/{post.slug}">
-				{post.title}
+				{#if post.featuredImage?.node?.sourceUrl}
+					<img
+						src={post.featuredImage.node.sourceUrl}
+						srcset={post.featuredImage.node.srcSet}
+						alt={post.title}
+						width="200"
+						height="auto"
+					/>
+				{/if}
+				<h2>{post.title}</h2>
 			</a>
 		</li>
+		<div class="content">{@html post.content}</div>
 	{/each}
 </ul>
