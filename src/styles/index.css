@@ -1,0 +1,36 @@
+main {
+	ul {
+		li {
+			border-top: 5px solid var(--nav);
+
+			h2 {
+				text-align: center;
+				margin: 0.5rem;
+				padding: 0 1rem;
+			}
+		}
+
+		p {
+			padding: 0 1rem;
+			line-height: 1.5rem;
+		}
+
+		figure {
+			margin: 0;
+			padding: 0 1rem;
+
+			@media (min-width: 768px) {
+				padding: 0 6rem;
+			}
+		}
+
+		border-left: 5px solid var(--nav);
+		border-right: 5px solid var(--nav);
+		background: var(--background);
+	}
+
+	img {
+		width: 100%;
+		height: auto;
+	}
+}
