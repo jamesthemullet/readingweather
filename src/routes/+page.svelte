@@ -17,7 +17,7 @@
 
 <ul>
 	{#each data.posts.posts.nodes as post}
-		<li>
+		<li class="post">
 			<a href="/blog/{post.slug}">
 				{#if post.featuredImage?.node?.sourceUrl}
 					<img
