@@ -26,6 +26,7 @@ html {
 
 body {
 	background-color: var(--background-color);
+	background-image: url('/images/weather.png');
 	color: var(--text-color);
 	font-family: 'Fira Sans', sans-serif;
 	margin: 0;

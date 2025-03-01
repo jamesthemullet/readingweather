@@ -1,6 +1,6 @@
 main {
 	ul {
-		li {
+		li.post {
 			border-top: 5px solid var(--nav);
 
 			h2 {
@@ -27,6 +27,12 @@ main {
 		border-left: 5px solid var(--nav);
 		border-right: 5px solid var(--nav);
 		background: var(--background);
+	}
+
+	ol {
+		padding: 0 1rem;
+		line-height: 1.5rem;
+		list-style-type: decimal;
 	}
 
 	img {
