@@ -1,4 +1,8 @@
 main {
+	.content {
+		padding: 1rem;
+	}
+
 	ul {
 		li.post {
 			border-top: 5px solid var(--nav);
@@ -11,7 +15,6 @@ main {
 		}
 
 		p {
-			padding: 0 1rem;
 			line-height: 1.5rem;
 		}
 
