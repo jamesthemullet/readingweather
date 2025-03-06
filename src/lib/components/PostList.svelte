@@ -4,9 +4,9 @@
 
 <ul>
 	{#each posts as post}
-		<article>
-			<li class="post">
-				<a href="/blog/{post.slug}">
+		<article class="post">
+			<li>
+				<a href="/{post.slug}">
 					{#if post.featuredImage?.node?.sourceUrl}
 						<img
 							src={post.featuredImage.node.sourceUrl}
