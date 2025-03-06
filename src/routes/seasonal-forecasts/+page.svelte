@@ -3,7 +3,6 @@
 	import type { PageProps } from '../$types';
 
 	let { data }: PageProps = $props();
-	console.log(20, data);
 </script>
 
 <svelte:head>
