@@ -1,6 +1,10 @@
 main {
-	.content {
-		padding: 1rem;
+	article {
+		background: var(--background);
+
+		.content {
+			padding: 1rem 2rem;
+		}
 	}
 
 	ul {
@@ -29,7 +33,6 @@ main {
 
 		border-left: 5px solid var(--nav);
 		border-right: 5px solid var(--nav);
-		background: var(--background);
 	}
 
 	ol {
