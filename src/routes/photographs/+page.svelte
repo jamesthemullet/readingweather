@@ -16,7 +16,7 @@
 
 {#if data.page}
 	<h1>{data.page.title}</h1>
-	<article>
+	<article class="post">
 		<div class="content">{@html data.page.content}</div>
 	</article>
 {/if}

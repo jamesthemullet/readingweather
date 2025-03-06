@@ -3,6 +3,8 @@
 	import type { PageProps } from '../$types';
 
 	let { data }: PageProps = $props();
+
+	import '../../styles/index.css';
 </script>
 
 <svelte:head>
