@@ -61,6 +61,7 @@ main {
 	display: flex;
 	flex-direction: column;
 	flex-grow: 1;
+	margin: 0 1rem;
 
 	@media (min-width: 768px) {
 		max-width: 1000px;
@@ -74,6 +75,11 @@ main {
 	min-height: 100vh;
 }
 
+select {
+	padding: 0.5rem;
+	margin-top: 0.25rem;
+}
+
 footer {
 	background-color: var(--nav);
 	color: var(--white);
@@ -83,4 +89,5 @@ footer {
 	text-align: center;
 	display: flex;
 	flex-wrap: wrap;
+	justify-content: center;
 }
