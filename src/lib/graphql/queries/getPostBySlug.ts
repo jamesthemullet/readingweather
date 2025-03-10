@@ -8,6 +8,19 @@ const GET_POST_BY_SLUG = `
           sourceUrl
         }
       }
+      comments(where: { order: ASC }) {
+        nodes {
+          id
+          content
+          parentId
+          author {
+            node {
+              name
+            }
+          }
+          date
+        }
+      }
     }
   }
 `;
