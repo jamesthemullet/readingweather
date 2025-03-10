@@ -12,7 +12,11 @@
 	<meta name="description" content="Seasonal forecasts for Reading & Berkshire." />
 	<meta property="og:title" content="Seasonal Forecasts" />
 	<meta property="og:description" content="Seasonal forecasts for Reading & Berkshire." />
-	<!-- <meta property="og:image" content="/default-image.png" /> -->
+	{#if data.posts.featuredImage?.node?.sourceUrl}
+		<meta property="og:image" content={data.posts.featuredImage.node.sourceUrl} />
+	{/if}
+	<meta property="og:type" content="article" />
+	<meta property="og:url" content={`https://www.readingweather.co.uk/${data.posts.slug}`} />
 </svelte:head>
 
 <h1>Seasonal Forecasts</h1>
