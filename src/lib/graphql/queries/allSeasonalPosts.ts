@@ -12,6 +12,19 @@ const ALL_SEASONAL_POSTS_QUERY = `
           }
         }
         content
+        comments(where: { order: ASC }) {
+          nodes {
+            id
+            content
+            parentId
+            author {
+              node {
+                name
+              }
+            }
+            date
+          }
+        }
       }
     }
   }

@@ -9,7 +9,7 @@ main {
 
 	.post {
 		border: 5px solid var(--nav);
-		margin-bottom: 1rem;
+		margin-bottom: 2rem;
 
 		h2 {
 			text-align: center;
@@ -40,5 +40,28 @@ main {
 	img {
 		width: 100%;
 		height: auto;
+	}
+}
+
+.comments-block {
+	border-top: 2.5px solid var(--nav);
+	padding-top: 1rem;
+	margin: 0 1.5rem;
+
+	.comments-list {
+		list-style: none;
+		padding: 0;
+	}
+	.comment-replies {
+		margin-left: 20px;
+		list-style: none;
+		padding-left: 15px;
+		border-left: 2px solid var(--nav);
+	}
+	.comment-reply {
+		margin-top: 10px;
+		padding: 5px;
+		background: #f9f9f9;
+		border-radius: 3px;
 	}
 }
