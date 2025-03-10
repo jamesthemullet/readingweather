@@ -11,7 +11,11 @@
 	<meta name="description" content={data.page.seo.description} />
 	<meta property="og:title" content={data.page.title} />
 	<meta property="og:description" content={data.page.seo.description} />
-	<!-- <meta property="og:image" content="/default-image.png" /> -->
+	{#if data.page.featuredImage?.node?.sourceUrl}
+		<meta property="og:image" content={data.page.featuredImage.node.sourceUrl} />
+	{/if}
+	<meta property="og:type" content="article" />
+	<meta property="og:url" content={`https://www.readingweather.co.uk/${data.page.slug}`} />
 </svelte:head>
 
 {#if data.page}

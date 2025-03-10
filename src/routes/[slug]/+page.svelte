@@ -35,7 +35,26 @@
 </script>
 
 <svelte:head>
-	<title>{data.post.title}</title>
+	<title>Weather Forecast For Reading & Berkshire, issued {data.post.title}</title>
+	<meta
+		name="description"
+		content={data.post.excerpt ||
+			`Weather Forecast For Reading & Berkshire, issued {data.post.title}`}
+	/>
+	<meta
+		property="og:title"
+		content={`Weather Forecast For Reading & Berkshire, issued {data.post.title}`}
+	/>
+	<meta
+		property="og:description"
+		content={data.post.excerpt ||
+			`Weather Forecast For Reading & Berkshire, issued {data.post.title}`}
+	/>
+	{#if data.post.featuredImage?.node?.sourceUrl}
+		<meta property="og:image" content={data.post.featuredImage.node.sourceUrl} />
+	{/if}
+	<meta property="og:type" content="article" />
+	<meta property="og:url" content={`https://www.readingweather.co.uk/${data.post.slug}`} />
 </svelte:head>
 
 <h1>{data.post.title}</h1>
