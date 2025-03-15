@@ -1,6 +1,7 @@
 const GET_POST_BY_SLUG = `
   query GetPostBySlug($slug: String!) {
     postBy(slug: $slug) {
+      id
       title
       content
       featuredImage {

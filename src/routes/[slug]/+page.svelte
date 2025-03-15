@@ -5,6 +5,7 @@
 
 	import '../../styles/index.css';
 	import Comments from '$lib/components/Comments.svelte';
+	import AddComment from '$lib/components/AddComment.svelte';
 
 	const organiseComments = (comments) => {
 		const commentMap = new Map();
@@ -65,4 +66,5 @@
 	<div class="content">{@html data.post.content}</div>
 
 	<Comments {threadedComments} />
+	<AddComment {data} />
 </article>
