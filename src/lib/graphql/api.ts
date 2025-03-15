@@ -1,3 +1,5 @@
+import ADD_COMMENT from '$lib/graphql/queries/addComment';
+
 export async function fetchGraphQL(query, variables = {}) {
 	const response = await fetch('https://readingweather.co.uk/graphql', {
 		method: 'POST',
@@ -12,4 +14,28 @@ export async function fetchGraphQL(query, variables = {}) {
 	}
 
 	return json.data;
+}
+
+export async function addComment(
+	postId: number,
+	content: string,
+	author: string,
+	authorEmail: string,
+	parentId: string | null = null
+) {
+	const variables = {
+		input: {
+			commentOn: postId,
+			content,
+			author,
+			authorEmail,
+			parent: parentId
+		}
+	};
+
+	const response = await fetchGraphQL(ADD_COMMENT, variables);
+
+	return response?.createComment
+		? { success: true, comment: response.createComment.comment }
+		: { success: false };
 }
