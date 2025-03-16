@@ -12,6 +12,7 @@
 </script>
 
 <nav class="navbar">
+	<a href="/" class="home-button">Home </a>
 	<button class="menu-button" on:click={() => (isOpen = !isOpen)}> ☰ </button>
 
 	<ul class:open={isOpen}>
@@ -29,10 +30,21 @@
 		padding: 1rem;
 		max-width: 100%;
 		display: flex;
-		justify-content: center;
+		justify-content: space-between;
+		align-items: center;
 
-		@media (max-width: 768px) {
-			justify-content: flex-end;
+		.home-button {
+			color: white;
+			text-decoration: none;
+
+			@media screen and (min-width: 768px) {
+				position: absolute;
+				left: 1rem;
+			}
+		}
+
+		@media (min-width: 768px) {
+			justify-content: center;
 		}
 	}
 
