@@ -1,5 +1,7 @@
 <script lang="ts">
-	export let threadedComments;
+	import AddComment from './AddComment.svelte';
+
+	let { threadedComments, postId } = $props();
 
 	const formatDate = (dateString: string) => {
 		const date = new Date(dateString);
@@ -34,6 +36,11 @@
 
 		return `${formattedDate.replace(/\d+/, day + ordinalSuffix(day))} at ${formattedTime}`;
 	};
+
+	let showReplyForm = $state(false);
+	const toggleReplyForm = () => {
+		showReplyForm = !showReplyForm;
+	};
 </script>
 
 <section class="comments-block">
@@ -58,6 +65,12 @@
 								</li>
 							{/each}
 						</ul>
+					{/if}
+
+					<button on:click={toggleReplyForm}>Reply</button>
+
+					{#if showReplyForm}
+						<AddComment {postId} parentCommentId={comment.id} />
 					{/if}
 				</li>
 			{/each}
