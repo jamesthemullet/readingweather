@@ -3,7 +3,8 @@
 	import type { PageProps } from '../../routes/[slug]/$types';
 	import { tick } from 'svelte';
 
-	let { data }: PageProps = $props();
+	let { postId, parentCommentId = null } = $props();
+
 	let name = $state('');
 	let email = $state('');
 	let commentContent = $state('');
@@ -18,11 +19,17 @@
 		errorMessage = '';
 		successMessage = '';
 
-		const decodedId = atob(data.post.id).split(':')[1];
-		const postId = parseInt(decodedId, 10);
+		const decodedId = atob(postId).split(':')[1];
+		const decodedPostId = parseInt(decodedId, 10);
 
 		try {
-			const newComment = await addComment(postId, commentContent, name, email);
+			const newComment = await addComment(
+				decodedPostId,
+				commentContent,
+				name,
+				email,
+				parentCommentId
+			);
 			if (newComment.success) {
 				successMessage = 'Thanks!  Your comment has been submitted and is awaiting approval.';
 
@@ -46,7 +53,7 @@
 </script>
 
 <form class="add-comment" onsubmit={submitComment}>
-	<h2>Add Your Comment</h2>
+	<h2>{parentCommentId ? 'Reply to Comment' : 'Add Your Comment'}</h2>
 	{#if !successMessage}
 		<div>
 			<label for="name">Name:</label>

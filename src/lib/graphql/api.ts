@@ -21,17 +21,19 @@ export async function addComment(
 	content: string,
 	author: string,
 	authorEmail: string,
-	parentId: string | null = null
+	parentId: number | null = null
 ) {
 	const variables = {
 		input: {
-			commentOn: postId,
+			commentOn: 3400,
 			content,
 			author,
 			authorEmail,
 			parent: parentId
 		}
 	};
+
+	console.log(29, variables);
 
 	const response = await fetchGraphQL(ADD_COMMENT, variables);
 
