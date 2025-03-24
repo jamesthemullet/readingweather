@@ -1,4 +1,5 @@
 <script lang="ts">
+	import '../../styles/index.css';
 	import type { PageProps } from './$types';
 
 	let { data }: PageProps = $props();
@@ -35,30 +36,30 @@
 
 <h1>Weather Forecast Archives</h1>
 <article class="post">
-	<!-- Archive Dropdown -->
-	<label for="archive-select">Select Month:</label>
-	<select id="archive-select" on:change={updateArchive}>
-		<option value="">-- Select --</option>
-		{#each data.archives as archive}
-			<option
-				value="{archive.year}-{archive.month}"
-				selected={archive.year === data.selectedYear && archive.month === data.selectedMonth}
-			>
-				{getMonthName(archive.month)}
-				{archive.year}
-			</option>
-		{/each}
-	</select>
-
-	<!-- Show Posts for Selected Month/Year -->
-	{#if data.selectedYear && data.selectedMonth}
-		<h2>Posts from {getMonthName(data.selectedMonth)} {data.selectedYear}</h2>
-		<ul>
-			{#each data.posts as post}
-				<li><a href="/{post.slug}">{post.title}</a></li>
+	<div class="archive-container">
+		<label for="archive-select">Select Month:</label>
+		<select id="archive-select" on:change={updateArchive}>
+			<option value="">-- Select --</option>
+			{#each data.archives as archive}
+				<option
+					value="{archive.year}-{archive.month}"
+					selected={archive.year === data.selectedYear && archive.month === data.selectedMonth}
+				>
+					{getMonthName(archive.month)}
+					{archive.year}
+				</option>
 			{/each}
-		</ul>
-	{:else}
-		<p>Select a month to view posts.</p>
-	{/if}
+		</select>
+
+		{#if data.selectedYear && data.selectedMonth}
+			<h2>Posts from {getMonthName(data.selectedMonth)} {data.selectedYear}</h2>
+			<ul>
+				{#each data.posts as post}
+					<li><a href="/{post.slug}">{post.title}</a></li>
+				{/each}
+			</ul>
+		{:else}
+			<p>Select a month to view posts.</p>
+		{/if}
+	</div>
 </article>
