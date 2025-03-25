@@ -34,6 +34,15 @@
 
 	const threadedComments = organiseComments(data.post.comments.nodes);
 	const postId = data.post.id;
+
+	let paragraphs = data.post.content.split(/<\/?p>/).filter((p) => p.trim() !== '');
+
+	const iframeHTML = `<iframe id='kofiframe' src='https://ko-fi.com/wffrb/?hidefeed=true&widget=true&embed=true&preview=true' style='border:none;width:100%;padding:4px;background:#f9f9f9;' height='612' title='wffrb'></iframe>`;
+	if (paragraphs.length > 2) {
+		paragraphs.splice(-3, 0, iframeHTML);
+	}
+
+	const modifiedContent = paragraphs.map((p) => `<p>${p}</p>`).join('');
 </script>
 
 <svelte:head>
@@ -64,7 +73,7 @@
 	{#if data.post.featuredImage?.node?.sourceUrl}
 		<img src={data.post.featuredImage.node.sourceUrl} alt={data.post.title} />
 	{/if}
-	<div class="content">{@html data.post.content}</div>
+	<div class="content">{@html modifiedContent}</div>
 
 	<Comments {threadedComments} {postId} />
 	<AddComment {postId} />
