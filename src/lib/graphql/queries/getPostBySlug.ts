@@ -9,7 +9,7 @@ const GET_POST_BY_SLUG = `
           sourceUrl
         }
       }
-      comments(where: { order: ASC }) {
+      comments(first: 100, where: { order: ASC }) {
         nodes {
           id
           content

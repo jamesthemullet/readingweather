@@ -34,8 +34,6 @@
 
 	const threadedComments = organiseComments(data.post.comments.nodes);
 	const postId = data.post.id;
-
-	console.log(15, threadedComments);
 </script>
 
 <svelte:head>
