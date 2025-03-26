@@ -7,8 +7,6 @@ export const load: PageLoad = async ({ params }) => {
 
 	const response = await fetchGraphQL(GET_POST_BY_SLUG, { slug });
 
-	console.log(20, response);
-
 	return {
 		post: response.postBy
 	};

@@ -15,7 +15,7 @@
 	<a href="/" class="home-button">Home </a>
 	<button class="menu-button" on:click={() => (isOpen = !isOpen)}> ☰ </button>
 
-	<ul class:open={isOpen}>
+	<ul class:open={isOpen} style="transition: {isOpen ? 'max-height 0.3s ease-out' : 'none'};">
 		{#each links as link}
 			<li class:active={$page.url.pathname === link.href}>
 				<a href={link.href} on:click={() => (isOpen = false)}>{link.label}</a>
@@ -27,11 +27,15 @@
 <style>
 	.navbar {
 		background: var(--nav);
-		padding: 1rem;
+		padding: 0 1rem;
 		max-width: 100%;
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
+
+		@media screen and (min-width: 768px) {
+			padding: 1rem;
+		}
 
 		.home-button {
 			color: white;
@@ -65,8 +69,13 @@
 		list-style: none;
 		display: flex;
 		gap: 1rem;
-		transition: max-height 0.3s ease-out;
 		overflow: hidden;
+		padding: 0 1rem;
+		margin-top: 0.75rem;
+
+		@media screen and (min-width: 768px) {
+			margin-top: 0;
+		}
 	}
 
 	.navbar ul.open {
