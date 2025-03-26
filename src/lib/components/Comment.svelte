@@ -1,6 +1,5 @@
 <script lang="ts">
 	import AddComment from './AddComment.svelte';
-	import { writable } from 'svelte/store';
 	import Comment from './Comment.svelte';
 
 	let { comment, postId, replyForms } = $props();
@@ -14,7 +13,6 @@
 		};
 		const formattedDate = date.toLocaleDateString('en-US', options);
 
-		// Add ordinal suffix to the day
 		const day = date.getDate();
 		const ordinalSuffix = (day: number) => {
 			if (day > 3 && day < 21) return 'th';
@@ -61,8 +59,7 @@
 		</ul>
 	{/if}
 
-	<!-- Button to reply to this comment -->
-	<button on:click={() => toggleReplyForm(comment?.id)}>Reply</button>
+	<button class="reply-button" on:click={() => toggleReplyForm(comment?.id)}>Reply</button>
 
 	{#if $replyForms[comment?.id]}
 		<AddComment {postId} parentCommentId={comment.id} />
