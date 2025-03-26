@@ -39,16 +39,15 @@
 
 	const toggleReplyForm = (commentId: string) => {
 		replyForms.update((currentForms) => ({
-			...currentForms,
 			[commentId]: !currentForms[commentId]
 		}));
 	};
 </script>
 
 <li class="comment">
-	<p>
+	<small>
 		By <strong>{comment?.author.node.name}</strong> on {formatDate(comment?.date)}:
-	</p>
+	</small>
 	<p>{@html comment?.content}</p>
 
 	{#if comment?.replies.length > 0}

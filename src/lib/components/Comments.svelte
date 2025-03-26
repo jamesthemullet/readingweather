@@ -1,17 +1,10 @@
 <script lang="ts">
-	import Comment from './Comment.svelte'; // Import the recursive component
+	import Comment from './Comment.svelte';
 	import { writable } from 'svelte/store';
 
 	let { threadedComments, postId } = $props();
 
-	const replyForms = writable<{ [key: string]: boolean }>({}); // Using writable store for reactivity
-
-	const toggleReplyForm = (commentId: string) => {
-		replyForms.update((currentForms) => ({
-			...currentForms,
-			[commentId]: !currentForms[commentId]
-		}));
-	};
+	const replyForms = writable<{ [key: string]: boolean }>({});
 </script>
 
 <section id="comments" class="comments-block">

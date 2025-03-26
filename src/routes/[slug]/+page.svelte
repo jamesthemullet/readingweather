@@ -10,13 +10,11 @@
 	const organiseComments = (comments) => {
 		const commentMap = new Map();
 
-		// Store all comments in a map by ID
 		comments.forEach((comment) => {
 			comment.replies = [];
 			commentMap.set(comment.id, comment);
 		});
 
-		// Attach replies to their parent comments
 		const topLevelComments = [];
 		comments.forEach((comment) => {
 			if (comment.parentId) {

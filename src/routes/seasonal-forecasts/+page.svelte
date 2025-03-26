@@ -22,4 +22,3 @@
 <h1>Seasonal Forecasts</h1>
 
 <PostList posts={data.posts.posts.nodes} />
-<!-- <Comments {threadedComments} /> -->
