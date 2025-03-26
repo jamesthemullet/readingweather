@@ -92,4 +92,4 @@ jobs:
           yarn add @axe-core/cli
           CHROMIUM_VERSION=$(google-chrome --version | cut -d' ' -f3 | cut -d'.' -f1)
           yarn add chromedriver@$CHROMIUM_VERSION
-          npx axe --chromedriver-path $(yarn bin)/chromedriver http://localhost:5173/ --load-delay=1500 --exit
+          npx axe --chromedriver-path $(yarn bin)/chromedriver http://localhost:5173/ --load-delay=5000 --exit

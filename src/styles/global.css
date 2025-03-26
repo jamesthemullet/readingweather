@@ -130,6 +130,12 @@ form {
 		margin-bottom: 0.5rem;
 		width: 100%;
 		max-width: 300px;
+		border: 1px solid var(--nav);
+
+		&:focus,
+		&:active {
+			border-radius: 0;
+		}
 	}
 
 	label {
