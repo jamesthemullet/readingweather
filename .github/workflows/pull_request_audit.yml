@@ -87,9 +87,9 @@ jobs:
           echo "chromedriver version: $(chromedriver --version)"
       - run: yarn run build
       - run: yarn dev & npx wait-on http://localhost:5173
+      - run: sleep 5
       - name: Run axe
         run: |
-          yarn add @axe-core/cli
-          CHROMIUM_VERSION=$(google-chrome --version | cut -d' ' -f3 | cut -d'.' -f1)
-          yarn add chromedriver@$CHROMIUM_VERSION
-          npx axe --chromedriver-path $(yarn bin)/chromedriver http://localhost:5173/ --load-delay=1500 --exit
+          CHROME_BIN=$(which google-chrome)
+          echo "Using Chrome binary at: $CHROME_BIN"
+          npx axe --chromedriver-path $(yarn bin)/chromedriver --chrome-binary-path $CHROME_BIN http://localhost:_
