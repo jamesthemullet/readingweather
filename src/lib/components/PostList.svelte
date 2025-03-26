@@ -31,6 +31,9 @@
 				</a>
 			</li>
 			<div class="content">{@html modifyContent(post.content)}</div>
+			<div class="comment-link">
+				<a href="/{post.slug}#comments">View or add a comment</a>
+			</div>
 		</article>
 	{/each}
 </ul>

@@ -76,6 +76,10 @@ main {
 		background: #f9f9f9;
 		border-radius: 3px;
 	}
+
+	.reply-button {
+		margin-bottom: 1rem;
+	}
 }
 
 .older-posts {
@@ -103,6 +107,15 @@ main {
 	ul {
 		list-style: none;
 		padding: 0;
+		text-align: center;
+	}
+}
+
+.comment-link {
+	margin: 0 auto 2rem;
+	text-align: center;
+
+	a {
 		text-align: center;
 	}
 }

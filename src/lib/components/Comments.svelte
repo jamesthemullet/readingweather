@@ -14,7 +14,7 @@
 	};
 </script>
 
-<section class="comments-block">
+<section id="comments" class="comments-block">
 	<h2>Any comments?</h2>
 	{#if threadedComments.length > 0}
 		<ul class="comments-list">
