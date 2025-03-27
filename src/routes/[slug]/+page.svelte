@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { PageProps } from '../[slug]/$types';
+	import { showAddComment } from '$lib/stores/commentState';
 
 	let { data }: PageProps = $props();
 
@@ -74,5 +75,7 @@
 	<div class="content">{@html modifiedContent}</div>
 
 	<Comments {threadedComments} {postId} />
-	<AddComment {postId} />
+	{#if $showAddComment}
+		<AddComment {postId} />
+	{/if}
 </article>
