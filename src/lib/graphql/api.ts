@@ -33,8 +33,6 @@ export async function addComment(
 		}
 	};
 
-	console.log(29, variables);
-
 	const response = await fetchGraphQL(ADD_COMMENT, variables);
 
 	return response?.createComment

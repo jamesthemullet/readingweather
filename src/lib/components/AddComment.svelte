@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { addComment } from '$lib/graphql/api';
+	import { showAddComment } from '$lib/stores/commentState';
 	import type { PageProps } from '../../routes/[slug]/$types';
 	import { tick } from 'svelte';
 
@@ -47,6 +48,8 @@
 			errorMessage = 'Error submitting comment.';
 			console.error(error);
 		}
+
+		showAddComment.set(true);
 
 		submitting = false;
 	}

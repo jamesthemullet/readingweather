@@ -1,6 +1,8 @@
 <script lang="ts">
+	import { get } from 'svelte/store';
 	import AddComment from './AddComment.svelte';
 	import Comment from './Comment.svelte';
+	import { showAddComment } from '$lib/stores/commentState';
 
 	let { comment, postId, replyForms } = $props();
 
@@ -41,6 +43,7 @@
 		replyForms.update((currentForms) => ({
 			[commentId]: !currentForms[commentId]
 		}));
+		showAddComment.set(!get(replyForms)[commentId]);
 	};
 </script>
 
