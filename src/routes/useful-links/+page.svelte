@@ -1,9 +1,12 @@
 <script lang="ts">
 	import type { PageProps } from '../about/$types';
+	import DOMPurify from 'dompurify';
 
 	let { data }: PageProps = $props();
 
 	import '../../styles/index.css';
+
+	const sanitizedContent = DOMPurify.sanitize(data.page.content);
 </script>
 
 <svelte:head>
@@ -21,6 +24,6 @@
 {#if data.page}
 	<h1>{data.page.title}</h1>
 	<article class="post">
-		<div class="content">{@html data.page.content}</div>
+		<div class="content">{@html sanitizedContent}</div>
 	</article>
 {/if}

@@ -1,15 +1,17 @@
 <script lang="ts">
+	import '../../styles/index.css';
+	import AddComment from '$lib/components/AddComment.svelte';
+	import Comments from '$lib/components/Comments.svelte';
 	import type { PageProps } from '../[slug]/$types';
 	import { showAddComment } from '$lib/stores/commentState';
 
 	let { data }: PageProps = $props();
 
-	import '../../styles/index.css';
-	import Comments from '$lib/components/Comments.svelte';
-	import AddComment from '$lib/components/AddComment.svelte';
+	const x: number = 'not a number';
 
 	const organiseComments = (comments) => {
 		const commentMap = new Map();
+		const y: number = 'not a number';
 
 		comments.forEach((comment) => {
 			comment.replies = [];
