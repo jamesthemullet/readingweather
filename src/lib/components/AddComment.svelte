@@ -3,7 +3,7 @@
 	import { showAddComment } from '$lib/stores/commentState';
 	import { tick } from 'svelte';
 
-	let { postId, parentCommentId = null } = $props();
+	const { postId, parentCommentId = null } = $props();
 
 	let name = $state('');
 	let email = $state('');
@@ -20,7 +20,7 @@
 		successMessage = '';
 
 		const decodedId = atob(postId).split(':')[1];
-		const decodedPostId = parseInt(decodedId, 10);
+		const decodedPostId = Number.parseInt(decodedId, 10);
 
 		try {
 			const newComment = await addComment(

@@ -2,23 +2,23 @@
 	import '../../styles/index.css';
 	import AddComment from '$lib/components/AddComment.svelte';
 	import Comments from '$lib/components/Comments.svelte';
-	import type { PageProps } from '../[slug]/$types';
 	import { showAddComment } from '$lib/stores/commentState';
+	import type { PageProps } from '../[slug]/$types';
 
-	let { data }: PageProps = $props();
-
-	const x: number = 'not a number';
+	const { data }: PageProps = $props();
 
 	const organiseComments = (comments) => {
 		const commentMap = new Map();
 		const y: number = 'not a number';
 
+		// biome-ignore lint/complexity/noForEach: <explanation>
 		comments.forEach((comment) => {
 			comment.replies = [];
 			commentMap.set(comment.id, comment);
 		});
 
 		const topLevelComments = [];
+		// biome-ignore lint/complexity/noForEach: <explanation>
 		comments.forEach((comment) => {
 			if (comment.parentId) {
 				const parent = commentMap.get(comment.parentId);
@@ -36,7 +36,7 @@
 	const threadedComments = organiseComments(data.post.comments.nodes);
 	const postId = data.post.id;
 
-	let paragraphs = data.post.content.split(/<\/?p>/).filter((p) => p.trim() !== '');
+	const paragraphs = data.post.content.split(/<\/?p>/).filter((p) => p.trim() !== '');
 
 	const iframeHTML = `<iframe id='kofiframe' src='https://ko-fi.com/wffrb/?hidefeed=true&widget=true&embed=true&preview=true' style='border:none;width:100%;padding:4px;background:#f9f9f9;' height='612' title='wffrb'></iframe>`;
 	if (paragraphs.length > 2) {

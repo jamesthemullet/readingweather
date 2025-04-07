@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { PageProps } from '../about/$types';
 
-	let { data }: PageProps = $props();
+	const { data }: PageProps = $props();
 
 	import '../../styles/index.css';
 </script>

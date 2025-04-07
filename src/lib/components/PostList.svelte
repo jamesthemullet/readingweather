@@ -1,8 +1,18 @@
 <script lang="ts">
-	export let posts;
+	export let posts: Array<{
+		slug: string;
+		title: string;
+		content: string;
+		featuredImage?: {
+			node?: {
+				sourceUrl: string;
+				srcSet: string;
+			};
+		};
+	}>;
 
 	const modifyContent = (content: string) => {
-		let paragraphs = content.split(/<\/?p>/).filter((p) => p.trim() !== '');
+		const paragraphs = content.split(/<\/?p>/).filter((p) => p.trim() !== '');
 
 		const iframeHTML = `<iframe id='kofiframe' src='https://ko-fi.com/wffrb/?hidefeed=true&widget=true&embed=true&preview=true' style='border:none;width:100%;padding:4px;background:#f9f9f9;' height='612' title='wffrb'></iframe>`;
 		if (paragraphs.length > 2) {

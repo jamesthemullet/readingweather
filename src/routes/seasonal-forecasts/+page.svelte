@@ -2,7 +2,7 @@
 	import PostList from '$lib/components/PostList.svelte';
 	import type { PageProps } from '../$types';
 
-	let { data }: PageProps = $props();
+	const { data }: PageProps = $props();
 
 	import '../../styles/index.css';
 </script>
