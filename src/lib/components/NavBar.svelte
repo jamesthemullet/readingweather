@@ -1,7 +1,7 @@
 <script>
 	import { page } from '$app/stores';
 
-	let links = [
+	const links = [
 		{ href: '/seasonal-forecasts', label: 'Seasonal Forecasts' },
 		{ href: '/photographs', label: 'Photographs' },
 		{ href: '/useful-links', label: 'Weather Links' },

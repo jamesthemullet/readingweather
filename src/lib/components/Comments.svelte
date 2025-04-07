@@ -1,8 +1,8 @@
 <script lang="ts">
-	import Comment from './Comment.svelte';
 	import { writable } from 'svelte/store';
+	import Comment from './Comment.svelte';
 
-	let { threadedComments, postId } = $props();
+	const { threadedComments, postId } = $props();
 
 	const replyForms = writable<{ [key: string]: boolean }>({});
 </script>

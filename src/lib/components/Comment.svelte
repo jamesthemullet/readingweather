@@ -1,10 +1,10 @@
 <script lang="ts">
+	import { showAddComment } from '$lib/stores/commentState';
 	import { get } from 'svelte/store';
 	import AddComment from './AddComment.svelte';
 	import Comment from './Comment.svelte';
-	import { showAddComment } from '$lib/stores/commentState';
 
-	let { comment, postId, replyForms } = $props();
+	const { comment, postId, replyForms } = $props();
 
 	const formatDate = (dateString: string) => {
 		const date = new Date(dateString);

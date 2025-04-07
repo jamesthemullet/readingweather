@@ -2,7 +2,7 @@
 	import '../../styles/index.css';
 	import type { PageProps } from './$types';
 
-	let { data }: PageProps = $props();
+	const { data }: PageProps = $props();
 
 	const updateArchive = (event: Event) => {
 		const selected = (event.target as HTMLSelectElement).value;
