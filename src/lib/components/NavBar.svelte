@@ -8,7 +8,7 @@
 		{ href: '/about', label: 'About' },
 		{ href: '/archives', label: 'Archives' }
 	];
-	const isOpen = false;
+	let isOpen = false;
 </script>
 
 <nav class="navbar">
