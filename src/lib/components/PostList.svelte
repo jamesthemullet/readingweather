@@ -37,7 +37,7 @@
 							height="auto"
 						/>
 					{/if}
-					<h2>{post.title}</h2>
+					<h2 class="test">{post.title}</h2>
 				</a>
 			</li>
 			<div class="content">{@html modifyContent(post.content)}</div>
