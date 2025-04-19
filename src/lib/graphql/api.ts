@@ -1,7 +1,7 @@
 import ADD_COMMENT from '$lib/graphql/queries/addComment';
 
 export async function fetchGraphQL(query: string, variables = {}) {
-	const response = await fetch('https://readingweather.co.uk/graphql', {
+	const response = await fetch('https://blog.readingweather.co.uk/graphql', {
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json' },
 		body: JSON.stringify({ query, variables })
