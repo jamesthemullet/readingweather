@@ -72,11 +72,7 @@
 
 						<p id="subscribe-submit">
 							<input type="hidden" name="action" value="subscribe" />
-							<input
-								type="hidden"
-								name="source"
-								value="https://www.readingweather.co.uk/subscribe/"
-							/>
+							<input type="hidden" name="source" value="https://www.readingweather.co.uk" />
 							<input type="hidden" name="sub-type" value="widget" />
 							<input type="hidden" name="blog_id" value="149167962" />
 							<input type="hidden" name="redirect_fragment" value="subscribe-blog-1" />
