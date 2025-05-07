@@ -31,7 +31,7 @@
 				parentCommentId
 			);
 			if (newComment.success) {
-				successMessage = 'Thanks!  Your comment has been submitted and is awaiting approval.';
+				successMessage = 'Thanks! Your comment has been submitted and is awaiting approval.';
 
 				name = '';
 				email = '';
