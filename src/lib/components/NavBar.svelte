@@ -8,7 +8,7 @@
 		{ href: '/about', label: 'About' },
 		{ href: '/archives', label: 'Archives' }
 	];
-	// biome-ignore lint/style/useConst: needed for Svelte reactivity
+	// biome-ignore lint/style/useConst: needed for Svelte reactivity ok
 	let isOpen = false;
 </script>
 
