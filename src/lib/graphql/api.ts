@@ -25,7 +25,7 @@ export async function addComment(
 ) {
 	const variables = {
 		input: {
-			commentOn: 3400,
+			commentOn: postId,
 			content,
 			author,
 			authorEmail,
