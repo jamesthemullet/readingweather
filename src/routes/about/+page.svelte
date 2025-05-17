@@ -3,8 +3,10 @@
 
 	const { data }: PageProps = $props();
 
-	const name = $state('');
-	const email = $state('');
+	// biome-ignore lint/style/useConst: <cannot bind to a const>
+	let name = $state('');
+	// biome-ignore lint/style/useConst: <cannot bind to a const>
+	let email = $state('');
 	let responseMessage = $state('');
 
 	const handleSubmit = async (e: Event) => {
