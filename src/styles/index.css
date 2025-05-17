@@ -19,6 +19,10 @@ main {
 
 		p {
 			line-height: 1.5rem;
+
+			&.response {
+				text-align: center;
+			}
 		}
 
 		figure {
@@ -116,5 +120,30 @@ main {
 
 	a {
 		text-align: center;
+	}
+}
+
+form {
+	label {
+		display: block;
+		margin: 0.5rem 0;
+		min-width: 250px;
+		display: flex;
+		align-items: baseline;
+		justify-content: center;
+		flex-direction: column;
+		gap: 0.5rem;
+
+		@media (min-width: 768px) {
+			flex-direction: row;
+			width: 100%;
+		}
+	}
+
+	input {
+		width: 100%;
+		padding: 0.5rem;
+		border: 1px solid var(--nav);
+		border-radius: 4px;
 	}
 }
