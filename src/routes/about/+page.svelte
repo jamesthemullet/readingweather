@@ -3,8 +3,8 @@
 
 	const { data }: PageProps = $props();
 
-	let name = $state('');
-	let email = $state('');
+	const name = $state('');
+	const email = $state('');
 	let responseMessage = $state('');
 
 	const handleSubmit = async (e: Event) => {
