@@ -25,25 +25,25 @@
 
 <ul>
 	{#each posts as post}
-		<article class="post">
-			<li>
+		<li>
+			<article class="post">
 				<a href="/{post.slug}">
 					{#if post.featuredImage?.node?.sourceUrl}
 						<img
 							src={post.featuredImage.node.sourceUrl}
 							srcset={post.featuredImage.node.srcSet}
-							alt={post.title}
+							alt={'Photograph of recent weather in/around Reading'}
 							width="200"
 							height="auto"
 						/>
 					{/if}
 					<h2>{post.title}</h2>
 				</a>
-			</li>
-			<div class="content">{@html modifyContent(post.content)}</div>
-			<div class="comment-link">
-				<a href="/{post.slug}#comments">View or add a comment</a>
-			</div>
-		</article>
+				<div class="content">{@html modifyContent(post.content)}</div>
+				<div class="comment-link">
+					<a href="/{post.slug}#comments">View or add a comment</a>
+				</div>
+			</article>
+		</li>
 	{/each}
 </ul>
