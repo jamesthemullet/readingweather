@@ -1,6 +1,6 @@
-import type { PageLoad } from '../$types';
 import { fetchGraphQL } from '../../lib/graphql/api';
 import GET_POSTS_BY_DATE from '../../lib/graphql/queries/getPostsByDate';
+import type { PageLoad } from '../$types';
 
 const generateArchives = () => {
 	const startYear = 2020;
