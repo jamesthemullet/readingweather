@@ -125,7 +125,6 @@ main {
 
 form {
 	label {
-		display: block;
 		margin: 0.5rem 0;
 		min-width: 250px;
 		display: flex;

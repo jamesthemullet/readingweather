@@ -69,6 +69,16 @@ main {
 	}
 }
 
+button {
+	background-color: var(--nav);
+	color: var(--white);
+	border: none;
+	padding: 0.5rem 1rem;
+	cursor: pointer;
+	font-family: var(--heading-font);
+	font-size: 1.5rem;
+}
+
 .page-container {
 	display: flex;
 	flex-direction: column;
@@ -96,16 +106,6 @@ footer {
 		background-color: var(--white);
 		color: var(--nav);
 	}
-}
-
-button {
-	background-color: var(--nav);
-	color: var(--white);
-	border: none;
-	padding: 0.5rem 1rem;
-	cursor: pointer;
-	font-family: var(--heading-font);
-	font-size: 1.5rem;
 }
 
 form {
