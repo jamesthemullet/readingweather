@@ -25,7 +25,6 @@
 		"@sveltejs/adapter-auto": "^6.0.0",
 		"@sveltejs/kit": "^2.0.0",
 		"@sveltejs/vite-plugin-svelte": "^6.0.0",
-		"eslint-config-prettier": "^10.0.1",
 		"eslint-plugin-svelte": "^3.5.1",
 		"globals": "^16.0.0",
 		"prettier": "^3.5.3",
@@ -41,7 +40,6 @@
 		"@typescript-eslint/eslint-plugin": "^8.29.0",
 		"@typescript-eslint/parser": "^8.29.0",
 		"dompurify": "^3.2.5",
-		"eslint-plugin-prettier": "^5.2.6",
 		"svelte-eslint-parser": "^1.1.2"
 	}
 }
