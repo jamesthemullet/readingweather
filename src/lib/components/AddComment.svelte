@@ -1,7 +1,8 @@
 <script lang="ts">
-	import { addComment } from '$lib/graphql/api';
-	import { showAddComment } from '$lib/stores/commentState';
+	
 	import { tick } from 'svelte';
+import { addComment } from '$lib/graphql/api';
+	import { showAddComment } from '$lib/stores/commentState';
 
 	const { postId, parentCommentId = null } = $props();
 

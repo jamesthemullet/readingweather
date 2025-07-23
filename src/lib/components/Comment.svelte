@@ -1,6 +1,7 @@
 <script lang="ts">
-	import { showAddComment } from '$lib/stores/commentState';
+	
 	import { get } from 'svelte/store';
+import { showAddComment } from '$lib/stores/commentState';
 	import AddComment from './AddComment.svelte';
 	import Comment from './Comment.svelte';
 
