@@ -263,11 +263,6 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
-"@pkgr/core@^0.2.4":
-  version "0.2.8"
-  resolved "https://registry.yarnpkg.com/@pkgr/core/-/core-0.2.8.tgz#3e7a998d8dbb4ac9e212437ea865248e85b1dfc1"
-  integrity sha512-Yd820OqLNN/Rpyod/2uGB+SdiFXVDfI/bylOMvtvpl0nIjRRovXIfek65CwWUewOhTi+m2jjRruPbttcbkd1VA==
-
 "@playwright/test@^1.49.1":
   version "1.54.1"
   resolved "https://registry.yarnpkg.com/@playwright/test/-/test-1.54.1.tgz#a76333e5c2cba5f12f96a6da978bba3ab073c7e6"
@@ -766,19 +761,6 @@ esbuild@^0.25.0:
     "@esbuild/win32-ia32" "0.25.6"
     "@esbuild/win32-x64" "0.25.6"
 
-eslint-config-prettier@^10.0.1:
-  version "10.1.7"
-  resolved "https://registry.yarnpkg.com/eslint-config-prettier/-/eslint-config-prettier-10.1.7.tgz#c62a7128f48f60fd7bd737be481d42bbca207428"
-  integrity sha512-xztdELuHs7grBM+qdMUF4M4SjPpeOMN3kx7sGU6ifl5yibck/GRa0+0d+m1lPsGNkd+2bIWh2lUUTzX7MX/obw==
-
-eslint-plugin-prettier@^5.2.6:
-  version "5.5.1"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-prettier/-/eslint-plugin-prettier-5.5.1.tgz#470820964de9aedb37e9ce62c3266d2d26d08d15"
-  integrity sha512-dobTkHT6XaEVOo8IO90Q4DOSxnm3Y151QxPJlM/vKC0bVy+d6cVWQZLlFiuZPP0wS6vZwSKeJgKkcS+KfMBlRw==
-  dependencies:
-    prettier-linter-helpers "^1.0.0"
-    synckit "^0.11.7"
-
 eslint-plugin-svelte@^3.5.1:
   version "3.11.0"
   resolved "https://registry.yarnpkg.com/eslint-plugin-svelte/-/eslint-plugin-svelte-3.11.0.tgz#30486335b0aba30c065ad63172a2b38367f5d469"
@@ -862,11 +844,6 @@ expect-type@^1.2.1:
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/expect-type/-/expect-type-1.2.2.tgz#c030a329fb61184126c8447585bc75a7ec6fbff3"
   integrity sha512-JhFGDVJ7tmDJItKhYgJCGLOWjuK9vPxiXoUFLwLDc99NlmklilbiQJwoctZtt13+xMw91MCk/REan6MWHqDjyA==
-
-fast-diff@^1.1.2:
-  version "1.3.0"
-  resolved "https://registry.yarnpkg.com/fast-diff/-/fast-diff-1.3.0.tgz#ece407fa550a64d638536cd727e129c61616e0f0"
-  integrity sha512-VxPP4NqbUjj6MaAOafWeUn2cXWLcCtljklUtZf0Ind4XQ+QPtmA0b18zZy0jIQx+ExRVCR/ZQpBmik5lXshNsw==
 
 fast-glob@^3.3.2:
   version "3.3.3"
@@ -1110,13 +1087,6 @@ postcss@^8.4.49, postcss@^8.5.6:
     picocolors "^1.1.1"
     source-map-js "^1.2.1"
 
-prettier-linter-helpers@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/prettier-linter-helpers/-/prettier-linter-helpers-1.0.0.tgz#d23d41fe1375646de2d0104d3454a3008802cf7b"
-  integrity sha512-GbK2cP9nraSSUF9N2XwUwqfzlAFlMNYYl+ShE/V+H8a9uNl/oUqB1w2EL54Jh0OlyRSd8RfWYJ3coVS4TROP2w==
-  dependencies:
-    fast-diff "^1.1.2"
-
 prettier-plugin-svelte@^3.3.3:
   version "3.4.0"
   resolved "https://registry.yarnpkg.com/prettier-plugin-svelte/-/prettier-plugin-svelte-3.4.0.tgz#ed0a860b22d39682c1db5c2a210b3db073b4f689"
@@ -1273,13 +1243,6 @@ svelte@^5.25.6:
     locate-character "^3.0.0"
     magic-string "^0.30.11"
     zimmerframe "^1.1.2"
-
-synckit@^0.11.7:
-  version "0.11.9"
-  resolved "https://registry.yarnpkg.com/synckit/-/synckit-0.11.9.tgz#0d0c794f7827cd98a7ad8f551f070072cfbeaa12"
-  integrity sha512-02JE2dOputr8ku4SNqAnqhGo0FaHcvSvAuzXMLdvygH4dqu3PXyUdePefNozFcCznNtQwf6Wn98ZSLa+ArRqZQ==
-  dependencies:
-    "@pkgr/core" "^0.2.4"
 
 tinybench@^2.9.0:
   version "2.9.0"
