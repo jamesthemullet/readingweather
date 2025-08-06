@@ -1225,9 +1225,9 @@ svelte-eslint-parser@^1.1.2, svelte-eslint-parser@^1.3.0:
     postcss-selector-parser "^7.0.0"
 
 svelte@^5.25.6:
-  version "5.37.1"
-  resolved "https://registry.yarnpkg.com/svelte/-/svelte-5.37.1.tgz#2a2e483e448b0f0d839db76cb1332be5a94ddac6"
-  integrity sha512-h8arWpQZ+3z8eahyBT5KkiBOUsG6xvI5Ykg0ozRr9xEdImgSMUPUlOFWRNkUsT7Ti0DSUCTEbPoped0aoxFyWA==
+  version "5.37.3"
+  resolved "https://registry.yarnpkg.com/svelte/-/svelte-5.37.3.tgz#5dc90e214681fa0e44a2651e7889cd5e2503222c"
+  integrity sha512-7t/ejshehHd+95z3Z7ebS7wsqHDQxi/8nBTuTRwpMgNegfRBfuitCSKTUDKIBOExqfT2+DhQ2VLG8Xn+cBXoaQ==
   dependencies:
     "@ampproject/remapping" "^2.3.0"
     "@jridgewell/sourcemap-codec" "^1.5.0"
