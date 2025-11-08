@@ -3,6 +3,7 @@
 	import '../styles/global.css';
 	import Analytics from '$lib/analytics/analytics.svelte';
 	import NavBar from '$lib/components/NavBar.svelte';
+	import { onMount } from 'svelte';
 
 	// biome-ignore lint/style/useConst: <cannot bind to a const>
 	let name = $state('');
@@ -29,6 +30,13 @@
 			console.error(err);
 		}
 	};
+
+	onMount(async () => {
+		if (import.meta.env.MODE === 'development') {
+			const { accented } = await import('accented');
+			accented();
+		}
+	});
 </script>
 
 <Analytics />
