@@ -1,6 +1,7 @@
 <!-- src/routes/+layout.svelte -->
 <script lang="ts">
 	import '../styles/global.css';
+	import { onMount } from 'svelte';
 	import Analytics from '$lib/analytics/analytics.svelte';
 	import NavBar from '$lib/components/NavBar.svelte';
 
@@ -29,6 +30,13 @@
 			console.error(err);
 		}
 	};
+
+	onMount(async () => {
+		if (import.meta.env.MODE === 'development') {
+			const { accented } = await import('accented');
+			accented();
+		}
+	});
 </script>
 
 <Analytics />
