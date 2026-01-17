@@ -532,16 +532,16 @@
   integrity sha512-ImDWaErTOCkRS4Gt+5gZuymKFBobnhChXUZ9lhUZLahUgvA4OOvRzi3sahzYgbxGj5nkA6OV0GAW378+dl/gyw==
 
 "@sveltejs/kit@^2.0.0":
-  version "2.49.4"
-  resolved "https://registry.yarnpkg.com/@sveltejs/kit/-/kit-2.49.4.tgz#f1ddd9e5592a05efb8c93d061e1ee890c11473a8"
-  integrity sha512-JFtOqDoU0DI/+QSG8qnq5bKcehVb3tCHhOG4amsSYth5/KgO4EkJvi42xSAiyKmXAAULW1/Zdb6lkgGEgSxdZg==
+  version "2.49.5"
+  resolved "https://registry.yarnpkg.com/@sveltejs/kit/-/kit-2.49.5.tgz#da173805592e3ebd483bb77d45ef424078f0aaff"
+  integrity sha512-dCYqelr2RVnWUuxc+Dk/dB/SjV/8JBndp1UovCyCZdIQezd8TRwFLNZctYkzgHxRJtaNvseCSRsuuHPeUgIN/A==
   dependencies:
     "@standard-schema/spec" "^1.0.0"
     "@sveltejs/acorn-typescript" "^1.0.5"
     "@types/cookie" "^0.6.0"
     acorn "^8.14.1"
     cookie "^0.6.0"
-    devalue "^5.3.2"
+    devalue "^5.6.2"
     esm-env "^1.2.2"
     kleur "^4.1.5"
     magic-string "^0.30.5"
@@ -599,9 +599,9 @@
   integrity sha512-dWHzHa2WqEXI/O1E9OjrocMTKJl2mSrEolh1Iomrv6U+JuNwaHXsXx9bLu5gG7BUWFIN0skIQJQ/L1rIex4X6w==
 
 "@types/node@^24.10.0":
-  version "24.10.8"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-24.10.8.tgz#9b529d32e7e5adb74b13d1fc9b83615e9a12a701"
-  integrity sha512-r0bBaXu5Swb05doFYO2kTWHMovJnNVbCsII0fhesM8bNRlLhXIuckley4a2DaD+vOdmm5G+zGkQZAPZsF80+YQ==
+  version "24.10.9"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-24.10.9.tgz#1aeb5142e4a92957489cac12b07f9c7fe26057d0"
+  integrity sha512-ne4A0IpG3+2ETuREInjPNhUGis1SFjv1d5asp8MzEAGtOZeTeHVDOYqOgqfhvseqg/iXty2hjBf1zAOb7RNiNw==
   dependencies:
     undici-types "~7.16.0"
 
@@ -740,10 +740,10 @@ deepmerge@^4.3.1:
   resolved "https://registry.yarnpkg.com/deepmerge/-/deepmerge-4.3.1.tgz#44b5f2147cd3b00d4b56137685966f26fd25dd4a"
   integrity sha512-3sUqbMEc77XqpdNO7FRyRog+eW3ph+GYCbj+rK+uYyRMuwsVy0rMiVtPn+QJlKFvWP/1PYpapqYn0Me2knFn+A==
 
-devalue@^5.3.2, devalue@^5.5.0:
-  version "5.6.1"
-  resolved "https://registry.yarnpkg.com/devalue/-/devalue-5.6.1.tgz#f4c0a6e71d1a2bc50c02f9ca3c54ecafeb6a0445"
-  integrity sha512-jDwizj+IlEZBunHcOuuFVBnIMPAEHvTsJj0BcIp94xYguLRVBcXO853px/MyIJvbVzWdsGvrRweIUWJw8hBP7A==
+devalue@^5.6.2:
+  version "5.6.2"
+  resolved "https://registry.yarnpkg.com/devalue/-/devalue-5.6.2.tgz#931e2bb1cc2b299e0f0fb9e4e5be8ebf521a25b8"
+  integrity sha512-nPRkjWzzDQlsejL1WVifk5rvcFi/y1onBRxjaFMjZeR9mFpqu2gmAZ9xUB9/IEanEP/vBtGeGganC/GO1fmufg==
 
 dompurify@^3.2.5:
   version "3.3.1"
@@ -1181,9 +1181,9 @@ svelte-check@^4.0.0:
     sade "^1.7.4"
 
 svelte@^5.25.6:
-  version "5.46.3"
-  resolved "https://registry.yarnpkg.com/svelte/-/svelte-5.46.3.tgz#70234f0d44e92d3e0b199c5b5d2db07178ac6b7d"
-  integrity sha512-Y5juST3x+/ySty5tYJCVWa6Corkxpt25bUZQHqOceg9xfMUtDsFx6rCsG6cYf1cA6vzDi66HIvaki0byZZX95A==
+  version "5.46.4"
+  resolved "https://registry.yarnpkg.com/svelte/-/svelte-5.46.4.tgz#7aaca9ffb1fac3ed840ea3e7aa2a92b03fc11268"
+  integrity sha512-VJwdXrmv9L8L7ZasJeWcCjoIuMRVbhuxbss0fpVnR8yorMmjNDwcjIH08vS6wmSzzzgAG5CADQ1JuXPS2nwt9w==
   dependencies:
     "@jridgewell/remapping" "^2.3.4"
     "@jridgewell/sourcemap-codec" "^1.5.0"
@@ -1193,7 +1193,7 @@ svelte@^5.25.6:
     aria-query "^5.3.1"
     axobject-query "^4.1.0"
     clsx "^2.1.1"
-    devalue "^5.5.0"
+    devalue "^5.6.2"
     esm-env "^1.2.1"
     esrap "^2.2.1"
     is-reference "^3.0.3"
