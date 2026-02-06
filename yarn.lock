@@ -386,10 +386,10 @@
   resolved "https://registry.yarnpkg.com/@polka/url/-/url-1.0.0-next.29.tgz#5a40109a1ab5f84d6fd8fc928b19f367cbe7e7b1"
   integrity sha512-wwQAWhWSuHaag8c4q/KN/vCoeOJYshAIvMQwD4GpSb3OiZklFfvAgmj0VCBBImRpuF/aFgIRzllXlVX93Jevww==
 
-"@preact/signals-core@^1.12.1":
-  version "1.12.1"
-  resolved "https://registry.yarnpkg.com/@preact/signals-core/-/signals-core-1.12.1.tgz#714b489bb35d9874cc44b35706a9dc27da8d21c4"
-  integrity sha512-BwbTXpj+9QutoZLQvbttRg5x3l5468qaV2kufh+51yha1c53ep5dY4kTuZR35+3pAZxpfQerGJiQqg34ZNZ6uA==
+"@preact/signals-core@^1.12.2":
+  version "1.13.0"
+  resolved "https://registry.yarnpkg.com/@preact/signals-core/-/signals-core-1.13.0.tgz#ed770df2855701e7b42828fae5a348edeee9a3df"
+  integrity sha512-slT6XeTCAbdql61GVLlGU4x7XHI7kCZV5Um5uhE4zLX4ApgiiXc0UYFvVOKq06xcovzp7p+61l68oPi563ARKg==
 
 "@rollup/rollup-android-arm-eabi@4.56.0":
   version "4.56.0"
@@ -599,9 +599,9 @@
   integrity sha512-dWHzHa2WqEXI/O1E9OjrocMTKJl2mSrEolh1Iomrv6U+JuNwaHXsXx9bLu5gG7BUWFIN0skIQJQ/L1rIex4X6w==
 
 "@types/node@^24.10.0":
-  version "24.10.10"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-24.10.10.tgz#ea4813a65368ca7a98dfd75c84d748831b63e1cf"
-  integrity sha512-+0/4J266CBGPUq/ELg7QUHhN25WYjE0wYTPSQJn1xeu8DOlIOPxXxrNGiLmfAWl7HMMgWFWXpt9IDjMWrF5Iow==
+  version "24.10.11"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-24.10.11.tgz#63e8463eec9fb2cdaa9a1ff96e6bf3303268460f"
+  integrity sha512-/Af7O8r1frCVgOz0I62jWUtMohJ0/ZQU/ZoketltOJPZpnb17yoNc9BSoVuV9qlaIXJiPNOpsfq4ByFajSArNQ==
   dependencies:
     undici-types "~7.16.0"
 
@@ -669,11 +669,11 @@
     tinyrainbow "^3.0.3"
 
 accented@^1.2.0:
-  version "1.2.3"
-  resolved "https://registry.yarnpkg.com/accented/-/accented-1.2.3.tgz#0bf7960660ac8580928e7674b819734803a385c6"
-  integrity sha512-/DASn2gWqko0kLpsP7eNtPSNytARw99EETgpnLvEe1Nw92WXLhvLmJ7TOSUNhHpi8jPDEethW3UXmFw4VjKePA==
+  version "1.2.4"
+  resolved "https://registry.yarnpkg.com/accented/-/accented-1.2.4.tgz#85301d8fbae6151cd5453a090f468585e73e2f73"
+  integrity sha512-q7jerDQRF+sfmZzfPnIyuKd7mC0ep0Pj84Oza7amkvbqXWQ5xJjXoDTv8Ie46rRCQsgjUevcuSqeXZKBcyNf7w==
   dependencies:
-    "@preact/signals-core" "^1.12.1"
+    "@preact/signals-core" "^1.12.2"
     axe-core "^4.11.1"
 
 acorn@^8.12.1, acorn@^8.14.1:
