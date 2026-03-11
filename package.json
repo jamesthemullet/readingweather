@@ -36,5 +36,8 @@
 	"dependencies": {
 		"accented": "^1.2.0",
 		"dompurify": "^3.2.5"
+	},
+	"resolutions": {
+		"rollup": "^4.59.0"
 	}
 }
