@@ -22,7 +22,7 @@
 		"@playwright/test": "^1.49.1",
 		"@sveltejs/adapter-auto": "^7.0.0",
 		"@sveltejs/kit": "^2.0.0",
-		"@sveltejs/vite-plugin-svelte": "^6.0.0",
+		"@sveltejs/vite-plugin-svelte": "^7.0.0",
 		"@types/node": "^24.10.0",
 		"knip": "^5.67.1",
 		"prettier": "^3.5.3",
