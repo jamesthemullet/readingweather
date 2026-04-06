@@ -4,6 +4,7 @@
 	const links = [
 		{ href: '/seasonal-forecasts', label: 'Seasonal Forecasts' },
 		{ href: '/photographs', label: 'Photographs' },
+		{ href: '/gallery', label: 'Gallery' },
 		{ href: '/useful-links', label: 'Weather Links' },
 		{ href: '/about', label: 'About' },
 		{ href: '/archives', label: 'Archives' }
