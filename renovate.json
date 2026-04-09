@@ -1,20 +1,20 @@
 {
-	"extends": [
-		"config:recommended"
-	],
-	"packageRules": [
-		{
-			"matchUpdateTypes": [
-				"minor",
-				"patch"
-			],
-			"groupName": "all non-major dependencies",
-			"groupSlug": "all-minor-patch",
-			"minimumReleaseAge": "1 day"
-		}
-	],
-	"schedule": [
-		"once a day"
-	],
-	"timezone": "Europe/London"
+  "extends": [
+    "config:recommended"
+  ],
+  "packageRules": [
+    {
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
+      "groupName": "all non-major dependencies",
+      "groupSlug": "all-minor-patch",
+      "minimumReleaseAge": "1 day"
+    }
+  ],
+  "schedule": [
+    "after 4am and before 5am"
+  ],
+  "timezone": "Europe/London"
 }
