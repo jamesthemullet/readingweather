@@ -39,6 +39,13 @@
 	});
 </script>
 
+<svelte:head>
+	<link rel="preconnect" href="https://blog.readingweather.co.uk" />
+	<link rel="preconnect" href="https://www.googletagmanager.com" />
+	<link rel="preload" href="/fonts/Caveat-VariableFont_wght.ttf" as="font" type="font/ttf" crossorigin="anonymous" />
+	<link rel="preload" href="/fonts/FiraSans-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous" />
+</svelte:head>
+
 <Analytics />
 <NavBar />
 <main>
