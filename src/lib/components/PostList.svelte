@@ -34,7 +34,7 @@
 							srcset={post.featuredImage.node.srcSet}
 							alt={'Photograph of recent weather in/around Reading'}
 							width="200"
-							height="auto"
+							loading="lazy"
 						/>
 					{/if}
 					<h2>{post.title}</h2>

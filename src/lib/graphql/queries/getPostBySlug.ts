@@ -6,7 +6,8 @@ const GET_POST_BY_SLUG = `
       content
       featuredImage {
         node {
-          sourceUrl
+          sourceUrl(size: MEDIUM_LARGE)
+          srcSet(size: MEDIUM_LARGE)
         }
       }
       comments(first: 100, where: { order: ASC }) {

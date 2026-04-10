@@ -72,7 +72,12 @@
 <h1>{data.post.title}</h1>
 <article class="post">
 	{#if data.post.featuredImage?.node?.sourceUrl}
-		<img src={data.post.featuredImage.node.sourceUrl} alt={data.post.title} />
+		<img
+			src={data.post.featuredImage.node.sourceUrl}
+			srcset={data.post.featuredImage.node.srcSet}
+			sizes="(min-width: 768px) 700px, 100vw"
+			alt={data.post.title}
+		/>
 	{/if}
 	<div class="content">{@html modifiedContent}</div>
 
