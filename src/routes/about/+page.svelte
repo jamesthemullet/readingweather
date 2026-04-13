@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { PageProps } from '../about/$types';
+	import { sanitize } from '$lib/sanitize';
 
 	const { data }: PageProps = $props();
 </script>
@@ -19,6 +20,6 @@
 {#if data.page}
 	<h1>{data.page.title}</h1>
 	<article class="post">
-		<div class="content">{@html data.page.content}</div>
+		<div class="content">{@html sanitize(data.page.content)}</div>
 	</article>
 {/if}

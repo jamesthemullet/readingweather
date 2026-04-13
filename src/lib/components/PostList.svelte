@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { sanitize } from '$lib/sanitize';
+
 	export let posts: Array<{
 		slug: string;
 		title: string;
@@ -39,7 +41,7 @@
 					{/if}
 					<h2>{post.title}</h2>
 				</a>
-				<div class="content">{@html modifyContent(post.content)}</div>
+				<div class="content">{@html sanitize(modifyContent(post.content))}</div>
 				<div class="comment-link">
 					<a href="/{post.slug}#comments">View or add a comment</a>
 				</div>

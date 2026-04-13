@@ -4,6 +4,7 @@
 	import Comments from '$lib/components/Comments.svelte';
 	import { showAddComment } from '$lib/stores/commentState';
 	import type { PageProps } from '../[slug]/$types';
+	import { sanitize } from '$lib/sanitize';
 
 	const { data }: PageProps = $props();
 
@@ -79,7 +80,7 @@
 			alt={data.post.title}
 		/>
 	{/if}
-	<div class="content">{@html modifiedContent}</div>
+	<div class="content">{@html sanitize(modifiedContent)}</div>
 
 	<Comments {threadedComments} {postId} />
 	{#if $showAddComment}
