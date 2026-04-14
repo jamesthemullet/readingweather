@@ -44,9 +44,8 @@ import { addComment } from '$lib/graphql/api';
 			} else {
 				errorMessage = 'Failed to submit comment.';
 			}
-		} catch (error) {
+		} catch {
 			errorMessage = 'Error submitting comment.';
-			console.error(error);
 		}
 
 		showAddComment.set(true);
