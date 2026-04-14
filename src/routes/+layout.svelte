@@ -15,7 +15,7 @@
 		e.preventDefault();
 
 		try {
-			const res = await fetch('https://blog.readingweather.co.uk/wp-json/custom/v1/subscribe', {
+			const res = await fetch('/api/subscribe', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json'
