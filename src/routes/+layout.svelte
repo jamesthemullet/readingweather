@@ -25,9 +25,8 @@
 
 			const data = await res.json();
 			responseMessage = data.message;
-		} catch (err) {
+		} catch {
 			responseMessage = 'Something went wrong.';
-			console.error(err);
 		}
 	};
 
