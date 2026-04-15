@@ -1,10 +1,10 @@
 <script lang="ts">
 
 	import { get } from 'svelte/store';
+	import { sanitize } from '$lib/sanitize';
 import { showAddComment } from '$lib/stores/commentState';
 	import AddComment from './AddComment.svelte';
 	import Comment from './Comment.svelte';
-	import { sanitize } from '$lib/sanitize';
 
 	const { comment, postId, replyForms } = $props();
 

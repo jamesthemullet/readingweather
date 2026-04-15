@@ -2,9 +2,9 @@
 	import '../../styles/index.css';
 	import AddComment from '$lib/components/AddComment.svelte';
 	import Comments from '$lib/components/Comments.svelte';
+	import { sanitize } from '$lib/sanitize';
 	import { showAddComment } from '$lib/stores/commentState';
 	import type { PageProps } from '../[slug]/$types';
-	import { sanitize } from '$lib/sanitize';
 
 	const { data }: PageProps = $props();
 
