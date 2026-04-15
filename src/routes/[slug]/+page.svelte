@@ -77,6 +77,8 @@
 			srcset={data.post.featuredImage.node.srcSet}
 			sizes="(min-width: 768px) 700px, 100vw"
 			alt={data.post.title}
+			width={data.post.featuredImage.node.mediaDetails?.width ?? undefined}
+			height={data.post.featuredImage.node.mediaDetails?.height ?? undefined}
 		/>
 	{/if}
 	<div class="content">{@html modifiedContent}</div>

@@ -8,6 +8,10 @@ const GET_POST_BY_SLUG = `
         node {
           sourceUrl(size: MEDIUM_LARGE)
           srcSet(size: MEDIUM_LARGE)
+          mediaDetails {
+            width
+            height
+          }
         }
       }
       comments(first: 100, where: { order: ASC }) {

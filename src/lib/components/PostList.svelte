@@ -7,6 +7,9 @@
 			node?: {
 				sourceUrl: string;
 				srcSet: string;
+				mediaDetails?: {
+					height?: number;
+				};
 			};
 		};
 	}>;
@@ -34,6 +37,7 @@
 							srcset={post.featuredImage.node.srcSet}
 							alt={'Photograph of recent weather in/around Reading'}
 							width="200"
+							height={post.featuredImage.node.mediaDetails?.height ?? undefined}
 							loading="lazy"
 						/>
 					{/if}
