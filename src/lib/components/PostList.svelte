@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { sanitize } from '$lib/sanitize';
+
 	export let posts: Array<{
 		slug: string;
 		title: string;
@@ -7,6 +9,9 @@
 			node?: {
 				sourceUrl: string;
 				srcSet: string;
+				mediaDetails?: {
+					height?: number;
+				};
 			};
 		};
 	}>;
@@ -34,12 +39,13 @@
 							srcset={post.featuredImage.node.srcSet}
 							alt={'Photograph of recent weather in/around Reading'}
 							width="200"
+							height={post.featuredImage.node.mediaDetails?.height ?? undefined}
 							loading="lazy"
 						/>
 					{/if}
 					<h2>{post.title}</h2>
 				</a>
-				<div class="content">{@html modifyContent(post.content)}</div>
+				<div class="content">{@html sanitize(modifyContent(post.content))}</div>
 				<div class="comment-link">
 					<a href="/{post.slug}#comments">View or add a comment</a>
 				</div>

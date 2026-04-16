@@ -25,9 +25,8 @@
 
 			const data = await res.json();
 			responseMessage = data.message;
-		} catch (err) {
+		} catch {
 			responseMessage = 'Something went wrong.';
-			console.error(err);
 		}
 	};
 
@@ -59,7 +58,7 @@
 			Please note that this feature is experimental - if you sign up you may also receive multiple
 			test messages until I'm satisfied it is working!
 		</p>
-		<form id="subscribe-form" on:submit={handleSubmit}>
+		<form id="subscribe-form" onsubmit={handleSubmit}>
 			<label>
 				Name:
 				<input autocomplete="name" type="text" bind:value={name} required />
