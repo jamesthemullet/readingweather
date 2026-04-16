@@ -34,6 +34,7 @@ export const GET: RequestHandler = async () => {
 			{ path: '/', changefreq: 'daily', priority: '1.0' },
 			{ path: '/about', changefreq: 'monthly', priority: '0.8' },
 			{ path: '/archives', changefreq: 'monthly', priority: '0.6' },
+			{ path: '/gallery', changefreq: 'monthly', priority: '0.6' },
 			{ path: '/photographs', changefreq: 'monthly', priority: '0.6' },
 			{ path: '/seasonal-forecasts', changefreq: 'monthly', priority: '0.8' },
 			{ path: '/useful-links', changefreq: 'monthly', priority: '0.5' }

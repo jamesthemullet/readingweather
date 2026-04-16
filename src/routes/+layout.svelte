@@ -2,6 +2,7 @@
 <script lang="ts">
 	import '../styles/global.css';
 	import { onMount } from 'svelte';
+	import { page } from '$app/stores';
 	import Analytics from '$lib/analytics/analytics.svelte';
 	import NavBar from '$lib/components/NavBar.svelte';
 
@@ -43,6 +44,10 @@
 	<link rel="preconnect" href="https://www.googletagmanager.com" />
 	<link rel="preload" href="/fonts/Caveat-VariableFont_wght.ttf" as="font" type="font/ttf" crossorigin="anonymous" />
 	<link rel="preload" href="/fonts/FiraSans-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous" />
+	<link rel="canonical" href={$page.url.href} />
+	<meta property="og:site_name" content="Reading Weather" />
+	<meta property="og:locale" content="en_GB" />
+	<meta name="twitter:card" content="summary_large_image" />
 </svelte:head>
 
 <Analytics />
