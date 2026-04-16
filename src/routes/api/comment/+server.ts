@@ -1,5 +1,5 @@
-import { json } from '@sveltejs/kit';
 import type { RequestHandler } from '@sveltejs/kit';
+import { json } from '@sveltejs/kit';
 import { addComment } from '$lib/graphql/api';
 
 const ALLOWED_ORIGIN = 'https://www.readingweather.co.uk';

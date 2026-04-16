@@ -1,5 +1,5 @@
-import { json } from '@sveltejs/kit';
 import type { RequestHandler } from '@sveltejs/kit';
+import { json } from '@sveltejs/kit';
 
 const ALLOWED_ORIGIN = 'https://www.readingweather.co.uk';
 const SUBSCRIBE_URL = 'https://blog.readingweather.co.uk/wp-json/custom/v1/subscribe';
