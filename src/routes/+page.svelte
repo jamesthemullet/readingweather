@@ -5,6 +5,7 @@
 
 	import '../styles/index.css';
 	import PostList from '$lib/components/PostList.svelte';
+	import OnThisDay from '$lib/components/OnThisDay.svelte';
 </script>
 
 <svelte:head>
@@ -17,6 +18,10 @@
 <h1>Weather Forecast For Reading & Berkshire</h1>
 
 <PostList posts={data.posts.posts.nodes} />
+
+{#if data.onThisDay?.posts?.nodes?.length}
+	<OnThisDay posts={data.onThisDay.posts.nodes} />
+{/if}
 
 <div class="older-posts">
 	<p>Looking for older posts?</p>
