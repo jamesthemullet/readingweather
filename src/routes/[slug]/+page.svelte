@@ -37,6 +37,34 @@
 	const threadedComments = organiseComments(data.post.comments.nodes);
 	const postId = data.post.id;
 
+	const postDescription =
+		data.post.excerpt ||
+		`Weather Forecast For Reading & Berkshire, issued ${data.post.title}`;
+	const postTitle = `Weather Forecast For Reading & Berkshire, issued ${data.post.title}`;
+	const postUrl = `https://www.readingweather.co.uk/${data.post.slug}`;
+
+	const jsonLd = {
+		'@context': 'https://schema.org',
+		'@type': 'BlogPosting',
+		headline: postTitle,
+		description: postDescription,
+		url: postUrl,
+		...(data.post.date ? { datePublished: data.post.date } : {}),
+		...(data.post.featuredImage?.node?.sourceUrl
+			? { image: data.post.featuredImage.node.sourceUrl }
+			: {}),
+		author: {
+			'@type': 'Organization',
+			name: 'Reading Weather',
+			url: 'https://www.readingweather.co.uk'
+		},
+		publisher: {
+			'@type': 'Organization',
+			name: 'Reading Weather',
+			url: 'https://www.readingweather.co.uk'
+		}
+	};
+
 	const paragraphs = data.post.content.split(/<\/?p>/).filter((p) => p.trim() !== '');
 
 	const iframeHTML = `<iframe id='kofiframe' src='https://ko-fi.com/wffrb/?hidefeed=true&widget=true&embed=true&preview=true' style='border:none;width:100%;padding:4px;background:#f9f9f9;' height='612' title='wffrb'></iframe>`;
@@ -48,26 +76,20 @@
 </script>
 
 <svelte:head>
-	<title>Weather Forecast For Reading & Berkshire, issued {data.post.title}</title>
-	<meta
-		name="description"
-		content={data.post.excerpt ||
-			`Weather Forecast For Reading & Berkshire, issued {data.post.title}`}
-	/>
-	<meta
-		property="og:title"
-		content={`Weather Forecast For Reading & Berkshire, issued {data.post.title}`}
-	/>
-	<meta
-		property="og:description"
-		content={data.post.excerpt ||
-			`Weather Forecast For Reading & Berkshire, issued {data.post.title}`}
-	/>
+	<title>{postTitle}</title>
+	<meta name="description" content={postDescription} />
+	<meta property="og:title" content={postTitle} />
+	<meta property="og:description" content={postDescription} />
 	{#if data.post.featuredImage?.node?.sourceUrl}
 		<meta property="og:image" content={data.post.featuredImage.node.sourceUrl} />
+		<meta name="twitter:image" content={data.post.featuredImage.node.sourceUrl} />
 	{/if}
 	<meta property="og:type" content="article" />
-	<meta property="og:url" content={`https://www.readingweather.co.uk/${data.post.slug}`} />
+	<meta property="og:url" content={postUrl} />
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:title" content={postTitle} />
+	<meta name="twitter:description" content={postDescription} />
+	{@html `<script type="application/ld+json">${JSON.stringify(jsonLd)}</script>`}
 </svelte:head>
 
 <h1>{data.post.title}</h1>
@@ -80,6 +102,7 @@
 			alt={data.post.title}
 			width={data.post.featuredImage.node.mediaDetails?.width ?? undefined}
 			height={data.post.featuredImage.node.mediaDetails?.height ?? undefined}
+			loading="lazy"
 		/>
 	{/if}
 	<div class="content">{@html sanitize(modifiedContent)}</div>

@@ -31,7 +31,12 @@
 </script>
 
 <svelte:head>
-	<title>Weather Forecast Archives</title>
+	<title>Weather Forecast Archives – Reading Weather</title>
+	<meta name="description" content="Browse the archives of weather forecasts for Reading and Berkshire, searchable by month and year." />
+	<meta property="og:title" content="Weather Forecast Archives – Reading Weather" />
+	<meta property="og:description" content="Browse the archives of weather forecasts for Reading and Berkshire, searchable by month and year." />
+	<meta property="og:type" content="website" />
+	<meta property="og:url" content="https://www.readingweather.co.uk/archives" />
 </svelte:head>
 
 <h1>Weather Forecast Archives</h1>
