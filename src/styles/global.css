@@ -77,6 +77,11 @@ button {
 	cursor: pointer;
 	font-family: var(--heading-font);
 	font-size: 1.5rem;
+
+	&:focus-visible {
+		outline: 3px solid #ffbf47;
+		outline-offset: 2px;
+	}
 }
 
 .page-container {
@@ -140,6 +145,11 @@ form {
 		&:focus,
 		&:active {
 			border-radius: 0;
+		}
+
+		&:focus-visible {
+			outline: 3px solid #ffbf47;
+			outline-offset: 2px;
 		}
 	}
 

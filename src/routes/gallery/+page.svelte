@@ -30,8 +30,11 @@
 
 	let lightboxUrl = $state('');
 	let lightboxName = $state('');
+	let lightboxDialog = $state<HTMLDialogElement | null>(null);
+	let triggerButton = $state<HTMLButtonElement | null>(null);
 
-	const openLightbox = (url: string, name: string) => {
+	const openLightbox = (url: string, name: string, btn: HTMLButtonElement) => {
+		triggerButton = btn;
 		lightboxUrl = url;
 		lightboxName = name;
 	};
@@ -39,11 +42,19 @@
 	const closeLightbox = () => {
 		lightboxUrl = '';
 		lightboxName = '';
+		triggerButton?.focus();
+		triggerButton = null;
 	};
 
 	const onKeydown = (event: KeyboardEvent) => {
 		if (event.key === 'Escape') closeLightbox();
 	};
+
+	$effect(() => {
+		if (lightboxUrl && lightboxDialog) {
+			lightboxDialog.focus();
+		}
+	});
 </script>
 
 <svelte:head>
@@ -80,7 +91,7 @@
 						{#each posts as post}
 							{@const name = getImageName(post.featuredImage.node.sourceUrl)}
 							<li class="photo-item">
-								<button onclick={() => openLightbox(post.featuredImage.node.sourceUrl, name)}>
+								<button onclick={(e) => openLightbox(post.featuredImage.node.sourceUrl, name, e.currentTarget as HTMLButtonElement)}>
 									<img
 										src={post.featuredImage.node.sourceUrl}
 										alt={post.title}
@@ -100,8 +111,17 @@
 {#if lightboxUrl}
 	<!-- svelte-ignore a11y_click_events_have_key_events a11y_no_static_element_interactions -->
 	<div class="lightbox-overlay" onclick={closeLightbox}>
-		<div class="lightbox-content" onclick={(e) => e.stopPropagation()}>
-			<button class="lightbox-close" onclick={closeLightbox} aria-label="Close">&#x2715;</button>
+		<div
+			class="lightbox-content"
+			role="dialog"
+			aria-modal="true"
+			aria-label={lightboxName || 'Photo lightbox'}
+			tabindex="-1"
+			bind:this={lightboxDialog}
+			onclick={(e) => e.stopPropagation()}
+			onkeydown={(e) => { if (e.key === 'Escape') closeLightbox(); }}
+		>
+			<button class="lightbox-close" onclick={closeLightbox} aria-label="Close lightbox">&#x2715;</button>
 			<img src={lightboxUrl} alt={lightboxName} />
 			{#if lightboxName}
 				<p class="lightbox-name">{lightboxName}</p>
@@ -158,6 +178,11 @@
 
 		&:hover img {
 			opacity: 0.85;
+		}
+
+		&:focus-visible {
+			outline: 3px solid #ffbf47;
+			outline-offset: 2px;
 		}
 	}
 
