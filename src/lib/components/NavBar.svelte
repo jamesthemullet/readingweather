@@ -22,7 +22,11 @@
 		aria-expanded={isOpen}
 		aria-controls="nav-menu"
 	>
-		☰
+		<svg aria-hidden="true" focusable="false" width="24" height="24" viewBox="0 0 24 24">
+			<rect y="4" width="24" height="2" fill="currentColor" />
+			<rect y="11" width="24" height="2" fill="currentColor" />
+			<rect y="18" width="24" height="2" fill="currentColor" />
+		</svg>
 	</button>
 
 	<ul
