@@ -77,7 +77,7 @@
 			<button type="submit">Subscribe</button>
 		</form>
 
-		<p class="response">{responseMessage}</p>
+		<p class="response" role="status" aria-live="polite">{responseMessage}</p>
 	</article>
 	<p>&copy; {new Date().getFullYear()} Weather Forecast For Reading & Berkshire</p>
 </footer>

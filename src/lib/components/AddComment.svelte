@@ -51,24 +51,20 @@
 	{#if !successMessage}
 		<div>
 			<label for="name">Name:</label>
-			<input type="text" bind:value={name} id="name" name="name" required />
+			<input type="text" bind:value={name} id="name" name="name" autocomplete="name" required />
 		</div>
 		<div>
 			<label for="email">Email:</label>
-			<input type="email" bind:value={email} id="email" name="email" required />
+			<input type="email" bind:value={email} id="email" name="email" autocomplete="email" required />
 		</div>
 		<div>
 			<label for="comment">Comment:</label>
-			<textarea bind:value={commentContent} id="comment" name="comment" required></textarea>
+			<textarea bind:value={commentContent} id="comment" name="comment" autocomplete="off" required></textarea>
 		</div>
 		<button type="submit" disabled={submitting}>
 			{submitting ? 'Submitting...' : 'Post Comment'}
 		</button>
 	{/if}
-	{#if errorMessage}
-		<p style="color: red;">{errorMessage}</p>
-	{/if}
-	{#if successMessage}
-		<p style="color: green;">{successMessage}</p>
-	{/if}
+	<p role="alert" aria-live="assertive" style="color: red;">{errorMessage}</p>
+	<p role="status" aria-live="polite" style="color: green;">{successMessage}</p>
 </form>
