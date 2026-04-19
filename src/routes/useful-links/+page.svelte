@@ -1,8 +1,6 @@
 <script lang="ts">
 	import { sanitize } from '$lib/sanitize';
 	import type { PageProps } from './$types';
-	import { sanitize } from '$lib/sanitize';
-	import type { PageProps } from '../about/$types';
 
 	const { data }: PageProps = $props();
 
@@ -15,7 +13,10 @@
 	<title>{data.page.title}</title>
 	<meta name="description" content={data.page.seo.description} />
 	<meta property="og:title" content={data.page.title} />
-	<meta property="og:description" content={data.page.seo.opengraphDescription || data.page.seo.description} />
+	<meta
+		property="og:description"
+		content={data.page.seo.opengraphDescription || data.page.seo.description}
+	/>
 	{#if data.page.featuredImage?.node?.sourceUrl}
 		<meta property="og:image" content={data.page.featuredImage.node.sourceUrl} />
 	{/if}

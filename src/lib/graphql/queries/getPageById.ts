@@ -5,7 +5,7 @@ const GET_PAGE_BY_ID = `
       slug
       content
       seo {
-        description
+        description: metaDesc
         opengraphDescription
       }
       featuredImage {
