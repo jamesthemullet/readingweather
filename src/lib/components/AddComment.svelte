@@ -1,7 +1,5 @@
 <script lang="ts">
-	
 	import { tick } from 'svelte';
-import { addComment } from '$lib/graphql/api';
 	import { showAddComment } from '$lib/stores/commentState';
 
 	const { postId, parentCommentId = null } = $props();
@@ -20,36 +18,30 @@ import { addComment } from '$lib/graphql/api';
 		errorMessage = '';
 		successMessage = '';
 
-		const decodedId = atob(postId).split(':')[1];
-		const decodedPostId = Number.parseInt(decodedId, 10);
-
 		try {
-			const newComment = await addComment(
-				decodedPostId,
-				commentContent,
-				name,
-				email,
-				parentCommentId
-			);
-			if (newComment.success) {
-				successMessage = 'Thanks! Your comment has been submitted and is awaiting approval.';
+			const res = await fetch('/api/comment', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ postId, content: commentContent, name, email, parentCommentId })
+			});
 
+			const data = await res.json();
+
+			if (res.ok && data.success) {
+				successMessage = 'Thanks! Your comment has been submitted and is awaiting approval.';
 				name = '';
 				email = '';
 				commentContent = '';
-
 				await tick();
-
 				form.reset();
 			} else {
-				errorMessage = 'Failed to submit comment.';
+				errorMessage = data.message ?? 'Failed to submit comment.';
 			}
 		} catch {
-			errorMessage = 'Error submitting comment.';
+			errorMessage = 'Error submitting comment. Please try again.';
 		}
 
 		showAddComment.set(true);
-
 		submitting = false;
 	}
 </script>

@@ -15,12 +15,28 @@
 
 <nav class="navbar">
 	<a href="/" class="home-button">Home </a>
-	<button class="menu-button" on:click={() => (isOpen = !isOpen)}> ☰ </button>
+	<button
+		class="menu-button"
+		on:click={() => (isOpen = !isOpen)}
+		aria-label={isOpen ? 'Close navigation menu' : 'Open navigation menu'}
+		aria-expanded={isOpen}
+		aria-controls="nav-menu"
+	>
+		☰
+	</button>
 
-	<ul class:open={isOpen} style="transition: {isOpen ? 'max-height 0.3s ease-out' : 'none'};">
+	<ul
+		id="nav-menu"
+		class:open={isOpen}
+		style="transition: {isOpen ? 'max-height 0.3s ease-out' : 'none'};"
+	>
 		{#each links as link}
 			<li class:active={$page.url.pathname === link.href}>
-				<a href={link.href} on:click={() => (isOpen = false)}>{link.label}</a>
+				<a
+					href={link.href}
+					on:click={() => (isOpen = false)}
+					aria-current={$page.url.pathname === link.href ? 'page' : undefined}
+				>{link.label}</a>
 			</li>
 		{/each}
 	</ul>
