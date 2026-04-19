@@ -1,12 +1,14 @@
 <script lang="ts">
 	import DOMPurify from 'dompurify';
 	import type { PageProps } from './$types';
+	import { sanitize } from '$lib/sanitize';
+	import type { PageProps } from '../about/$types';
 
 	const { data }: PageProps = $props();
 
 	import '../../styles/index.css';
 
-	const sanitizedContent = DOMPurify.sanitize(data.page.content);
+	const sanitizedContent = sanitize(data.page.content);
 </script>
 
 <svelte:head>
