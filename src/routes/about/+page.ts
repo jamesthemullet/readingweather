@@ -1,6 +1,6 @@
 import { fetchGraphQL } from '$lib/graphql/api';
 import GET_PAGE_BY_ID from '$lib/graphql/queries/getPageById';
-import type { PageLoad } from '../about/$types';
+import type { PageLoad } from './$types';
 
 export const prerender = true;
 
