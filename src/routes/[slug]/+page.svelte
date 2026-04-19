@@ -8,19 +8,28 @@
 
 	const { data }: PageProps = $props();
 
-	const organiseComments = (comments) => {
-		const commentMap = new Map();
-		const y: number = 'not a number';
+	interface GqlComment {
+		id: string;
+		content: string;
+		parentId: string | null;
+		author: { node: { name: string } };
+		date: string;
+	}
 
+	type ThreadedComment = GqlComment & { replies: ThreadedComment[] };
+
+	const organiseComments = (comments: GqlComment[]): ThreadedComment[] => {
+		const commentMap = new Map<string, ThreadedComment>();
+		const threaded = comments as ThreadedComment[];
 		// biome-ignore lint/complexity/noForEach: <explanation>
-		comments.forEach((comment) => {
+		threaded.forEach((comment) => {
 			comment.replies = [];
 			commentMap.set(comment.id, comment);
 		});
 
-		const topLevelComments = [];
+		const topLevelComments: ThreadedComment[] = [];
 		// biome-ignore lint/complexity/noForEach: <explanation>
-		comments.forEach((comment) => {
+		threaded.forEach((comment) => {
 			if (comment.parentId) {
 				const parent = commentMap.get(comment.parentId);
 				if (parent) {

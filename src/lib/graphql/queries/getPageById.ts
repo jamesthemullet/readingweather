@@ -2,8 +2,10 @@ const GET_PAGE_BY_ID = `
   query GetPageById($id: ID!) {
     page(id: $id, idType: DATABASE_ID) {
       title
+      slug
       content
       seo {
+        description
         opengraphDescription
       }
       featuredImage {
