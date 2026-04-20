@@ -1,11 +1,12 @@
 <script lang="ts">
-	import { get } from 'svelte/store';
+	
 	import type { Writable } from 'svelte/store';
+import { get } from 'svelte/store';
 	import { sanitize } from '$lib/sanitize';
 	import { showAddComment } from '$lib/stores/commentState';
+	import type { ThreadedComment } from '$lib/types';
 	import AddComment from './AddComment.svelte';
 	import Comment from './Comment.svelte';
-	import type { ThreadedComment } from '$lib/types';
 
 	interface Props {
 		comment: ThreadedComment;
