@@ -4,19 +4,10 @@
 	import Comments from '$lib/components/Comments.svelte';
 	import { sanitize } from '$lib/sanitize';
 	import { showAddComment } from '$lib/stores/commentState';
+	import type { GqlComment, ThreadedComment } from '$lib/types';
 	import type { PageProps } from '../[slug]/$types';
 
 	const { data }: PageProps = $props();
-
-	interface GqlComment {
-		id: string;
-		content: string;
-		parentId: string | null;
-		author: { node: { name: string } };
-		date: string;
-	}
-
-	type ThreadedComment = GqlComment & { replies: ThreadedComment[] };
 
 	const organiseComments = (comments: GqlComment[]): ThreadedComment[] => {
 		const commentMap = new Map<string, ThreadedComment>();

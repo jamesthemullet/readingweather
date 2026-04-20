@@ -2,7 +2,12 @@
 	import { tick } from 'svelte';
 	import { showAddComment } from '$lib/stores/commentState';
 
-	const { postId, parentCommentId = null } = $props();
+	interface Props {
+		postId: string;
+		parentCommentId?: string | null;
+	}
+
+	const { postId, parentCommentId = null }: Props = $props();
 
 	let name = $state('');
 	let email = $state('');

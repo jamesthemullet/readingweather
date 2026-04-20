@@ -18,9 +18,9 @@ type GroupedMonth = {
 	posts: GalleryPost[];
 };
 
-const generateYears = () => {
+const generateYears = (): number[] => {
 	const currentYear = new Date().getFullYear();
-	const years = [];
+	const years: number[] = [];
 	for (let year = currentYear; year >= START_YEAR; year--) {
 		years.push(year);
 	}
@@ -46,14 +46,17 @@ export const load: PageServerLoad = async ({ url, setHeaders }) => {
 
 	const monthResults = await Promise.all(
 		Array.from({ length: lastMonth }, (_, i) => i + 1).map((month) =>
-			fetchGraphQL(GET_POSTS_FOR_GALLERY, { year: selectedYear, month })
+			fetchGraphQL<{ posts: { nodes: GalleryPost[] } }>(GET_POSTS_FOR_GALLERY, {
+				year: selectedYear,
+				month
+			})
 		)
 	);
 
 	const groupedPosts: GroupedMonth[] = monthResults
 		.map((res, i) => {
 			const month = i + 1;
-			const posts = (res.posts.nodes as GalleryPost[]).filter((post) => {
+			const posts = res.posts.nodes.filter((post) => {
 				const sourceUrl = post.featuredImage?.node?.sourceUrl;
 				if (!sourceUrl) return false;
 				const filename = sourceUrl.split('/').pop() ?? '';
