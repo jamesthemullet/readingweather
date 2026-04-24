@@ -7,3 +7,9 @@ export interface GqlComment {
 }
 
 export type ThreadedComment = GqlComment & { replies: ThreadedComment[] };
+
+export interface HistoricalPost {
+	title: string;
+	slug: string;
+	date: string;
+}
