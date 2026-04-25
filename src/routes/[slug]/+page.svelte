@@ -12,6 +12,9 @@
 	const organiseComments = (comments: GqlComment[]): ThreadedComment[] => {
 		const threaded: ThreadedComment[] = comments.map((c) => ({ ...c, replies: [] }));
 		const commentMap = new Map<string, ThreadedComment>(threaded.map((c) => [c.id, c]));
+		for (const comment of threaded) {
+			commentMap.set(comment.id, comment);
+		}
 
 		const topLevelComments: ThreadedComment[] = [];
 		for (const comment of threaded) {
@@ -32,8 +35,7 @@
 	const postId = data.post.id;
 
 	const postDescription =
-		data.post.excerpt ||
-		`Weather Forecast For Reading & Berkshire, issued ${data.post.title}`;
+		data.post.excerpt || `Weather Forecast For Reading & Berkshire, issued ${data.post.title}`;
 	const postTitle = `Weather Forecast For Reading & Berkshire, issued ${data.post.title}`;
 	const postUrl = `https://www.readingweather.co.uk/${data.post.slug}`;
 
