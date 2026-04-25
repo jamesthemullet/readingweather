@@ -10,12 +10,8 @@
 	const { data }: PageProps = $props();
 
 	const organiseComments = (comments: GqlComment[]): ThreadedComment[] => {
-		const commentMap = new Map<string, ThreadedComment>();
-		const threaded = comments as ThreadedComment[];
-		for (const comment of threaded) {
-			comment.replies = [];
-			commentMap.set(comment.id, comment);
-		}
+		const threaded: ThreadedComment[] = comments.map((c) => ({ ...c, replies: [] }));
+		const commentMap = new Map<string, ThreadedComment>(threaded.map((c) => [c.id, c]));
 
 		const topLevelComments: ThreadedComment[] = [];
 		for (const comment of threaded) {
