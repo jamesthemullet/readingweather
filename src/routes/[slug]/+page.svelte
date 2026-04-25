@@ -10,17 +10,11 @@
 	const { data }: PageProps = $props();
 
 	const organiseComments = (comments: GqlComment[]): ThreadedComment[] => {
-		const commentMap = new Map<string, ThreadedComment>();
-		const threaded = comments as ThreadedComment[];
-		// biome-ignore lint/complexity/noForEach: <explanation>
-		threaded.forEach((comment) => {
-			comment.replies = [];
-			commentMap.set(comment.id, comment);
-		});
+		const threaded: ThreadedComment[] = comments.map((c) => ({ ...c, replies: [] }));
+		const commentMap = new Map<string, ThreadedComment>(threaded.map((c) => [c.id, c]));
 
 		const topLevelComments: ThreadedComment[] = [];
-		// biome-ignore lint/complexity/noForEach: <explanation>
-		threaded.forEach((comment) => {
+		for (const comment of threaded) {
 			if (comment.parentId) {
 				const parent = commentMap.get(comment.parentId);
 				if (parent) {
@@ -29,7 +23,7 @@
 			} else {
 				topLevelComments.push(comment);
 			}
-		});
+		}
 
 		return topLevelComments;
 	};
