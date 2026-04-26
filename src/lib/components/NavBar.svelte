@@ -22,7 +22,11 @@
 		aria-expanded={isOpen}
 		aria-controls="nav-menu"
 	>
-		☰
+		<svg aria-hidden="true" focusable="false" width="24" height="24" viewBox="0 0 24 24">
+			<rect y="4" width="24" height="2" fill="currentColor" />
+			<rect y="11" width="24" height="2" fill="currentColor" />
+			<rect y="18" width="24" height="2" fill="currentColor" />
+		</svg>
 	</button>
 
 	<ul
@@ -35,8 +39,8 @@
 				<a
 					href={link.href}
 					on:click={() => (isOpen = false)}
-					aria-current={$page.url.pathname === link.href ? 'page' : undefined}
-				>{link.label}</a>
+					aria-current={$page.url.pathname === link.href ? 'page' : undefined}>{link.label}</a
+				>
 			</li>
 		{/each}
 	</ul>
@@ -120,7 +124,7 @@
 			background: var(--nav);
 			flex-direction: column;
 			position: absolute;
-			top: 3rem;
+			top: 2rem;
 			left: 0;
 			right: 0;
 			max-height: 0;
@@ -129,6 +133,7 @@
 		.navbar ul.open {
 			max-height: 500px;
 			padding-bottom: 1rem;
+			padding-top: 1rem;
 		}
 	}
 </style>

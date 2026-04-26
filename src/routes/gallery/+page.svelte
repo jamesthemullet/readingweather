@@ -80,13 +80,16 @@
 						{#each posts as post}
 							{@const name = getImageName(post.featuredImage.node.sourceUrl)}
 							<li class="photo-item">
-								<button onclick={() => openLightbox(post.featuredImage.node.sourceUrl, name)}>
+								<button
+									onclick={() => openLightbox(post.featuredImage.node.sourceUrl, name)}
+									aria-label="View full size: {name}"
+								>
 									<img
 										src={post.featuredImage.node.sourceUrl}
-										alt={post.title}
+										alt=""
 										loading="lazy"
 									/>
-									<span class="photo-name">{name}</span>
+									<span class="photo-name" aria-hidden="true">{name}</span>
 								</button>
 							</li>
 						{/each}
