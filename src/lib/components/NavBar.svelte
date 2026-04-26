@@ -39,8 +39,8 @@
 				<a
 					href={link.href}
 					on:click={() => (isOpen = false)}
-					aria-current={$page.url.pathname === link.href ? 'page' : undefined}
-				>{link.label}</a>
+					aria-current={$page.url.pathname === link.href ? 'page' : undefined}>{link.label}</a
+				>
 			</li>
 		{/each}
 	</ul>
@@ -124,7 +124,7 @@
 			background: var(--nav);
 			flex-direction: column;
 			position: absolute;
-			top: 3rem;
+			top: 2rem;
 			left: 0;
 			right: 0;
 			max-height: 0;
@@ -133,6 +133,7 @@
 		.navbar ul.open {
 			max-height: 500px;
 			padding-bottom: 1rem;
+			padding-top: 1rem;
 		}
 	}
 </style>
