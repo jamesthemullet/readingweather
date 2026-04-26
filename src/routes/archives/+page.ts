@@ -2,10 +2,13 @@ import { fetchGraphQL } from '../../lib/graphql/api';
 import GET_POSTS_BY_DATE from '../../lib/graphql/queries/getPostsByDate';
 import type { PageLoad } from '../$types';
 
-const generateArchives = () => {
+type ArchiveEntry = { year: number; month: number };
+type ArchivePost = { title: string; slug: string; date: string };
+
+const generateArchives = (): ArchiveEntry[] => {
 	const startYear = 2020;
 	const currentDate = new Date();
-	const archives = [];
+	const archives: ArchiveEntry[] = [];
 
 	for (let year = startYear; year <= currentDate.getFullYear(); year++) {
 		for (let month = 1; month <= 12; month++) {
@@ -23,9 +26,9 @@ export const load: PageLoad = async ({ url }) => {
 
 	const archives = generateArchives();
 
-	let posts = [];
+	let posts: ArchivePost[] = [];
 	if (selectedYear && selectedMonth) {
-		const postsRes = await fetchGraphQL(GET_POSTS_BY_DATE, {
+		const postsRes = await fetchGraphQL<{ posts: { nodes: ArchivePost[] } }>(GET_POSTS_BY_DATE, {
 			year: selectedYear,
 			month: selectedMonth
 		});

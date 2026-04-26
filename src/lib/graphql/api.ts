@@ -1,6 +1,9 @@
 import ADD_COMMENT from '$lib/graphql/queries/addComment';
 
-export async function fetchGraphQL(query: string, variables = {}) {
+export async function fetchGraphQL<T = Record<string, unknown>>(
+	query: string,
+	variables: Record<string, unknown> = {}
+): Promise<T> {
 	const response = await fetch('https://blog.readingweather.co.uk/graphql', {
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json' },
@@ -15,8 +18,10 @@ export async function fetchGraphQL(query: string, variables = {}) {
 		throw new Error('Failed to fetch data');
 	}
 
-	return json.data;
+	return json.data as T;
 }
+
+type AddCommentResponse = { createComment: { success: boolean } | null };
 
 export async function addComment(
 	postId: number,
@@ -24,7 +29,7 @@ export async function addComment(
 	author: string,
 	authorEmail: string,
 	parentId: number | null = null
-) {
+): Promise<{ success: boolean }> {
 	const variables = {
 		input: {
 			commentOn: postId,
@@ -35,9 +40,7 @@ export async function addComment(
 		}
 	};
 
-	const response = await fetchGraphQL(ADD_COMMENT, variables);
+	const response = await fetchGraphQL<AddCommentResponse>(ADD_COMMENT, variables);
 
-	return response?.createComment
-		? { success: true, comment: response.createComment.comment }
-		: { success: false };
+	return { success: response.createComment?.success ?? false };
 }

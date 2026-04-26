@@ -2,7 +2,12 @@
 	import { tick } from 'svelte';
 	import { showAddComment } from '$lib/stores/commentState';
 
-	const { postId, parentCommentId = null } = $props();
+	interface Props {
+		postId: string;
+		parentCommentId?: string | null;
+	}
+
+	const { postId, parentCommentId = null }: Props = $props();
 
 	let name = $state('');
 	let email = $state('');
@@ -51,15 +56,15 @@
 	{#if !successMessage}
 		<div>
 			<label for="name">Name:</label>
-			<input type="text" bind:value={name} id="name" name="name" autocomplete="name" required />
+			<input type="text" bind:value={name} id="name" name="name" autocomplete="name" required aria-required="true" />
 		</div>
 		<div>
 			<label for="email">Email:</label>
-			<input type="email" bind:value={email} id="email" name="email" autocomplete="email" required />
+			<input type="email" bind:value={email} id="email" name="email" autocomplete="email" required aria-required="true" />
 		</div>
 		<div>
 			<label for="comment">Comment:</label>
-			<textarea bind:value={commentContent} id="comment" name="comment" autocomplete="off" required></textarea>
+			<textarea bind:value={commentContent} id="comment" name="comment" autocomplete="off" required aria-required="true"></textarea>
 		</div>
 		<button type="submit" disabled={submitting}>
 			{submitting ? 'Submitting...' : 'Post Comment'}

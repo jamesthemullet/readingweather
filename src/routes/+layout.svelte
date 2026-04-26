@@ -51,8 +51,9 @@
 </svelte:head>
 
 <Analytics />
+<a href="#main" class="skip-link">Skip to main content</a>
 <NavBar />
-<main>
+<main id="main">
 	<slot />
 </main>
 
@@ -68,12 +69,10 @@
 				Name:
 				<input autocomplete="name" type="text" bind:value={name} required />
 			</label>
-			<br />
 			<label>
 				Email:
 				<input autocomplete="email" type="email" bind:value={email} required />
 			</label>
-			<br />
 			<button type="submit">Subscribe</button>
 		</form>
 
