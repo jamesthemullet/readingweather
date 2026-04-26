@@ -16,7 +16,7 @@
 		e.preventDefault();
 
 		try {
-			const res = await fetch('https://blog.readingweather.co.uk/wp-json/custom/v1/subscribe', {
+			const res = await fetch('/api/subscribe', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json'
@@ -51,8 +51,9 @@
 </svelte:head>
 
 <Analytics />
+<a href="#main" class="skip-link">Skip to main content</a>
 <NavBar />
-<main>
+<main id="main">
 	<slot />
 </main>
 
@@ -68,16 +69,14 @@
 				Name:
 				<input autocomplete="name" type="text" bind:value={name} required />
 			</label>
-			<br />
 			<label>
 				Email:
 				<input autocomplete="email" type="email" bind:value={email} required />
 			</label>
-			<br />
 			<button type="submit">Subscribe</button>
 		</form>
 
-		<p class="response">{responseMessage}</p>
+		<p class="response" role="status" aria-live="polite">{responseMessage}</p>
 	</article>
 	<p>&copy; {new Date().getFullYear()} Weather Forecast For Reading & Berkshire</p>
 </footer>

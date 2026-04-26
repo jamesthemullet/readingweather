@@ -12,23 +12,34 @@ const ALL_POSTS_SITEMAP_QUERY = `
   }
 `;
 
+function escapeXml(value: string): string {
+	return value
+		.replace(/&/g, '&amp;')
+		.replace(/</g, '&lt;')
+		.replace(/>/g, '&gt;')
+		.replace(/"/g, '&quot;')
+		.replace(/'/g, '&apos;');
+}
+
 function toXmlUrl(loc: string, lastmod?: string, changefreq = 'monthly', priority = '0.7') {
-	const last = lastmod ? `<lastmod>${lastmod}</lastmod>` : '';
+	const last = lastmod ? `<lastmod>${escapeXml(lastmod)}</lastmod>` : '';
 	return `
     <url>
-      <loc>${loc}</loc>
+      <loc>${escapeXml(loc)}</loc>
       ${last}
       <changefreq>${changefreq}</changefreq>
       <priority>${priority}</priority>
     </url>`;
 }
 
+type SitemapNode = { slug: string; date: string | null };
+
 export const GET: RequestHandler = async () => {
 	const base = 'https://www.readingweather.co.uk';
 
 	try {
-		const data = await fetchGraphQL(ALL_POSTS_SITEMAP_QUERY);
-		const nodes = data?.posts?.nodes || [];
+		const data = await fetchGraphQL<{ posts: { nodes: SitemapNode[] } }>(ALL_POSTS_SITEMAP_QUERY);
+		const nodes = data.posts.nodes;
 
 		const staticRoutes = [
 			{ path: '/', changefreq: 'daily', priority: '1.0' },

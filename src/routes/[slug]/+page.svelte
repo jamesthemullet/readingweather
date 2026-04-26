@@ -4,23 +4,20 @@
 	import Comments from '$lib/components/Comments.svelte';
 	import { sanitize } from '$lib/sanitize';
 	import { showAddComment } from '$lib/stores/commentState';
+	import type { GqlComment, ThreadedComment } from '$lib/types';
 	import type { PageProps } from '../[slug]/$types';
 
 	const { data }: PageProps = $props();
 
-	const organiseComments = (comments) => {
-		const commentMap = new Map();
-		const y: number = 'not a number';
-
-		// biome-ignore lint/complexity/noForEach: <explanation>
-		comments.forEach((comment) => {
-			comment.replies = [];
+	const organiseComments = (comments: GqlComment[]): ThreadedComment[] => {
+		const threaded: ThreadedComment[] = comments.map((c) => ({ ...c, replies: [] }));
+		const commentMap = new Map<string, ThreadedComment>(threaded.map((c) => [c.id, c]));
+		for (const comment of threaded) {
 			commentMap.set(comment.id, comment);
-		});
+		}
 
-		const topLevelComments = [];
-		// biome-ignore lint/complexity/noForEach: <explanation>
-		comments.forEach((comment) => {
+		const topLevelComments: ThreadedComment[] = [];
+		for (const comment of threaded) {
 			if (comment.parentId) {
 				const parent = commentMap.get(comment.parentId);
 				if (parent) {
@@ -29,7 +26,7 @@
 			} else {
 				topLevelComments.push(comment);
 			}
-		});
+		}
 
 		return topLevelComments;
 	};
@@ -38,8 +35,7 @@
 	const postId = data.post.id;
 
 	const postDescription =
-		data.post.excerpt ||
-		`Weather Forecast For Reading & Berkshire, issued ${data.post.title}`;
+		data.post.excerpt || `Weather Forecast For Reading & Berkshire, issued ${data.post.title}`;
 	const postTitle = `Weather Forecast For Reading & Berkshire, issued ${data.post.title}`;
 	const postUrl = `https://www.readingweather.co.uk/${data.post.slug}`;
 
