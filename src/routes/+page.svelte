@@ -4,8 +4,8 @@
 	const { data }: PageProps = $props();
 
 	import '../styles/index.css';
-	import PostList from '$lib/components/PostList.svelte';
 	import OnThisDay from '$lib/components/OnThisDay.svelte';
+	import PostList from '$lib/components/PostList.svelte';
 </script>
 
 <svelte:head>

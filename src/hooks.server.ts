@@ -37,7 +37,7 @@ const securityHeaders = {
 		"frame-src https://ko-fi.com https://googleads.g.doubleclick.net https://tpc.googlesyndication.com",
 
 		// Fetch/XHR: own origin + WordPress GraphQL backend + Analytics beacons
-		"connect-src 'self' https://blog.readingweather.co.uk https://www.google-analytics.com https://stats.g.doubleclick.net https://region1.google-analytics.com",
+		"connect-src 'self' https://blog.readingweather.co.uk https://www.google-analytics.com https://stats.g.doubleclick.net https://region1.google-analytics.com https://archive-api.open-meteo.com",
 
 		// Disallow <object>, <embed>, <applet>
 		"object-src 'none'",
