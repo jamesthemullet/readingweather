@@ -37,7 +37,7 @@
 						<img
 							src={post.featuredImage.node.sourceUrl}
 							srcset={post.featuredImage.node.srcSet}
-							alt={'Photograph of recent weather in/around Reading'}
+							alt={post.title}
 							width="200"
 							height={post.featuredImage.node.mediaDetails?.height ?? undefined}
 							loading="lazy"
@@ -47,7 +47,7 @@
 				</a>
 				<div class="content">{@html sanitize(modifyContent(post.content))}</div>
 				<div class="comment-link">
-					<a href="/{post.slug}#comments">View or add a comment</a>
+					<a href="/{post.slug}#comments" aria-label="View or add a comment on {post.title}">View or add a comment</a>
 				</div>
 			</article>
 		</li>

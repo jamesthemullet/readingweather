@@ -13,6 +13,8 @@
 	<meta name="description" content={data.meta.description} />
 	<meta property="og:title" content={data.meta.title} />
 	<meta property="og:description" content={data.meta.description} />
+	<meta property="og:type" content="website" />
+	<meta property="og:url" content="https://www.readingweather.co.uk/" />
 </svelte:head>
 
 <h1>Weather Forecast For Reading & Berkshire</h1>

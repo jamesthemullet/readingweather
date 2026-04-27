@@ -15,11 +15,19 @@
       "Bash(yarn check:*)",
       "Bash(yarn run:*)",
       "Skill(schedule)",
+<<<<<<< feat/product-2026-04-17
       "Bash(git commit *)",
       "WebSearch",
       "WebFetch(domain:datahub.metoffice.gov.uk)",
       "WebFetch(domain:dev.meteostat.net)",
       "WebFetch(domain:open-meteo.com)"
+=======
+      "Bash(git fetch *)",
+      "Bash(git merge *)",
+      "Bash(git commit -m ' *)",
+      "Bash(yarn test:unit --run)",
+      "Bash(gh label *)"
+>>>>>>> main
     ]
   }
 }

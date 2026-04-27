@@ -1,8 +1,14 @@
 <script lang="ts">
 	import { writable } from 'svelte/store';
+	import type { ThreadedComment } from '$lib/types';
 	import Comment from './Comment.svelte';
 
-	const { threadedComments, postId } = $props();
+	interface Props {
+		threadedComments: ThreadedComment[];
+		postId: string;
+	}
+
+	const { threadedComments, postId }: Props = $props();
 
 	const replyForms = writable<{ [key: string]: boolean }>({});
 </script>

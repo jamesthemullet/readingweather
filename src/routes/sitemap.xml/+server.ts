@@ -32,17 +32,20 @@ function toXmlUrl(loc: string, lastmod?: string, changefreq = 'monthly', priorit
     </url>`;
 }
 
+type SitemapNode = { slug: string; date: string | null };
+
 export const GET: RequestHandler = async () => {
 	const base = 'https://www.readingweather.co.uk';
 
 	try {
-		const data = await fetchGraphQL(ALL_POSTS_SITEMAP_QUERY);
-		const nodes = data?.posts?.nodes || [];
+		const data = await fetchGraphQL<{ posts: { nodes: SitemapNode[] } }>(ALL_POSTS_SITEMAP_QUERY);
+		const nodes = data.posts.nodes;
 
 		const staticRoutes = [
 			{ path: '/', changefreq: 'daily', priority: '1.0' },
 			{ path: '/about', changefreq: 'monthly', priority: '0.8' },
 			{ path: '/archives', changefreq: 'monthly', priority: '0.6' },
+			{ path: '/gallery', changefreq: 'monthly', priority: '0.6' },
 			{ path: '/photographs', changefreq: 'monthly', priority: '0.6' },
 			{ path: '/seasonal-forecasts', changefreq: 'monthly', priority: '0.8' },
 			{ path: '/useful-links', changefreq: 'monthly', priority: '0.5' }

@@ -3,6 +3,9 @@ const GET_POST_BY_SLUG = `
     postBy(slug: $slug) {
       id
       title
+      slug
+      excerpt
+      date
       content
       featuredImage {
         node {
