@@ -12,8 +12,18 @@
 		});
 	}
 
-	function shareOnX() {
-		const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(postTitle)}&url=${encodeURIComponent(postUrl)}`;
+	function shareOnBluesky() {
+		const url = `https://bsky.app/intent/compose?text=${encodeURIComponent(`${postTitle} ${postUrl}`)}`;
+		window.open(url, '_blank', 'noopener,noreferrer');
+	}
+
+	function shareOnThreads() {
+		const url = `https://www.threads.net/intent/post?text=${encodeURIComponent(`${postTitle} ${postUrl}`)}`;
+		window.open(url, '_blank', 'noopener,noreferrer');
+	}
+
+	function shareOnFacebook() {
+		const url = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(postUrl)}`;
 		window.open(url, '_blank', 'noopener,noreferrer');
 	}
 
@@ -29,7 +39,15 @@
 		<button onclick={copyLink} aria-label="Copy link to this forecast">
 			{copied ? 'Copied!' : 'Copy link'}
 		</button>
-		<button onclick={shareOnX} aria-label="Share this forecast on X">Share on X</button>
+		<button onclick={shareOnBluesky} aria-label="Share this forecast on Bluesky">
+			Share on Bluesky
+		</button>
+		<button onclick={shareOnThreads} aria-label="Share this forecast on Threads">
+			Share on Threads
+		</button>
+		<button onclick={shareOnFacebook} aria-label="Share this forecast on Facebook">
+			Share on Facebook
+		</button>
 		<button onclick={shareOnWhatsApp} aria-label="Share this forecast on WhatsApp">
 			Share on WhatsApp
 		</button>
@@ -49,12 +67,14 @@
 		font-family: var(--heading-font);
 		font-size: 1.25rem;
 		color: var(--nav);
+		text-align: center;
 	}
 
 	.share-buttons {
 		display: flex;
 		flex-wrap: wrap;
 		gap: 0.5rem;
+		justify-content: center;
 	}
 
 	button {
