@@ -123,6 +123,32 @@ main {
 	}
 }
 
+.share {
+	margin: 2rem 0 1rem;
+	padding: 1rem;
+	border-top: 2px solid var(--nav);
+	border-bottom: 2px solid var(--nav);
+
+	.share-label {
+		margin: 0 0 0.75rem;
+		font-family: var(--heading-font);
+		font-size: 1.25rem;
+		color: var(--nav);
+		text-align: center;
+	}
+
+	.share-buttons {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem;
+		justify-content: center;
+	}
+
+	button {
+		font-size: 1rem;
+	}
+}
+
 form {
 	label {
 		margin: 0.5rem 0;
