@@ -14,7 +14,7 @@
 		"lint": "biome check .",
 		"lint:fix": "biome check --write .",
 		"test:unit": "vitest",
-		"test": "npm run test:unit -- --run && npm run test:e2e",
+		"test": "yarn test:unit --run && yarn test:e2e",
 		"test:e2e": "playwright test"
 	},
 	"devDependencies": {
