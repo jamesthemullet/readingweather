@@ -19,6 +19,36 @@ jobs:
         run: yarn install
       - name: Run Biome lint
         run: yarn lint
+  unit:
+    needs: lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - name: Use Node.js 24.x
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24.x
+      - name: Install dependencies
+        run: yarn install
+      - name: Run unit tests
+        run: yarn test:unit --run
+  e2e:
+    needs: lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - name: Use Node.js 24.x
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24.x
+      - name: Install dependencies
+        run: yarn install
+      - name: Install Playwright browsers
+        run: yarn playwright install --with-deps chromium
+      - name: Build
+        run: yarn build
+      - name: Run e2e tests
+        run: yarn test:e2e
   axe:
     needs: lint
     runs-on: ubuntu-latest
