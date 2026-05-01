@@ -19,6 +19,19 @@ jobs:
         run: yarn install
       - name: Run Biome lint
         run: yarn lint
+  typecheck:
+    needs: lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - name: Use Node.js 24.x
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24.x
+      - name: Install dependencies
+        run: yarn install
+      - name: Run type check
+        run: yarn check
   unit:
     needs: lint
     runs-on: ubuntu-latest
