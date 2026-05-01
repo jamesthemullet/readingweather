@@ -37,7 +37,7 @@
 						<img
 							src={post.featuredImage.node.sourceUrl}
 							srcset={post.featuredImage.node.srcSet}
-							alt={post.title}
+							alt=""
 							width="200"
 							height={post.featuredImage.node.mediaDetails?.height ?? undefined}
 							loading="lazy"
