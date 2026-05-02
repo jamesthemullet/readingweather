@@ -6,8 +6,11 @@ export const load: PageLoad = async ({ params }) => {
 	const { slug } = params;
 
 	const response = await fetchGraphQL(GET_POST_BY_SLUG, { slug });
+	const latestSlug = response.posts?.nodes?.[0]?.slug;
 
 	return {
-		post: response.postBy
+		post: response.postBy,
+		isLatest: latestSlug === slug,
+		latestSlug
 	};
 };
