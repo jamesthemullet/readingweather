@@ -1,11 +1,20 @@
 <script lang="ts">
 	
-	import { get } from 'svelte/store';
-import { showAddComment } from '$lib/stores/commentState';
+	import type { Writable } from 'svelte/store';
+import { get } from 'svelte/store';
+	import { sanitize } from '$lib/sanitize';
+	import { showAddComment } from '$lib/stores/commentState';
+	import type { ThreadedComment } from '$lib/types';
 	import AddComment from './AddComment.svelte';
 	import Comment from './Comment.svelte';
 
-	const { comment, postId, replyForms } = $props();
+	interface Props {
+		comment: ThreadedComment;
+		postId: string;
+		replyForms: Writable<Record<string, boolean>>;
+	}
+
+	const { comment, postId, replyForms }: Props = $props();
 
 	const formatDate = (dateString: string) => {
 		const date = new Date(dateString);
@@ -52,7 +61,7 @@ import { showAddComment } from '$lib/stores/commentState';
 	<small>
 		By <strong>{comment?.author.node.name}</strong> on {formatDate(comment?.date)}:
 	</small>
-	<p>{@html comment?.content}</p>
+	<p>{@html sanitize(comment?.content ?? '')}</p>
 
 	{#if comment?.replies.length > 0}
 		<ul class="comment-replies">

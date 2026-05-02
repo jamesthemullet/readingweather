@@ -2,24 +2,23 @@
 	import '../../styles/index.css';
 	import AddComment from '$lib/components/AddComment.svelte';
 	import Comments from '$lib/components/Comments.svelte';
+	import ShareButton from '$lib/components/ShareButton.svelte';
+	import { sanitize } from '$lib/sanitize';
 	import { showAddComment } from '$lib/stores/commentState';
+	import type { GqlComment, ThreadedComment } from '$lib/types';
 	import type { PageProps } from '../[slug]/$types';
 
 	const { data }: PageProps = $props();
 
-	const organiseComments = (comments) => {
-		const commentMap = new Map();
-		const y: number = 'not a number';
-
-		// biome-ignore lint/complexity/noForEach: <explanation>
-		comments.forEach((comment) => {
-			comment.replies = [];
+	const organiseComments = (comments: GqlComment[]): ThreadedComment[] => {
+		const threaded: ThreadedComment[] = comments.map((c) => ({ ...c, replies: [] }));
+		const commentMap = new Map<string, ThreadedComment>(threaded.map((c) => [c.id, c]));
+		for (const comment of threaded) {
 			commentMap.set(comment.id, comment);
-		});
+		}
 
-		const topLevelComments = [];
-		// biome-ignore lint/complexity/noForEach: <explanation>
-		comments.forEach((comment) => {
+		const topLevelComments: ThreadedComment[] = [];
+		for (const comment of threaded) {
 			if (comment.parentId) {
 				const parent = commentMap.get(comment.parentId);
 				if (parent) {
@@ -28,13 +27,40 @@
 			} else {
 				topLevelComments.push(comment);
 			}
-		});
+		}
 
 		return topLevelComments;
 	};
 
 	const threadedComments = organiseComments(data.post.comments.nodes);
 	const postId = data.post.id;
+
+	const postDescription =
+		data.post.excerpt || `Weather Forecast For Reading & Berkshire, issued ${data.post.title}`;
+	const postTitle = `Weather Forecast For Reading & Berkshire, issued ${data.post.title}`;
+	const postUrl = `https://www.readingweather.co.uk/${data.post.slug}`;
+
+	const jsonLd = {
+		'@context': 'https://schema.org',
+		'@type': 'BlogPosting',
+		headline: postTitle,
+		description: postDescription,
+		url: postUrl,
+		...(data.post.date ? { datePublished: data.post.date } : {}),
+		...(data.post.featuredImage?.node?.sourceUrl
+			? { image: data.post.featuredImage.node.sourceUrl }
+			: {}),
+		author: {
+			'@type': 'Organization',
+			name: 'Reading Weather',
+			url: 'https://www.readingweather.co.uk'
+		},
+		publisher: {
+			'@type': 'Organization',
+			name: 'Reading Weather',
+			url: 'https://www.readingweather.co.uk'
+		}
+	};
 
 	const paragraphs = data.post.content.split(/<\/?p>/).filter((p) => p.trim() !== '');
 
@@ -51,26 +77,20 @@
 </script>
 
 <svelte:head>
-	<title>Weather Forecast For Reading & Berkshire, issued {data.post.title}</title>
-	<meta
-		name="description"
-		content={data.post.excerpt ||
-			`Weather Forecast For Reading & Berkshire, issued {data.post.title}`}
-	/>
-	<meta
-		property="og:title"
-		content={`Weather Forecast For Reading & Berkshire, issued {data.post.title}`}
-	/>
-	<meta
-		property="og:description"
-		content={data.post.excerpt ||
-			`Weather Forecast For Reading & Berkshire, issued {data.post.title}`}
-	/>
+	<title>{postTitle}</title>
+	<meta name="description" content={postDescription} />
+	<meta property="og:title" content={postTitle} />
+	<meta property="og:description" content={postDescription} />
 	{#if data.post.featuredImage?.node?.sourceUrl}
 		<meta property="og:image" content={data.post.featuredImage.node.sourceUrl} />
+		<meta name="twitter:image" content={data.post.featuredImage.node.sourceUrl} />
 	{/if}
 	<meta property="og:type" content="article" />
-	<meta property="og:url" content={`https://www.readingweather.co.uk/${data.post.slug}`} />
+	<meta property="og:url" content={postUrl} />
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:title" content={postTitle} />
+	<meta name="twitter:description" content={postDescription} />
+	{@html `<script type="application/ld+json">${JSON.stringify(jsonLd)}</script>`}
 </svelte:head>
 
 <h1>{data.post.title}</h1>
@@ -83,9 +103,19 @@
 
 <article class="post">
 	{#if data.post.featuredImage?.node?.sourceUrl}
-		<img src={data.post.featuredImage.node.sourceUrl} alt={data.post.title} />
+		<img
+			src={data.post.featuredImage.node.sourceUrl}
+			srcset={data.post.featuredImage.node.srcSet}
+			sizes="(min-width: 768px) 700px, 100vw"
+			alt={data.post.title}
+			width={data.post.featuredImage.node.mediaDetails?.width ?? undefined}
+			height={data.post.featuredImage.node.mediaDetails?.height ?? undefined}
+			loading="lazy"
+		/>
 	{/if}
-	<div class="content">{@html modifiedContent}</div>
+	<div class="content">{@html sanitize(modifiedContent)}</div>
+
+	<ShareButton {postUrl} {postTitle} />
 
 	<Comments {threadedComments} {postId} />
 	{#if $showAddComment}

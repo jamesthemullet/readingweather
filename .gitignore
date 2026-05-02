@@ -25,3 +25,5 @@ vite.config.ts.timestamp-*
 
 .vercel
 .svelte-kit
+.claude/settings.local.json
+.claude/settings.local.json

@@ -1,9 +1,10 @@
-<script>
+<script lang="ts">
 	import { page } from '$app/stores';
 
 	const links = [
 		{ href: '/seasonal-forecasts', label: 'Seasonal Forecasts' },
 		{ href: '/photographs', label: 'Photographs' },
+		{ href: '/gallery', label: 'Gallery' },
 		{ href: '/useful-links', label: 'Weather Links' },
 		{ href: '/about', label: 'About' },
 		{ href: '/archives', label: 'Archives' }
@@ -14,12 +15,32 @@
 
 <nav class="navbar">
 	<a href="/" class="home-button">Home </a>
-	<button class="menu-button" on:click={() => (isOpen = !isOpen)}> ☰ </button>
+	<button
+		class="menu-button"
+		on:click={() => (isOpen = !isOpen)}
+		aria-label={isOpen ? 'Close navigation menu' : 'Open navigation menu'}
+		aria-expanded={isOpen}
+		aria-controls="nav-menu"
+	>
+		<svg aria-hidden="true" focusable="false" width="24" height="24" viewBox="0 0 24 24">
+			<rect y="4" width="24" height="2" fill="currentColor" />
+			<rect y="11" width="24" height="2" fill="currentColor" />
+			<rect y="18" width="24" height="2" fill="currentColor" />
+		</svg>
+	</button>
 
-	<ul class:open={isOpen} style="transition: {isOpen ? 'max-height 0.3s ease-out' : 'none'};">
+	<ul
+		id="nav-menu"
+		class:open={isOpen}
+		style="transition: {isOpen ? 'max-height 0.3s ease-out' : 'none'};"
+	>
 		{#each links as link}
 			<li class:active={$page.url.pathname === link.href}>
-				<a href={link.href} on:click={() => (isOpen = false)}>{link.label}</a>
+				<a
+					href={link.href}
+					on:click={() => (isOpen = false)}
+					aria-current={$page.url.pathname === link.href ? 'page' : undefined}>{link.label}</a
+				>
 			</li>
 		{/each}
 	</ul>
@@ -103,7 +124,7 @@
 			background: var(--nav);
 			flex-direction: column;
 			position: absolute;
-			top: 3rem;
+			top: 2rem;
 			left: 0;
 			right: 0;
 			max-height: 0;
@@ -112,6 +133,7 @@
 		.navbar ul.open {
 			max-height: 500px;
 			padding-bottom: 1rem;
+			padding-top: 1rem;
 		}
 	}
 </style>

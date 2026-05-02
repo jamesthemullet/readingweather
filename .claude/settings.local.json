@@ -1,0 +1,30 @@
+{
+	"permissions": {
+		"allow": [
+			"Bash(git checkout:*)",
+			"Bash(git pull:*)",
+			"Bash(git add:*)",
+			"Bash(git commit -m ':*)",
+			"Bash(git push:*)",
+			"Bash(gh pr:*)",
+			"Bash(ls -la /c/Users/james/Documents/GitHub/readingweather/.env*)",
+			"Bash(git -C /c/Users/james/Documents/GitHub/readingweather log --all --oneline --full-history -- \".env*\")",
+			"Bash(git -C /c/Users/james/Documents/GitHub/readingweather log --all --source --remotes --full-history -S \"G-DDSBCZJ83W\" --oneline)",
+			"Bash(git -C /c/Users/james/Documents/GitHub/readingweather log --all --oneline)",
+			"Bash(git -C /c/Users/james/Documents/GitHub/readingweather log --all --grep=\"SECRET\\\\|credential\\\\|key\" --oneline)",
+			"Bash(yarn check:*)",
+			"Bash(yarn run:*)",
+			"Skill(schedule)",
+			"Bash(git commit *)",
+			"WebSearch",
+			"WebFetch(domain:datahub.metoffice.gov.uk)",
+			"WebFetch(domain:dev.meteostat.net)",
+			"WebFetch(domain:open-meteo.com)",
+			"Bash(git fetch *)",
+			"Bash(git merge *)",
+			"Bash(git commit -m ' *)",
+			"Bash(yarn test:unit --run)",
+			"Bash(gh label *)"
+		]
+	}
+}

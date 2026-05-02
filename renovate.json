@@ -7,5 +7,7 @@
 			"groupSlug": "all-minor-patch",
 			"minimumReleaseAge": "1 day"
 		}
-	]
+	],
+	"schedule": ["* 2-5 * * *"],
+	"timezone": "Europe/London"
 }
