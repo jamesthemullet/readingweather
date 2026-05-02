@@ -44,6 +44,10 @@
 	}
 
 	const modifiedContent = paragraphs.map((p) => `<p>${p}</p>`).join('');
+
+	const hoursOld = (new Date().getTime() - new Date(data.post.date).getTime()) / 36e5;
+	const daysOld = Math.floor(hoursOld / 24);
+	const isStale = !data.isLatest && hoursOld > 24;
 </script>
 
 <svelte:head>
@@ -70,6 +74,13 @@
 </svelte:head>
 
 <h1>{data.post.title}</h1>
+
+{#if isStale}
+	<p class="stale-banner">
+		This forecast was issued {daysOld} {daysOld === 1 ? 'day' : 'days'} ago — <a href="/{data.latestSlug}">view the latest forecast</a>
+	</p>
+{/if}
+
 <article class="post">
 	{#if data.post.featuredImage?.node?.sourceUrl}
 		<img src={data.post.featuredImage.node.sourceUrl} alt={data.post.title} />

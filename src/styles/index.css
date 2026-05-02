@@ -86,6 +86,19 @@ main {
 	}
 }
 
+.stale-banner {
+	background: var(--nav);
+	color: var(--white);
+	text-align: center;
+	padding: 0.75rem 1rem;
+	margin-bottom: 1rem;
+
+	a {
+		color: var(--white);
+		font-weight: bold;
+	}
+}
+
 .older-posts {
 	text-align: center;
 	margin: 0 0 2rem 0;
