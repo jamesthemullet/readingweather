@@ -45,9 +45,9 @@
 
 	const modifiedContent = paragraphs.map((p) => `<p>${p}</p>`).join('');
 
-	const hoursOld = (new Date().getTime() - new Date(data.post.date).getTime()) / 36e5;
-	const daysOld = Math.floor(hoursOld / 24);
-	const isStale = !data.isLatest && hoursOld > 24;
+	const hoursOld = $derived((new Date().getTime() - new Date(data.post.date).getTime()) / 36e5);
+	const daysOld = $derived(Math.floor(hoursOld / 24));
+	const isStale = $derived(!data.isLatest && hoursOld > 24);
 </script>
 
 <svelte:head>
