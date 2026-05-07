@@ -1,38 +1,40 @@
-# sv
+# Reading Weather
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+A personal blog and weather site built with SvelteKit, featuring posts, photographs, seasonal forecasts, and an archive.
 
-## Creating a project
+## Tech stack
 
-If you're seeing this, you've probably already done this step. Congrats!
+- [SvelteKit](https://kit.svelte.dev/) — framework
+- [Vite](https://vite.dev/) — build tool
+- [TypeScript](https://www.typescriptlang.org/) — type checking
+- [Biome](https://biomejs.dev/) — linting and formatting
+- [Vitest](https://vitest.dev/) — unit tests
+- [Playwright](https://playwright.dev/) — end-to-end tests
 
-```bash
-# create a new project in the current directory
-npx sv create
+## Getting started
 
-# create a new project in my-app
-npx sv create my-app
-```
-
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+Install dependencies:
 
 ```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
+yarn
 ```
 
-## Building
-
-To create a production version of your app:
+Start the dev server:
 
 ```bash
-npm run build
+yarn dev
 ```
 
-You can preview the production build with `npm run preview`.
+## Scripts
 
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+| Command | Description |
+|---|---|
+| `yarn dev` | Start development server |
+| `yarn build` | Build for production |
+| `yarn preview` | Preview production build |
+| `yarn test` | Run unit and e2e tests |
+| `yarn test:unit` | Run unit tests (Vitest) |
+| `yarn test:e2e` | Run e2e tests (Playwright) |
+| `yarn lint` | Lint with Biome |
+| `yarn lint:fix` | Lint and auto-fix |
+| `yarn check` | Type-check with svelte-check |
