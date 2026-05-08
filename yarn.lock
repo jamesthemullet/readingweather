@@ -860,10 +860,10 @@ is-reference@^3.0.3:
   dependencies:
     "@types/estree" "^1.0.6"
 
-jiti@^2.6.0:
-  version "2.6.1"
-  resolved "https://registry.yarnpkg.com/jiti/-/jiti-2.6.1.tgz#178ef2fc9a1a594248c20627cd820187a4d78d92"
-  integrity sha512-ekilCSN1jwRvIbgeg/57YFh8qQDNbwDb9xT/qu2DAHbFFZUicIl4ygVaAvzveMhMVr3LnpSKTNnwt8PoOfmKhQ==
+jiti@^2.7.0:
+  version "2.7.0"
+  resolved "https://registry.yarnpkg.com/jiti/-/jiti-2.7.0.tgz#974228f2f4ca2bc21885a1797b45fea68e950c64"
+  integrity sha512-AC/7JofJvZGrrneWNaEnJeOLUx+JlGt7tNa0wZiRPT4MY1wmfKjt2+6O2p2uz2+skll8OZZmJMNqeke7kKbNgQ==
 
 kleur@^4.1.5:
   version "4.1.5"
@@ -871,14 +871,14 @@ kleur@^4.1.5:
   integrity sha512-o+NO+8WrRiQEE4/7nwRJhN1HWpVmJm511pBHUxPLtp0BUISzlBplORYSmTclCnJvQq2tKu/sgl3xVpkc7ZWuQQ==
 
 knip@^6.0.0:
-  version "6.11.0"
-  resolved "https://registry.yarnpkg.com/knip/-/knip-6.11.0.tgz#b12d5dfc0851fdc9a0031c884846843f61a30640"
-  integrity sha512-84PTlN8Q5smLpTbzs8smTVh8PMbTDXtw0tFksXq/m6auGFC/KSzJykKFmnYh3As38kiWDkoDBvdTTyKk5M1TAQ==
+  version "6.12.1"
+  resolved "https://registry.yarnpkg.com/knip/-/knip-6.12.1.tgz#7d94a82583f783aabf7f5d914da48d4a66ba0df7"
+  integrity sha512-9JRZB1mENe8xNMpP4jJRiFXkRVBHTWzD7YtiLywkO7aKXCefbvI+hA0YDl7H7dPvJt7gcVolgxKgABJQ31NL3w==
   dependencies:
     fdir "^6.5.0"
     formatly "^0.3.0"
     get-tsconfig "4.14.0"
-    jiti "^2.6.0"
+    jiti "^2.7.0"
     minimist "^1.2.8"
     oxc-parser "^0.128.0"
     oxc-resolver "^11.19.1"
