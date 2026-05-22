@@ -776,11 +776,6 @@ detect-libc@^2.0.3:
   resolved "https://registry.yarnpkg.com/detect-libc/-/detect-libc-2.1.2.tgz#689c5dcdc1900ef5583a4cb9f6d7b473742074ad"
   integrity sha512-Btj2BOOO83o3WyH59e8MgXsxEQVcarkUOpEYrubB0urwnN10yQ364rsiByU11nZlqWYZm05i/of7io4mzihBtQ==
 
-devalue@^5.6.4:
-  version "5.8.0"
-  resolved "https://registry.yarnpkg.com/devalue/-/devalue-5.8.0.tgz#b4afd14c892ce860e30874ad9ec45b08ee6c9ac9"
-  integrity sha512-2zA9pFEsnp7vWBZbXF5JAgAq0fsUIt/1XPbRiAmRV3lp/2C3upzH+sADiyy66aFCihoLEsrQHxNM5w1gIDfsBg==
-
 devalue@^5.8.1:
   version "5.8.1"
   resolved "https://registry.yarnpkg.com/devalue/-/devalue-5.8.1.tgz#f27290d3a324e2eb20c2714369b01b8ec4de4c61"
@@ -1098,10 +1093,10 @@ postcss@^8.5.14:
     picocolors "^1.1.1"
     source-map-js "^1.2.1"
 
-prettier-plugin-svelte@^3.3.3:
-  version "3.5.2"
-  resolved "https://registry.yarnpkg.com/prettier-plugin-svelte/-/prettier-plugin-svelte-3.5.2.tgz#aa0ec6b1ff381363a6af542e6823aecc3743008d"
-  integrity sha512-ItFouLvzSFE3ulNl4DKoWM3BGcbDCNVpIyy/Y3F2gC3aNiGLxtFUdffVqO5Z5hhYG+DFT5KULWaxmeFFpdbvaQ==
+prettier-plugin-svelte@^4.0.0:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/prettier-plugin-svelte/-/prettier-plugin-svelte-4.0.1.tgz#c73191d0378effa77d3f5cb8973d3626d597a2a5"
+  integrity sha512-oDVmtKi+M8bJeUoMfPvulUqZYcuXrs5AmhhLYPKtBeg6hcpMdx7UYYisVCqEaLQuKtiPSYFpotfwp4cZK3D4xw==
 
 prettier@^3.5.3:
   version "3.8.3"
