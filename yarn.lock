@@ -347,7 +347,7 @@
   resolved "https://registry.yarnpkg.com/@polka/url/-/url-1.0.0-next.29.tgz#5a40109a1ab5f84d6fd8fc928b19f367cbe7e7b1"
   integrity sha512-wwQAWhWSuHaag8c4q/KN/vCoeOJYshAIvMQwD4GpSb3OiZklFfvAgmj0VCBBImRpuF/aFgIRzllXlVX93Jevww==
 
-"@preact/signals-core@^1.14.1":
+"@preact/signals-core@^1.14.2":
   version "1.14.2"
   resolved "https://registry.yarnpkg.com/@preact/signals-core/-/signals-core-1.14.2.tgz#6ccbc1342a52f1175b9e1d9aef67e2cf0ab6d4f0"
   integrity sha512-RZHdBj9ZF4n40Rp4jS052EHHjBWf96P9oNdXPfhQTovCuWY9iQn3Gq+gOTJSgBO9A/JBuPfMOWsSX/lIU9Pc/A==
@@ -712,12 +712,12 @@
     tinyrainbow "^3.1.0"
 
 accented@^1.2.0:
-  version "1.3.0"
-  resolved "https://registry.yarnpkg.com/accented/-/accented-1.3.0.tgz#f2b6d7814bcffb28c4e47d035c5edb56ab413cfd"
-  integrity sha512-dMEqK+34tTuKYqnwE/bXG22H7NeljUOIg1mlsrfebtP3PIOIO6Hm8YvHMoPO+i1td6jscYKhGxc1QD38AlqCcA==
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/accented/-/accented-1.3.1.tgz#43af1c5284efd38cf9cc5c34d69c88b775c8ec13"
+  integrity sha512-3HUnof116r0XsSyGnxJk4Gs1EoiHpKbYnYMNCsIOoggFxqjsUq6MlT1gjkxRnsiu/p3ATpSGmH2zEr3ixiJiow==
   dependencies:
-    "@preact/signals-core" "^1.14.1"
-    axe-core "^4.11.3"
+    "@preact/signals-core" "^1.14.2"
+    axe-core "^4.11.4"
 
 acorn@^8.12.1, acorn@^8.16.0:
   version "8.16.0"
@@ -734,7 +734,7 @@ assertion-error@^2.0.1:
   resolved "https://registry.yarnpkg.com/assertion-error/-/assertion-error-2.0.1.tgz#f641a196b335690b1070bf00b6e7593fec190bf7"
   integrity sha512-Izi8RQcffqCeNVgFigKli1ssklIbpHnCYc6AknXGYoB6grJqyeby7jv12JUQgmTAnIDnbck1uxksT4dzN3PWBA==
 
-axe-core@^4.11.3:
+axe-core@^4.11.4:
   version "4.11.4"
   resolved "https://registry.yarnpkg.com/axe-core/-/axe-core-4.11.4.tgz#5b535e381ff1e61ffdd615e5483d16186d3b46a5"
   integrity sha512-KunSNx+TVpkAw/6ULfhnx+HWRecjqZGTOyquAoWHYLRSdK1tB5Ihce1ZW+UY3fj33bYAFWPu7W/GRSmmrCGuxA==
@@ -787,9 +787,9 @@ devalue@^5.8.1:
   integrity sha512-4CXDYRBGqN+57wVJkuXBYmpAVUSg3L6JAQa/DFqm238G73E1wuyc/JhGQJzN7vUf/CMphYau2zXbfWzDR5aTEw==
 
 dompurify@^3.2.5:
-  version "3.4.5"
-  resolved "https://registry.yarnpkg.com/dompurify/-/dompurify-3.4.5.tgz#bedc7d30a6007ae9a8937b952be6adb76a28e871"
-  integrity sha512-OrwIBKsdNSVEeubdJ1HBv/wNENRM9ytAVCv7YXt//A3vPdVMNuACRqK9mXCGCBW2ln7BT/A4X0jXHo2Gu89miA==
+  version "3.4.7"
+  resolved "https://registry.yarnpkg.com/dompurify/-/dompurify-3.4.7.tgz#e2702ea4fd5d83467f1baef62309466ce7d44a82"
+  integrity sha512-2jBxDJY4RR06tQNy4w5FlFH7kfxsQZlufd0sbv+chfHCxeJwrFw2baUDsSwvBISD4K4RDbd0PTfy3uNXsR6siA==
   optionalDependencies:
     "@types/trusted-types" "^2.0.7"
 
