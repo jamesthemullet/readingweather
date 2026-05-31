@@ -16,9 +16,9 @@
 	let errorMessage = $state('');
 	let successMessage = $state('');
 
-	async function submitComment(event: Event) {
+	async function submitComment(event: SubmitEvent & { currentTarget: EventTarget & HTMLFormElement }): Promise<void> {
 		event.preventDefault();
-		const form = event.target as HTMLFormElement;
+		const form = event.currentTarget;
 		submitting = true;
 		errorMessage = '';
 		successMessage = '';

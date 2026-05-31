@@ -21,7 +21,7 @@ function escapeXml(value: string): string {
 		.replace(/'/g, '&apos;');
 }
 
-function toXmlUrl(loc: string, lastmod?: string, changefreq = 'monthly', priority = '0.7') {
+function toXmlUrl(loc: string, lastmod?: string, changefreq = 'monthly', priority = '0.7'): string {
 	const last = lastmod ? `<lastmod>${escapeXml(lastmod)}</lastmod>` : '';
 	return `
     <url>
