@@ -1239,9 +1239,9 @@ svelte-check@^4.0.0:
     sade "^1.7.4"
 
 svelte@^5.25.6:
-  version "5.55.10"
-  resolved "https://registry.yarnpkg.com/svelte/-/svelte-5.55.10.tgz#2f3912c23bebc68de53af6091deff639c845d119"
-  integrity sha512-v9mFVBY1USosyIWdXE7Cg4AN0ywyKCMcAhONvli8doMowEhFhMdNLKD1j7O/UnsrdVTHaUOk/jv8hD/HClVy+g==
+  version "5.56.0"
+  resolved "https://registry.yarnpkg.com/svelte/-/svelte-5.56.0.tgz#0d8c25331ffbebfa1818b14f4ab06cdfebf40e99"
+  integrity sha512-kTXr26t1bchFp28ROrb957LtbujpBmBDibmqMGziVpUs7awBi96TGgX6SovrA8BNoEUDVRK2Fb9FkeYlGspoVg==
   dependencies:
     "@jridgewell/remapping" "^2.3.4"
     "@jridgewell/sourcemap-codec" "^1.5.0"
