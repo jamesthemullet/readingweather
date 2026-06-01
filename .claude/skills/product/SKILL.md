@@ -51,6 +51,7 @@ Propose a **single, high-impact feature**. Constraints:
 
 - Must be technically feasible using existing SvelteKit routes, Svelte stores, and the WordPress GraphQL data already fetched — do not propose new backend endpoints or third-party APIs
 - One feature only — not a roadmap
+- **Do not propose features that depend on comment volume or community commenting activity.** The site has fewer than 5 comments in its entire history — features like "trending comments", "top commenters", "comment feeds", or anything that assumes an active comment community will not work in practice.
 
 ### Step 4 — Report
 
