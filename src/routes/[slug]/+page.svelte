@@ -32,7 +32,7 @@
 		return topLevelComments;
 	};
 
-	const threadedComments = organiseComments(data.post.comments.nodes);
+	const threadedComments = organiseComments(data.post.comments?.nodes ?? []);
 	const postId = data.post.id;
 
 	const postDescription =
