@@ -30,7 +30,7 @@
 
 	let lightboxUrl = $state('');
 	let lightboxName = $state('');
-	let lightboxDialog = $state<HTMLDialogElement | null>(null);
+	let lightboxDialog = $state<HTMLDivElement | null>(null);
 	let triggerButton = $state<HTMLButtonElement | null>(null);
 
 	const openLightbox = (url: string, name: string, btn: HTMLButtonElement) => {

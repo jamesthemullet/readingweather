@@ -13,9 +13,16 @@ type GalleryPost = {
 	featuredImage?: { node?: { sourceUrl: string } };
 };
 
+type GalleryPostWithImage = {
+	title: string;
+	slug: string;
+	date: string;
+	featuredImage: { node: { sourceUrl: string } };
+};
+
 type GroupedMonth = {
 	month: number;
-	posts: GalleryPost[];
+	posts: GalleryPostWithImage[];
 };
 
 const generateYears = (): number[] => {
@@ -56,7 +63,7 @@ export const load: PageServerLoad = async ({ url, setHeaders }) => {
 	const groupedPosts: GroupedMonth[] = monthResults
 		.map((res, i) => {
 			const month = i + 1;
-			const posts = res.posts.nodes.filter((post) => {
+			const posts = res.posts.nodes.filter((post): post is GalleryPostWithImage => {
 				const sourceUrl = post.featuredImage?.node?.sourceUrl;
 				if (!sourceUrl) return false;
 				const filename = sourceUrl.split('/').pop() ?? '';
