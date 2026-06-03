@@ -10,6 +10,7 @@
 				sourceUrl: string;
 				srcSet: string;
 				mediaDetails?: {
+					width?: number;
 					height?: number;
 				};
 			};
@@ -37,8 +38,9 @@
 						<img
 							src={post.featuredImage.node.sourceUrl}
 							srcset={post.featuredImage.node.srcSet}
+							sizes="(min-width: 768px) 700px, 100vw"
 							alt=""
-							width="200"
+							width={post.featuredImage.node.mediaDetails?.width ?? undefined}
 							height={post.featuredImage.node.mediaDetails?.height ?? undefined}
 							loading="lazy"
 						/>

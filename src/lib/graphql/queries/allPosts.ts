@@ -10,6 +10,7 @@ const ALL_POSTS_QUERY = `
             sourceUrl(size: MEDIUM_LARGE)
             srcSet(size: MEDIUM_LARGE)
             mediaDetails {
+              width
               height
             }
           }
