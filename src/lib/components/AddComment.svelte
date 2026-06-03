@@ -70,6 +70,16 @@
 			{submitting ? 'Submitting...' : 'Post Comment'}
 		</button>
 	{/if}
-	<p role="alert" aria-live="assertive" style="color: red;">{errorMessage}</p>
-	<p role="status" aria-live="polite" style="color: green;">{successMessage}</p>
+	<p role="alert" aria-live="assertive" class="error-message">{errorMessage}</p>
+	<p role="status" aria-live="polite" class="success-message">{successMessage}</p>
 </form>
+
+<style>
+	.error-message {
+		color: red;
+	}
+
+	.success-message {
+		color: green;
+	}
+</style>
