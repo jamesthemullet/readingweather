@@ -60,7 +60,7 @@ export interface AllPostsResponse {
 				node?: {
 					sourceUrl: string;
 					srcSet: string;
-					mediaDetails?: { height?: number };
+					mediaDetails?: { width?: number; height?: number };
 				};
 			};
 		}>;

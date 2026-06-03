@@ -13,17 +13,37 @@ type GalleryPost = {
 	featuredImage?: { node?: { sourceUrl: string } };
 };
 
-type GalleryPostWithImage = {
+type GalleryPostFiltered = {
 	title: string;
 	slug: string;
 	date: string;
 	featuredImage: { node: { sourceUrl: string } };
 };
 
+export type GalleryPostWithImage = GalleryPostFiltered & { name: string };
+
 type GroupedMonth = {
 	month: number;
 	posts: GalleryPostWithImage[];
 };
+
+function getImageName(url: string): string {
+	const filename = url.split('/').pop()?.split('?')[0] ?? '';
+	const nameWithoutExt = filename.replace(/\.[^/.]+$/, '');
+	return nameWithoutExt
+		.split(/[-_\s]+/)
+		.filter(
+			(word) =>
+				!/^\d+$/.test(word) &&
+				!/^jpe?g$/i.test(word) &&
+				!/^png$/i.test(word) &&
+				!/^webp$/i.test(word)
+		)
+		.map((word) => word.replace(/\d+$/, ''))
+		.filter((word) => word.length > 0)
+		.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+		.join(' ');
+}
 
 const generateYears = (): number[] => {
 	const currentYear = new Date().getFullYear();
@@ -63,12 +83,17 @@ export const load: PageServerLoad = async ({ url, setHeaders }) => {
 	const groupedPosts: GroupedMonth[] = monthResults
 		.map((res, i) => {
 			const month = i + 1;
-			const posts = res.posts.nodes.filter((post): post is GalleryPostWithImage => {
-				const sourceUrl = post.featuredImage?.node?.sourceUrl;
-				if (!sourceUrl) return false;
-				const filename = sourceUrl.split('/').pop() ?? '';
-				return !/PXL/i.test(filename);
-			});
+			const posts = res.posts.nodes
+				.filter((post): post is GalleryPostFiltered => {
+					const sourceUrl = post.featuredImage?.node?.sourceUrl;
+					if (!sourceUrl) return false;
+					const filename = sourceUrl.split('/').pop() ?? '';
+					return !/PXL/i.test(filename);
+				})
+				.map((post): GalleryPostWithImage => ({
+					...post,
+					name: getImageName(post.featuredImage.node.sourceUrl)
+				}));
 			return { month, posts };
 		})
 		.filter(({ posts }) => posts.length > 0)

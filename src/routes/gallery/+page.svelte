@@ -15,19 +15,6 @@
 		window.location.href = `gallery?year=${selected}`;
 	};
 
-	const getImageName = (url: string): string => {
-		const filename = url.split('/').pop()?.split('?')[0] ?? '';
-		const nameWithoutExt = filename.replace(/\.[^/.]+$/, '');
-		return nameWithoutExt
-			.split(/[-_\s]+/)
-			// Remove purely numeric segments (e.g. trailing numbers like "tina-2")
-			.filter((word) => !/^\d+$/.test(word) && !/^jpe?g$/i.test(word) && !/^png$/i.test(word) && !/^webp$/i.test(word))
-			.map((word) => word.replace(/\d+$/, ''))
-			.filter((word) => word.length > 0)
-			.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-			.join(' ');
-	};
-
 	let lightboxUrl = $state('');
 	let lightboxName = $state('');
 	let lightboxDialog = $state<HTMLDivElement | null>(null);
@@ -89,15 +76,14 @@
 					<h2>{monthNames[month - 1]} {data.selectedYear}</h2>
 					<ul class="photo-grid">
 						{#each posts as post}
-							{@const name = getImageName(post.featuredImage.node.sourceUrl)}
 							<li class="photo-item">
-								<button onclick={(e) => openLightbox(post.featuredImage.node.sourceUrl, name, e.currentTarget as HTMLButtonElement)} aria-label="View full size: {name}">
+								<button onclick={(e) => openLightbox(post.featuredImage.node.sourceUrl, post.name, e.currentTarget as HTMLButtonElement)} aria-label="View full size: {post.name}">
 									<img
 										src={post.featuredImage.node.sourceUrl}
 										alt=""
 										loading="lazy"
 									/>
-									<span class="photo-name" aria-hidden="true">{name}</span>
+									<span class="photo-name" aria-hidden="true">{post.name}</span>
 								</button>
 							</li>
 						{/each}
