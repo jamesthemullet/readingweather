@@ -4,8 +4,8 @@
 
 	const { data }: PageProps = $props();
 
-	const updateArchive = (event: Event) => {
-		const selected = (event.target as HTMLSelectElement).value;
+	const updateArchive = (event: Event & { currentTarget: EventTarget & HTMLSelectElement }): void => {
+		const selected = event.currentTarget.value;
 		if (!selected) return;
 		const [year, month] = selected.split('-');
 		window.location.href = `archives/?year=${year}&month=${month}`;
@@ -43,7 +43,7 @@
 <article class="post">
 	<div class="archive-container">
 		<label for="archive-select">Select Month:</label>
-		<select id="archive-select" on:change={updateArchive}>
+		<select id="archive-select" onchange={updateArchive}>
 			<option value="">-- Select --</option>
 			{#each data.archives as archive}
 				<option

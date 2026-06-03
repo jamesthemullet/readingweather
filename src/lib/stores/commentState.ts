@@ -1,3 +1,3 @@
-import { writable } from 'svelte/store';
+import { type Writable, writable } from 'svelte/store';
 
-export const showAddComment = writable(true);
+export const showAddComment: Writable<boolean> = writable(true);

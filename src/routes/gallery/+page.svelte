@@ -9,8 +9,8 @@
 		'July', 'August', 'September', 'October', 'November', 'December'
 	];
 
-	const updateYear = (event: Event) => {
-		const selected = (event.target as HTMLSelectElement).value;
+	const updateYear = (event: Event & { currentTarget: EventTarget & HTMLSelectElement }): void => {
+		const selected = event.currentTarget.value;
 		if (!selected) return;
 		window.location.href = `gallery?year=${selected}`;
 	};
