@@ -64,7 +64,7 @@
 
 	const paragraphs = data.post.content.split(/<\/?p>/).filter((p) => p.trim() !== '');
 
-	const iframeHTML = `<iframe id='kofiframe' src='https://ko-fi.com/wffrb/?hidefeed=true&widget=true&embed=true&preview=true' style='border:none;width:100%;padding:4px;background:#f9f9f9;' height='612' title='wffrb'></iframe>`;
+	const iframeHTML = `<iframe id='kofiframe' src='https://ko-fi.com/wffrb/?hidefeed=true&widget=true&embed=true&preview=true' style='border:none;width:100%;padding:4px;background:#f9f9f9;' height='612' title='Support Reading Weather on Ko-fi'></iframe>`;
 	if (paragraphs.length > 2) {
 		paragraphs.splice(-3, 0, iframeHTML);
 	}

@@ -65,13 +65,13 @@
 			test messages until I'm satisfied it is working!
 		</p>
 		<form id="subscribe-form" onsubmit={handleSubmit}>
-			<label>
+			<label for="subscribe-name">
 				Name:
-				<input autocomplete="name" type="text" bind:value={name} required />
+				<input id="subscribe-name" autocomplete="name" type="text" bind:value={name} required />
 			</label>
-			<label>
+			<label for="subscribe-email">
 				Email:
-				<input autocomplete="email" type="email" bind:value={email} required />
+				<input id="subscribe-email" autocomplete="email" type="email" bind:value={email} required />
 			</label>
 			<button type="submit">Subscribe</button>
 		</form>
