@@ -12,7 +12,7 @@ You are running an incremental accessibility improvement session for the Reading
 
 - SvelteKit 2.x with SSR — `src/routes/` for pages, `src/lib/components/` for components
 - Svelte 5 runes: `$state`, `$props`, `$derived`, `$effect` — prefer these over legacy reactive syntax
-- Pure CSS in scoped `<style>` blocks and `src/styles/global.css` — no CSS-in-JS, no Tailwind
+- Pure CSS in `src/styles/index.css` — no `<style>` blocks in Svelte components, no CSS-in-JS, no Tailwind
 - Biome for linting — strict mode
 - `accented` library is loaded in development mode (`+layout.svelte`) to highlight missing ARIA attributes
 - Source files: `src/lib/components/`, `src/routes/`, `src/styles/global.css`
@@ -56,10 +56,20 @@ Output exactly this structure:
 **Next suggestion:** <the next candidate worth tackling in this category, with file path>
 ```
 
+### Step 5 — Create a PR
+
+Create a branch and open a pull request for the fix:
+
+1. Create a branch: `git checkout -b chore/accessibility-<short-slug>-<YYYY-MM-DD>` (use today's date)
+2. Stage and commit the changed file(s): `git add <files> && git commit -m "fix(a11y): <one-line description of the fix>"`
+3. Push the branch and open a PR with `gh pr create`:
+   - Title: `fix(a11y): <same one-line description>`
+   - Body: include the Category, WCAG criterion, Issue, and Fix from Step 4
+
 ## Known project patterns
 
 - **Existing accessibility baseline:** The project already has a skip link (`+layout.svelte:54`), `aria-current="page"` on active nav links, `aria-expanded` / `aria-controls` on the mobile menu button, and `aria-live` regions on form feedback messages. Do not re-add these.
-- **Inline style="color: red/green"**: `AddComment.svelte:73-74` uses inline colour styles on error/success messages. These rely on colour alone — they need a text prefix or icon too (e.g. "Error: " / "Success: "). This project uses scoped CSS `<style>` blocks — move the colour to a CSS class at the same time.
+- **Inline style="color: red/green"**: `AddComment.svelte:73-74` uses inline colour styles on error/success messages. These rely on colour alone — they need a text prefix or icon too (e.g. "Error: " / "Success: "). Move the colour to a CSS class in `src/styles/index.css` at the same time.
 - **Mobile nav keyboard trap**: `NavBar.svelte` hides the nav using `max-height: 0` but does not set `visibility: hidden` on the closed state, so nav links remain keyboard-focusable when visually hidden. Adding `visibility: hidden` to the closed state and `visibility: visible` to the open state fixes this without breaking the CSS transition (use `transition: max-height, visibility`).
 - **Redundant `aria-required`**: `AddComment.svelte:59-67` sets both `required` and `aria-required="true"` on inputs. Native `required` is sufficient — `aria-required` on a natively required input is redundant per ARIA spec and should be removed.
 - **Subscribe form implicit labels**: `+layout.svelte:69-75` uses `<label>` wrapping the input (implicit association) without `for`/`id`. This works in modern browsers but `for`/`id` explicit association is more robust across assistive technologies. Add matching `for`/`id` pairs.
