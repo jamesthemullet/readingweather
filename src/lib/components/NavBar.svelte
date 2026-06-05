@@ -32,7 +32,7 @@
 	<ul
 		id="nav-menu"
 		class:open={isOpen}
-		style="transition: {isOpen ? 'max-height 0.3s ease-out' : 'none'};"
+		style="transition: {isOpen ? 'max-height 0.3s ease-out, visibility 0s 0s' : 'max-height 0.3s ease-out, visibility 0s 0.3s'};"
 	>
 		{#each links as link}
 			<li class:active={$page.url.pathname === link.href}>
@@ -128,12 +128,14 @@
 			left: 0;
 			right: 0;
 			max-height: 0;
+			visibility: hidden;
 		}
 
 		.navbar ul.open {
 			max-height: 500px;
 			padding-bottom: 1rem;
 			padding-top: 1rem;
+			visibility: visible;
 		}
 	}
 </style>
