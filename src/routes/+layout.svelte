@@ -2,9 +2,12 @@
 <script lang="ts">
 	import '../styles/global.css';
 	import { onMount } from 'svelte';
+	import type { Snippet } from 'svelte';
 	import { page } from '$app/stores';
 	import Analytics from '$lib/analytics/analytics.svelte';
 	import NavBar from '$lib/components/NavBar.svelte';
+
+	const { children }: { children: Snippet } = $props();
 
 	// biome-ignore lint/style/useConst: <cannot bind to a const>
 	let name = $state('');
@@ -54,7 +57,7 @@
 <a href="#main" class="skip-link">Skip to main content</a>
 <NavBar />
 <main id="main">
-	<slot />
+	{@render children()}
 </main>
 
 <footer>

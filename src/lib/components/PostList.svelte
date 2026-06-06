@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { sanitize } from '$lib/sanitize';
 
-	export let posts: Array<{
+	type Post = {
 		slug: string;
 		title: string;
 		content: string;
@@ -15,7 +15,9 @@
 				};
 			};
 		};
-	}>;
+	};
+
+	const { posts }: { posts: Post[] } = $props();
 
 	const modifyContent = (content: string): string => {
 		const paragraphs = content.split(/<\/?p>/).filter((p) => p.trim() !== '');

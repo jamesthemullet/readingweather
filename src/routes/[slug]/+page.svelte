@@ -32,15 +32,18 @@
 		return topLevelComments;
 	};
 
-	const threadedComments = organiseComments(data.post.comments?.nodes ?? []);
-	const postId = data.post.id;
+	const threadedComments = $derived(organiseComments(data.post.comments?.nodes ?? []));
+	const postId = $derived(data.post.id);
 
-	const postDescription =
-		data.post.excerpt || `Weather Forecast For Reading & Berkshire, issued ${data.post.title}`;
-	const postTitle = `Weather Forecast For Reading & Berkshire, issued ${data.post.title}`;
-	const postUrl = `https://www.readingweather.co.uk/${data.post.slug}`;
+	const postDescription = $derived(
+		data.post.excerpt || `Weather Forecast For Reading & Berkshire, issued ${data.post.title}`
+	);
+	const postTitle = $derived(
+		`Weather Forecast For Reading & Berkshire, issued ${data.post.title}`
+	);
+	const postUrl = $derived(`https://www.readingweather.co.uk/${data.post.slug}`);
 
-	const jsonLd = {
+	const jsonLd = $derived({
 		'@context': 'https://schema.org',
 		'@type': 'BlogPosting',
 		headline: postTitle,
@@ -60,16 +63,17 @@
 			name: 'Reading Weather',
 			url: 'https://www.readingweather.co.uk'
 		}
-	};
-
-	const paragraphs = data.post.content.split(/<\/?p>/).filter((p) => p.trim() !== '');
+	});
 
 	const iframeHTML = `<iframe id='kofiframe' src='https://ko-fi.com/wffrb/?hidefeed=true&widget=true&embed=true&preview=true' style='border:none;width:100%;padding:4px;background:#f9f9f9;' height='612' title='Support Reading Weather on Ko-fi'></iframe>`;
-	if (paragraphs.length > 2) {
-		paragraphs.splice(-3, 0, iframeHTML);
-	}
 
-	const modifiedContent = paragraphs.map((p) => `<p>${p}</p>`).join('');
+	const modifiedContent = $derived.by(() => {
+		const paragraphs = data.post.content.split(/<\/?p>/).filter((p) => p.trim() !== '');
+		if (paragraphs.length > 2) {
+			paragraphs.splice(-3, 0, iframeHTML);
+		}
+		return paragraphs.map((p) => `<p>${p}</p>`).join('');
+	});
 
 	const hoursOld = $derived((new Date().getTime() - new Date(data.post.date).getTime()) / 36e5);
 	const daysOld = $derived(Math.floor(hoursOld / 24));
