@@ -30,7 +30,8 @@
       "Bash(yarn dev *)",
       "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:5173/)",
       "Bash(Select-String -Pattern \"vercel|netlify|fly|railway|render\")",
-      "Bash(gh issue *)"
+      "Bash(gh issue *)",
+      "Bash(yarn svelte-check *)"
     ]
   }
 }
