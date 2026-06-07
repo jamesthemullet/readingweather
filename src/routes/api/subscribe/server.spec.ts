@@ -1,7 +1,6 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { POST } from './+server';
-
-const ALLOWED_ORIGIN = 'https://www.readingweather.co.uk';
+import { ALLOWED_ORIGIN } from '$lib/server/config';
 
 function makeRequest(body: unknown, headerOverrides: Record<string, string> = {}) {
 	return new Request('http://localhost/api/subscribe', {

@@ -1,11 +1,10 @@
 import { describe, expect, it, vi } from 'vitest';
 import { POST } from './+server';
+import { ALLOWED_ORIGIN } from '$lib/server/config';
 
 vi.mock('$lib/graphql/api', () => ({
 	addComment: vi.fn().mockResolvedValue({ success: true })
 }));
-
-const ALLOWED_ORIGIN = 'https://www.readingweather.co.uk';
 const validPostId = btoa('post:123');
 
 function makeRequest(body: unknown, headerOverrides: Record<string, string> = {}) {
