@@ -107,7 +107,7 @@
 			src={data.post.featuredImage.node.sourceUrl}
 			srcset={data.post.featuredImage.node.srcSet}
 			sizes="(min-width: 768px) 700px, 100vw"
-			alt={data.post.title}
+			alt=""
 			width={data.post.featuredImage.node.mediaDetails?.width ?? undefined}
 			height={data.post.featuredImage.node.mediaDetails?.height ?? undefined}
 			loading="lazy"
