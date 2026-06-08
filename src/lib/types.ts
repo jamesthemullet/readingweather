@@ -1,23 +1,23 @@
-export interface GqlComment {
+export type GqlComment = {
 	id: string;
 	content: string;
 	parentId: string | null;
 	author: { node: { name: string } };
 	date: string;
-}
+};
 
 export type ThreadedComment = GqlComment & { replies: ThreadedComment[] };
 
-export interface GqlPostFeaturedImageNode {
+export type GqlPostFeaturedImageNode = {
 	sourceUrl: string;
 	srcSet?: string;
 	mediaDetails?: {
 		width?: number;
 		height?: number;
 	};
-}
+};
 
-export interface GqlPostNode {
+export type GqlPostNode = {
 	id: string;
 	title: string;
 	slug: string;
@@ -30,14 +30,14 @@ export interface GqlPostNode {
 	comments?: {
 		nodes: GqlComment[];
 	};
-}
+};
 
-export interface GqlPageSeo {
+export type GqlPageSeo = {
 	description: string;
 	opengraphDescription: string;
-}
+};
 
-export interface GqlPageNode {
+export type GqlPageNode = {
 	title: string;
 	slug: string;
 	content: string;
@@ -47,9 +47,9 @@ export interface GqlPageNode {
 			sourceUrl: string;
 		};
 	};
-}
+};
 
-export interface AllPostsResponse {
+export type AllPostsResponse = {
 	posts: {
 		nodes: Array<{
 			date: string;
@@ -65,20 +65,20 @@ export interface AllPostsResponse {
 			};
 		}>;
 	};
-}
+};
 
-export interface GetPostBySlugResponse {
+export type GetPostBySlugResponse = {
 	posts: {
 		nodes: Array<{ slug: string }>;
 	};
 	postBy: GqlPostNode | null;
-}
+};
 
-export interface GetPageByIdResponse {
+export type GetPageByIdResponse = {
 	page: GqlPageNode | null;
-}
+};
 
-export interface SeasonalPostsResponse {
+export type SeasonalPostsResponse = {
 	posts: {
 		nodes: Array<{
 			date: string;
@@ -96,9 +96,9 @@ export interface SeasonalPostsResponse {
 			};
 		}>;
 	};
-}
+};
 
-export interface OnThisDayResponse {
+export type OnThisDayResponse = {
 	posts: {
 		nodes: Array<{
 			title: string;
@@ -106,4 +106,4 @@ export interface OnThisDayResponse {
 			date: string;
 		}>;
 	};
-}
+};

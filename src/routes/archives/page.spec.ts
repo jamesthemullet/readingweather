@@ -5,6 +5,9 @@ vi.mock('$lib/graphql/api', () => ({
 	fetchGraphQL: vi.fn()
 }));
 
+type ArchiveEntry = { year: number; month: number };
+type ArchiveLoadResult = { archives: ArchiveEntry[] };
+
 function makeUrl(params: Record<string, string> = {}) {
 	const url = new URL('http://localhost/archives');
 	for (const [k, v] of Object.entries(params)) url.searchParams.set(k, v);
@@ -13,7 +16,7 @@ function makeUrl(params: Record<string, string> = {}) {
 
 describe('archives load — generateArchives', () => {
 	it('does not include any month beyond the current date', async () => {
-		const { archives } = await load({ url: makeUrl() } as Parameters<typeof load>[0]);
+		const { archives } = (await load({ url: makeUrl() } as Parameters<typeof load>[0])) as ArchiveLoadResult;
 		const now = new Date();
 		const future = archives.filter(
 			(a) =>
@@ -24,7 +27,7 @@ describe('archives load — generateArchives', () => {
 	});
 
 	it('returns archive entries in reverse chronological order', async () => {
-		const { archives } = await load({ url: makeUrl() } as Parameters<typeof load>[0]);
+		const { archives } = (await load({ url: makeUrl() } as Parameters<typeof load>[0])) as ArchiveLoadResult;
 		for (let i = 0; i < archives.length - 1; i++) {
 			const current = archives[i].year * 12 + archives[i].month;
 			const next = archives[i + 1].year * 12 + archives[i + 1].month;
