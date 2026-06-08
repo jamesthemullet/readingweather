@@ -1,11 +1,14 @@
 import { describe, expect, it, vi } from 'vitest';
 import { load } from './+page';
+import type { GqlPostNode } from '$lib/types';
 
 vi.mock('$lib/graphql/api', () => ({
 	fetchGraphQL: vi.fn()
 }));
 
 import { fetchGraphQL } from '$lib/graphql/api';
+
+type SlugLoadResult = { post: GqlPostNode; isLatest: boolean; latestSlug: string | undefined };
 
 const mockPost = {
 	id: '1',
@@ -23,7 +26,7 @@ describe('[slug] page load', () => {
 			posts: { nodes: [{ slug: 'test-post' }] }
 		});
 
-		const result = await load({ params: { slug: 'test-post' } } as Parameters<typeof load>[0]);
+		const result = (await load({ params: { slug: 'test-post' } } as Parameters<typeof load>[0])) as SlugLoadResult;
 
 		expect(result.post).toEqual(mockPost);
 		expect(result.isLatest).toBe(true);
@@ -36,7 +39,7 @@ describe('[slug] page load', () => {
 			posts: { nodes: [{ slug: 'newer-post' }] }
 		});
 
-		const result = await load({ params: { slug: 'test-post' } } as Parameters<typeof load>[0]);
+		const result = (await load({ params: { slug: 'test-post' } } as Parameters<typeof load>[0])) as SlugLoadResult;
 
 		expect(result.isLatest).toBe(false);
 		expect(result.latestSlug).toBe('newer-post');
