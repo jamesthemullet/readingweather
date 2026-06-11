@@ -15,7 +15,8 @@
 		"lint:fix": "biome check --write .",
 		"test:unit": "vitest",
 		"test": "yarn test:unit --run && yarn test:e2e",
-		"test:e2e": "playwright test"
+		"test:e2e": "playwright test",
+		"knip": "knip"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "2.4.16",
