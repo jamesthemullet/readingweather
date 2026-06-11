@@ -35,6 +35,7 @@
 	<meta name="description" content="Browse the archives of weather forecasts for Reading and Berkshire, searchable by month and year." />
 	<meta property="og:title" content="Weather Forecast Archives – Reading Weather" />
 	<meta property="og:description" content="Browse the archives of weather forecasts for Reading and Berkshire, searchable by month and year." />
+	<meta property="og:image" content="https://www.readingweather.co.uk/images/weather.png" />
 	<meta property="og:type" content="website" />
 	<meta property="og:url" content="https://www.readingweather.co.uk/archives" />
 </svelte:head>

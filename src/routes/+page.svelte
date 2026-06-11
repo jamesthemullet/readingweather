@@ -6,6 +6,14 @@
 	import '../styles/index.css';
 	import OnThisDay from '$lib/components/OnThisDay.svelte';
 	import PostList from '$lib/components/PostList.svelte';
+
+	const jsonLd = {
+		'@context': 'https://schema.org',
+		'@type': 'WebSite',
+		name: 'Reading Weather',
+		description: data.meta.description,
+		url: 'https://www.readingweather.co.uk'
+	};
 </script>
 
 <svelte:head>
@@ -17,6 +25,7 @@
 	<meta name="twitter:image" content="https://www.readingweather.co.uk/images/weather.png" />
 	<meta property="og:type" content="website" />
 	<meta property="og:url" content="https://www.readingweather.co.uk/" />
+	{@html `<script type="application/ld+json">${JSON.stringify(jsonLd)}</script>`}
 </svelte:head>
 
 <h1>Weather Forecast For Reading & Berkshire</h1>
