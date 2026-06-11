@@ -71,7 +71,7 @@ import { get } from 'svelte/store';
 		</ul>
 	{/if}
 
-	<button class="reply-button" onclick={() => toggleReplyForm(comment?.id)}>Reply</button>
+	<button class="reply-button" onclick={() => toggleReplyForm(comment?.id)} aria-label="Reply to {comment?.author.node.name}">Reply</button>
 
 	{#if $replyForms[comment?.id]}
 		<AddComment {postId} parentCommentId={comment.id} />

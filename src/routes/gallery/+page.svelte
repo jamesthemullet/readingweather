@@ -49,6 +49,7 @@
 	<meta name="description" content="A photo gallery of weather conditions in Reading and Berkshire, organised by month and year." />
 	<meta property="og:title" content="Photo Gallery – Reading Weather" />
 	<meta property="og:description" content="A photo gallery of weather conditions in Reading and Berkshire, organised by month and year." />
+	<meta property="og:image" content="https://www.readingweather.co.uk/images/weather.png" />
 	<meta property="og:type" content="website" />
 	<meta property="og:url" content="https://www.readingweather.co.uk/gallery" />
 </svelte:head>

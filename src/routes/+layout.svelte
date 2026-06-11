@@ -67,11 +67,11 @@
 		<form id="subscribe-form" onsubmit={handleSubmit}>
 			<label for="subscribe-name">
 				Name:
-				<input id="subscribe-name" autocomplete="name" type="text" bind:value={name} required />
+				<input id="subscribe-name" autocomplete="name" type="text" bind:value={name} required aria-required="true" />
 			</label>
 			<label for="subscribe-email">
 				Email:
-				<input id="subscribe-email" autocomplete="email" type="email" bind:value={email} required />
+				<input id="subscribe-email" autocomplete="email" type="email" bind:value={email} required aria-required="true" />
 			</label>
 			<button type="submit">Subscribe</button>
 		</form>

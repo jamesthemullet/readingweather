@@ -8,14 +8,12 @@
 </script>
 
 <svelte:head>
-	<title>Seasonal Forecasts</title>
+	<title>Seasonal Forecasts – Reading Weather</title>
 	<meta name="description" content="Seasonal forecasts for Reading & Berkshire." />
-	<meta property="og:title" content="Seasonal Forecasts" />
+	<meta property="og:title" content="Seasonal Forecasts – Reading Weather" />
 	<meta property="og:description" content="Seasonal forecasts for Reading & Berkshire." />
-	{#if data.posts.posts.nodes[0]?.featuredImage?.node?.sourceUrl}
-		<meta property="og:image" content={data.posts.posts.nodes[0].featuredImage.node.sourceUrl} />
-	{/if}
-	<meta property="og:type" content="article" />
+	<meta property="og:image" content={data.posts.posts.nodes[0]?.featuredImage?.node?.sourceUrl ?? 'https://www.readingweather.co.uk/images/weather.png'} />
+	<meta property="og:type" content="website" />
 	<meta property="og:url" content="https://www.readingweather.co.uk/seasonal-forecasts" />
 </svelte:head>
 
