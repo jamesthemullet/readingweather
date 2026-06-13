@@ -1,21 +1,12 @@
 <script lang="ts">
 	import { sanitize } from '$lib/sanitize';
+	import type { AllPostsNode } from '$lib/types';
 
-	export let posts: Array<{
-		slug: string;
-		title: string;
-		content: string;
-		featuredImage?: {
-			node?: {
-				sourceUrl: string;
-				srcSet: string;
-				mediaDetails?: {
-					width?: number;
-					height?: number;
-				};
-			};
-		};
-	}>;
+	type Props = {
+		posts: AllPostsNode[];
+	};
+
+	const { posts }: Props = $props();
 
 	const modifyContent = (content: string): string => {
 		const paragraphs = content.split(/<\/?p>/).filter((p) => p.trim() !== '');
