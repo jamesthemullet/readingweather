@@ -82,6 +82,8 @@
 									<img
 										src={post.featuredImage.node.sourceUrl}
 										alt={post.name}
+										width={post.featuredImage.node.mediaDetails?.width ?? undefined}
+										height={post.featuredImage.node.mediaDetails?.height ?? undefined}
 										loading="lazy"
 									/>
 									<span class="photo-name" aria-hidden="true">{post.name}</span>
@@ -109,7 +111,7 @@
 			onkeydown={(e) => { if (e.key === 'Escape') closeLightbox(); }}
 		>
 			<button class="lightbox-close" onclick={closeLightbox} aria-label="Close lightbox">&#x2715;</button>
-			<img src={lightboxUrl} alt={lightboxName} />
+			<img src={lightboxUrl} alt={lightboxName} loading="lazy" />
 			{#if lightboxName}
 				<p class="lightbox-name">{lightboxName}</p>
 			{/if}
