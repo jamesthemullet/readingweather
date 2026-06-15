@@ -24,7 +24,7 @@
 				body: JSON.stringify({ name, email })
 			});
 
-			const data = await res.json();
+			const data = await res.json() as { message: string };
 			responseMessage = data.message;
 		} catch {
 			responseMessage = 'Something went wrong.';
