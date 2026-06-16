@@ -64,6 +64,23 @@
 
 	const paragraphs = data.post.content.split(/<\/?p>/).filter((p) => p.trim() !== '');
 
+	const decodeHtmlEntities = (str: string) =>
+		str
+			.replace(/&#(\d+);/g, (_, code) => String.fromCharCode(Number(code)))
+			.replace(/&#x([0-9a-f]+);/gi, (_, hex) => String.fromCharCode(Number.parseInt(hex, 16)))
+			.replace(/&amp;/g, '&')
+			.replace(/&lt;/g, '<')
+			.replace(/&gt;/g, '>')
+			.replace(/&quot;/g, '"')
+			.replace(/&apos;/g, "'")
+			.replace(/&nbsp;/g, ' ');
+
+	const firstParagraphText = decodeHtmlEntities(
+		(paragraphs[0] ?? '').replace(/<[^>]*>/g, '').trim()
+	);
+	const firstSentenceMatch = firstParagraphText.match(/^.*?[.!?]/);
+	const postSummary = firstSentenceMatch ? firstSentenceMatch[0].trim() : firstParagraphText;
+
 	const iframeHTML = `<iframe id='kofiframe' src='https://ko-fi.com/wffrb/?hidefeed=true&widget=true&embed=true&preview=true' style='border:none;width:100%;padding:4px;background:#f9f9f9;' height='612' title='Support Reading Weather on Ko-fi'></iframe>`;
 	if (paragraphs.length > 2) {
 		paragraphs.splice(-3, 0, iframeHTML);
@@ -115,7 +132,7 @@
 	{/if}
 	<div class="content">{@html sanitize(modifiedContent)}</div>
 
-	<ShareButton {postUrl} {postTitle} />
+	<ShareButton {postUrl} {postTitle} {postSummary} />
 
 	<Comments {threadedComments} {postId} />
 	{#if $showAddComment}
