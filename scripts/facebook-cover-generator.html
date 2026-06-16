@@ -5,116 +5,116 @@
 		<title>Facebook Cover Generator – Reading Weather</title>
 		<style>
 			* {
-													box-sizing: border-box;
-													margin: 0;
-													padding: 0;
-												}
-												body {
-													font-family: sans-serif;
-													background: #1a1a2e;
-													color: #eee;
-													display: flex;
-													flex-direction: column;
-													align-items: center;
-													padding: 2rem;
-													gap: 1.5rem;
-													min-height: 100vh;
-												}
-												h1 {
-													font-size: 1.4rem;
-													color: #a8d8ea;
-												}
+				box-sizing: border-box;
+				margin: 0;
+				padding: 0;
+			}
+			body {
+				font-family: sans-serif;
+				background: #1a1a2e;
+				color: #eee;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				padding: 2rem;
+				gap: 1.5rem;
+				min-height: 100vh;
+			}
+			h1 {
+				font-size: 1.4rem;
+				color: #a8d8ea;
+			}
 
-												.drop-zone {
-													width: 100%;
-													max-width: 860px;
-													border: 2px dashed #555;
-													border-radius: 8px;
-													padding: 2rem;
-													text-align: center;
-													cursor: pointer;
-													transition:
-														border-color 0.2s,
-														background 0.2s;
-													background: #22223b;
-												}
-												.drop-zone.drag-over {
-													border-color: #a8d8ea;
-													background: #1b2a3b;
-												}
-												.drop-zone p {
-													color: #aaa;
-													margin-top: 0.5rem;
-													font-size: 0.9rem;
-												}
+			.drop-zone {
+				width: 100%;
+				max-width: 860px;
+				border: 2px dashed #555;
+				border-radius: 8px;
+				padding: 2rem;
+				text-align: center;
+				cursor: pointer;
+				transition:
+					border-color 0.2s,
+					background 0.2s;
+				background: #22223b;
+			}
+			.drop-zone.drag-over {
+				border-color: #a8d8ea;
+				background: #1b2a3b;
+			}
+			.drop-zone p {
+				color: #aaa;
+				margin-top: 0.5rem;
+				font-size: 0.9rem;
+			}
 
-												canvas {
-													max-width: 100%;
-													border-radius: 4px;
-													box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
-													display: none;
-													cursor: grab;
-												}
-												canvas.dragging {
-													cursor: grabbing;
-												}
+			canvas {
+				max-width: 100%;
+				border-radius: 4px;
+				box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
+				display: none;
+				cursor: grab;
+			}
+			canvas.dragging {
+				cursor: grabbing;
+			}
 
-												.hint {
-													font-size: 0.8rem;
-													color: #888;
-													display: none;
-												}
-												.hint.visible {
-													display: block;
-												}
+			.hint {
+				font-size: 0.8rem;
+				color: #888;
+				display: none;
+			}
+			.hint.visible {
+				display: block;
+			}
 
-												.controls {
-													display: flex;
-													gap: 1rem;
-													align-items: center;
-													flex-wrap: wrap;
-													justify-content: center;
-												}
-												label {
-													font-size: 0.9rem;
-													color: #ccc;
-												}
-												input[type='range'] {
-													width: 160px;
-													accent-color: #a8d8ea;
-												}
-												input[type='color'] {
-													width: 44px;
-													height: 32px;
-													border: none;
-													background: none;
-													cursor: pointer;
-												}
-												select {
-													background: #22223b;
-													color: #eee;
-													border: 1px solid #555;
-													border-radius: 4px;
-													padding: 0.3rem 0.5rem;
-												}
+			.controls {
+				display: flex;
+				gap: 1rem;
+				align-items: center;
+				flex-wrap: wrap;
+				justify-content: center;
+			}
+			label {
+				font-size: 0.9rem;
+				color: #ccc;
+			}
+			input[type='range'] {
+				width: 160px;
+				accent-color: #a8d8ea;
+			}
+			input[type='color'] {
+				width: 44px;
+				height: 32px;
+				border: none;
+				background: none;
+				cursor: pointer;
+			}
+			select {
+				background: #22223b;
+				color: #eee;
+				border: 1px solid #555;
+				border-radius: 4px;
+				padding: 0.3rem 0.5rem;
+			}
 
-												button {
-													background: #a8d8ea;
-													color: #1a1a2e;
-													border: none;
-													padding: 0.6rem 1.4rem;
-													border-radius: 6px;
-													font-size: 1rem;
-													font-weight: bold;
-													cursor: pointer;
-												}
-												button:disabled {
-													opacity: 0.4;
-													cursor: default;
-												}
-												button:not(:disabled):hover {
-													background: #cce8f4;
-												}
+			button {
+				background: #a8d8ea;
+				color: #1a1a2e;
+				border: none;
+				padding: 0.6rem 1.4rem;
+				border-radius: 6px;
+				font-size: 1rem;
+				font-weight: bold;
+				cursor: pointer;
+			}
+			button:disabled {
+				opacity: 0.4;
+				cursor: default;
+			}
+			button:not(:disabled):hover {
+				background: #cce8f4;
+			}
 		</style>
 	</head>
 	<body>
@@ -158,213 +158,213 @@
 
 		<script>
 			const CANVAS_W = 1702;
-												const CANVAS_H = 630;
-												const FONT_PATH = '../static/fonts/Caveat-VariableFont_wght.ttf';
+			const CANVAS_H = 630;
+			const FONT_PATH = '../static/fonts/Caveat-VariableFont_wght.ttf';
 
-												const canvas = document.getElementById('canvas');
-												const ctx = canvas.getContext('2d');
-												const dropZone = document.getElementById('dropZone');
-												const fileInput = document.getElementById('fileInput');
-												const dlBtn = document.getElementById('downloadBtn');
-												const fontSizeSlider = document.getElementById('fontSize');
-												const fontSizeVal = document.getElementById('fontSizeVal');
-												const textYSlider = document.getElementById('textY');
-												const textYVal = document.getElementById('textYVal');
-												const colorPicker = document.getElementById('textColor');
-												const titleSelect = document.getElementById('titleSelect');
-												const hint = document.getElementById('hint');
+			const canvas = document.getElementById('canvas');
+			const ctx = canvas.getContext('2d');
+			const dropZone = document.getElementById('dropZone');
+			const fileInput = document.getElementById('fileInput');
+			const dlBtn = document.getElementById('downloadBtn');
+			const fontSizeSlider = document.getElementById('fontSize');
+			const fontSizeVal = document.getElementById('fontSizeVal');
+			const textYSlider = document.getElementById('textY');
+			const textYVal = document.getElementById('textYVal');
+			const colorPicker = document.getElementById('textColor');
+			const titleSelect = document.getElementById('titleSelect');
+			const hint = document.getElementById('hint');
 
-												let currentImage = null;
-												let fontLoaded = false;
+			let currentImage = null;
+			let fontLoaded = false;
 
-												// Image pan state (in canvas pixels)
-												let panX = 0;
-												let panY = 0;
-												let drawW = 0;
-												let drawH = 0;
+			// Image pan state (in canvas pixels)
+			let panX = 0;
+			let panY = 0;
+			let drawW = 0;
+			let drawH = 0;
 
-												// Load Caveat font
-												const font = new FontFace('Caveat', `url('${FONT_PATH}')`);
-												font
-													.load()
-													.then((f) => {
-														document.fonts.add(f);
-														fontLoaded = true;
-														if (currentImage) render();
-													})
-													.catch(() => {
-														fontLoaded = true;
-														if (currentImage) render();
-													});
+			// Load Caveat font
+			const font = new FontFace('Caveat', `url('${FONT_PATH}')`);
+			font
+				.load()
+				.then((f) => {
+					document.fonts.add(f);
+					fontLoaded = true;
+					if (currentImage) render();
+				})
+				.catch(() => {
+					fontLoaded = true;
+					if (currentImage) render();
+				});
 
-												function computeDrawSize(img) {
-													const imgAspect = img.width / img.height;
-													const canvasAspect = CANVAS_W / CANVAS_H;
-													if (imgAspect > canvasAspect) {
-														// Wider than canvas — fit to height
-														drawH = CANVAS_H;
-														drawW = drawH * imgAspect;
-													} else {
-														// Taller or same — fit to width
-														drawW = CANVAS_W;
-														drawH = drawW / imgAspect;
-													}
-												}
+			function computeDrawSize(img) {
+				const imgAspect = img.width / img.height;
+				const canvasAspect = CANVAS_W / CANVAS_H;
+				if (imgAspect > canvasAspect) {
+					// Wider than canvas — fit to height
+					drawH = CANVAS_H;
+					drawW = drawH * imgAspect;
+				} else {
+					// Taller or same — fit to width
+					drawW = CANVAS_W;
+					drawH = drawW / imgAspect;
+				}
+			}
 
-												function clampPan() {
-													// Keep image covering the canvas — no gaps allowed
-													const minX = CANVAS_W - drawW;
-													const maxX = 0;
-													const minY = CANVAS_H - drawH;
-													const maxY = 0;
-													panX = Math.min(maxX, Math.max(minX, panX));
-													panY = Math.min(maxY, Math.max(minY, panY));
-												}
+			function clampPan() {
+				// Keep image covering the canvas — no gaps allowed
+				const minX = CANVAS_W - drawW;
+				const maxX = 0;
+				const minY = CANVAS_H - drawH;
+				const maxY = 0;
+				panX = Math.min(maxX, Math.max(minX, panX));
+				panY = Math.min(maxY, Math.max(minY, panY));
+			}
 
-												function loadImage(file) {
-													const reader = new FileReader();
-													reader.onload = (e) => {
-														const img = new Image();
-														img.onload = () => {
-															currentImage = img;
-															computeDrawSize(img);
-															// Centre the image to start
-															panX = (CANVAS_W - drawW) / 2;
-															panY = (CANVAS_H - drawH) / 2;
-															clampPan();
-															canvas.style.display = 'block';
-															hint.classList.add('visible');
-															dlBtn.disabled = false;
-															render();
-														};
-														img.src = e.target.result;
-													};
-													reader.readAsDataURL(file);
-												}
+			function loadImage(file) {
+				const reader = new FileReader();
+				reader.onload = (e) => {
+					const img = new Image();
+					img.onload = () => {
+						currentImage = img;
+						computeDrawSize(img);
+						// Centre the image to start
+						panX = (CANVAS_W - drawW) / 2;
+						panY = (CANVAS_H - drawH) / 2;
+						clampPan();
+						canvas.style.display = 'block';
+						hint.classList.add('visible');
+						dlBtn.disabled = false;
+						render();
+					};
+					img.src = e.target.result;
+				};
+				reader.readAsDataURL(file);
+			}
 
-												function render() {
-													if (!currentImage) return;
+			function render() {
+				if (!currentImage) return;
 
-													ctx.clearRect(0, 0, CANVAS_W, CANVAS_H);
-													ctx.drawImage(currentImage, panX, panY, drawW, drawH);
+				ctx.clearRect(0, 0, CANVAS_W, CANVAS_H);
+				ctx.drawImage(currentImage, panX, panY, drawW, drawH);
 
-													const size = Number.parseInt(fontSizeSlider.value);
-													const yPct = Number.parseInt(textYSlider.value) / 100;
-													const color = colorPicker.value;
+				const size = Number.parseInt(fontSizeSlider.value);
+				const yPct = Number.parseInt(textYSlider.value) / 100;
+				const color = colorPicker.value;
 
-													ctx.font = `${size}px ${fontLoaded ? 'Caveat' : 'cursive'}`;
-													ctx.fillStyle = color;
-													ctx.textAlign = 'center';
-													ctx.textBaseline = 'middle';
-													ctx.shadowColor = 'rgba(255,255,255,0.55)';
-													ctx.shadowBlur = 18;
-													ctx.fillText(titleSelect.value, CANVAS_W / 2, CANVAS_H * yPct);
-													ctx.shadowBlur = 0;
-												}
+				ctx.font = `${size}px ${fontLoaded ? 'Caveat' : 'cursive'}`;
+				ctx.fillStyle = color;
+				ctx.textAlign = 'center';
+				ctx.textBaseline = 'middle';
+				ctx.shadowColor = 'rgba(255,255,255,0.55)';
+				ctx.shadowBlur = 18;
+				ctx.fillText(titleSelect.value, CANVAS_W / 2, CANVAS_H * yPct);
+				ctx.shadowBlur = 0;
+			}
 
-												// ── Drag to reposition ──────────────────────────────────────────────────────
-												// Canvas is displayed smaller than its internal resolution via CSS max-width,
-												// so mouse deltas must be scaled up to canvas coordinates.
-												let isDragging = false;
-												let lastMouseX = 0;
-												let lastMouseY = 0;
+			// ── Drag to reposition ──────────────────────────────────────────────────────
+			// Canvas is displayed smaller than its internal resolution via CSS max-width,
+			// so mouse deltas must be scaled up to canvas coordinates.
+			let isDragging = false;
+			let lastMouseX = 0;
+			let lastMouseY = 0;
 
-												function canvasScale() {
-													return CANVAS_W / canvas.getBoundingClientRect().width;
-												}
+			function canvasScale() {
+				return CANVAS_W / canvas.getBoundingClientRect().width;
+			}
 
-												canvas.addEventListener('mousedown', (e) => {
-													isDragging = true;
-													lastMouseX = e.clientX;
-													lastMouseY = e.clientY;
-													canvas.classList.add('dragging');
-												});
+			canvas.addEventListener('mousedown', (e) => {
+				isDragging = true;
+				lastMouseX = e.clientX;
+				lastMouseY = e.clientY;
+				canvas.classList.add('dragging');
+			});
 
-												window.addEventListener('mousemove', (e) => {
-													if (!isDragging) return;
-													const scale = canvasScale();
-													panX += (e.clientX - lastMouseX) * scale;
-													panY += (e.clientY - lastMouseY) * scale;
-													lastMouseX = e.clientX;
-													lastMouseY = e.clientY;
-													clampPan();
-													render();
-												});
+			window.addEventListener('mousemove', (e) => {
+				if (!isDragging) return;
+				const scale = canvasScale();
+				panX += (e.clientX - lastMouseX) * scale;
+				panY += (e.clientY - lastMouseY) * scale;
+				lastMouseX = e.clientX;
+				lastMouseY = e.clientY;
+				clampPan();
+				render();
+			});
 
-												window.addEventListener('mouseup', () => {
-													isDragging = false;
-													canvas.classList.remove('dragging');
-												});
+			window.addEventListener('mouseup', () => {
+				isDragging = false;
+				canvas.classList.remove('dragging');
+			});
 
-												// Touch support
-												canvas.addEventListener(
-													'touchstart',
-													(e) => {
-														if (e.touches.length !== 1) return;
-														isDragging = true;
-														lastMouseX = e.touches[0].clientX;
-														lastMouseY = e.touches[0].clientY;
-													},
-													{ passive: true }
-												);
+			// Touch support
+			canvas.addEventListener(
+				'touchstart',
+				(e) => {
+					if (e.touches.length !== 1) return;
+					isDragging = true;
+					lastMouseX = e.touches[0].clientX;
+					lastMouseY = e.touches[0].clientY;
+				},
+				{ passive: true }
+			);
 
-												window.addEventListener(
-													'touchmove',
-													(e) => {
-														if (!isDragging || e.touches.length !== 1) return;
-														const scale = canvasScale();
-														panX += (e.touches[0].clientX - lastMouseX) * scale;
-														panY += (e.touches[0].clientY - lastMouseY) * scale;
-														lastMouseX = e.touches[0].clientX;
-														lastMouseY = e.touches[0].clientY;
-														clampPan();
-														render();
-													},
-													{ passive: true }
-												);
+			window.addEventListener(
+				'touchmove',
+				(e) => {
+					if (!isDragging || e.touches.length !== 1) return;
+					const scale = canvasScale();
+					panX += (e.touches[0].clientX - lastMouseX) * scale;
+					panY += (e.touches[0].clientY - lastMouseY) * scale;
+					lastMouseX = e.touches[0].clientX;
+					lastMouseY = e.touches[0].clientY;
+					clampPan();
+					render();
+				},
+				{ passive: true }
+			);
 
-												window.addEventListener('touchend', () => {
-													isDragging = false;
-												});
+			window.addEventListener('touchend', () => {
+				isDragging = false;
+			});
 
-												// ── Controls ────────────────────────────────────────────────────────────────
-												fontSizeSlider.addEventListener('input', () => {
-													fontSizeVal.textContent = fontSizeSlider.value;
-													render();
-												});
-												textYSlider.addEventListener('input', () => {
-													textYVal.textContent = textYSlider.value;
-													render();
-												});
-												colorPicker.addEventListener('input', render);
-												titleSelect.addEventListener('change', render);
+			// ── Controls ────────────────────────────────────────────────────────────────
+			fontSizeSlider.addEventListener('input', () => {
+				fontSizeVal.textContent = fontSizeSlider.value;
+				render();
+			});
+			textYSlider.addEventListener('input', () => {
+				textYVal.textContent = textYSlider.value;
+				render();
+			});
+			colorPicker.addEventListener('input', render);
+			titleSelect.addEventListener('change', render);
 
-												// File input
-												dropZone.addEventListener('click', () => fileInput.click());
-												fileInput.addEventListener('change', (e) => {
-													if (e.target.files[0]) loadImage(e.target.files[0]);
-												});
+			// File input
+			dropZone.addEventListener('click', () => fileInput.click());
+			fileInput.addEventListener('change', (e) => {
+				if (e.target.files[0]) loadImage(e.target.files[0]);
+			});
 
-												// Drag and drop onto drop zone
-												dropZone.addEventListener('dragover', (e) => {
-													e.preventDefault();
-													dropZone.classList.add('drag-over');
-												});
-												dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
-												dropZone.addEventListener('drop', (e) => {
-													e.preventDefault();
-													dropZone.classList.remove('drag-over');
-													const file = e.dataTransfer.files[0];
-													if (file && file.type.startsWith('image/')) loadImage(file);
-												});
+			// Drag and drop onto drop zone
+			dropZone.addEventListener('dragover', (e) => {
+				e.preventDefault();
+				dropZone.classList.add('drag-over');
+			});
+			dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
+			dropZone.addEventListener('drop', (e) => {
+				e.preventDefault();
+				dropZone.classList.remove('drag-over');
+				const file = e.dataTransfer.files[0];
+				if (file && file.type.startsWith('image/')) loadImage(file);
+			});
 
-												// Download
-												dlBtn.addEventListener('click', () => {
-													const a = document.createElement('a');
-													a.download = 'reading-weather-facebook-cover.png';
-													a.href = canvas.toDataURL('image/png');
-													a.click();
-												});
+			// Download
+			dlBtn.addEventListener('click', () => {
+				const a = document.createElement('a');
+				a.download = 'reading-weather-facebook-cover.png';
+				a.href = canvas.toDataURL('image/png');
+				a.click();
+			});
 		</script>
 	</body>
 </html>
