@@ -18,7 +18,7 @@ export type SitemapNode = { slug: string; date: string | null };
 
 export type StaticRoute = { path: string; changefreq: string; priority: string };
 
-export function escapeXml(value: string): string {
+function escapeXml(value: string): string {
 	return value
 		.replace(/&/g, '&amp;')
 		.replace(/</g, '&lt;')
@@ -27,7 +27,7 @@ export function escapeXml(value: string): string {
 		.replace(/'/g, '&apos;');
 }
 
-export function toXmlUrl(loc: string, lastmod?: string, changefreq = 'monthly', priority = '0.7'): string {
+function toXmlUrl(loc: string, lastmod?: string, changefreq = 'monthly', priority = '0.7'): string {
 	const last = lastmod ? `<lastmod>${escapeXml(lastmod)}</lastmod>` : '';
 	return `
     <url>
@@ -48,7 +48,11 @@ export async function fetchSitemapPosts(): Promise<SitemapNode[]> {
 	return nodes;
 }
 
-export function generateSitemapXml(nodes: SitemapNode[], staticRoutes: StaticRoute[], base: string): string {
+export function generateSitemapXml(
+	nodes: SitemapNode[],
+	staticRoutes: StaticRoute[],
+	base: string
+): string {
 	const urls: string[] = [];
 
 	for (const r of staticRoutes) {
