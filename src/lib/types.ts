@@ -68,10 +68,13 @@ export type AllPostsResponse = {
 };
 
 export type GetPostBySlugResponse = {
+	postBy: GqlPostNode | null;
+};
+
+export type GetLatestPostSlugResponse = {
 	posts: {
 		nodes: Array<{ slug: string }>;
 	};
-	postBy: GqlPostNode | null;
 };
 
 export type GetPageByIdResponse = {
