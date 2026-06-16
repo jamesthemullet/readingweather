@@ -101,6 +101,23 @@ export type SeasonalPostsResponse = {
 	};
 };
 
+export type LatestSeasonalPostResponse = {
+	posts: {
+		nodes: Array<{
+			slug: string;
+			title: string;
+			date: string;
+			featuredImage?: {
+				node?: {
+					sourceUrl: string;
+					srcSet: string;
+					mediaDetails?: { width?: number; height?: number };
+				};
+			};
+		}>;
+	};
+};
+
 export type OnThisDayResponse = {
 	posts: {
 		nodes: Array<{

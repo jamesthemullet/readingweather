@@ -66,12 +66,14 @@ describe('[slug] page load', () => {
 
 	it('uses cached latest slug when available', async () => {
 		vi.mocked(getCache).mockReturnValue('cached-latest-slug');
-		vi.mocked(fetchGraphQL).mockResolvedValueOnce({ postBy: mockPost });
+		vi.mocked(fetchGraphQL)
+			.mockResolvedValueOnce({ postBy: mockPost })
+			.mockResolvedValueOnce({ posts: { nodes: [] } });
 
 		const result = (await load({ params: { slug: 'test-post' } } as Parameters<typeof load>[0])) as SlugLoadResult;
 
 		expect(result.isLatest).toBe(false);
 		expect(result.latestSlug).toBe('cached-latest-slug');
-		expect(vi.mocked(fetchGraphQL)).toHaveBeenCalledTimes(1);
+		expect(vi.mocked(fetchGraphQL)).toHaveBeenCalledTimes(2);
 	});
 });
