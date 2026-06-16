@@ -139,3 +139,10 @@
 		<AddComment {postId} />
 	{/if}
 </article>
+
+{#if data.latestSeasonalPost}
+	<section class="latest-seasonal">
+		<h2>Latest Seasonal Forecast</h2>
+		<a href="/{data.latestSeasonalPost.slug}">{data.latestSeasonalPost.title}</a>
+	</section>
+{/if}

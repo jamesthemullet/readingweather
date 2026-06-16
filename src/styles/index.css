@@ -99,6 +99,22 @@ main {
 	}
 }
 
+.latest-seasonal {
+	border: 5px solid var(--nav);
+	margin-bottom: 2rem;
+	padding: 1rem;
+	text-align: center;
+	background: var(--white);
+
+	h2 {
+		margin: 0 0 0.75rem;
+	}
+
+	a {
+		font-size: 1.125rem;
+	}
+}
+
 .older-posts {
 	text-align: center;
 	margin: 0 0 2rem 0;

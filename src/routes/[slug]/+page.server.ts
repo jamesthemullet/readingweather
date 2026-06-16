@@ -1,9 +1,10 @@
 import { error } from '@sveltejs/kit';
 import { fetchGraphQL } from '$lib/graphql/api';
 import GET_LATEST_POST_SLUG from '$lib/graphql/queries/getLatestPostSlug';
+import GET_LATEST_SEASONAL_POST_QUERY from '$lib/graphql/queries/getLatestSeasonalPost';
 import GET_POST_BY_SLUG from '$lib/graphql/queries/getPostBySlug';
 import { getCache, setCache } from '$lib/server/cache';
-import type { GetLatestPostSlugResponse, GetPostBySlugResponse } from '$lib/types';
+import type { GetLatestPostSlugResponse, GetPostBySlugResponse, LatestSeasonalPostResponse } from '$lib/types';
 import type { PageServerLoad } from './$types';
 
 const LATEST_SLUG_CACHE_KEY = 'latest-post-slug';
@@ -22,9 +23,10 @@ async function fetchLatestPostSlug(): Promise<string | undefined> {
 export const load: PageServerLoad = async ({ params }) => {
 	const { slug } = params;
 
-	const [response, latestSlug] = await Promise.all([
+	const [response, latestSlug, latestSeasonal] = await Promise.all([
 		fetchGraphQL<GetPostBySlugResponse>(GET_POST_BY_SLUG, { slug }),
-		fetchLatestPostSlug()
+		fetchLatestPostSlug(),
+		fetchGraphQL<LatestSeasonalPostResponse>(GET_LATEST_SEASONAL_POST_QUERY)
 	]);
 
 	if (!response.postBy) {
@@ -34,6 +36,7 @@ export const load: PageServerLoad = async ({ params }) => {
 	return {
 		post: response.postBy,
 		isLatest: latestSlug === slug,
-		latestSlug
+		latestSlug,
+		latestSeasonalPost: latestSeasonal?.posts?.nodes?.[0] ?? null
 	};
 };
