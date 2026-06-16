@@ -1,9 +1,9 @@
 import { error } from '@sveltejs/kit';
 import { fetchGraphQL } from '$lib/graphql/api';
-import GET_POST_BY_SLUG from '$lib/graphql/queries/getPostBySlug';
 import GET_LATEST_POST_SLUG from '$lib/graphql/queries/getLatestPostSlug';
+import GET_POST_BY_SLUG from '$lib/graphql/queries/getPostBySlug';
 import { getCache, setCache } from '$lib/server/cache';
-import type { GetPostBySlugResponse, GetLatestPostSlugResponse } from '$lib/types';
+import type { GetLatestPostSlugResponse, GetPostBySlugResponse } from '$lib/types';
 import type { PageServerLoad } from './$types';
 
 const LATEST_SLUG_CACHE_KEY = 'latest-post-slug';
