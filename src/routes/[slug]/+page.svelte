@@ -67,7 +67,7 @@
 	const decodeHtmlEntities = (str: string) =>
 		str
 			.replace(/&#(\d+);/g, (_, code) => String.fromCharCode(Number(code)))
-			.replace(/&#x([0-9a-f]+);/gi, (_, hex) => String.fromCharCode(parseInt(hex, 16)))
+			.replace(/&#x([0-9a-f]+);/gi, (_, hex) => String.fromCharCode(Number.parseInt(hex, 16)))
 			.replace(/&amp;/g, '&')
 			.replace(/&lt;/g, '<')
 			.replace(/&gt;/g, '>')
