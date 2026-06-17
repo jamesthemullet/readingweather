@@ -1,5 +1,6 @@
 <script lang="ts">
 	import '../../styles/index.css';
+	import { goto } from '$app/navigation';
 	import type { PageProps } from './$types';
 
 	const { data }: PageProps = $props();
@@ -8,7 +9,7 @@
 		const selected = event.currentTarget.value;
 		if (!selected) return;
 		const [year, month] = selected.split('-');
-		window.location.href = `archives/?year=${year}&month=${month}`;
+		goto(`/archives?year=${year}&month=${month}`);
 	};
 
 	const getMonthName = (month: number): string => {

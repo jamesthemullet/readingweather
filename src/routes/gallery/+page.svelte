@@ -1,5 +1,6 @@
 <script lang="ts">
 	import '../../styles/index.css';
+	import { goto } from '$app/navigation';
 	import type { PageProps } from './$types';
 
 	const { data }: PageProps = $props();
@@ -12,7 +13,7 @@
 	const updateYear = (event: Event & { currentTarget: EventTarget & HTMLSelectElement }): void => {
 		const selected = event.currentTarget.value;
 		if (!selected) return;
-		window.location.href = `gallery?year=${selected}`;
+		goto(`/gallery?year=${selected}`);
 	};
 
 	let lightboxUrl = $state('');
@@ -111,7 +112,7 @@
 			onkeydown={(e) => { if (e.key === 'Escape') closeLightbox(); }}
 		>
 			<button class="lightbox-close" onclick={closeLightbox} aria-label="Close lightbox">&#x2715;</button>
-			<img src={lightboxUrl} alt={lightboxName} loading="lazy" />
+			<img src={lightboxUrl} alt={lightboxName} loading="eager" />
 			{#if lightboxName}
 				<p class="lightbox-name">{lightboxName}</p>
 			{/if}
