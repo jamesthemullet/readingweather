@@ -32,15 +32,15 @@
 
 <PostList posts={data.posts.posts.nodes} preview={true} />
 
-{#if data.onThisDay?.posts?.nodes?.length}
-	<OnThisDay posts={data.onThisDay.posts.nodes} />
-{/if}
-
 {#if data.latestSeasonalPost}
 	<section class="latest-seasonal">
 		<h2>Latest Seasonal Forecast</h2>
 		<a href="/{data.latestSeasonalPost.slug}">{data.latestSeasonalPost.title}</a>
 	</section>
+{/if}
+
+{#if data.onThisDay?.posts?.nodes?.length}
+	<OnThisDay posts={data.onThisDay.posts.nodes} />
 {/if}
 
 <div class="older-posts">

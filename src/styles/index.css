@@ -99,6 +99,11 @@ main {
 	}
 }
 
+.read-more {
+	display: block;
+	text-align: center;
+}
+
 .latest-seasonal {
 	border: 5px solid var(--nav);
 	margin-bottom: 2rem;
