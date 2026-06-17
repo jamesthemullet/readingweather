@@ -30,7 +30,14 @@
 
 <h1>Weather Forecast For Reading & Berkshire</h1>
 
-<PostList posts={data.posts.posts.nodes} />
+<PostList posts={data.posts.posts.nodes} preview={true} />
+
+{#if data.latestSeasonalPost}
+	<section class="latest-seasonal">
+		<h2>Latest Seasonal Forecast</h2>
+		<a href="/{data.latestSeasonalPost.slug}">{data.latestSeasonalPost.title}</a>
+	</section>
+{/if}
 
 {#if data.onThisDay?.posts?.nodes?.length}
 	<OnThisDay posts={data.onThisDay.posts.nodes} />

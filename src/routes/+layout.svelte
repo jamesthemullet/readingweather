@@ -60,11 +60,7 @@
 <footer>
 	<article class="post">
 		<h2>Be notified of new posts by e-mail</h2>
-		<p>
-			Please note that this feature is experimental - if you sign up you may also receive multiple
-			test messages until I'm satisfied it is working!
-		</p>
-		<form id="subscribe-form" onsubmit={handleSubmit}>
+<form id="subscribe-form" onsubmit={handleSubmit}>
 			<label for="subscribe-name">
 				Name:
 				<input id="subscribe-name" autocomplete="name" type="text" bind:value={name} required aria-required="true" />
