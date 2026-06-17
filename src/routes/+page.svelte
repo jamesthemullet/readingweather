@@ -4,6 +4,7 @@
 	const { data }: PageProps = $props();
 
 	import '../styles/index.css';
+	import OnThisDay from '$lib/components/OnThisDay.svelte';
 	import PostList from '$lib/components/PostList.svelte';
 
 	const jsonLd = {
@@ -29,7 +30,11 @@
 
 <h1>Weather Forecast For Reading & Berkshire</h1>
 
-<PostList posts={data.posts.posts.nodes} />
+<PostList posts={data.posts.posts.nodes} preview={true} />
+
+{#if data.onThisDay?.posts?.nodes?.length}
+	<OnThisDay posts={data.onThisDay.posts.nodes} />
+{/if}
 
 {#if data.latestSeasonalPost}
 	<section class="latest-seasonal">

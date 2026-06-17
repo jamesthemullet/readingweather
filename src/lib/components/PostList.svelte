@@ -17,6 +17,8 @@
 		};
 	}>;
 
+	export let preview = false;
+
 	const modifyContent = (content: string): string => {
 		const paragraphs = content.split(/<\/?p>/).filter((p) => p.trim() !== '');
 
@@ -26,6 +28,11 @@
 		}
 
 		return paragraphs.map((p) => `<p>${p}</p>`).join('');
+	};
+
+	const firstParagraph = (content: string): string => {
+		const first = content.split(/<\/?p>/).find((p) => p.trim() !== '');
+		return first ? `<p>${first}</p>` : '';
 	};
 </script>
 
@@ -47,10 +54,15 @@
 					{/if}
 					<h2>{post.title}</h2>
 				</a>
-				<div class="content">{@html sanitize(modifyContent(post.content))}</div>
-				<div class="comment-link">
-					<a href="/{post.slug}#comments" aria-label="View or add a comment on {post.title}">View or add a comment</a>
-				</div>
+				{#if preview}
+					<div class="content">{@html sanitize(firstParagraph(post.content))}</div>
+					<a href="/{post.slug}" class="read-more">Read full forecast</a>
+				{:else}
+					<div class="content">{@html sanitize(modifyContent(post.content))}</div>
+					<div class="comment-link">
+						<a href="/{post.slug}#comments" aria-label="View or add a comment on {post.title}">View or add a comment</a>
+					</div>
+				{/if}
 			</article>
 		</li>
 	{/each}
