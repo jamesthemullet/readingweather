@@ -1,21 +1,12 @@
 <script lang="ts">
 	import { sanitize } from '$lib/sanitize';
+	import type { AllPostsNode } from '$lib/types';
 
-	export let posts: Array<{
-		slug: string;
-		title: string;
-		content: string;
-		featuredImage?: {
-			node?: {
-				sourceUrl: string;
-				srcSet: string;
-				mediaDetails?: {
-					width?: number;
-					height?: number;
-				};
-			};
-		};
-	}>;
+	type Props = {
+		posts: AllPostsNode[];
+	};
+
+	const { posts }: Props = $props();
 
 	export let preview = false;
 
