@@ -11,6 +11,7 @@ export type ThreadedComment = GqlComment & { replies: ThreadedComment[] };
 export type GqlPostFeaturedImageNode = {
 	sourceUrl: string;
 	srcSet?: string;
+	altText?: string;
 	mediaDetails?: {
 		width?: number;
 		height?: number;

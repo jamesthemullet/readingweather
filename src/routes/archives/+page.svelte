@@ -29,6 +29,14 @@
 		];
 		return monthNames[month - 1];
 	};
+
+	const jsonLd = {
+		'@context': 'https://schema.org',
+		'@type': 'CollectionPage',
+		name: 'Weather Forecast Archives – Reading Weather',
+		description: 'Browse the archives of weather forecasts for Reading and Berkshire, searchable by month and year.',
+		url: 'https://www.readingweather.co.uk/archives'
+	};
 </script>
 
 <svelte:head>
@@ -39,6 +47,7 @@
 	<meta property="og:image" content="https://www.readingweather.co.uk/images/weather.png" />
 	<meta property="og:type" content="website" />
 	<meta property="og:url" content="https://www.readingweather.co.uk/archives" />
+	{@html `<script type="application/ld+json">${JSON.stringify(jsonLd)}</script>`}
 </svelte:head>
 
 <h1>Weather Forecast Archives</h1>
