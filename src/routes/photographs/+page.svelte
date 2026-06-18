@@ -1,11 +1,18 @@
 <script lang="ts">
-	
 	import { sanitize } from '$lib/sanitize';
-import type { PageProps } from './$types';
+	import type { PageProps } from './$types';
 
 	const { data }: PageProps = $props();
 
 	import '../../styles/index.css';
+
+	const jsonLd = {
+		'@context': 'https://schema.org',
+		'@type': 'WebPage',
+		name: data.page.title,
+		description: data.page.seo.description,
+		url: `https://www.readingweather.co.uk/${data.page.slug}`
+	};
 </script>
 
 <svelte:head>
@@ -16,6 +23,7 @@ import type { PageProps } from './$types';
 	<meta property="og:image" content={data.page.featuredImage?.node?.sourceUrl ?? 'https://www.readingweather.co.uk/images/weather.png'} />
 	<meta property="og:type" content="website" />
 	<meta property="og:url" content={`https://www.readingweather.co.uk/${data.page.slug}`} />
+	{@html `<script type="application/ld+json">${JSON.stringify(jsonLd)}</script>`}
 </svelte:head>
 
 {#if data.page}

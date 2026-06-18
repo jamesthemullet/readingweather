@@ -43,6 +43,14 @@
 			lightboxDialog.focus();
 		}
 	});
+
+	const jsonLd = {
+		'@context': 'https://schema.org',
+		'@type': 'ImageGallery',
+		name: 'Photo Gallery – Reading Weather',
+		description: 'A photo gallery of weather conditions in Reading and Berkshire, organised by month and year.',
+		url: 'https://www.readingweather.co.uk/gallery'
+	};
 </script>
 
 <svelte:head>
@@ -53,6 +61,7 @@
 	<meta property="og:image" content="https://www.readingweather.co.uk/images/weather.png" />
 	<meta property="og:type" content="website" />
 	<meta property="og:url" content="https://www.readingweather.co.uk/gallery" />
+	{@html `<script type="application/ld+json">${JSON.stringify(jsonLd)}</script>`}
 </svelte:head>
 
 <svelte:window onkeydown={onKeydown} />
