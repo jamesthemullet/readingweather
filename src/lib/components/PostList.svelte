@@ -17,7 +17,7 @@
 		};
 	}>;
 
-	export let preview = false;
+	export let preview: boolean = false;
 
 	const modifyContent = (content: string): string => {
 		const paragraphs = content.split(/<\/?p>/).filter((p) => p.trim() !== '');

@@ -8,6 +8,8 @@ vi.mock('$lib/graphql/api', () => ({
 
 import { fetchGraphQL } from '$lib/graphql/api';
 
+type SeasonalForecastsLoadResult = { posts: SeasonalPostsResponse };
+
 const mockPost = {
 	date: '2025-06-01T00:00:00',
 	slug: 'summer-2025-forecast',
@@ -22,9 +24,9 @@ describe('seasonal-forecasts page load', () => {
 		const mockResponse: SeasonalPostsResponse = { posts: { nodes: [mockPost] } };
 		vi.mocked(fetchGraphQL).mockResolvedValueOnce(mockResponse);
 
-		const result = await load({} as Parameters<typeof load>[0]);
+		const { posts } = (await load({} as Parameters<typeof load>[0])) as SeasonalForecastsLoadResult;
 
-		expect(result.posts).toEqual(mockResponse);
+		expect(posts).toEqual(mockResponse);
 	});
 
 	it('propagates errors thrown by fetchGraphQL', async () => {
