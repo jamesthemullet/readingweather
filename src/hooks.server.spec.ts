@@ -40,4 +40,33 @@ describe('hooks handle', () => {
 			'public, max-age=3600, stale-while-revalidate=300'
 		);
 	});
+
+	it('sets a medium-lived cache-control for the archives page', async () => {
+		const response = await handle({
+			event: makeEvent('/archives') as Parameters<typeof handle>[0]['event'],
+			resolve: makeResolve()
+		});
+
+		expect(response.headers.get('cache-control')).toBe(
+			'public, max-age=600, stale-while-revalidate=120'
+		);
+	});
+
+	it('does not set a cache-control header for non-cached paths such as post slugs', async () => {
+		const response = await handle({
+			event: makeEvent('/sunny-reading-june') as Parameters<typeof handle>[0]['event'],
+			resolve: makeResolve()
+		});
+
+		expect(response.headers.get('cache-control')).toBeNull();
+	});
+
+	it('sets X-Content-Type-Options: nosniff on all responses', async () => {
+		const response = await handle({
+			event: makeEvent('/any-page') as Parameters<typeof handle>[0]['event'],
+			resolve: makeResolve()
+		});
+
+		expect(response.headers.get('X-Content-Type-Options')).toBe('nosniff');
+	});
 });
