@@ -1,6 +1,7 @@
 <script lang="ts">
-	import { sanitize } from '$lib/sanitize';
+	
 	import { injectKofiWidget } from '$lib/kofi';
+import { sanitize } from '$lib/sanitize';
 
 	export let posts: Array<{
 		slug: string;
