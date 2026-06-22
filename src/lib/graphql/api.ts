@@ -1,5 +1,10 @@
 import ADD_COMMENT from '$lib/graphql/queries/addComment';
 
+type GraphQLResponse<T> = {
+	data: T;
+	errors?: Array<{ message: string }>;
+};
+
 export async function fetchGraphQL<T = Record<string, unknown>>(
 	query: string,
 	variables: Record<string, unknown> = {}
@@ -10,7 +15,7 @@ export async function fetchGraphQL<T = Record<string, unknown>>(
 		body: JSON.stringify({ query, variables })
 	});
 
-	const json = await response.json();
+	const json = (await response.json()) as GraphQLResponse<T>;
 
 	if (!response.ok || json.errors) {
 		// Log full details server-side only; never expose schema internals to the client.

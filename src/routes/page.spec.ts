@@ -1,6 +1,8 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { load } from './+page';
 
+type LoadResult = Exclude<Awaited<ReturnType<typeof load>>, void>;
+
 vi.mock('$lib/graphql/api', () => ({
 	fetchGraphQL: vi.fn()
 }));
@@ -49,7 +51,7 @@ describe('home page load', () => {
 			.mockResolvedValueOnce(mockSeasonalResponse)
 			.mockResolvedValueOnce(mockOnThisDay);
 
-		const result = await load({} as Parameters<typeof load>[0]);
+		const result = (await load({} as Parameters<typeof load>[0])) as LoadResult;
 
 		expect(result.posts).toEqual(mockPosts);
 		expect(result.meta.title).toBe('Weather Forecast For Reading & Berkshire');
@@ -62,7 +64,7 @@ describe('home page load', () => {
 			.mockResolvedValueOnce(mockSeasonalResponse)
 			.mockResolvedValueOnce(mockOnThisDay);
 
-		const result = await load({} as Parameters<typeof load>[0]);
+		const result = (await load({} as Parameters<typeof load>[0])) as LoadResult;
 
 		expect(result.latestSeasonalPost).toEqual(mockSeasonalResponse.posts.nodes[0]);
 	});
@@ -73,7 +75,7 @@ describe('home page load', () => {
 			.mockRejectedValueOnce(new Error('GraphQL down'))
 			.mockResolvedValueOnce(mockOnThisDay);
 
-		const result = await load({} as Parameters<typeof load>[0]);
+		const result = (await load({} as Parameters<typeof load>[0])) as LoadResult;
 
 		expect(result.latestSeasonalPost).toBeNull();
 	});
@@ -84,7 +86,7 @@ describe('home page load', () => {
 			.mockResolvedValueOnce({ posts: { nodes: [] } })
 			.mockResolvedValueOnce(mockOnThisDay);
 
-		const result = await load({} as Parameters<typeof load>[0]);
+		const result = (await load({} as Parameters<typeof load>[0])) as LoadResult;
 
 		expect(result.latestSeasonalPost).toBeNull();
 	});
@@ -95,7 +97,7 @@ describe('home page load', () => {
 			.mockResolvedValueOnce(mockSeasonalResponse)
 			.mockRejectedValueOnce(new Error('GraphQL down'));
 
-		const result = await load({} as Parameters<typeof load>[0]);
+		const result = (await load({} as Parameters<typeof load>[0])) as LoadResult;
 
 		expect(result.onThisDay).toBeNull();
 	});
