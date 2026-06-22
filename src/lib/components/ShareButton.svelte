@@ -1,5 +1,9 @@
 <script lang="ts">
-	const { postUrl, postTitle }: { postUrl: string; postTitle: string } = $props();
+	const {
+		postUrl,
+		postTitle,
+		postSummary
+	}: { postUrl: string; postTitle: string; postSummary: string } = $props();
 
 	let copied = $state(false);
 
@@ -13,12 +17,12 @@
 	}
 
 	function shareOnBluesky() {
-		const url = `https://bsky.app/intent/compose?text=${encodeURIComponent(`${postTitle} ${postUrl}`)}`;
+		const url = `https://bsky.app/intent/compose?text=${encodeURIComponent(`${postSummary} ${postUrl}`)}`;
 		window.open(url, '_blank', 'noopener,noreferrer');
 	}
 
 	function shareOnThreads() {
-		const url = `https://www.threads.net/intent/post?text=${encodeURIComponent(`${postTitle} ${postUrl}`)}`;
+		const url = `https://www.threads.net/intent/post?text=${encodeURIComponent(`${postSummary} ${postUrl}`)}`;
 		window.open(url, '_blank', 'noopener,noreferrer');
 	}
 
@@ -28,7 +32,7 @@
 	}
 
 	function shareOnWhatsApp() {
-		const url = `https://api.whatsapp.com/send?text=${encodeURIComponent(`${postTitle} ${postUrl}`)}`;
+		const url = `https://api.whatsapp.com/send?text=${encodeURIComponent(`${postSummary} ${postUrl}`)}`;
 		window.open(url, '_blank', 'noopener,noreferrer');
 	}
 </script>

@@ -2,7 +2,7 @@ import type { RequestHandler } from '@sveltejs/kit';
 import { json } from '@sveltejs/kit';
 import { addComment } from '$lib/graphql/api';
 
-const ALLOWED_ORIGIN = 'https://www.readingweather.co.uk';
+const ALLOWED_ORIGINS = ['https://www.readingweather.co.uk', 'https://readingweather.co.uk'];
 
 export const POST: RequestHandler = async ({ request }) => {
 	// CSRF: reject requests whose Origin doesn't match the app's own origin.
@@ -10,7 +10,7 @@ export const POST: RequestHandler = async ({ request }) => {
 	const host = request.headers.get('host') ?? '';
 	const isLocalDev = host.startsWith('localhost') || host.startsWith('127.0.0.1');
 
-	if (!isLocalDev && origin !== ALLOWED_ORIGIN) {
+	if (!isLocalDev && !ALLOWED_ORIGINS.includes(origin)) {
 		return json({ message: 'Forbidden' }, { status: 403 });
 	}
 

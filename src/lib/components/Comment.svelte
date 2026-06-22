@@ -8,11 +8,11 @@ import { get } from 'svelte/store';
 	import AddComment from './AddComment.svelte';
 	import Comment from './Comment.svelte';
 
-	interface Props {
+	type Props = {
 		comment: ThreadedComment;
 		postId: string;
 		replyForms: Writable<Record<string, boolean>>;
-	}
+	};
 
 	const { comment, postId, replyForms }: Props = $props();
 
@@ -51,7 +51,7 @@ import { get } from 'svelte/store';
 
 	const toggleReplyForm = (commentId: string): void => {
 		replyForms.update((currentForms) => ({
-			[commentId]: !currentForms[commentId]
+			[commentId]: !(currentForms[commentId] ?? false)
 		}));
 		showAddComment.set(!get(replyForms)[commentId]);
 	};
@@ -71,7 +71,7 @@ import { get } from 'svelte/store';
 		</ul>
 	{/if}
 
-	<button class="reply-button" onclick={() => toggleReplyForm(comment?.id)}>Reply</button>
+	<button class="reply-button" onclick={() => toggleReplyForm(comment?.id)} aria-label="Reply to {comment?.author.node.name}">Reply</button>
 
 	{#if $replyForms[comment?.id]}
 		<AddComment {postId} parentCommentId={comment.id} />

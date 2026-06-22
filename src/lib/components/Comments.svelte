@@ -3,14 +3,14 @@
 	import type { ThreadedComment } from '$lib/types';
 	import Comment from './Comment.svelte';
 
-	interface Props {
+	type Props = {
 		threadedComments: ThreadedComment[];
 		postId: string;
-	}
+	};
 
 	const { threadedComments, postId }: Props = $props();
 
-	const replyForms = writable<{ [key: string]: boolean }>({});
+	const replyForms = writable<Record<string, boolean>>({});
 </script>
 
 <section id="comments" class="comments-block">

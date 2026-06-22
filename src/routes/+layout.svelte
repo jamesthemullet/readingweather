@@ -63,18 +63,14 @@
 <footer>
 	<article class="post">
 		<h2>Be notified of new posts by e-mail</h2>
-		<p>
-			Please note that this feature is experimental - if you sign up you may also receive multiple
-			test messages until I'm satisfied it is working!
-		</p>
-		<form id="subscribe-form" onsubmit={handleSubmit}>
+<form id="subscribe-form" onsubmit={handleSubmit}>
 			<label for="subscribe-name">
 				Name:
-				<input id="subscribe-name" autocomplete="name" type="text" bind:value={name} required />
+				<input id="subscribe-name" autocomplete="name" type="text" bind:value={name} required aria-required="true" />
 			</label>
 			<label for="subscribe-email">
 				Email:
-				<input id="subscribe-email" autocomplete="email" type="email" bind:value={email} required />
+				<input id="subscribe-email" autocomplete="email" type="email" bind:value={email} required aria-required="true" />
 			</label>
 			<button type="submit">Subscribe</button>
 		</form>

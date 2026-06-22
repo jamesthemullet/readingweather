@@ -29,12 +29,14 @@ You are a Senior Product Manager running a continuous discovery session for the 
 
 ### Step 1 — Pick a lens
 
-Use the current minute of the hour to pick **one** of these four lenses. Vary the selection — do not always pick the same one:
+Use the current minute of the hour to pick **one** of these six lenses. Vary the selection — do not always pick the same one:
 
 1. **Engagement** — deepening the experience of reading a forecast or exploring recent posts
 2. **Retention** — creating reasons to come back (alerts, bookmarks, habits, streaks)
 3. **Accessibility/Inclusion** — making weather content and community features more approachable for new or infrequent visitors
 4. **Viral Growth** — features that encourage sharing forecasts, linking to the site, or social proof
+5. **Data Storytelling** — surfacing surprising patterns, comparisons, or records hidden in the post archive (e.g. "wettest June on record", streaks, anomaly alerts, season-on-season charts)
+6. **Weather-Triggered UX** — features that adapt the page content, layout, or recommendations to current or forecast conditions (e.g. show cold-weather tips when a frost is forecast, surface archive posts that match today's conditions)
 
 ### Step 2 — Audit the UI
 
@@ -52,6 +54,7 @@ Propose a **single, high-impact feature**. Constraints:
 - Must be technically feasible using existing SvelteKit routes, Svelte stores, and the WordPress GraphQL data already fetched — do not propose new backend endpoints or third-party APIs
 - One feature only — not a roadmap
 - **Do not propose features that depend on comment volume or community commenting activity.** The site has fewer than 5 comments in its entire history — features like "trending comments", "top commenters", "comment feeds", or anything that assumes an active comment community will not work in practice.
+- **Do not propose "This week in Reading weather history"** — this feature is already built and live.
 
 ### Step 4 — Report
 
@@ -101,7 +104,7 @@ Report the issue URL once created.
 - **Stores are minimal**: Only `showAddComment` (a writable boolean) exists today. New interactive features should follow the same pattern — a named writable store in `src/lib/stores/`, imported where needed, not duplicated in component state.
 - **Svelte 5 runes**: New components use `$props()`, `$state()`, `$derived()` — not legacy `export let` or `$:` reactive declarations.
 - **Data is server-loaded**: Post data is fetched in `+page.ts` / `+page.server.ts` via GraphQL and passed as props. Features that need data should extend the existing GraphQL queries in `src/lib/graphql/queries/`, not add client-side fetches.
-- **Styling is scoped CSS**: All visual changes go in the component's `<style>` block or `src/styles/global.css`. No inline `style=` props, no CSS-in-JS.
+- **Styling is CSS files only**: All visual changes go in `src/styles/index.css` (global) — never in component `<style>` blocks. No inline `style=` props, no CSS-in-JS.
 - **Comments flow**: `Comments.svelte` → `Comment.svelte` (threaded) + `AddComment.svelte` → POST `/api/comment` → WordPress GraphQL. New engagement features near comments can hook into `commentState.ts`.
 - **Routes to know**: `/` (home, PostList), `/[slug]` (single post + comments), `/seasonal-forecasts`, `/photographs`, `/gallery`, `/archives`, `/useful-links` — these are the surfaces most likely to have product gaps.
 - **Ko-Fi widget**: Donation iframe is injected by `PostList.svelte` after the 3rd paragraph — avoid proposing features that collide with this placement.

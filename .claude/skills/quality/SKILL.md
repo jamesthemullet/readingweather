@@ -42,7 +42,13 @@ Read the relevant source files in `src/lib/components/`, `src/routes/`, `src/lib
 
 Make the fix. Keep scope tight — one issue, one or two files. Do not refactor beyond what is needed to address the specific finding.
 
-### Step 4 — Report
+### Step 4 — Commit and open a PR
+
+1. Create a new branch named `chore/quality-<short-slug>` where `<short-slug>` is 2–4 kebab-case words describing the fix (e.g. `chore/quality-inline-styles-add-comment`).
+2. Stage only the files changed by the fix and commit with a message that describes the improvement (follow the existing commit style in the repo).
+3. Push the branch and open a pull request against `main` using `gh pr create`. The PR title should be concise (under 60 chars). The body should briefly state the category, the issue found, and what was changed.
+
+### Step 5 — Report
 
 Output exactly this structure:
 
@@ -53,6 +59,7 @@ Output exactly this structure:
 **File:** <path:line>
 **Issue:** <one sentence describing the problem>
 **Fix:** <what was changed and why>
+**PR:** <URL returned by gh pr create>
 **Next suggestion:** <the next candidate worth tackling in this category, with file path>
 ```
 

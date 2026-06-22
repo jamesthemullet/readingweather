@@ -1,5 +1,6 @@
 <script lang="ts">
 	import '../../styles/index.css';
+	import { goto } from '$app/navigation';
 	import type { PageProps } from './$types';
 
 	const { data }: PageProps = $props();
@@ -8,7 +9,7 @@
 		const selected = event.currentTarget.value;
 		if (!selected) return;
 		const [year, month] = selected.split('-');
-		window.location.href = `archives/?year=${year}&month=${month}`;
+		goto(`/archives?year=${year}&month=${month}`);
 	};
 
 	const getMonthName = (month: number): string => {
@@ -35,6 +36,7 @@
 	<meta name="description" content="Browse the archives of weather forecasts for Reading and Berkshire, searchable by month and year." />
 	<meta property="og:title" content="Weather Forecast Archives – Reading Weather" />
 	<meta property="og:description" content="Browse the archives of weather forecasts for Reading and Berkshire, searchable by month and year." />
+	<meta property="og:image" content="https://www.readingweather.co.uk/images/weather.png" />
 	<meta property="og:type" content="website" />
 	<meta property="og:url" content="https://www.readingweather.co.uk/archives" />
 </svelte:head>
