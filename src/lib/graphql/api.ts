@@ -15,6 +15,11 @@ export async function fetchGraphQL<T = Record<string, unknown>>(
 		body: JSON.stringify({ query, variables })
 	});
 
+	const contentType = response.headers.get('content-type') ?? '';
+	if (!contentType.includes('application/json')) {
+		throw new Error(`GraphQL endpoint returned non-JSON response (${response.status})`);
+	}
+
 	const json = (await response.json()) as GraphQLResponse<T>;
 
 	if (!response.ok || json.errors) {
