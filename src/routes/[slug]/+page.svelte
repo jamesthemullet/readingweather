@@ -3,6 +3,7 @@
 	import AddComment from '$lib/components/AddComment.svelte';
 	import Comments from '$lib/components/Comments.svelte';
 	import ShareButton from '$lib/components/ShareButton.svelte';
+	import { injectKofiWidget } from '$lib/kofi';
 	import { sanitize } from '$lib/sanitize';
 	import { showAddComment } from '$lib/stores/commentState';
 	import type { GqlComment, ThreadedComment } from '$lib/types';
@@ -81,12 +82,7 @@
 	const firstSentenceMatch = firstParagraphText.match(/^.*?[.!?]/);
 	const postSummary = firstSentenceMatch ? firstSentenceMatch[0].trim() : firstParagraphText;
 
-	const iframeHTML = `<iframe id='kofiframe' src='https://ko-fi.com/wffrb/?hidefeed=true&widget=true&embed=true&preview=true' style='border:none;width:100%;padding:4px;background:#f9f9f9;' height='612' title='Support Reading Weather on Ko-fi'></iframe>`;
-	if (paragraphs.length > 2) {
-		paragraphs.splice(-3, 0, iframeHTML);
-	}
-
-	const modifiedContent = paragraphs.map((p) => `<p>${p}</p>`).join('');
+	const modifiedContent = injectKofiWidget(data.post.content);
 
 	const hoursOld = $derived((new Date().getTime() - new Date(data.post.date).getTime()) / 36e5);
 	const daysOld = $derived(Math.floor(hoursOld / 24));
