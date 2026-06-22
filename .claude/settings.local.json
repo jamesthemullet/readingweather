@@ -32,7 +32,9 @@
       "Bash(Select-String -Pattern \"vercel|netlify|fly|railway|render\")",
       "Bash(gh issue *)",
       "Bash(yarn svelte-check *)",
-      "Bash(yarn test *)"
+      "Bash(yarn test *)",
+      "Bash(yarn lint *)",
+      "Bash(yarn biome *)"
     ]
   }
 }

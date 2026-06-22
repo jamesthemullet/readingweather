@@ -2,17 +2,21 @@
 	import { onMount } from 'svelte';
 	import type { DailyWeather } from '$lib/api/historicalWeather';
 
-	export let posts: Array<{
+	type Post = {
 		title: string;
 		slug: string;
 		date: string;
-	}>;
+	};
+
+	const { posts }: { posts: Post[] } = $props();
 
 	const currentYear = new Date().getFullYear();
-	const historicalPosts = posts.filter((post) => new Date(post.date).getFullYear() < currentYear);
+	const historicalPosts = $derived(
+		posts.filter((post) => new Date(post.date).getFullYear() < currentYear)
+	);
 	const getYear = (dateString: string): string => String(new Date(dateString).getFullYear());
 
-	let historicalWeather: DailyWeather[] | null = null;
+	let historicalWeather = $state<DailyWeather[] | null>(null);
 
 	onMount(async () => {
 		const today = new Date();

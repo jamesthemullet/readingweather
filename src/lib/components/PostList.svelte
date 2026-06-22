@@ -1,7 +1,9 @@
 <script lang="ts">
-	import { sanitize } from '$lib/sanitize';
+	
+	import { injectKofiWidget } from '$lib/kofi';
+import { sanitize } from '$lib/sanitize';
 
-	export let posts: Array<{
+	type Post = {
 		slug: string;
 		title: string;
 		content: string;
@@ -15,20 +17,9 @@
 				};
 			};
 		};
-	}>;
-
-	export let preview = false;
-
-	const modifyContent = (content: string): string => {
-		const paragraphs = content.split(/<\/?p>/).filter((p) => p.trim() !== '');
-
-		const iframeHTML = `<iframe id='kofiframe' src='https://ko-fi.com/wffrb/?hidefeed=true&widget=true&embed=true&preview=true' style='border:none;width:100%;padding:4px;background:#f9f9f9;' height='612' title='Support Reading Weather on Ko-fi'></iframe>`;
-		if (paragraphs.length > 2) {
-			paragraphs.splice(-3, 0, iframeHTML);
-		}
-
-		return paragraphs.map((p) => `<p>${p}</p>`).join('');
 	};
+
+	const { posts, preview = false }: { posts: Post[]; preview?: boolean } = $props();
 
 	const firstParagraph = (content: string): string => {
 		const first = content.split(/<\/?p>/).find((p) => p.trim() !== '');
@@ -54,11 +45,11 @@
 					{/if}
 					<h2>{post.title}</h2>
 				</a>
-				{#if preview}
+			{#if preview}
 					<div class="content">{@html sanitize(firstParagraph(post.content))}</div>
 					<a href="/{post.slug}" class="read-more">Read full forecast</a>
 				{:else}
-					<div class="content">{@html sanitize(modifyContent(post.content))}</div>
+					<div class="content">{@html sanitize(injectKofiWidget(post.content))}</div>
 					<div class="comment-link">
 						<a href="/{post.slug}#comments" aria-label="View or add a comment on {post.title}">View or add a comment</a>
 					</div>
