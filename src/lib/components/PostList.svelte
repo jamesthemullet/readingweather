@@ -19,9 +19,7 @@ import { sanitize } from '$lib/sanitize';
 		};
 	};
 
-	const { posts }: { posts: Post[] } = $props();
-
-	export let preview = false;
+	const { posts, preview = false }: { posts: Post[]; preview?: boolean } = $props();
 
 	const firstParagraph = (content: string): string => {
 		const first = content.split(/<\/?p>/).find((p) => p.trim() !== '');
