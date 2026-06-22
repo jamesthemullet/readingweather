@@ -52,13 +52,15 @@ describe('hooks handle', () => {
 		);
 	});
 
-	it('does not set a cache-control header for non-cached paths such as post slugs', async () => {
+	it('sets a short-lived cache-control for post slug pages', async () => {
 		const response = await handle({
 			event: makeEvent('/sunny-reading-june') as Parameters<typeof handle>[0]['event'],
 			resolve: makeResolve()
 		});
 
-		expect(response.headers.get('cache-control')).toBeNull();
+		expect(response.headers.get('cache-control')).toBe(
+			'public, max-age=300, stale-while-revalidate=60'
+		);
 	});
 
 	it('sets X-Content-Type-Options: nosniff on all responses', async () => {

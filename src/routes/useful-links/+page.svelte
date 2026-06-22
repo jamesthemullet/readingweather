@@ -6,7 +6,7 @@
 
 	import '../../styles/index.css';
 
-	const sanitizedContent = sanitize(data.page.content);
+	const sanitizedContent = $derived(sanitize(data.page.content));
 </script>
 
 <svelte:head>

@@ -3,7 +3,7 @@
 	import { injectKofiWidget } from '$lib/kofi';
 import { sanitize } from '$lib/sanitize';
 
-	export let posts: Array<{
+	type Post = {
 		slug: string;
 		title: string;
 		content: string;
@@ -17,9 +17,9 @@ import { sanitize } from '$lib/sanitize';
 				};
 			};
 		};
-	}>;
+	};
 
-	export let preview = false;
+	const { posts, preview = false }: { posts: Post[]; preview?: boolean } = $props();
 
 	const firstParagraph = (content: string): string => {
 		const first = content.split(/<\/?p>/).find((p) => p.trim() !== '');
