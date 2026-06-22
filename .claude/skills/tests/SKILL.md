@@ -91,11 +91,14 @@ E2E tests (Playwright):
 
 1. Read the existing test files and the source files for the area you plan to test.
 2. Pick the single most valuable addition based on the decision framework above.
-3. Write the test — one focused file or one new `describe` block added to an existing file.
-4. Run the relevant test suite to confirm the test passes:
-   - Unit: `npm run test:unit -- --run`
-   - E2E: `npm run test:e2e` (note: requires a full build, takes a few minutes)
-5. If the test fails for a fixable reason (wrong import path, test setup needed), fix it and re-run.
-6. Report what you added and why you chose it over the alternatives.
+3. Create a new branch: `git checkout -b chore/tests-$(date +%Y-%m-%d)`
+4. Write the test — one focused file or one new `describe` block added to an existing file.
+5. Run the relevant test suite to confirm the test passes:
+   - Unit: `yarn test:unit --run`
+   - E2E: `yarn test:e2e` (note: requires a full build, takes a few minutes)
+6. If the test fails for a fixable reason (wrong import path, test setup needed), fix it and re-run.
+7. Commit the test file: `git add <file> && git commit -m "test: <description>"`
+8. Open a PR: `gh pr create --title "test: <description>" --body "..."`
+9. Report what you added, why you chose it over the alternatives, and link the PR.
 
 **If no improvement is justifiable** (all meaningful areas are already covered, or the only additions would be trivial or redundant), report that clearly with reasoning — do not add tests for the sake of it.

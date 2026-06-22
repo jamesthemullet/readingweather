@@ -63,6 +63,25 @@
 		}
 	};
 
+	const paragraphs = data.post.content.split(/<\/?p>/).filter((p) => p.trim() !== '');
+
+	const decodeHtmlEntities = (str: string) =>
+		str
+			.replace(/&#(\d+);/g, (_, code) => String.fromCharCode(Number(code)))
+			.replace(/&#x([0-9a-f]+);/gi, (_, hex) => String.fromCharCode(Number.parseInt(hex, 16)))
+			.replace(/&amp;/g, '&')
+			.replace(/&lt;/g, '<')
+			.replace(/&gt;/g, '>')
+			.replace(/&quot;/g, '"')
+			.replace(/&apos;/g, "'")
+			.replace(/&nbsp;/g, ' ');
+
+	const firstParagraphText = decodeHtmlEntities(
+		(paragraphs[0] ?? '').replace(/<[^>]*>/g, '').trim()
+	);
+	const firstSentenceMatch = firstParagraphText.match(/^.*?[.!?]/);
+	const postSummary = firstSentenceMatch ? firstSentenceMatch[0].trim() : firstParagraphText;
+
 	const modifiedContent = injectKofiWidget(data.post.content);
 
 	const hoursOld = $derived((new Date().getTime() - new Date(data.post.date).getTime()) / 36e5);
@@ -101,7 +120,7 @@
 			src={data.post.featuredImage.node.sourceUrl}
 			srcset={data.post.featuredImage.node.srcSet}
 			sizes="(min-width: 768px) 700px, 100vw"
-			alt={data.post.title}
+			alt=""
 			width={data.post.featuredImage.node.mediaDetails?.width ?? undefined}
 			height={data.post.featuredImage.node.mediaDetails?.height ?? undefined}
 			loading="lazy"
@@ -109,10 +128,17 @@
 	{/if}
 	<div class="content">{@html sanitize(modifiedContent)}</div>
 
-	<ShareButton {postUrl} {postTitle} />
+	<ShareButton {postUrl} {postTitle} {postSummary} />
 
 	<Comments {threadedComments} {postId} />
 	{#if $showAddComment}
 		<AddComment {postId} />
 	{/if}
 </article>
+
+{#if data.latestSeasonalPost}
+	<section class="latest-seasonal">
+		<h2>Latest Seasonal Forecast</h2>
+		<a href="/{data.latestSeasonalPost.slug}">{data.latestSeasonalPost.title}</a>
+	</section>
+{/if}

@@ -8,6 +8,10 @@ const GET_POSTS_FOR_GALLERY = `
         featuredImage {
           node {
             sourceUrl
+            mediaDetails {
+              width
+              height
+            }
           }
         }
       }

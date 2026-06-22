@@ -1,10 +1,10 @@
-const ALL_POSTS_QUERY = `
-  query AllPosts {
-    posts(first: 2) {
+const GET_LATEST_SEASONAL_POST_QUERY = `
+  query GetLatestSeasonalPost {
+    posts(first: 1, where: { categoryName: "seasonal" }) {
       nodes {
-        date
         slug
         title
+        date
         featuredImage {
           node {
             sourceUrl(size: MEDIUM_LARGE)
@@ -15,10 +15,9 @@ const ALL_POSTS_QUERY = `
             }
           }
         }
-        content
       }
     }
   }
 `;
 
-export default ALL_POSTS_QUERY;
+export default GET_LATEST_SEASONAL_POST_QUERY;
