@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { generateSitemapXml } from './sitemap';
 import type { SitemapNode, StaticRoute } from './sitemap';
+import { generateSitemapXml } from './sitemap';
 
 const BASE = 'https://readingweather.co.uk';
 
