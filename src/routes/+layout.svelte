@@ -15,7 +15,7 @@
 	let email = $state('');
 	let responseMessage = $state('');
 
-	const handleSubmit = async (e: Event) => {
+	const handleSubmit = async (e: Event): Promise<void> => {
 		e.preventDefault();
 
 		try {
@@ -27,8 +27,8 @@
 				body: JSON.stringify({ name, email })
 			});
 
-			const data = await res.json();
-			responseMessage = data.message;
+			const data = (await res.json()) as { message?: string };
+			responseMessage = data.message ?? '';
 		} catch {
 			responseMessage = 'Something went wrong.';
 		}

@@ -1,6 +1,18 @@
 const READING_LAT = 51.4543;
 const READING_LON = -0.9781;
 
+type OpenMeteoArchiveResponse = {
+	daily: {
+		temperature_2m_max: number[];
+		temperature_2m_min: number[];
+		precipitation_sum: number[];
+		wind_speed_10m_max: number[];
+	};
+	hourly: {
+		weather_code: number[];
+	};
+};
+
 const WMO_LABELS: Record<number, string> = {
 	0: 'clear sky',
 	1: 'mainly clear',
@@ -32,7 +44,8 @@ const WMO_LABELS: Record<number, string> = {
 function dominantCode(codes: number[]): number {
 	const freq: Record<number, number> = {};
 	for (const c of codes) freq[c] = (freq[c] ?? 0) + 1;
-	return Number(Object.entries(freq).sort((a, b) => b[1] - a[1])[0][0]);
+	const top = Object.entries(freq).sort((a, b) => b[1] - a[1])[0];
+	return top ? Number(top[0]) : 0;
 }
 
 export type WeatherConditions = {
@@ -64,7 +77,7 @@ async function fetchOneDay(dateStr: string): Promise<DailyWeather> {
 	const response = await fetch(`https://archive-api.open-meteo.com/v1/archive?${params}`);
 	if (!response.ok) throw new Error(`Open-Meteo error: ${response.status}`);
 
-	const data = await response.json();
+	const data = (await response.json()) as OpenMeteoArchiveResponse;
 	const { temperature_2m_max, temperature_2m_min, precipitation_sum, wind_speed_10m_max } =
 		data.daily;
 

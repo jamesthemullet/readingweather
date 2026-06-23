@@ -24,7 +24,7 @@
 			const res = await fetch(
 				`/api/historical-weather?month=${today.getMonth() + 1}&day=${today.getDate()}`
 			);
-			if (res.ok) historicalWeather = await res.json();
+			if (res.ok) historicalWeather = (await res.json()) as DailyWeather[];
 		} catch {
 			// silently fail — weather data is supplementary
 		}
