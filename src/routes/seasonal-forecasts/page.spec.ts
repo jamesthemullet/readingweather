@@ -24,7 +24,7 @@ describe('seasonal-forecasts page load', () => {
 		const mockResponse: SeasonalPostsResponse = { posts: { nodes: [mockPost] } };
 		vi.mocked(fetchGraphQL).mockResolvedValueOnce(mockResponse);
 
-		const result = (await load({} as Parameters<typeof load>[0])) as LoadResult;
+		const result = await load({} as Parameters<typeof load>[0]) as LoadResult;
 
 		expect(result.posts).toEqual(mockResponse);
 	});
