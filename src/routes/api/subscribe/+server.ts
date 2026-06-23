@@ -38,7 +38,7 @@ export const POST: RequestHandler = async ({ request }) => {
 			body: JSON.stringify({ name, email })
 		});
 
-		const data = await res.json();
+		const data = (await res.json()) as { message?: string };
 		return json({ message: data.message ?? 'Subscribed successfully' }, { status: res.status });
 	} catch {
 		return json({ message: 'Something went wrong. Please try again.' }, { status: 502 });

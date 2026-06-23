@@ -10,8 +10,8 @@ export const load: PageLoad = async () => {
 	const month = today.getMonth() + 1;
 	const day = today.getDate();
 
-	const [posts, latestSeasonalPost, onThisDay] = await Promise.all([
-		fetchGraphQL<AllPostsResponse>(ALL_POSTS_QUERY),
+	const [postsResult, latestSeasonalPost, onThisDay] = await Promise.all([
+		fetchGraphQL<AllPostsResponse>(ALL_POSTS_QUERY).catch(() => null),
 		fetchGraphQL<LatestSeasonalPostResponse>(GET_LATEST_SEASONAL_POST_QUERY).catch(() => null),
 		fetchGraphQL<OnThisDayResponse>(GET_POSTS_ON_THIS_DAY, { month, day }).catch(() => null)
 	]);
@@ -21,6 +21,8 @@ export const load: PageLoad = async () => {
 		description:
 			'Your local, human-written weather forecast – especially for people in Reading and the surrounding areas'
 	};
+
+	const posts = postsResult ?? { posts: { nodes: [] } };
 
 	return { posts, latestSeasonalPost: latestSeasonalPost?.posts?.nodes?.[0] ?? null, onThisDay, meta };
 };
