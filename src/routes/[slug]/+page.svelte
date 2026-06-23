@@ -68,7 +68,7 @@
 
 	const paragraphs = data.post.content.split(/<\/?p>/).filter((p) => p.trim() !== '');
 
-	const decodeHtmlEntities = (str: string) =>
+	const decodeHtmlEntities = (str: string): string =>
 		str
 			.replace(/&#(\d+);/g, (_, code) => String.fromCharCode(Number(code)))
 			.replace(/&#x([0-9a-f]+);/gi, (_, hex) => String.fromCharCode(Number.parseInt(hex, 16)))

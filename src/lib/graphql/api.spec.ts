@@ -2,11 +2,14 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { addComment, fetchGraphQL } from './api';
 
 describe('fetchGraphQL', () => {
+	const jsonHeaders = { get: (key: string) => (key === 'content-type' ? 'application/json' : null) };
+
 	beforeEach(() => {
 		vi.stubGlobal(
 			'fetch',
 			vi.fn().mockResolvedValue({
 				ok: true,
+				headers: jsonHeaders,
 				json: async () => ({ data: { posts: { nodes: [] } } })
 			})
 		);
@@ -22,6 +25,7 @@ describe('fetchGraphQL', () => {
 			'fetch',
 			vi.fn().mockResolvedValue({
 				ok: true,
+				headers: jsonHeaders,
 				json: async () => ({ data: expected })
 			})
 		);
@@ -36,6 +40,7 @@ describe('fetchGraphQL', () => {
 			'fetch',
 			vi.fn().mockResolvedValue({
 				ok: false,
+				headers: jsonHeaders,
 				json: async () => ({ errors: [{ message: 'Server error' }] })
 			})
 		);
@@ -50,6 +55,7 @@ describe('fetchGraphQL', () => {
 			'fetch',
 			vi.fn().mockResolvedValue({
 				ok: true,
+				headers: jsonHeaders,
 				json: async () => ({ errors: [{ message: 'Field not found' }], data: null })
 			})
 		);
@@ -59,6 +65,8 @@ describe('fetchGraphQL', () => {
 });
 
 describe('addComment', () => {
+	const jsonHeaders = { get: (key: string) => (key === 'content-type' ? 'application/json' : null) };
+
 	afterEach(() => {
 		vi.unstubAllGlobals();
 	});
@@ -68,6 +76,7 @@ describe('addComment', () => {
 			'fetch',
 			vi.fn().mockResolvedValue({
 				ok: true,
+				headers: jsonHeaders,
 				json: async () => ({ data: { createComment: { success: true } } })
 			})
 		);
@@ -82,6 +91,7 @@ describe('addComment', () => {
 			'fetch',
 			vi.fn().mockResolvedValue({
 				ok: true,
+				headers: jsonHeaders,
 				json: async () => ({ data: { createComment: null } })
 			})
 		);
