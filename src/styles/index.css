@@ -112,6 +112,7 @@ main {
 	text-align: center;
 	background: var(--white);
 
+	/* biome-ignore lint/style/noDescendingSpecificity: standalone block, not nested under .post */
 	h2 {
 		margin: 0 0 0.75rem;
 	}

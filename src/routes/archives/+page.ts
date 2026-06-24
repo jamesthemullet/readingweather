@@ -1,6 +1,6 @@
 import { fetchGraphQL } from '../../lib/graphql/api';
 import GET_POSTS_BY_DATE from '../../lib/graphql/queries/getPostsByDate';
-import type { PageLoad } from '../$types';
+import type { PageLoad } from './$types';
 
 type ArchiveEntry = { year: number; month: number };
 type ArchivePost = { title: string; slug: string; date: string };
