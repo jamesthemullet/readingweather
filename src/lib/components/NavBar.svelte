@@ -9,15 +9,14 @@
 		{ href: '/about', label: 'About' },
 		{ href: '/archives', label: 'Archives' }
 	];
-	// biome-ignore lint/style/useConst: needed for Svelte reactivity ok
-	let isOpen = false;
+	let isOpen = $state(false);
 </script>
 
 <nav class="navbar">
 	<a href="/" class="home-button">Home </a>
 	<button
 		class="menu-button"
-		on:click={() => (isOpen = !isOpen)}
+		onclick={() => (isOpen = !isOpen)}
 		aria-label={isOpen ? 'Close navigation menu' : 'Open navigation menu'}
 		aria-expanded={isOpen}
 		aria-controls="nav-menu"
@@ -38,7 +37,7 @@
 			<li class:active={$page.url.pathname === link.href}>
 				<a
 					href={link.href}
-					on:click={() => (isOpen = false)}
+					onclick={() => (isOpen = false)}
 					aria-current={$page.url.pathname === link.href ? 'page' : undefined}>{link.label}</a
 				>
 			</li>

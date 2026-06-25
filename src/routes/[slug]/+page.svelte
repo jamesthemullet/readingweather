@@ -87,7 +87,7 @@
 
 	const modifiedContent = injectKofiWidget(data.post.content);
 
-	const hoursOld = $derived((new Date().getTime() - new Date(data.post.date).getTime()) / 36e5);
+	const hoursOld = $derived((Date.now() - new Date(data.post.date).getTime()) / 36e5);
 	const daysOld = $derived(Math.floor(hoursOld / 24));
 	const isStale = $derived(!data.isLatest && hoursOld > 24);
 </script>

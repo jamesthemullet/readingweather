@@ -248,8 +248,8 @@
 													ctx.clearRect(0, 0, CANVAS_W, CANVAS_H);
 													ctx.drawImage(currentImage, panX, panY, drawW, drawH);
 
-													const size = Number.parseInt(fontSizeSlider.value);
-													const yPct = Number.parseInt(textYSlider.value) / 100;
+													const size = Number.parseInt(fontSizeSlider.value, 10);
+													const yPct = Number.parseInt(textYSlider.value, 10) / 100;
 													const color = colorPicker.value;
 
 													ctx.font = `${size}px ${fontLoaded ? 'Caveat' : 'cursive'}`;
@@ -355,7 +355,7 @@
 													e.preventDefault();
 													dropZone.classList.remove('drag-over');
 													const file = e.dataTransfer.files[0];
-													if (file && file.type.startsWith('image/')) loadImage(file);
+													if (file?.type.startsWith('image/')) loadImage(file);
 												});
 
 												// Download
