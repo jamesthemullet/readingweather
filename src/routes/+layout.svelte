@@ -9,9 +9,7 @@
 
 	const { children }: { children: Snippet } = $props();
 
-	// biome-ignore lint/style/useConst: <cannot bind to a const>
 	let name = $state('');
-	// biome-ignore lint/style/useConst: <cannot bind to a const>
 	let email = $state('');
 	let responseMessage = $state('');
 

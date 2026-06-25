@@ -39,6 +39,9 @@
 	<meta property="og:image" content="https://www.readingweather.co.uk/images/weather.png" />
 	<meta property="og:type" content="website" />
 	<meta property="og:url" content="https://www.readingweather.co.uk/archives" />
+	<meta name="twitter:title" content="Weather Forecast Archives – Reading Weather" />
+	<meta name="twitter:description" content="Browse the archives of weather forecasts for Reading and Berkshire, searchable by month and year." />
+	<meta name="twitter:image" content="https://www.readingweather.co.uk/images/weather.png" />
 </svelte:head>
 
 <h1>Weather Forecast Archives</h1>

@@ -89,7 +89,7 @@ async function fetchOneDay(dateStr: string): Promise<DailyWeather> {
 	};
 
 	return {
-		year: Number.parseInt(dateStr.slice(0, 4)),
+		year: Number.parseInt(dateStr.slice(0, 4), 10),
 		tempMax: Math.round(temperature_2m_max[0] * 10) / 10,
 		tempMin: Math.round(temperature_2m_min[0] * 10) / 10,
 		precipitation: Math.round(precipitation_sum[0] * 10) / 10,
