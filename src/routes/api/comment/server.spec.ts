@@ -35,7 +35,7 @@ describe('POST /api/comment', () => {
 	it('returns 400 for an unparseable JSON body', async () => {
 		const request = new Request('http://localhost/api/comment', {
 			method: 'POST',
-			headers: { 'Content-Type': 'application/json', origin: ALLOWED_ORIGIN },
+			headers: { 'Content-Type': 'application/json', origin: ALLOWED_ORIGINS[0] },
 			body: 'not-json'
 		});
 		const response = await POST({ request } as Parameters<typeof POST>[0]);
