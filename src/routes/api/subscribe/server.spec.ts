@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { POST } from './+server';
 import { ALLOWED_ORIGINS } from '$lib/server/config';
+import { POST } from './+server';
 
 function makeRequest(body: unknown, headerOverrides: Record<string, string> = {}) {
 	return new Request('http://localhost/api/subscribe', {

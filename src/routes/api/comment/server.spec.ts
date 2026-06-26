@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
-import { POST } from './+server';
 import { ALLOWED_ORIGINS } from '$lib/server/config';
+import { POST } from './+server';
 
 vi.mock('$lib/graphql/api', () => ({
 	addComment: vi.fn().mockResolvedValue({ success: true })

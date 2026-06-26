@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { page } from '$app/stores';
+
 
 	const links = [
 		{ href: '/seasonal-forecasts', label: 'Seasonal Forecasts' },

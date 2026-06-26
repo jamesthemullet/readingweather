@@ -1,6 +1,7 @@
 import type { RequestHandler } from '@sveltejs/kit';
 import { json } from '@sveltejs/kit';
 import { ALLOWED_ORIGINS } from '$lib/server/config';
+
 const SUBSCRIBE_URL = 'https://blog.readingweather.co.uk/wp-json/custom/v1/subscribe';
 
 export const POST: RequestHandler = async ({ request }) => {
