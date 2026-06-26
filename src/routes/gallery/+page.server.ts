@@ -6,18 +6,23 @@ import type { PageServerLoad } from './$types';
 const START_YEAR = 2020;
 const CACHE_TTL_MS = 60 * 60 * 1000; // 1 hour
 
+type MediaDetails = {
+	width?: number;
+	height?: number;
+};
+
 type GalleryPost = {
 	title: string;
 	slug: string;
 	date: string;
-	featuredImage?: { node?: { sourceUrl: string } };
+	featuredImage?: { node?: { sourceUrl: string; mediaDetails?: MediaDetails } };
 };
 
 type GalleryPostFiltered = {
 	title: string;
 	slug: string;
 	date: string;
-	featuredImage: { node: { sourceUrl: string } };
+	featuredImage: { node: { sourceUrl: string; mediaDetails?: MediaDetails } };
 };
 
 export type GalleryPostWithImage = GalleryPostFiltered & { name: string };

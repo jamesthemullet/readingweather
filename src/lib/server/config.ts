@@ -1,1 +1,1 @@
-export const ALLOWED_ORIGIN = 'https://www.readingweather.co.uk';
+export const ALLOWED_ORIGINS = ['https://www.readingweather.co.uk', 'https://readingweather.co.uk'];

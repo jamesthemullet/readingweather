@@ -1,10 +1,5 @@
 const GET_POST_BY_SLUG = `
   query GetPostBySlug($slug: String!) {
-    posts(first: 1) {
-      nodes {
-        slug
-      }
-    }
     postBy(slug: $slug) {
       id
       title

@@ -1,4 +1,5 @@
 import { describe, expect, it, vi } from 'vitest';
+import type { GqlPageNode } from '$lib/types';
 import { load } from './+page';
 
 vi.mock('$lib/graphql/api', () => ({
@@ -6,6 +7,8 @@ vi.mock('$lib/graphql/api', () => ({
 }));
 
 import { fetchGraphQL } from '$lib/graphql/api';
+
+type PhotographsLoadResult = { page: GqlPageNode };
 
 const mockPage = {
 	title: 'Photographs',
@@ -18,7 +21,7 @@ describe('photographs page load', () => {
 	it('returns page data when the WordPress page exists', async () => {
 		vi.mocked(fetchGraphQL).mockResolvedValueOnce({ page: mockPage });
 
-		const result = await load({} as Parameters<typeof load>[0]);
+		const result = (await load({} as Parameters<typeof load>[0])) as PhotographsLoadResult;
 
 		expect(result.page).toEqual(mockPage);
 	});

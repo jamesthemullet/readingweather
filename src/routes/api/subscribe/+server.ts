@@ -1,6 +1,6 @@
 import type { RequestHandler } from '@sveltejs/kit';
 import { json } from '@sveltejs/kit';
-import { ALLOWED_ORIGIN } from '$lib/server/config';
+import { ALLOWED_ORIGINS } from '$lib/server/config';
 const SUBSCRIBE_URL = 'https://blog.readingweather.co.uk/wp-json/custom/v1/subscribe';
 
 export const POST: RequestHandler = async ({ request }) => {
@@ -12,7 +12,7 @@ export const POST: RequestHandler = async ({ request }) => {
 	const host = request.headers.get('host') ?? '';
 	const isLocalDev = host.startsWith('localhost') || host.startsWith('127.0.0.1');
 
-	if (!isLocalDev && origin !== ALLOWED_ORIGIN) {
+	if (!isLocalDev && !ALLOWED_ORIGINS.includes(origin)) {
 		return json({ message: 'Forbidden' }, { status: 403 });
 	}
 
@@ -37,7 +37,7 @@ export const POST: RequestHandler = async ({ request }) => {
 			body: JSON.stringify({ name, email })
 		});
 
-		const data = await res.json();
+		const data = (await res.json()) as { message?: string };
 		return json({ message: data.message ?? 'Subscribed successfully' }, { status: res.status });
 	} catch {
 		return json({ message: 'Something went wrong. Please try again.' }, { status: 502 });

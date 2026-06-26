@@ -1,11 +1,20 @@
-import { describe, expect, it, vi } from 'vitest';
-import { load } from './+page';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+import type { GqlPostNode } from '$lib/types';
+import { load } from './+page.server';
 
 vi.mock('$lib/graphql/api', () => ({
 	fetchGraphQL: vi.fn()
 }));
 
+vi.mock('$lib/server/cache', () => ({
+	getCache: vi.fn().mockReturnValue(null),
+	setCache: vi.fn()
+}));
+
 import { fetchGraphQL } from '$lib/graphql/api';
+import { getCache } from '$lib/server/cache';
+
+type SlugLoadResult = { post: GqlPostNode; isLatest: boolean; latestSlug: string | undefined };
 
 const mockPost = {
 	id: '1',
@@ -17,13 +26,17 @@ const mockPost = {
 };
 
 describe('[slug] page load', () => {
-	it('returns post data and isLatest=true when slug matches the newest post', async () => {
-		vi.mocked(fetchGraphQL).mockResolvedValueOnce({
-			postBy: mockPost,
-			posts: { nodes: [{ slug: 'test-post' }] }
-		});
+	beforeEach(() => {
+		vi.clearAllMocks();
+		vi.mocked(getCache).mockReturnValue(null);
+	});
 
-		const result = await load({ params: { slug: 'test-post' } } as Parameters<typeof load>[0]);
+	it('returns post data and isLatest=true when slug matches the newest post', async () => {
+		vi.mocked(fetchGraphQL)
+			.mockResolvedValueOnce({ postBy: mockPost })
+			.mockResolvedValueOnce({ posts: { nodes: [{ slug: 'test-post' }] } });
+
+		const result = (await load({ params: { slug: 'test-post' } } as Parameters<typeof load>[0])) as SlugLoadResult;
 
 		expect(result.post).toEqual(mockPost);
 		expect(result.isLatest).toBe(true);
@@ -31,25 +44,36 @@ describe('[slug] page load', () => {
 	});
 
 	it('returns isLatest=false when the slug is not the newest post', async () => {
-		vi.mocked(fetchGraphQL).mockResolvedValueOnce({
-			postBy: mockPost,
-			posts: { nodes: [{ slug: 'newer-post' }] }
-		});
+		vi.mocked(fetchGraphQL)
+			.mockResolvedValueOnce({ postBy: mockPost })
+			.mockResolvedValueOnce({ posts: { nodes: [{ slug: 'newer-post' }] } });
 
-		const result = await load({ params: { slug: 'test-post' } } as Parameters<typeof load>[0]);
+		const result = (await load({ params: { slug: 'test-post' } } as Parameters<typeof load>[0])) as SlugLoadResult;
 
 		expect(result.isLatest).toBe(false);
 		expect(result.latestSlug).toBe('newer-post');
 	});
 
 	it('throws a 404 error when postBy is null', async () => {
-		vi.mocked(fetchGraphQL).mockResolvedValueOnce({
-			postBy: null,
-			posts: { nodes: [] }
-		});
+		vi.mocked(fetchGraphQL)
+			.mockResolvedValueOnce({ postBy: null })
+			.mockResolvedValueOnce({ posts: { nodes: [] } });
 
 		await expect(
 			load({ params: { slug: 'missing-post' } } as Parameters<typeof load>[0])
 		).rejects.toMatchObject({ status: 404 });
+	});
+
+	it('uses cached latest slug when available', async () => {
+		vi.mocked(getCache).mockReturnValue('cached-latest-slug');
+		vi.mocked(fetchGraphQL)
+			.mockResolvedValueOnce({ postBy: mockPost })
+			.mockResolvedValueOnce({ posts: { nodes: [] } });
+
+		const result = (await load({ params: { slug: 'test-post' } } as Parameters<typeof load>[0])) as SlugLoadResult;
+
+		expect(result.isLatest).toBe(false);
+		expect(result.latestSlug).toBe('cached-latest-slug');
+		expect(vi.mocked(fetchGraphQL)).toHaveBeenCalledTimes(2);
 	});
 });

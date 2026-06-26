@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
 import { POST } from './+server';
-import { ALLOWED_ORIGIN } from '$lib/server/config';
+import { ALLOWED_ORIGINS } from '$lib/server/config';
 
 vi.mock('$lib/graphql/api', () => ({
 	addComment: vi.fn().mockResolvedValue({ success: true })
@@ -12,7 +12,7 @@ function makeRequest(body: unknown, headerOverrides: Record<string, string> = {}
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',
-			origin: ALLOWED_ORIGIN,
+			origin: ALLOWED_ORIGINS[0],
 			...headerOverrides
 		},
 		body: JSON.stringify(body)

@@ -1,7 +1,7 @@
-interface CacheEntry<T> {
+type CacheEntry<T> = {
 	data: T;
 	expiresAt: number;
-}
+};
 
 const store = new Map<string, CacheEntry<unknown>>();
 

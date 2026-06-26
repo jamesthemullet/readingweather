@@ -11,11 +11,12 @@ import type { PageProps } from './$types';
 	<meta name="description" content={data.page.seo.description} />
 	<meta property="og:title" content={data.page.title} />
 	<meta property="og:description" content={data.page.seo.opengraphDescription || data.page.seo.description} />
-	{#if data.page.featuredImage?.node?.sourceUrl}
-		<meta property="og:image" content={data.page.featuredImage.node.sourceUrl} />
-	{/if}
-	<meta property="og:type" content="article" />
+	<meta property="og:image" content={data.page.featuredImage?.node?.sourceUrl ?? 'https://www.readingweather.co.uk/images/weather.png'} />
+	<meta property="og:type" content="website" />
 	<meta property="og:url" content={`https://www.readingweather.co.uk/${data.page.slug}`} />
+	<meta name="twitter:title" content={data.page.title} />
+	<meta name="twitter:description" content={data.page.seo.opengraphDescription || data.page.seo.description} />
+	<meta name="twitter:image" content={data.page.featuredImage?.node?.sourceUrl ?? 'https://www.readingweather.co.uk/images/weather.png'} />
 </svelte:head>
 
 {#if data.page}

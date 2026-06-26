@@ -2,10 +2,10 @@
 	import { tick } from 'svelte';
 	import { showAddComment } from '$lib/stores/commentState';
 
-	interface Props {
+	type Props = {
 		postId: string;
 		parentCommentId?: string | null;
-	}
+	};
 
 	const { postId, parentCommentId = null }: Props = $props();
 
@@ -30,7 +30,7 @@
 				body: JSON.stringify({ postId, content: commentContent, name, email, parentCommentId })
 			});
 
-			const data = await res.json();
+			const data = (await res.json()) as { success?: boolean; message?: string };
 
 			if (res.ok && data.success) {
 				successMessage = 'Thanks! Your comment has been submitted and is awaiting approval.';
