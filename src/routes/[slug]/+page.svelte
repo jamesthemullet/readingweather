@@ -66,8 +66,6 @@
 		}
 	});
 
-	const paragraphs = data.post.content.split(/<\/?p>/).filter((p) => p.trim() !== '');
-
 	const decodeHtmlEntities = (str: string): string =>
 		str
 			.replace(/&#(\d+);/g, (_, code) => String.fromCharCode(Number(code)))
@@ -79,13 +77,16 @@
 			.replace(/&apos;/g, "'")
 			.replace(/&nbsp;/g, ' ');
 
-	const firstParagraphText = decodeHtmlEntities(
-		(paragraphs[0] ?? '').replace(/<[^>]*>/g, '').trim()
-	);
-	const firstSentenceMatch = firstParagraphText.match(/^.*?[.!?]/);
-	const postSummary = firstSentenceMatch ? firstSentenceMatch[0].trim() : firstParagraphText;
+	const postSummary = $derived.by(() => {
+		const paragraphs = data.post.content.split(/<\/?p>/).filter((p) => p.trim() !== '');
+		const firstParagraphText = decodeHtmlEntities(
+			(paragraphs[0] ?? '').replace(/<[^>]*>/g, '').trim()
+		);
+		const firstSentenceMatch = firstParagraphText.match(/^.*?[.!?]/);
+		return firstSentenceMatch ? firstSentenceMatch[0].trim() : firstParagraphText;
+	});
 
-	const modifiedContent = injectKofiWidget(data.post.content);
+	const modifiedContent = $derived(injectKofiWidget(data.post.content));
 
 	const hoursOld = $derived((Date.now() - new Date(data.post.date).getTime()) / 36e5);
 	const daysOld = $derived(Math.floor(hoursOld / 24));

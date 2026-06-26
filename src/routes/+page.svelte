@@ -7,13 +7,13 @@
 	import OnThisDay from '$lib/components/OnThisDay.svelte';
 	import PostList from '$lib/components/PostList.svelte';
 
-	const jsonLd = {
+	const jsonLd = $derived({
 		'@context': 'https://schema.org',
 		'@type': 'WebSite',
 		name: 'Reading Weather',
 		description: data.meta.description,
 		url: 'https://www.readingweather.co.uk'
-	};
+	});
 </script>
 
 <svelte:head>

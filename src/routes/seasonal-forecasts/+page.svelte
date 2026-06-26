@@ -1,6 +1,6 @@
 <script lang="ts">
-
 	import type { PageProps } from './$types';
+	import PostList from '$lib/components/PostList.svelte';
 
 	const { data }: PageProps = $props();
 
