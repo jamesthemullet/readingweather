@@ -1,6 +1,11 @@
 <script lang="ts">
 	import '../../styles/index.css';
+	import AddComment from '$lib/components/AddComment.svelte';
+	import Comments from '$lib/components/Comments.svelte';
+	import ShareButton from '$lib/components/ShareButton.svelte';
 	import { injectKofiWidget } from '$lib/kofi';
+	import { sanitize } from '$lib/sanitize';
+	import { showAddComment } from '$lib/stores/commentState';
 	import type { GqlComment, ThreadedComment } from '$lib/types';
 	import type { PageProps } from '../[slug]/$types';
 

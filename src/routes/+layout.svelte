@@ -3,6 +3,9 @@
 	import '../styles/global.css';
 	import type { Snippet } from 'svelte';
 	import { onMount } from 'svelte';
+	import { page } from '$app/stores';
+	import Analytics from '$lib/analytics/analytics.svelte';
+	import NavBar from '$lib/components/NavBar.svelte';
 
 	const { children }: { children: Snippet } = $props();
 

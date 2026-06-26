@@ -1,5 +1,6 @@
 <script lang="ts">
-
+	import { injectKofiWidget } from '$lib/kofi';
+	import { sanitize } from '$lib/sanitize';
 
 	type Post = {
 		slug: string;

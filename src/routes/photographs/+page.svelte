@@ -1,6 +1,6 @@
 <script lang="ts">
-
-import type { PageProps } from './$types';
+	import { sanitize } from '$lib/sanitize';
+	import type { PageProps } from './$types';
 
 	const { data }: PageProps = $props();
 

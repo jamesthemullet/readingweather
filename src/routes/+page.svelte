@@ -4,6 +4,8 @@
 	const { data }: PageProps = $props();
 
 	import '../styles/index.css';
+	import OnThisDay from '$lib/components/OnThisDay.svelte';
+	import PostList from '$lib/components/PostList.svelte';
 
 	const jsonLd = {
 		'@context': 'https://schema.org',

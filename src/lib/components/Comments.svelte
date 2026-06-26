@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { writable } from 'svelte/store';
 	import type { ThreadedComment } from '$lib/types';
+	import Comment from './Comment.svelte';
 
 	type Props = {
 		threadedComments: ThreadedComment[];
