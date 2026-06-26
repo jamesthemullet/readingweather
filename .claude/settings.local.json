@@ -34,7 +34,8 @@
       "Bash(yarn svelte-check *)",
       "Bash(yarn test *)",
       "Bash(yarn lint *)",
-      "Bash(yarn biome *)"
+      "Bash(yarn biome *)",
+      "Bash(git diff *)"
     ]
   }
 }
