@@ -63,4 +63,21 @@ describe('fetchHistoricalWeather', () => {
 		const results = await fetchHistoricalWeather(1, 1);
 		expect(results).toHaveLength(5);
 	}, 3000);
+
+	it('returns an empty array when every API call fails', async () => {
+		vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ ok: false, status: 503 }));
+
+		const results = await fetchHistoricalWeather(1, 1);
+
+		expect(results).toHaveLength(0);
+	}, 3000);
+
+	it('returns correct time-of-day conditions derived from hourly weather codes', async () => {
+		// makeWeatherResponse codes: hours 6-11 = code 2 (partly cloudy), 12-17 = code 3 (overcast), 18-23 = code 1 (mainly clear)
+		const [first] = await fetchHistoricalWeather(6, 15);
+
+		expect(first.conditions.morning).toBe('partly cloudy');
+		expect(first.conditions.afternoon).toBe('overcast');
+		expect(first.conditions.evening).toBe('mainly clear');
+	}, 3000);
 });
