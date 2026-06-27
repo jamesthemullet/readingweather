@@ -14,7 +14,13 @@ vi.mock('$lib/server/cache', () => ({
 import { fetchGraphQL } from '$lib/graphql/api';
 import { getCache } from '$lib/server/cache';
 
-type SlugLoadResult = { post: GqlPostNode; isLatest: boolean; latestSlug: string | undefined };
+type SeasonalPostStub = { slug: string; title: string; date: string };
+type SlugLoadResult = {
+	post: GqlPostNode;
+	isLatest: boolean;
+	latestSlug: string | undefined;
+	latestSeasonalPost: SeasonalPostStub | null;
+};
 
 const mockPost = {
 	id: '1',
@@ -75,5 +81,32 @@ describe('[slug] page load', () => {
 		expect(result.isLatest).toBe(false);
 		expect(result.latestSlug).toBe('cached-latest-slug');
 		expect(vi.mocked(fetchGraphQL)).toHaveBeenCalledTimes(2);
+	});
+
+	it('returns latestSeasonalPost when the seasonal query has a post', async () => {
+		const mockSeasonalPost: SeasonalPostStub = {
+			slug: 'summer-forecast-2026',
+			title: 'Summer Forecast 2026',
+			date: '2026-06-01'
+		};
+		vi.mocked(fetchGraphQL)
+			.mockResolvedValueOnce({ postBy: mockPost })
+			.mockResolvedValueOnce({ posts: { nodes: [{ slug: 'test-post' }] } })
+			.mockResolvedValueOnce({ posts: { nodes: [mockSeasonalPost] } });
+
+		const result = (await load({ params: { slug: 'test-post' } } as Parameters<typeof load>[0])) as SlugLoadResult;
+
+		expect(result.latestSeasonalPost).toEqual(mockSeasonalPost);
+	});
+
+	it('returns null for latestSeasonalPost when the seasonal query returns no nodes', async () => {
+		vi.mocked(fetchGraphQL)
+			.mockResolvedValueOnce({ postBy: mockPost })
+			.mockResolvedValueOnce({ posts: { nodes: [{ slug: 'test-post' }] } })
+			.mockResolvedValueOnce({ posts: { nodes: [] } });
+
+		const result = (await load({ params: { slug: 'test-post' } } as Parameters<typeof load>[0])) as SlugLoadResult;
+
+		expect(result.latestSeasonalPost).toBeNull();
 	});
 });
