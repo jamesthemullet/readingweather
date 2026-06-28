@@ -24,7 +24,7 @@ describe('seasonal-forecasts page load', () => {
 		const mockResponse: SeasonalPostsResponse = { posts: { nodes: [mockPost] } };
 		vi.mocked(fetchGraphQL).mockResolvedValueOnce(mockResponse);
 
-		const result = await load({ setHeaders: vi.fn() } as Parameters<typeof load>[0]) as LoadResult;
+		const result = await load({ setHeaders: vi.fn() } as unknown as Parameters<typeof load>[0]) as LoadResult;
 
 		expect(result.posts).toEqual(mockResponse);
 	});
@@ -32,6 +32,6 @@ describe('seasonal-forecasts page load', () => {
 	it('propagates errors thrown by fetchGraphQL', async () => {
 		vi.mocked(fetchGraphQL).mockRejectedValueOnce(new Error('Network error'));
 
-		await expect(load({ setHeaders: vi.fn() } as Parameters<typeof load>[0])).rejects.toThrow('Network error');
+		await expect(load({ setHeaders: vi.fn() } as unknown as Parameters<typeof load>[0])).rejects.toThrow('Network error');
 	});
 });
