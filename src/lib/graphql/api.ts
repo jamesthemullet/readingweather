@@ -7,9 +7,10 @@ type GraphQLResponse<T> = {
 
 export async function fetchGraphQL<T = Record<string, unknown>>(
 	query: string,
-	variables: Record<string, unknown> = {}
+	variables: Record<string, unknown> = {},
+	fetchFn: typeof fetch = fetch
 ): Promise<T> {
-	const response = await fetch('https://blog.readingweather.co.uk/graphql', {
+	const response = await fetchFn('https://blog.readingweather.co.uk/graphql', {
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json' },
 		body: JSON.stringify({ query, variables })

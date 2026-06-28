@@ -6,9 +6,9 @@ import type { PageLoad } from './$types';
 
 export const prerender = true;
 
-export const load: PageLoad = async () => {
+export const load: PageLoad = async ({ fetch }) => {
 	const pageId = 161;
-	const response = await fetchGraphQL<GetPageByIdResponse>(GET_PAGE_BY_ID, { id: pageId });
+	const response = await fetchGraphQL<GetPageByIdResponse>(GET_PAGE_BY_ID, { id: pageId }, fetch);
 
 	if (!response.page) {
 		throw error(404, 'Page not found');
