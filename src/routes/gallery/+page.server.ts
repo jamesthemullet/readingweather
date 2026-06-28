@@ -1,6 +1,6 @@
-import { fetchGraphQL } from '../../lib/graphql/api';
-import GET_POSTS_FOR_GALLERY from '../../lib/graphql/queries/getPostsForGallery';
-import { getCache, setCache } from '../../lib/server/cache';
+import { fetchGraphQL } from '$lib/graphql/api';
+import GET_POSTS_FOR_GALLERY from '$lib/graphql/queries/getPostsForGallery';
+import { getCache, setCache } from '$lib/server/cache';
 import type { PageServerLoad } from './$types';
 
 const START_YEAR = 2020;
@@ -59,7 +59,7 @@ const generateYears = (): number[] => {
 	return years;
 };
 
-export const load: PageServerLoad = async ({ url, setHeaders }) => {
+export const load: PageServerLoad = async ({ url, fetch, setHeaders }) => {
 	const currentYear = new Date().getFullYear();
 	const selectedYear = Number(url.searchParams.get('year')) || currentYear;
 	const years = generateYears();
@@ -78,10 +78,11 @@ export const load: PageServerLoad = async ({ url, setHeaders }) => {
 
 	const monthResults = await Promise.all(
 		Array.from({ length: lastMonth }, (_, i) => i + 1).map((month) =>
-			fetchGraphQL<{ posts: { nodes: GalleryPost[] } }>(GET_POSTS_FOR_GALLERY, {
-				year: selectedYear,
-				month
-			})
+			fetchGraphQL<{ posts: { nodes: GalleryPost[] } }>(
+				GET_POSTS_FOR_GALLERY,
+				{ year: selectedYear, month },
+				fetch
+			)
 		)
 	);
 
