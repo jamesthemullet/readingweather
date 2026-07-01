@@ -14,9 +14,6 @@
 	const organiseComments = (comments: GqlComment[]): ThreadedComment[] => {
 		const threaded: ThreadedComment[] = comments.map((c) => ({ ...c, replies: [] }));
 		const commentMap = new Map<string, ThreadedComment>(threaded.map((c) => [c.id, c]));
-		for (const comment of threaded) {
-			commentMap.set(comment.id, comment);
-		}
 
 		const topLevelComments: ThreadedComment[] = [];
 		for (const comment of threaded) {
@@ -87,6 +84,7 @@
 	});
 
 	const modifiedContent = $derived(injectKofiWidget(data.post.content));
+	const sanitizedContent = $derived(sanitize(modifiedContent));
 
 	const hoursOld = $derived((Date.now() - new Date(data.post.date).getTime()) / 36e5);
 	const daysOld = $derived(Math.floor(hoursOld / 24));
@@ -130,7 +128,7 @@
 			loading="lazy"
 		/>
 	{/if}
-	<div class="content">{@html sanitize(modifiedContent)}</div>
+	<div class="content">{@html sanitizedContent}</div>
 
 	<ShareButton {postUrl} {postTitle} {postSummary} />
 

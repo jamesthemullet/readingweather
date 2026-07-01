@@ -5,6 +5,21 @@
 
 	const { data }: PageProps = $props();
 
+	const monthNames = [
+		'January',
+		'February',
+		'March',
+		'April',
+		'May',
+		'June',
+		'July',
+		'August',
+		'September',
+		'October',
+		'November',
+		'December'
+	];
+
 	const updateArchive = (event: Event & { currentTarget: EventTarget & HTMLSelectElement }): void => {
 		const selected = event.currentTarget.value;
 		if (!selected) return;
@@ -12,23 +27,7 @@
 		goto(`/archives?year=${year}&month=${month}`);
 	};
 
-	const getMonthName = (month: number): string => {
-		const monthNames = [
-			'January',
-			'February',
-			'March',
-			'April',
-			'May',
-			'June',
-			'July',
-			'August',
-			'September',
-			'October',
-			'November',
-			'December'
-		];
-		return monthNames[month - 1];
-	};
+	const getMonthName = (month: number): string => monthNames[month - 1];
 </script>
 
 <svelte:head>

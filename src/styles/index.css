@@ -112,6 +112,7 @@ main {
 	text-align: center;
 	background: var(--white);
 
+	/* biome-ignore lint/style/noDescendingSpecificity: targets .latest-seasonal h2, unrelated to main .post h2 */
 	h2 {
 		margin: 0 0 0.75rem;
 	}
