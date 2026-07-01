@@ -28,11 +28,7 @@
 		</svg>
 	</button>
 
-	<ul
-		id="nav-menu"
-		class:open={isOpen}
-		style="transition: {isOpen ? 'max-height 0.3s ease-out, visibility 0s 0s' : 'max-height 0.3s ease-out, visibility 0s 0.3s'};"
-	>
+	<ul id="nav-menu" class:open={isOpen}>
 		{#each links as link}
 			<li class:active={$page.url.pathname === link.href}>
 				<a
@@ -93,6 +89,9 @@
 		overflow: hidden;
 		padding: 0 1rem;
 		margin-top: 0.75rem;
+		transition:
+			max-height 0.3s ease-out,
+			visibility 0s 0.3s;
 
 		@media screen and (min-width: 768px) {
 			margin-top: 0;
@@ -101,6 +100,9 @@
 
 	.navbar ul.open {
 		max-height: 500px;
+		transition:
+			max-height 0.3s ease-out,
+			visibility 0s 0s;
 	}
 
 	.navbar li a {
