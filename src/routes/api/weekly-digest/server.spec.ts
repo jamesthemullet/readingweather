@@ -16,6 +16,9 @@ const mockDigest = {
 	tempLow: 8.5,
 	totalPrecipitation: 8.1,
 	rainyDays: 2,
+	rainyDayNames: ['Tuesday', 'Thursday'],
+	sunniestDay: { day: 'Saturday', sunshineHours: 12.4 },
+	cloudiestDay: { day: 'Sunday', sunshineHours: 1.2 },
 	dominantConditions: 'partly cloudy'
 };
 

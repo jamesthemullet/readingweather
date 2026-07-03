@@ -15,6 +15,11 @@
 		return text.charAt(0).toUpperCase() + text.slice(1);
 	}
 
+	function formatDayList(days: string[]): string {
+		if (days.length === 1) return days[0];
+		return `${days.slice(0, -1).join(', ')} and ${days[days.length - 1]}`;
+	}
+
 	onMount(async () => {
 		try {
 			const res = await fetch('/api/weekly-digest');
@@ -38,6 +43,13 @@
 			{/if}
 		</div>
 		<p class="summary">{capitalize(digest.dominantConditions)}.</p>
+		<p class="detail">
+			Sunniest day: {digest.sunniestDay.day} ({digest.sunniestDay.sunshineHours}h sun) · Cloudiest:
+			{digest.cloudiestDay.day} ({digest.cloudiestDay.sunshineHours}h sun)
+		</p>
+		{#if digest.rainyDayNames.length > 0}
+			<p class="detail">Rain fell on {formatDayList(digest.rainyDayNames)}.</p>
+		{/if}
 		<p class="conditions-note">
 			Weather conditions are sourced from ERA5 reanalysis data and should be treated as an
 			approximate guide only - in particular the cloud amounts seem to be greatly overstated.

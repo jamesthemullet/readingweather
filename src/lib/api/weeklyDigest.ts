@@ -37,6 +37,33 @@ function sunshineSummary(sunshineDurations: number[], daylightDurations: number[
 	return 'mostly overcast';
 }
 
+function weekdayName(dateStr: string): string {
+	return new Date(dateStr).toLocaleDateString('en-GB', { weekday: 'long', timeZone: 'UTC' });
+}
+
+function extremeSunshineDay(
+	dates: string[],
+	sunshineDurations: number[],
+	daylightDurations: number[],
+	pick: 'max' | 'min'
+): DaySummary {
+	let bestIndex = 0;
+	for (let i = 1; i < dates.length; i++) {
+		const ratio = sunshineDurations[i] / daylightDurations[i];
+		const bestRatio = sunshineDurations[bestIndex] / daylightDurations[bestIndex];
+		if (pick === 'max' ? ratio > bestRatio : ratio < bestRatio) bestIndex = i;
+	}
+	return {
+		day: weekdayName(dates[bestIndex]),
+		sunshineHours: Math.round((sunshineDurations[bestIndex] / 3600) * 10) / 10
+	};
+}
+
+export type DaySummary = {
+	day: string;
+	sunshineHours: number;
+};
+
 export type WeeklyDigest = {
 	startDate: string;
 	endDate: string;
@@ -44,6 +71,9 @@ export type WeeklyDigest = {
 	tempLow: number;
 	totalPrecipitation: number;
 	rainyDays: number;
+	rainyDayNames: string[];
+	sunniestDay: DaySummary;
+	cloudiestDay: DaySummary;
 	dominantConditions: string;
 };
 
@@ -73,6 +103,7 @@ export async function fetchWeeklyDigest(now: Date = new Date()): Promise<WeeklyD
 
 	const data = (await response.json()) as OpenMeteoArchiveResponse;
 	const {
+		time,
 		temperature_2m_max,
 		temperature_2m_min,
 		precipitation_sum,
@@ -80,13 +111,20 @@ export async function fetchWeeklyDigest(now: Date = new Date()): Promise<WeeklyD
 		daylight_duration
 	} = data.daily;
 
+	const rainyDayNames = time
+		.filter((_, i) => precipitation_sum[i] >= 1)
+		.map((dateStr) => weekdayName(dateStr));
+
 	return {
 		startDate: toDateStr(start),
 		endDate: toDateStr(end),
 		tempHigh: Math.round(Math.max(...temperature_2m_max) * 10) / 10,
 		tempLow: Math.round(Math.min(...temperature_2m_min) * 10) / 10,
 		totalPrecipitation: Math.round(precipitation_sum.reduce((a, b) => a + b, 0) * 10) / 10,
-		rainyDays: precipitation_sum.filter((p) => p >= 1).length,
+		rainyDays: rainyDayNames.length,
+		rainyDayNames,
+		sunniestDay: extremeSunshineDay(time, sunshine_duration, daylight_duration, 'max'),
+		cloudiestDay: extremeSunshineDay(time, sunshine_duration, daylight_duration, 'min'),
 		dominantConditions: sunshineSummary(sunshine_duration, daylight_duration)
 	};
 }

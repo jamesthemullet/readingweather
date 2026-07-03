@@ -56,9 +56,46 @@ describe('fetchWeeklyDigest', () => {
 		expect(digest.totalPrecipitation).toBe(8.1);
 	});
 
-	it('counts days with at least 1mm of rain as rainy days', async () => {
+	it('counts days with at least 1mm of rain as rainy days and names them', async () => {
 		const digest = await fetchWeeklyDigest(new Date('2026-06-25T12:00:00Z'));
 		expect(digest.rainyDays).toBe(2);
+		expect(digest.rainyDayNames).toEqual(['Tuesday', 'Thursday']);
+	});
+
+	it('returns no rainy day names when no day reached 1mm of rain', async () => {
+		vi.stubGlobal(
+			'fetch',
+			vi.fn().mockResolvedValue({
+				ok: true,
+				json: async () => ({
+					daily: {
+						time: [
+							'2026-06-15',
+							'2026-06-16',
+							'2026-06-17',
+							'2026-06-18',
+							'2026-06-19',
+							'2026-06-20',
+							'2026-06-21'
+						],
+						temperature_2m_max: [18.2, 19.5, 21.1, 20.0, 17.8, 22.3, 19.9],
+						temperature_2m_min: [10.1, 9.8, 11.2, 12.5, 8.5, 13.1, 10.0],
+						precipitation_sum: [0, 0.4, 0, 0.9, 0, 0, 0],
+						sunshine_duration: mostlySunnyWeek.sunshine,
+						daylight_duration: mostlySunnyWeek.daylight
+					}
+				})
+			})
+		);
+		const digest = await fetchWeeklyDigest(new Date('2026-06-25T12:00:00Z'));
+		expect(digest.rainyDays).toBe(0);
+		expect(digest.rainyDayNames).toEqual([]);
+	});
+
+	it('identifies the sunniest and cloudiest day of the week by sunshine-to-daylight ratio', async () => {
+		const digest = await fetchWeeklyDigest(new Date('2026-06-25T12:00:00Z'));
+		expect(digest.sunniestDay).toEqual({ day: 'Monday', sunshineHours: 16 });
+		expect(digest.cloudiestDay).toEqual({ day: 'Thursday', sunshineHours: 8.8 });
 	});
 
 	it('describes a week with high sunshine-to-daylight ratio as mostly sunny', async () => {

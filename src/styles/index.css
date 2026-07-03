@@ -153,6 +153,12 @@ main {
 		margin: 0;
 	}
 
+	.detail {
+		margin: 0.35rem 0 0;
+		font-size: 0.9rem;
+		color: #555;
+	}
+
 	.conditions-note {
 		font-size: 0.8rem;
 		color: #767676;
