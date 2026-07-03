@@ -12,9 +12,9 @@ vi.mock('$lib/server/cache', () => ({
 const mockHistory = {
 	windowLabel: '18 June – 24 June',
 	yearsOfData: 86,
-	hottest: { year: 2003, value: 31.5 },
-	coldest: { year: 2020, value: 1.0 },
-	wettest: { year: 2020, value: 29 }
+	hottestDay: { year: 2003, value: 31.5 },
+	coldestDay: { year: 2020, value: 1.0 },
+	wettestWeek: { year: 2020, value: 29 }
 };
 
 vi.mock('$lib/api/weekInHistory', () => ({
@@ -37,7 +37,7 @@ describe('GET /api/week-in-history', () => {
 
 		expect(response.status).toBe(200);
 		const body = await response.json();
-		expect(body.hottest).toEqual({ year: 2003, value: 31.5 });
+		expect(body.hottestDay).toEqual({ year: 2003, value: 31.5 });
 		expect(body.yearsOfData).toBe(86);
 	});
 

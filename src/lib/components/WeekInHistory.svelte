@@ -19,10 +19,15 @@
 		<h2>This Week in Reading Weather History</h2>
 		<p class="range">{history.windowLabel} · {history.yearsOfData} years of records</p>
 		<ul class="records">
-			<li>🌡️ Hottest: <strong>{history.hottest.value}°C</strong> in {history.hottest.year}</li>
-			<li>❄️ Coldest: <strong>{history.coldest.value}°C</strong> in {history.coldest.year}</li>
 			<li>
-				🌧️ Wettest: <strong>{history.wettest.value}mm</strong> in {history.wettest.year}
+				🌡️ Hottest day: <strong>{history.hottestDay.value}°C</strong> in {history.hottestDay.year}
+			</li>
+			<li>
+				❄️ Coldest day: <strong>{history.coldestDay.value}°C</strong> in {history.coldestDay.year}
+			</li>
+			<li>
+				🌧️ Wettest week (total rainfall): <strong>{history.wettestWeek.value}mm</strong> in {history
+					.wettestWeek.year}
 			</li>
 		</ul>
 		<p class="conditions-note">

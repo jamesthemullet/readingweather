@@ -26,9 +26,9 @@ export type YearRecord = {
 export type WeekInHistory = {
 	windowLabel: string;
 	yearsOfData: number;
-	hottest: YearRecord;
-	coldest: YearRecord;
-	wettest: YearRecord;
+	hottestDay: YearRecord;
+	coldestDay: YearRecord;
+	wettestWeek: YearRecord;
 };
 
 function toDateStr(date: Date): string {
@@ -49,11 +49,12 @@ export async function fetchWeekInHistory(now: Date = new Date()): Promise<WeekIn
 	const start = new Date(end);
 	start.setUTCDate(start.getUTCDate() - (WINDOW_DAYS - 1));
 
-	const currentYear = now.getUTCFullYear();
-	const lastCompleteYear = currentYear - 1;
+	// The window itself already ends yesterday (see `end` above), so this year's window
+	// is just as complete as any past year's and belongs in the comparison.
+	const lastYear = now.getUTCFullYear();
 
 	const rangeStart = sameWindowInYear(start, end, EARLIEST_YEAR).start;
-	const rangeEnd = sameWindowInYear(start, end, lastCompleteYear).end;
+	const rangeEnd = end;
 
 	const params = new URLSearchParams({
 		latitude: String(READING_LAT),
@@ -73,11 +74,11 @@ export async function fetchWeekInHistory(now: Date = new Date()): Promise<WeekIn
 	const { time, temperature_2m_max, temperature_2m_min, precipitation_sum } = data.daily;
 	const indexByDate = new Map(time.map((dateStr, i) => [dateStr, i]));
 
-	let hottest: YearRecord | null = null;
-	let coldest: YearRecord | null = null;
-	let wettest: YearRecord | null = null;
+	let hottestDay: YearRecord | null = null;
+	let coldestDay: YearRecord | null = null;
+	let wettestWeek: YearRecord | null = null;
 
-	for (let year = EARLIEST_YEAR; year <= lastCompleteYear; year++) {
+	for (let year = EARLIEST_YEAR; year <= lastYear; year++) {
 		const window = sameWindowInYear(start, end, year);
 		const indices: number[] = [];
 		for (let d = new Date(window.start); d <= window.end; d.setUTCDate(d.getUTCDate() + 1)) {
@@ -91,12 +92,12 @@ export async function fetchWeekInHistory(now: Date = new Date()): Promise<WeekIn
 		const yearRain =
 			Math.round(indices.reduce((sum, i) => sum + precipitation_sum[i], 0) * 10) / 10;
 
-		if (!hottest || yearHigh > hottest.value) hottest = { year, value: yearHigh };
-		if (!coldest || yearLow < coldest.value) coldest = { year, value: yearLow };
-		if (!wettest || yearRain > wettest.value) wettest = { year, value: yearRain };
+		if (!hottestDay || yearHigh > hottestDay.value) hottestDay = { year, value: yearHigh };
+		if (!coldestDay || yearLow < coldestDay.value) coldestDay = { year, value: yearLow };
+		if (!wettestWeek || yearRain > wettestWeek.value) wettestWeek = { year, value: yearRain };
 	}
 
-	if (!hottest || !coldest || !wettest) {
+	if (!hottestDay || !coldestDay || !wettestWeek) {
 		throw new Error('No historical data available for this window');
 	}
 
@@ -105,9 +106,9 @@ export async function fetchWeekInHistory(now: Date = new Date()): Promise<WeekIn
 
 	return {
 		windowLabel,
-		yearsOfData: lastCompleteYear - EARLIEST_YEAR + 1,
-		hottest: { year: hottest.year, value: Math.round(hottest.value * 10) / 10 },
-		coldest: { year: coldest.year, value: Math.round(coldest.value * 10) / 10 },
-		wettest
+		yearsOfData: lastYear - EARLIEST_YEAR + 1,
+		hottestDay: { year: hottestDay.year, value: Math.round(hottestDay.value * 10) / 10 },
+		coldestDay: { year: coldestDay.year, value: Math.round(coldestDay.value * 10) / 10 },
+		wettestWeek
 	};
 }
