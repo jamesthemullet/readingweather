@@ -11,6 +11,10 @@
 		return `${start} – ${end}`;
 	}
 
+	function capitalize(text: string): string {
+		return text.charAt(0).toUpperCase() + text.slice(1);
+	}
+
 	onMount(async () => {
 		try {
 			const res = await fetch('/api/weekly-digest');
@@ -33,7 +37,7 @@
 				<span>{digest.rainyDays} wet {digest.rainyDays === 1 ? 'day' : 'days'}</span>
 			{/if}
 		</div>
-		<p class="summary">Mostly {digest.dominantConditions}.</p>
+		<p class="summary">{capitalize(digest.dominantConditions)}.</p>
 		<p class="conditions-note">
 			Weather conditions are sourced from ERA5 reanalysis data and should be treated as an
 			approximate guide only - in particular the cloud amounts seem to be greatly overstated.

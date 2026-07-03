@@ -17,44 +17,24 @@ type OpenMeteoArchiveResponse = {
 		temperature_2m_max: number[];
 		temperature_2m_min: number[];
 		precipitation_sum: number[];
-	};
-	hourly: {
-		weather_code: number[];
+		sunshine_duration: number[];
+		daylight_duration: number[];
 	};
 };
 
-const WMO_LABELS: Record<number, string> = {
-	0: 'clear sky',
-	1: 'mainly clear',
-	2: 'partly cloudy',
-	3: 'overcast',
-	45: 'fog',
-	48: 'icy fog',
-	51: 'light drizzle',
-	53: 'drizzle',
-	55: 'heavy drizzle',
-	61: 'light rain',
-	63: 'rain',
-	65: 'heavy rain',
-	71: 'light snow',
-	73: 'snow',
-	75: 'heavy snow',
-	77: 'snow grains',
-	80: 'light showers',
-	81: 'showers',
-	82: 'heavy showers',
-	85: 'light snow showers',
-	86: 'heavy snow showers',
-	95: 'thunderstorm',
-	96: 'thunderstorm & hail',
-	99: 'thunderstorm & heavy hail'
-};
+// ERA5's weather-code cloud estimates run high (see the on-page disclaimer), so rather
+// than categorise by weather code this compares actual recorded sunshine hours against
+// possible daylight hours — a much more reliable "how sunny was it" signal.
+function sunshineSummary(sunshineDurations: number[], daylightDurations: number[]): string {
+	const totalSunshine = sunshineDurations.reduce((a, b) => a + b, 0);
+	const totalDaylight = daylightDurations.reduce((a, b) => a + b, 0);
+	if (totalDaylight === 0) return 'unsettled';
 
-function dominantCode(codes: number[]): number {
-	const freq: Record<number, number> = {};
-	for (const c of codes) freq[c] = (freq[c] ?? 0) + 1;
-	const top = Object.entries(freq).sort((a, b) => b[1] - a[1])[0];
-	return top ? Number(top[0]) : 0;
+	const ratio = totalSunshine / totalDaylight;
+	if (ratio >= 0.65) return 'mostly sunny';
+	if (ratio >= 0.35) return 'a mix of sun and cloud';
+	if (ratio >= 0.15) return 'mostly cloudy';
+	return 'mostly overcast';
 }
 
 export type WeeklyDigest = {
@@ -82,8 +62,7 @@ export async function fetchWeeklyDigest(now: Date = new Date()): Promise<WeeklyD
 		longitude: String(READING_LON),
 		start_date: toDateStr(start),
 		end_date: toDateStr(end),
-		daily: 'temperature_2m_max,temperature_2m_min,precipitation_sum',
-		hourly: 'weather_code',
+		daily: 'temperature_2m_max,temperature_2m_min,precipitation_sum,sunshine_duration,daylight_duration',
 		timezone: 'Europe/London'
 	});
 
@@ -93,11 +72,13 @@ export async function fetchWeeklyDigest(now: Date = new Date()): Promise<WeeklyD
 	if (!response.ok) throw new Error(`Open-Meteo error: ${response.status}`);
 
 	const data = (await response.json()) as OpenMeteoArchiveResponse;
-	const { temperature_2m_max, temperature_2m_min, precipitation_sum } = data.daily;
-
-	// Mode across every hour of the week, not the daily "most severe" label — a single
-	// brief shower shouldn't make an otherwise dry, sunny week read as "light drizzle".
-	const dominantLabel = WMO_LABELS[dominantCode(data.hourly.weather_code)] ?? 'unsettled';
+	const {
+		temperature_2m_max,
+		temperature_2m_min,
+		precipitation_sum,
+		sunshine_duration,
+		daylight_duration
+	} = data.daily;
 
 	return {
 		startDate: toDateStr(start),
@@ -106,6 +87,6 @@ export async function fetchWeeklyDigest(now: Date = new Date()): Promise<WeeklyD
 		tempLow: Math.round(Math.min(...temperature_2m_min) * 10) / 10,
 		totalPrecipitation: Math.round(precipitation_sum.reduce((a, b) => a + b, 0) * 10) / 10,
 		rainyDays: precipitation_sum.filter((p) => p >= 1).length,
-		dominantConditions: dominantLabel
+		dominantConditions: sunshineSummary(sunshine_duration, daylight_duration)
 	};
 }

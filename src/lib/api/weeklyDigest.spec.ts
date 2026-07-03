@@ -1,7 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { fetchWeeklyDigest } from './weeklyDigest';
 
-function makeArchiveResponse(hourlyWeatherCode: number[]) {
+function makeArchiveResponse(sunshineDuration: number[], daylightDuration: number[]) {
 	return {
 		ok: true,
 		json: async () => ({
@@ -17,28 +17,28 @@ function makeArchiveResponse(hourlyWeatherCode: number[]) {
 				],
 				temperature_2m_max: [18.2, 19.456, 21.1, 20.0, 17.8, 22.3, 19.9],
 				temperature_2m_min: [10.1, 9.789, 11.2, 12.456, 8.5, 13.1, 10.0],
-				precipitation_sum: [0, 2.456, 0, 5.1, 0, 0.5, 0]
-			},
-			hourly: {
-				weather_code: hourlyWeatherCode
+				precipitation_sum: [0, 2.456, 0, 5.1, 0, 0.5, 0],
+				sunshine_duration: sunshineDuration,
+				daylight_duration: daylightDuration
 			}
 		})
 	};
 }
 
-// 168 hours (7 days): mostly partly-cloudy, with one afternoon's brief shower.
-// Open-Meteo's *daily* weathercode would label that whole day "light rain" (its
-// "most severe" convention), which would then dominate a naive daily-code mode.
-// The hourly mode should correctly read the week as mostly partly cloudy instead.
-const mostlyDryWithOneShower = [
-	...Array(80).fill(2),
-	...Array(6).fill(61),
-	...Array(82).fill(2)
-];
+// ~81% of daylight hours had sunshine, matching a genuinely sunny week.
+const mostlySunnyWeek = {
+	sunshine: [57600, 54162.96, 48444.29, 31750.93, 47883.58, 55042.73, 43200],
+	daylight: [59760.44, 59727.91, 59689.64, 59645.67, 59596.03, 59540.67, 59479.05]
+};
 
 describe('fetchWeeklyDigest', () => {
 	beforeEach(() => {
-		vi.stubGlobal('fetch', vi.fn().mockResolvedValue(makeArchiveResponse(mostlyDryWithOneShower)));
+		vi.stubGlobal(
+			'fetch',
+			vi
+				.fn()
+				.mockResolvedValue(makeArchiveResponse(mostlySunnyWeek.sunshine, mostlySunnyWeek.daylight))
+		);
 	});
 
 	afterEach(() => {
@@ -61,9 +61,33 @@ describe('fetchWeeklyDigest', () => {
 		expect(digest.rainyDays).toBe(2);
 	});
 
-	it('picks the most frequent hourly weather code as the dominant condition, not a single severe hour', async () => {
+	it('describes a week with high sunshine-to-daylight ratio as mostly sunny', async () => {
 		const digest = await fetchWeeklyDigest(new Date('2026-06-25T12:00:00Z'));
-		expect(digest.dominantConditions).toBe('partly cloudy');
+		expect(digest.dominantConditions).toBe('mostly sunny');
+	});
+
+	it('describes a week with low sunshine-to-daylight ratio as mostly overcast', async () => {
+		vi.stubGlobal(
+			'fetch',
+			vi.fn().mockResolvedValue(
+				makeArchiveResponse(
+					[0, 0, 0, 0, 0, 0, 0],
+					[59760, 59727, 59689, 59645, 59596, 59540, 59479]
+				)
+			)
+		);
+		const digest = await fetchWeeklyDigest(new Date('2026-06-25T12:00:00Z'));
+		expect(digest.dominantConditions).toBe('mostly overcast');
+	});
+
+	it('describes a week with a middling sunshine-to-daylight ratio as a mix of sun and cloud', async () => {
+		const halfSunshine = mostlySunnyWeek.daylight.map((d) => d * 0.5);
+		vi.stubGlobal(
+			'fetch',
+			vi.fn().mockResolvedValue(makeArchiveResponse(halfSunshine, mostlySunnyWeek.daylight))
+		);
+		const digest = await fetchWeeklyDigest(new Date('2026-06-25T12:00:00Z'));
+		expect(digest.dominantConditions).toBe('a mix of sun and cloud');
 	});
 
 	it('ends the window yesterday to account for ERA5 data lag on the current day', async () => {
