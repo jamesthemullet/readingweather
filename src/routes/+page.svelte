@@ -6,6 +6,7 @@
 	import '../styles/index.css';
 	import OnThisDay from '$lib/components/OnThisDay.svelte';
 	import PostList from '$lib/components/PostList.svelte';
+	import WeekInHistory from '$lib/components/WeekInHistory.svelte';
 	import WeeklyDigest from '$lib/components/WeeklyDigest.svelte';
 
 	const jsonLd = $derived({
@@ -50,3 +51,5 @@
 </div>
 
 <WeeklyDigest />
+
+<WeekInHistory />
