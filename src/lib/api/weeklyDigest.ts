@@ -1,9 +1,10 @@
 const READING_LAT = 51.4543;
 const READING_LON = -0.9781;
 
-// ERA5 archive data typically lags a few days behind real-time, so the
-// digest window ends a few days before today to avoid missing/null data.
-const DATA_LAG_DAYS = 3;
+// ERA5 archive data can lag behind real-time, so the digest window ends
+// yesterday rather than today to avoid missing/null data for the current,
+// still-in-progress day.
+const DATA_LAG_DAYS = 1;
 const WINDOW_DAYS = 7;
 
 // Fail fast rather than hanging until the platform's function timeout kicks in

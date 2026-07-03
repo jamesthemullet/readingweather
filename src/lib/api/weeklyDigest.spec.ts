@@ -66,12 +66,12 @@ describe('fetchWeeklyDigest', () => {
 		expect(digest.dominantConditions).toBe('partly cloudy');
 	});
 
-	it('ends the window a few days before today to account for ERA5 data lag', async () => {
+	it('ends the window yesterday to account for ERA5 data lag on the current day', async () => {
 		await fetchWeeklyDigest(new Date('2026-06-25T12:00:00Z'));
 		const calledUrl = vi.mocked(fetch).mock.calls[0][0] as string;
 		const params = new URL(calledUrl).searchParams;
-		expect(params.get('end_date')).toBe('2026-06-22');
-		expect(params.get('start_date')).toBe('2026-06-16');
+		expect(params.get('end_date')).toBe('2026-06-24');
+		expect(params.get('start_date')).toBe('2026-06-18');
 	});
 
 	it('throws when the API request fails', async () => {
