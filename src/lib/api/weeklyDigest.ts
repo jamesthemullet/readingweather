@@ -6,6 +6,10 @@ const READING_LON = -0.9781;
 const DATA_LAG_DAYS = 3;
 const WINDOW_DAYS = 7;
 
+// Fail fast rather than hanging until the platform's function timeout kicks in
+// and returns a 504 with no useful error.
+const REQUEST_TIMEOUT_MS = 5000;
+
 type OpenMeteoArchiveResponse = {
 	daily: {
 		time: string[];
@@ -79,7 +83,9 @@ export async function fetchWeeklyDigest(now: Date = new Date()): Promise<WeeklyD
 		timezone: 'Europe/London'
 	});
 
-	const response = await fetch(`https://archive-api.open-meteo.com/v1/archive?${params}`);
+	const response = await fetch(`https://archive-api.open-meteo.com/v1/archive?${params}`, {
+		signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS)
+	});
 	if (!response.ok) throw new Error(`Open-Meteo error: ${response.status}`);
 
 	const data = (await response.json()) as OpenMeteoArchiveResponse;

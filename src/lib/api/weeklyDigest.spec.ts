@@ -68,4 +68,10 @@ describe('fetchWeeklyDigest', () => {
 			'Open-Meteo error: 500'
 		);
 	});
+
+	it('passes an abort signal so a slow upstream response fails fast', async () => {
+		await fetchWeeklyDigest(new Date('2026-06-25T12:00:00Z'));
+		const options = vi.mocked(fetch).mock.calls[0][1] as RequestInit;
+		expect(options.signal).toBeInstanceOf(AbortSignal);
+	});
 });
