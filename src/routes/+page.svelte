@@ -6,6 +6,7 @@
 	import '../styles/index.css';
 	import OnThisDay from '$lib/components/OnThisDay.svelte';
 	import PostList from '$lib/components/PostList.svelte';
+	import WeeklyDigest from '$lib/components/WeeklyDigest.svelte';
 
 	const jsonLd = $derived({
 		'@context': 'https://schema.org',
@@ -29,6 +30,8 @@
 </svelte:head>
 
 <h1>Weather Forecast For Reading & Berkshire</h1>
+
+<WeeklyDigest />
 
 <PostList posts={data.posts.posts.nodes} preview={true} />
 

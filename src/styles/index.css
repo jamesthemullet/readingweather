@@ -122,6 +122,38 @@ main {
 	}
 }
 
+.weekly-digest {
+	border: 5px solid var(--nav);
+	margin-bottom: 2rem;
+	padding: 1rem;
+	text-align: center;
+	background: var(--white);
+
+	/* biome-ignore lint/style/noDescendingSpecificity: targets .weekly-digest h2, unrelated to main .post h2 */
+	h2 {
+		margin: 0 0 0.75rem;
+	}
+
+	.range {
+		margin: 0 0 0.5rem;
+		font-size: 0.85rem;
+		color: #767676;
+	}
+
+	.stats {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		gap: 1rem;
+		font-size: 1.125rem;
+		margin-bottom: 0.5rem;
+	}
+
+	.summary {
+		margin: 0;
+	}
+}
+
 .older-posts {
 	text-align: center;
 	margin: 0 0 2rem 0;
