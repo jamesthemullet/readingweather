@@ -16,6 +16,8 @@ type OpenMeteoArchiveResponse = {
 		temperature_2m_max: number[];
 		temperature_2m_min: number[];
 		precipitation_sum: number[];
+	};
+	hourly: {
 		weather_code: number[];
 	};
 };
@@ -79,7 +81,8 @@ export async function fetchWeeklyDigest(now: Date = new Date()): Promise<WeeklyD
 		longitude: String(READING_LON),
 		start_date: toDateStr(start),
 		end_date: toDateStr(end),
-		daily: 'temperature_2m_max,temperature_2m_min,precipitation_sum,weather_code',
+		daily: 'temperature_2m_max,temperature_2m_min,precipitation_sum',
+		hourly: 'weather_code',
 		timezone: 'Europe/London'
 	});
 
@@ -89,9 +92,11 @@ export async function fetchWeeklyDigest(now: Date = new Date()): Promise<WeeklyD
 	if (!response.ok) throw new Error(`Open-Meteo error: ${response.status}`);
 
 	const data = (await response.json()) as OpenMeteoArchiveResponse;
-	const { temperature_2m_max, temperature_2m_min, precipitation_sum, weather_code } = data.daily;
+	const { temperature_2m_max, temperature_2m_min, precipitation_sum } = data.daily;
 
-	const dominantLabel = WMO_LABELS[dominantCode(weather_code)] ?? 'unsettled';
+	// Mode across every hour of the week, not the daily "most severe" label — a single
+	// brief shower shouldn't make an otherwise dry, sunny week read as "light drizzle".
+	const dominantLabel = WMO_LABELS[dominantCode(data.hourly.weather_code)] ?? 'unsettled';
 
 	return {
 		startDate: toDateStr(start),

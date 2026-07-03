@@ -34,5 +34,9 @@
 			{/if}
 		</div>
 		<p class="summary">Mostly {digest.dominantConditions}.</p>
+		<p class="conditions-note">
+			Weather conditions are sourced from ERA5 reanalysis data and should be treated as an
+			approximate guide only - in particular the cloud amounts seem to be greatly overstated.
+		</p>
 	</section>
 {/if}

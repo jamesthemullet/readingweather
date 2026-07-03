@@ -152,6 +152,13 @@ main {
 	.summary {
 		margin: 0;
 	}
+
+	.conditions-note {
+		font-size: 0.8rem;
+		color: #767676;
+		margin: 0.75rem 0 0;
+		font-style: italic;
+	}
 }
 
 .older-posts {

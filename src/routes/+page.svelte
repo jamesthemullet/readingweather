@@ -31,8 +31,6 @@
 
 <h1>Weather Forecast For Reading & Berkshire</h1>
 
-<WeeklyDigest />
-
 <PostList posts={data.posts.posts.nodes} preview={true} />
 
 {#if data.latestSeasonalPost}
@@ -50,3 +48,5 @@
 	<p>Looking for older posts?</p>
 	<a href="/archives">Check out the archives</a>
 </div>
+
+<WeeklyDigest />
