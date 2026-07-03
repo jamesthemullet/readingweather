@@ -35,7 +35,14 @@
       "Bash(yarn test *)",
       "Bash(yarn lint *)",
       "Bash(yarn biome *)",
-      "Bash(git diff *)"
+      "Bash(git diff *)",
+      "Bash(yarn test:unit run)",
+      "Bash(cp /tmp/shot.js ./shot.tmp.cjs)",
+      "Bash(node ./shot.tmp.cjs)",
+      "Bash(rm ./shot.tmp.cjs)",
+      "Bash(rm -f /c/tmp/homepage.png /tmp/home.html /tmp/dev.log /tmp/shot.js)",
+      "Bash(netstat -ano)",
+      "Bash(taskkill //F //IM node.exe)"
     ]
   }
 }

@@ -52,7 +52,7 @@
 		{/if}
 		<p class="conditions-note">
 			Weather conditions are sourced from ERA5 reanalysis data and should be treated as an
-			approximate guide only - in particular the cloud amounts seem to be greatly overstated.
+			approximate guide only
 		</p>
 	</section>
 {/if}
