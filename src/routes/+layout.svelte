@@ -59,7 +59,7 @@
 </main>
 
 <footer>
-	<article class="post">
+	<section class="post">
 		<h2>Be notified of new posts by e-mail</h2>
 <form id="subscribe-form" onsubmit={handleSubmit}>
 			<label for="subscribe-name">
@@ -74,6 +74,6 @@
 		</form>
 
 		<p class="response" role="status" aria-live="polite">{responseMessage}</p>
-	</article>
+	</section>
 	<p>&copy; {new Date().getFullYear()} Weather Forecast For Reading & Berkshire</p>
 </footer>

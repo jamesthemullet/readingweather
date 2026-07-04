@@ -12,7 +12,7 @@
 	let isOpen = $state(false);
 </script>
 
-<nav class="navbar">
+<nav class="navbar" aria-label="Main navigation">
 	<a href="/" class="home-button">Home </a>
 	<button
 		class="menu-button"

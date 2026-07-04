@@ -5,6 +5,15 @@
 
 	const { data }: PageProps = $props();
 
+	const jsonLd = {
+		'@context': 'https://schema.org',
+		'@type': 'CollectionPage',
+		name: 'Weather Forecast Archives – Reading Weather',
+		description:
+			'Browse the archives of weather forecasts for Reading and Berkshire, searchable by month and year.',
+		url: 'https://www.readingweather.co.uk/archives'
+	};
+
 	const monthNames = [
 		'January',
 		'February',
@@ -41,6 +50,7 @@
 	<meta name="twitter:title" content="Weather Forecast Archives – Reading Weather" />
 	<meta name="twitter:description" content="Browse the archives of weather forecasts for Reading and Berkshire, searchable by month and year." />
 	<meta name="twitter:image" content="https://www.readingweather.co.uk/images/weather.png" />
+	{@html `<script type="application/ld+json">${JSON.stringify(jsonLd)}</script>`}
 </svelte:head>
 
 <h1>Weather Forecast Archives</h1>
