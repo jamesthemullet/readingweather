@@ -6,7 +6,7 @@
 
 	import '../../styles/index.css';
 
-	const sanitizedContent = sanitize(data.page.content);
+	const sanitizedContent = $derived(sanitize(data.page.content));
 </script>
 
 <svelte:head>
@@ -20,6 +20,9 @@
 	<meta property="og:image" content={data.page.featuredImage?.node?.sourceUrl ?? 'https://www.readingweather.co.uk/images/weather.png'} />
 	<meta property="og:type" content="website" />
 	<meta property="og:url" content={`https://www.readingweather.co.uk/${data.page.slug}`} />
+	<meta name="twitter:title" content={data.page.title} />
+	<meta name="twitter:description" content={data.page.seo.opengraphDescription || data.page.seo.description} />
+	<meta name="twitter:image" content={data.page.featuredImage?.node?.sourceUrl ?? 'https://www.readingweather.co.uk/images/weather.png'} />
 </svelte:head>
 
 {#if data.page}

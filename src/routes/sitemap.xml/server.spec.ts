@@ -1,8 +1,13 @@
-import { describe, expect, it, vi } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { GET } from './+server';
 
 vi.mock('$lib/graphql/api', () => ({
 	fetchGraphQL: vi.fn()
+}));
+
+vi.mock('$lib/server/cache', () => ({
+	getCache: vi.fn().mockReturnValue(null),
+	setCache: vi.fn()
 }));
 
 import { fetchGraphQL } from '$lib/graphql/api';
@@ -10,6 +15,10 @@ import { fetchGraphQL } from '$lib/graphql/api';
 function makeRequest() {
 	return {} as Parameters<typeof GET>[0];
 }
+
+beforeEach(() => {
+	vi.clearAllMocks();
+});
 
 describe('GET /sitemap.xml', () => {
 	it('returns valid XML with the correct content-type header and includes static routes and post slugs', async () => {

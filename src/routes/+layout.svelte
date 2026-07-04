@@ -1,18 +1,19 @@
 <!-- src/routes/+layout.svelte -->
 <script lang="ts">
 	import '../styles/global.css';
+	import type { Snippet } from 'svelte';
 	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
 	import Analytics from '$lib/analytics/analytics.svelte';
 	import NavBar from '$lib/components/NavBar.svelte';
 
-	// biome-ignore lint/style/useConst: <cannot bind to a const>
+	const { children }: { children: Snippet } = $props();
+
 	let name = $state('');
-	// biome-ignore lint/style/useConst: <cannot bind to a const>
 	let email = $state('');
 	let responseMessage = $state('');
 
-	const handleSubmit = async (e: Event) => {
+	const handleSubmit = async (e: Event): Promise<void> => {
 		e.preventDefault();
 
 		try {
@@ -24,8 +25,8 @@
 				body: JSON.stringify({ name, email })
 			});
 
-			const data = await res.json();
-			responseMessage = data.message;
+			const data = (await res.json()) as { message?: string };
+			responseMessage = data.message ?? '';
 		} catch {
 			responseMessage = 'Something went wrong.';
 		}
@@ -54,17 +55,13 @@
 <a href="#main" class="skip-link">Skip to main content</a>
 <NavBar />
 <main id="main">
-	<slot />
+	{@render children()}
 </main>
 
 <footer>
 	<article class="post">
 		<h2>Be notified of new posts by e-mail</h2>
-		<p>
-			Please note that this feature is experimental - if you sign up you may also receive multiple
-			test messages until I'm satisfied it is working!
-		</p>
-		<form id="subscribe-form" onsubmit={handleSubmit}>
+<form id="subscribe-form" onsubmit={handleSubmit}>
 			<label for="subscribe-name">
 				Name:
 				<input id="subscribe-name" autocomplete="name" type="text" bind:value={name} required aria-required="true" />

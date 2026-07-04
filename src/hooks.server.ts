@@ -65,6 +65,12 @@ export const handle: Handle = async ({ event, resolve }) => {
 		response.headers.set('cache-control', 'public, max-age=3600, stale-while-revalidate=300');
 	} else if (pathname === '/archives') {
 		response.headers.set('cache-control', 'public, max-age=600, stale-while-revalidate=120');
+	} else if (/^\/[^/]+$/.test(pathname) && !pathname.startsWith('/api')) {
+		// Individual post pages and named routes not handled above. Only set if the load
+		// function hasn't already provided a more specific header (e.g. /gallery sets max-age=3600).
+		if (!response.headers.get('cache-control')) {
+			response.headers.set('cache-control', 'public, max-age=300, stale-while-revalidate=60');
+		}
 	}
 	// /about, /useful-links, /photographs are prerendered and served as static files
 

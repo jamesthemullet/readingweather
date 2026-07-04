@@ -31,7 +31,24 @@
       "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:5173/)",
       "Bash(Select-String -Pattern \"vercel|netlify|fly|railway|render\")",
       "Bash(gh issue *)",
-      "Bash(yarn svelte-check *)"
+      "Bash(yarn svelte-check *)",
+      "Bash(yarn test *)",
+      "Bash(yarn lint *)",
+      "Bash(yarn biome *)",
+      "Bash(git diff *)",
+      "Bash(yarn test:unit run)",
+      "Bash(cp /tmp/shot.js ./shot.tmp.cjs)",
+      "Bash(node ./shot.tmp.cjs)",
+      "Bash(rm ./shot.tmp.cjs)",
+      "Bash(rm -f /c/tmp/homepage.png /tmp/home.html /tmp/dev.log /tmp/shot.js)",
+      "Bash(netstat -ano)",
+      "Bash(taskkill //F //IM node.exe)",
+      "Bash(curl -s \"https://archive-api.open-meteo.com/v1/archive?latitude=51.4543&longitude=-0.9781&start_date=1950-06-15&end_date=2026-06-21&daily=temperature_2m_max&timezone=Europe/London\" -o /tmp/test_range.json -w \"HTTP %{http_code}\\\\n\")",
+      "Read(//tmp/**)",
+      "Bash(yarn vitest *)",
+      "Bash(yarn lint:fix)",
+      "Bash(curl -s http://localhost:5183/ -o /tmp/home.html -w \"HTTP %{http_code}\\\\n\")",
+      "Bash(curl *)"
     ]
   }
 }

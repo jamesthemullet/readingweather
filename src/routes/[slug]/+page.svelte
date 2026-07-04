@@ -3,6 +3,7 @@
 	import AddComment from '$lib/components/AddComment.svelte';
 	import Comments from '$lib/components/Comments.svelte';
 	import ShareButton from '$lib/components/ShareButton.svelte';
+	import { injectKofiWidget } from '$lib/kofi';
 	import { sanitize } from '$lib/sanitize';
 	import { showAddComment } from '$lib/stores/commentState';
 	import type { GqlComment, ThreadedComment } from '$lib/types';
@@ -13,9 +14,6 @@
 	const organiseComments = (comments: GqlComment[]): ThreadedComment[] => {
 		const threaded: ThreadedComment[] = comments.map((c) => ({ ...c, replies: [] }));
 		const commentMap = new Map<string, ThreadedComment>(threaded.map((c) => [c.id, c]));
-		for (const comment of threaded) {
-			commentMap.set(comment.id, comment);
-		}
 
 		const topLevelComments: ThreadedComment[] = [];
 		for (const comment of threaded) {
@@ -32,15 +30,18 @@
 		return topLevelComments;
 	};
 
-	const threadedComments = organiseComments(data.post.comments?.nodes ?? []);
-	const postId = data.post.id;
+	const threadedComments = $derived(organiseComments(data.post.comments?.nodes ?? []));
+	const postId = $derived(data.post.id);
 
-	const postDescription =
-		data.post.excerpt || `Weather Forecast For Reading & Berkshire, issued ${data.post.title}`;
-	const postTitle = `Weather Forecast For Reading & Berkshire, issued ${data.post.title}`;
-	const postUrl = `https://www.readingweather.co.uk/${data.post.slug}`;
+	const postDescription = $derived(
+		data.post.excerpt || `Weather Forecast For Reading & Berkshire, issued ${data.post.title}`
+	);
+	const postTitle = $derived(
+		`Weather Forecast For Reading & Berkshire, issued ${data.post.title}`
+	);
+	const postUrl = $derived(`https://www.readingweather.co.uk/${data.post.slug}`);
 
-	const jsonLd = {
+	const jsonLd = $derived({
 		'@context': 'https://schema.org',
 		'@type': 'BlogPosting',
 		headline: postTitle,
@@ -60,18 +61,32 @@
 			name: 'Reading Weather',
 			url: 'https://www.readingweather.co.uk'
 		}
-	};
+	});
 
-	const paragraphs = data.post.content.split(/<\/?p>/).filter((p) => p.trim() !== '');
+	const decodeHtmlEntities = (str: string): string =>
+		str
+			.replace(/&#(\d+);/g, (_, code) => String.fromCharCode(Number(code)))
+			.replace(/&#x([0-9a-f]+);/gi, (_, hex) => String.fromCharCode(Number.parseInt(hex, 16)))
+			.replace(/&amp;/g, '&')
+			.replace(/&lt;/g, '<')
+			.replace(/&gt;/g, '>')
+			.replace(/&quot;/g, '"')
+			.replace(/&apos;/g, "'")
+			.replace(/&nbsp;/g, ' ');
 
-	const iframeHTML = `<iframe id='kofiframe' src='https://ko-fi.com/wffrb/?hidefeed=true&widget=true&embed=true&preview=true' style='border:none;width:100%;padding:4px;background:#f9f9f9;' height='612' title='Support Reading Weather on Ko-fi'></iframe>`;
-	if (paragraphs.length > 2) {
-		paragraphs.splice(-3, 0, iframeHTML);
-	}
+	const postSummary = $derived.by(() => {
+		const paragraphs = data.post.content.split(/<\/?p>/).filter((p) => p.trim() !== '');
+		const firstParagraphText = decodeHtmlEntities(
+			(paragraphs[0] ?? '').replace(/<[^>]*>/g, '').trim()
+		);
+		const firstSentenceMatch = firstParagraphText.match(/^.*?[.!?]/);
+		return firstSentenceMatch ? firstSentenceMatch[0].trim() : firstParagraphText;
+	});
 
-	const modifiedContent = paragraphs.map((p) => `<p>${p}</p>`).join('');
+	const modifiedContent = $derived(injectKofiWidget(data.post.content));
+	const sanitizedContent = $derived(sanitize(modifiedContent));
 
-	const hoursOld = $derived((new Date().getTime() - new Date(data.post.date).getTime()) / 36e5);
+	const hoursOld = $derived((Date.now() - new Date(data.post.date).getTime()) / 36e5);
 	const daysOld = $derived(Math.floor(hoursOld / 24));
 	const isStale = $derived(!data.isLatest && hoursOld > 24);
 </script>
@@ -113,12 +128,19 @@
 			loading="lazy"
 		/>
 	{/if}
-	<div class="content">{@html sanitize(modifiedContent)}</div>
+	<div class="content">{@html sanitizedContent}</div>
 
-	<ShareButton {postUrl} {postTitle} />
+	<ShareButton {postUrl} {postTitle} {postSummary} />
 
 	<Comments {threadedComments} {postId} />
 	{#if $showAddComment}
 		<AddComment {postId} />
 	{/if}
 </article>
+
+{#if data.latestSeasonalPost}
+	<section class="latest-seasonal">
+		<h2>Latest Seasonal Forecast</h2>
+		<a href="/{data.latestSeasonalPost.slug}">{data.latestSeasonalPost.title}</a>
+	</section>
+{/if}

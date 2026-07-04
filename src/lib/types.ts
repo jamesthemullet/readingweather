@@ -70,10 +70,13 @@ export type AllPostsResponse = {
 };
 
 export type GetPostBySlugResponse = {
+	postBy: GqlPostNode | null;
+};
+
+export type GetLatestPostSlugResponse = {
 	posts: {
 		nodes: Array<{ slug: string }>;
 	};
-	postBy: GqlPostNode | null;
 };
 
 export type GetPageByIdResponse = {
@@ -95,6 +98,23 @@ export type SeasonalPostsResponse = {
 			};
 			comments?: {
 				nodes: GqlComment[];
+			};
+		}>;
+	};
+};
+
+export type LatestSeasonalPostResponse = {
+	posts: {
+		nodes: Array<{
+			slug: string;
+			title: string;
+			date: string;
+			featuredImage?: {
+				node?: {
+					sourceUrl: string;
+					srcSet: string;
+					mediaDetails?: { width?: number; height?: number };
+				};
 			};
 		}>;
 	};

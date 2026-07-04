@@ -1,6 +1,5 @@
 import { json } from '@sveltejs/kit';
-import { fetchHistoricalWeather } from '$lib/api/historicalWeather';
-import type { DailyWeather } from '$lib/api/historicalWeather';
+import { type DailyWeather, fetchHistoricalWeather } from '$lib/api/historicalWeather';
 import { getCache, setCache } from '$lib/server/cache';
 import type { RequestHandler } from './$types';
 

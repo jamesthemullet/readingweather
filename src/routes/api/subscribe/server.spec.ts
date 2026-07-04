@@ -1,14 +1,13 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
+import { ALLOWED_ORIGINS } from '$lib/server/config';
 import { POST } from './+server';
-
-const ALLOWED_ORIGIN = 'https://www.readingweather.co.uk';
 
 function makeRequest(body: unknown, headerOverrides: Record<string, string> = {}) {
 	return new Request('http://localhost/api/subscribe', {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',
-			origin: ALLOWED_ORIGIN,
+			origin: ALLOWED_ORIGINS[0],
 			...headerOverrides
 		},
 		body: JSON.stringify(body)
@@ -35,7 +34,7 @@ describe('POST /api/subscribe', () => {
 	it('returns 400 for an unparseable JSON body', async () => {
 		const request = new Request('http://localhost/api/subscribe', {
 			method: 'POST',
-			headers: { 'Content-Type': 'application/json', origin: ALLOWED_ORIGIN },
+			headers: { 'Content-Type': 'application/json', origin: ALLOWED_ORIGINS[0] },
 			body: 'not-json'
 		});
 		const response = await POST({ request } as Parameters<typeof POST>[0]);
