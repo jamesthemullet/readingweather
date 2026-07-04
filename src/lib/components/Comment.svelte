@@ -22,7 +22,7 @@
 			month: 'long',
 			day: 'numeric'
 		};
-		const formattedDate = date.toLocaleDateString('en-US', options);
+		const formattedDate = date.toLocaleDateString('en-GB', options);
 
 		const day = date.getDate();
 		const ordinalSuffix = (day: number): 'st' | 'nd' | 'rd' | 'th' => {
@@ -39,7 +39,7 @@
 			}
 		};
 
-		const formattedTime = date.toLocaleTimeString('en-US', {
+		const formattedTime = date.toLocaleTimeString('en-GB', {
 			hour: 'numeric',
 			minute: 'numeric',
 			hour12: true
@@ -58,7 +58,7 @@
 
 <li class="comment">
 	<small>
-		By <strong>{comment?.author.node.name}</strong> on {formatDate(comment?.date)}:
+		By <strong>{comment?.author.node.name}</strong> on <time datetime={comment?.date}>{formatDate(comment?.date)}</time>:
 	</small>
 	<p>{@html sanitize(comment?.content ?? '')}</p>
 

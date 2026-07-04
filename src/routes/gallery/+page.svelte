@@ -18,7 +18,7 @@
 
 	let lightboxUrl = $state('');
 	let lightboxName = $state('');
-	let lightboxDialog = $state<HTMLDivElement | null>(null);
+	let lightboxDialog = $state<HTMLDialogElement | null>(null);
 	let triggerButton = $state<HTMLButtonElement | null>(null);
 
 	const openLightbox = (url: string, name: string, btn: HTMLButtonElement) => {
@@ -28,19 +28,19 @@
 	};
 
 	const closeLightbox = () => {
+		lightboxDialog?.close();
+	};
+
+	const onDialogClose = () => {
 		lightboxUrl = '';
 		lightboxName = '';
 		triggerButton?.focus();
 		triggerButton = null;
 	};
 
-	const onKeydown = (event: KeyboardEvent) => {
-		if (event.key === 'Escape') closeLightbox();
-	};
-
 	$effect(() => {
-		if (lightboxUrl && lightboxDialog) {
-			lightboxDialog.focus();
+		if (lightboxUrl && lightboxDialog && !lightboxDialog.open) {
+			lightboxDialog.showModal();
 		}
 	});
 </script>
@@ -57,8 +57,6 @@
 	<meta name="twitter:description" content="A photo gallery of weather conditions in Reading and Berkshire, organised by month and year." />
 	<meta name="twitter:image" content="https://www.readingweather.co.uk/images/weather.png" />
 </svelte:head>
-
-<svelte:window onkeydown={onKeydown} />
 
 <h1>Photo Gallery</h1>
 
@@ -101,27 +99,23 @@
 	</div>
 </article>
 
-{#if lightboxUrl}
-	<!-- svelte-ignore a11y_click_events_have_key_events a11y_no_static_element_interactions -->
-	<div class="lightbox-overlay" onclick={closeLightbox}>
-		<div
-			class="lightbox-content"
-			role="dialog"
-			aria-modal="true"
-			aria-label={lightboxName || 'Photo lightbox'}
-			tabindex="-1"
-			bind:this={lightboxDialog}
-			onclick={(e) => e.stopPropagation()}
-			onkeydown={(e) => { if (e.key === 'Escape') closeLightbox(); }}
-		>
-			<button class="lightbox-close" onclick={closeLightbox} aria-label="Close lightbox">&#x2715;</button>
+<dialog
+	class="lightbox"
+	bind:this={lightboxDialog}
+	aria-label={lightboxName || 'Photo lightbox'}
+	onclose={onDialogClose}
+	onclick={(e) => { if (e.target === e.currentTarget) closeLightbox(); }}
+>
+	<div class="lightbox-inner">
+		<button class="lightbox-close" onclick={closeLightbox} aria-label="Close lightbox">&#x2715;</button>
+		{#if lightboxUrl}
 			<img src={lightboxUrl} alt={lightboxName} loading="eager" />
-			{#if lightboxName}
-				<p class="lightbox-name">{lightboxName}</p>
-			{/if}
-		</div>
+		{/if}
+		{#if lightboxName}
+			<p class="lightbox-name">{lightboxName}</p>
+		{/if}
 	</div>
-{/if}
+</dialog>
 
 <style>
 	.gallery-container {
@@ -199,30 +193,31 @@
 	}
 
 	/* Lightbox */
-	.lightbox-overlay {
-		position: fixed;
-		inset: 0;
-		background: rgba(0, 0, 0, 0.85);
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		z-index: 1000;
-	}
-
-	.lightbox-content {
-		position: relative;
+	dialog.lightbox {
+		border: none;
+		padding: 0;
+		background: transparent;
 		max-width: 90vw;
 		max-height: 90vh;
+		overflow: visible;
+	}
+
+	:global(dialog.lightbox::backdrop) {
+		background: rgba(0, 0, 0, 0.85);
+	}
+
+	.lightbox-inner {
+		position: relative;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
+	}
 
-		img {
-			max-width: 90vw;
-			max-height: 80vh;
-			object-fit: contain;
-			display: block;
-		}
+	.lightbox-inner img {
+		max-width: 90vw;
+		max-height: 80vh;
+		object-fit: contain;
+		display: block;
 	}
 
 	.lightbox-close {
