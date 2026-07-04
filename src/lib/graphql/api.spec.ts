@@ -100,4 +100,41 @@ describe('addComment', () => {
 
 		expect(result).toEqual({ success: false });
 	});
+
+	it('includes parentId in the mutation input variables when provided', async () => {
+		const mockFetch = vi.fn().mockResolvedValue({
+			ok: true,
+			headers: jsonHeaders,
+			json: async () => ({ data: { createComment: { success: true } } })
+		});
+		vi.stubGlobal('fetch', mockFetch);
+
+		await addComment(123, 'Reply!', 'Alice', 'alice@example.com', 456);
+
+		const [, options] = mockFetch.mock.calls[0] as [string, { body: string }];
+		const body = JSON.parse(options.body) as { variables: { input: { parent: number } } };
+		expect(body.variables.input.parent).toBe(456);
+	});
+});
+
+describe('fetchGraphQL — non-JSON response', () => {
+	afterEach(() => {
+		vi.unstubAllGlobals();
+	});
+
+	it('throws with a descriptive message when the endpoint returns a non-JSON content-type', async () => {
+		vi.stubGlobal(
+			'fetch',
+			vi.fn().mockResolvedValue({
+				ok: true,
+				status: 200,
+				headers: { get: (key: string) => (key === 'content-type' ? 'text/html' : null) },
+				json: async () => ({})
+			})
+		);
+
+		await expect(fetchGraphQL('{ posts { nodes { id } } }')).rejects.toThrow(
+			'GraphQL endpoint returned non-JSON response (200)'
+		);
+	});
 });

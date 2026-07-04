@@ -1,24 +1,9 @@
 <script lang="ts">
 	import { injectKofiWidget } from '$lib/kofi';
 	import { sanitize } from '$lib/sanitize';
+	import type { AllPostsNode } from '$lib/types';
 
-	type Post = {
-		slug: string;
-		title: string;
-		content: string;
-		featuredImage?: {
-			node?: {
-				sourceUrl: string;
-				srcSet: string;
-				mediaDetails?: {
-					width?: number;
-					height?: number;
-				};
-			};
-		};
-	};
-
-	const { posts, preview = false }: { posts: Post[]; preview?: boolean } = $props();
+	const { posts, preview = false }: { posts: AllPostsNode[]; preview?: boolean } = $props();
 
 	const firstParagraph = (content: string): string => {
 		const first = content.split(/<\/?p>/).find((p) => p.trim() !== '');

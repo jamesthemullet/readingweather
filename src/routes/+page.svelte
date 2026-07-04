@@ -6,6 +6,8 @@
 	import '../styles/index.css';
 	import OnThisDay from '$lib/components/OnThisDay.svelte';
 	import PostList from '$lib/components/PostList.svelte';
+	import WeekInHistory from '$lib/components/WeekInHistory.svelte';
+	import WeeklyDigest from '$lib/components/WeeklyDigest.svelte';
 
 	const jsonLd = $derived({
 		'@context': 'https://schema.org',
@@ -47,3 +49,7 @@
 	<p>Looking for older posts?</p>
 	<a href="/archives">Check out the archives</a>
 </div>
+
+<WeeklyDigest />
+
+<WeekInHistory />

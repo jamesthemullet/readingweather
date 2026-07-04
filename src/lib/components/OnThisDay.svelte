@@ -2,13 +2,17 @@
 	import { onMount } from 'svelte';
 	import type { DailyWeather } from '$lib/api/historicalWeather';
 
-	type Post = {
+	type OnThisDayPost = {
 		title: string;
 		slug: string;
 		date: string;
 	};
 
-	const { posts }: { posts: Post[] } = $props();
+	type Props = {
+		posts: OnThisDayPost[];
+	};
+
+	const { posts }: Props = $props();
 
 	const currentYear = new Date().getFullYear();
 	const historicalPosts = $derived(

@@ -173,6 +173,7 @@ form {
 		max-width: 300px;
 		border: 1px solid var(--nav);
 
+		/* biome-ignore lint/style/noDescendingSpecificity: targets form inputs, unrelated to .skip-link:focus */
 		&:focus,
 		&:active {
 			border-radius: 0;
