@@ -12,7 +12,7 @@
 </script>
 
 <ul>
-	{#each posts as post}
+	{#each posts as post, i}
 		<li>
 			<article class="post">
 				<a href="/{post.slug}">
@@ -24,7 +24,8 @@
 							alt=""
 							width={post.featuredImage.node.mediaDetails?.width ?? undefined}
 							height={post.featuredImage.node.mediaDetails?.height ?? undefined}
-							loading="lazy"
+							loading={i === 0 ? 'eager' : 'lazy'}
+							fetchpriority={i === 0 ? 'high' : undefined}
 						/>
 					{/if}
 					<h2>{post.title}</h2>
