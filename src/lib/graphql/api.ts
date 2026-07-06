@@ -29,7 +29,7 @@ export async function fetchGraphQL<T = Record<string, unknown>>(
 		throw new Error('Failed to fetch data');
 	}
 
-	return json.data as T;
+	return json.data;
 }
 
 type AddCommentResponse = { createComment: { success: boolean } | null };

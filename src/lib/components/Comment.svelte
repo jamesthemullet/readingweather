@@ -58,11 +58,11 @@
 
 <li class="comment">
 	<small>
-		By <strong>{comment?.author.node.name}</strong> on <time datetime={comment?.date}>{formatDate(comment?.date)}</time>:
+		By <strong>{comment.author.node.name}</strong> on <time datetime={comment.date}>{formatDate(comment.date)}</time>:
 	</small>
-	<p>{@html sanitize(comment?.content ?? '')}</p>
+	<p>{@html sanitize(comment.content)}</p>
 
-	{#if comment?.replies.length > 0}
+	{#if comment.replies.length > 0}
 		<ul class="comment-replies">
 			{#each comment.replies as reply}
 				<Comment comment={reply} {postId} {replyForms} />
@@ -70,9 +70,9 @@
 		</ul>
 	{/if}
 
-	<button class="reply-button" onclick={() => toggleReplyForm(comment?.id)} aria-label="Reply to {comment?.author.node.name}">Reply</button>
+	<button class="reply-button" onclick={() => toggleReplyForm(comment.id)} aria-label="Reply to {comment.author.node.name}">Reply</button>
 
-	{#if $replyForms[comment?.id]}
+	{#if $replyForms[comment.id]}
 		<AddComment {postId} parentCommentId={comment.id} />
 	{/if}
 </li>
