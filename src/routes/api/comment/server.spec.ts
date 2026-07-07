@@ -5,6 +5,9 @@ import { POST } from './+server';
 vi.mock('$lib/graphql/api', () => ({
 	addComment: vi.fn().mockResolvedValue({ success: true })
 }));
+
+import { addComment } from '$lib/graphql/api';
+
 const validPostId = btoa('post:123');
 
 function makeRequest(body: unknown, headerOverrides: Record<string, string> = {}) {
@@ -85,5 +88,31 @@ describe('POST /api/comment', () => {
 		expect(response.status).toBe(200);
 		const data = await response.json();
 		expect(data.success).toBe(true);
+	});
+
+	it('returns 422 when addComment resolves with success: false', async () => {
+		vi.mocked(addComment).mockResolvedValueOnce({ success: false });
+		const request = makeRequest({
+			postId: validPostId,
+			content: 'Great post!',
+			name: 'Alice',
+			email: 'alice@example.com'
+		});
+		const response = await POST({ request } as Parameters<typeof POST>[0]);
+		expect(response.status).toBe(422);
+		const data = await response.json();
+		expect(data.success).toBe(false);
+	});
+
+	it('returns 502 when addComment throws', async () => {
+		vi.mocked(addComment).mockRejectedValueOnce(new Error('GraphQL error'));
+		const request = makeRequest({
+			postId: validPostId,
+			content: 'Great post!',
+			name: 'Alice',
+			email: 'alice@example.com'
+		});
+		const response = await POST({ request } as Parameters<typeof POST>[0]);
+		expect(response.status).toBe(502);
 	});
 });
