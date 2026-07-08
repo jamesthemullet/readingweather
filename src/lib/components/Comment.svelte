@@ -1,7 +1,6 @@
 <script lang="ts">
-	
 	import type { Writable } from 'svelte/store';
-import { get } from 'svelte/store';
+	import { get } from 'svelte/store';
 	import { sanitize } from '$lib/sanitize';
 	import { showAddComment } from '$lib/stores/commentState';
 	import type { ThreadedComment } from '$lib/types';
@@ -23,7 +22,7 @@ import { get } from 'svelte/store';
 			month: 'long',
 			day: 'numeric'
 		};
-		const formattedDate = date.toLocaleDateString('en-US', options);
+		const formattedDate = date.toLocaleDateString('en-GB', options);
 
 		const day = date.getDate();
 		const ordinalSuffix = (day: number): 'st' | 'nd' | 'rd' | 'th' => {
@@ -40,7 +39,7 @@ import { get } from 'svelte/store';
 			}
 		};
 
-		const formattedTime = date.toLocaleTimeString('en-US', {
+		const formattedTime = date.toLocaleTimeString('en-GB', {
 			hour: 'numeric',
 			minute: 'numeric',
 			hour12: true
@@ -59,7 +58,7 @@ import { get } from 'svelte/store';
 
 <li class="comment">
 	<small>
-		By <strong>{comment?.author.node.name}</strong> on {formatDate(comment?.date)}:
+		By <strong>{comment?.author.node.name}</strong> on <time datetime={comment?.date}>{formatDate(comment?.date)}</time>:
 	</small>
 	<p>{@html sanitize(comment?.content ?? '')}</p>
 

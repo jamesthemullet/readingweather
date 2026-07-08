@@ -76,4 +76,45 @@ describe('gallery load', () => {
 			expect(result.groupedPosts[i].month).toBeGreaterThan(result.groupedPosts[i + 1].month);
 		}
 	});
+
+	it('filters out posts that have no featuredImage', async () => {
+		vi.mocked(getCache).mockReturnValue(null);
+		vi.mocked(fetchGraphQL).mockResolvedValue({
+			posts: {
+				nodes: [
+					{ title: 'no-image', slug: 'no-image', date: '2023-01-01' },
+					makePost('has-image', 'https://example.com/sunny.jpg')
+				]
+			}
+		});
+
+		const result = (await load(makeEvent({ year: '2023' }))) as GalleryLoadResult;
+
+		const allSlugs = result.groupedPosts.flatMap(({ posts }) => posts.map((p) => p.slug));
+		expect(allSlugs).not.toContain('no-image');
+		expect(allSlugs).toContain('has-image');
+	});
+
+	it('defaults to the current year when no year param is provided', async () => {
+		vi.mocked(getCache).mockReturnValue(null);
+		vi.mocked(fetchGraphQL).mockResolvedValue({ posts: { nodes: [] } });
+
+		const result = (await load(makeEvent())) as GalleryLoadResult;
+
+		expect(result.selectedYear).toBe(new Date().getFullYear());
+	});
+
+	it('strips trailing digits from filename words when building image names', async () => {
+		vi.mocked(getCache).mockReturnValue(null);
+		vi.mocked(fetchGraphQL).mockResolvedValue({
+			posts: {
+				nodes: [makePost('photo-post', 'https://example.com/reading-photo1-jan.jpg')]
+			}
+		});
+
+		const result = (await load(makeEvent({ year: '2023' }))) as GalleryLoadResult;
+
+		const names = result.groupedPosts.flatMap(({ posts }) => posts.map((p) => p.name));
+		expect(names).toContain('Reading Photo Jan');
+	});
 });

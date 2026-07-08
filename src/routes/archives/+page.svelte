@@ -1,33 +1,42 @@
 <script lang="ts">
 	import '../../styles/index.css';
+	import { goto } from '$app/navigation';
 	import type { PageProps } from './$types';
 
 	const { data }: PageProps = $props();
+
+	const jsonLd = {
+		'@context': 'https://schema.org',
+		'@type': 'CollectionPage',
+		name: 'Weather Forecast Archives – Reading Weather',
+		description:
+			'Browse the archives of weather forecasts for Reading and Berkshire, searchable by month and year.',
+		url: 'https://www.readingweather.co.uk/archives'
+	};
+
+	const monthNames = [
+		'January',
+		'February',
+		'March',
+		'April',
+		'May',
+		'June',
+		'July',
+		'August',
+		'September',
+		'October',
+		'November',
+		'December'
+	];
 
 	const updateArchive = (event: Event & { currentTarget: EventTarget & HTMLSelectElement }): void => {
 		const selected = event.currentTarget.value;
 		if (!selected) return;
 		const [year, month] = selected.split('-');
-		window.location.href = `archives/?year=${year}&month=${month}`;
+		goto(`/archives?year=${year}&month=${month}`);
 	};
 
-	const getMonthName = (month: number): string => {
-		const monthNames = [
-			'January',
-			'February',
-			'March',
-			'April',
-			'May',
-			'June',
-			'July',
-			'August',
-			'September',
-			'October',
-			'November',
-			'December'
-		];
-		return monthNames[month - 1];
-	};
+	const getMonthName = (month: number): string => monthNames[month - 1];
 </script>
 
 <svelte:head>
@@ -38,6 +47,10 @@
 	<meta property="og:image" content="https://www.readingweather.co.uk/images/weather.png" />
 	<meta property="og:type" content="website" />
 	<meta property="og:url" content="https://www.readingweather.co.uk/archives" />
+	<meta name="twitter:title" content="Weather Forecast Archives – Reading Weather" />
+	<meta name="twitter:description" content="Browse the archives of weather forecasts for Reading and Berkshire, searchable by month and year." />
+	<meta name="twitter:image" content="https://www.readingweather.co.uk/images/weather.png" />
+	{@html `<script type="application/ld+json">${JSON.stringify(jsonLd)}</script>`}
 </svelte:head>
 
 <h1>Weather Forecast Archives</h1>

@@ -1,6 +1,6 @@
 const ALL_POSTS_QUERY = `
   query AllPosts {
-    posts(first: 4) {
+    posts(first: 2) {
       nodes {
         date
         slug

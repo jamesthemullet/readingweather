@@ -1,75 +1,22 @@
 import type { RequestHandler } from '@sveltejs/kit';
-import { fetchGraphQL } from '$lib/graphql/api';
+import { fetchSitemapPosts, generateSitemapXml } from '$lib/server/sitemap';
 
-const ALL_POSTS_SITEMAP_QUERY = `
-  query AllPostsForSitemap {
-    posts(first: 10000) {
-      nodes {
-        slug
-        date
-      }
-    }
-  }
-`;
-
-function escapeXml(value: string): string {
-	return value
-		.replace(/&/g, '&amp;')
-		.replace(/</g, '&lt;')
-		.replace(/>/g, '&gt;')
-		.replace(/"/g, '&quot;')
-		.replace(/'/g, '&apos;');
-}
-
-function toXmlUrl(loc: string, lastmod?: string, changefreq = 'monthly', priority = '0.7'): string {
-	const last = lastmod ? `<lastmod>${escapeXml(lastmod)}</lastmod>` : '';
-	return `
-    <url>
-      <loc>${escapeXml(loc)}</loc>
-      ${last}
-      <changefreq>${changefreq}</changefreq>
-      <priority>${priority}</priority>
-    </url>`;
-}
-
-type SitemapNode = { slug: string; date: string | null };
+const staticRoutes = [
+	{ path: '/', changefreq: 'daily', priority: '1.0' },
+	{ path: '/about', changefreq: 'monthly', priority: '0.8' },
+	{ path: '/archives', changefreq: 'monthly', priority: '0.6' },
+	{ path: '/gallery', changefreq: 'monthly', priority: '0.6' },
+	{ path: '/photographs', changefreq: 'monthly', priority: '0.6' },
+	{ path: '/seasonal-forecasts', changefreq: 'monthly', priority: '0.8' },
+	{ path: '/useful-links', changefreq: 'monthly', priority: '0.5' }
+];
 
 export const GET: RequestHandler = async () => {
 	const base = 'https://www.readingweather.co.uk';
 
 	try {
-		const data = await fetchGraphQL<{ posts: { nodes: SitemapNode[] } }>(ALL_POSTS_SITEMAP_QUERY);
-		const nodes = data.posts.nodes;
-
-		const staticRoutes = [
-			{ path: '/', changefreq: 'daily', priority: '1.0' },
-			{ path: '/about', changefreq: 'monthly', priority: '0.8' },
-			{ path: '/archives', changefreq: 'monthly', priority: '0.6' },
-			{ path: '/gallery', changefreq: 'monthly', priority: '0.6' },
-			{ path: '/photographs', changefreq: 'monthly', priority: '0.6' },
-			{ path: '/seasonal-forecasts', changefreq: 'monthly', priority: '0.8' },
-			{ path: '/useful-links', changefreq: 'monthly', priority: '0.5' }
-		];
-
-		const urls: string[] = [];
-
-		// add static routes
-		for (const r of staticRoutes) {
-			urls.push(toXmlUrl(`${base}${r.path}`, undefined, r.changefreq, r.priority));
-		}
-
-		// add posts
-		for (const node of nodes) {
-			const loc = `${base}/${node.slug}`;
-			// date from GraphQL is usually ISO; keep YYYY-MM-DD
-			const lastmod = node.date ? node.date.slice(0, 10) : undefined;
-			urls.push(toXmlUrl(loc, lastmod, 'monthly', '0.7'));
-		}
-
-		const xml = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${urls.join('\n')}
-</urlset>`;
+		const nodes = await fetchSitemapPosts();
+		const xml = generateSitemapXml(nodes, staticRoutes, base);
 
 		return new Response(xml, {
 			headers: {
