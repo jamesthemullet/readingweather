@@ -94,10 +94,8 @@ export type SeasonalPostsResponse = {
 				node?: {
 					sourceUrl: string;
 					srcSet: string;
+					mediaDetails?: { width?: number; height?: number };
 				};
-			};
-			comments?: {
-				nodes: GqlComment[];
 			};
 		}>;
 	};

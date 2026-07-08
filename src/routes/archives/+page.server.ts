@@ -20,7 +20,7 @@ const generateArchives = (): ArchiveEntry[] => {
 	return archives.reverse();
 };
 
-export const load: PageServerLoad = async ({ url, fetch, setHeaders }) => {
+export const load: PageServerLoad = async ({ url, fetch }) => {
 	const selectedYear = Number(url.searchParams.get('year'));
 	const selectedMonth = Number(url.searchParams.get('month'));
 
@@ -35,8 +35,6 @@ export const load: PageServerLoad = async ({ url, fetch, setHeaders }) => {
 		);
 		posts = postsRes.posts.nodes;
 	}
-
-	setHeaders({ 'cache-control': 'public, max-age=900' });
 
 	return {
 		archives,
