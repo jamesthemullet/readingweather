@@ -35,8 +35,8 @@
 		<h2>Last Week in Reading</h2>
 		<p class="range">{formatRange(digest.startDate, digest.endDate)}</p>
 		<div class="stats">
-			<span>↑{digest.tempHigh}°C</span>
-			<span>↓{digest.tempLow}°C</span>
+			<span><span aria-hidden="true">↑</span><span class="sr-only">High: </span>{digest.tempHigh}°C</span>
+			<span><span aria-hidden="true">↓</span><span class="sr-only">Low: </span>{digest.tempLow}°C</span>
 			<span>{digest.totalPrecipitation}mm rain</span>
 			{#if digest.rainyDays > 0}
 				<span>{digest.rainyDays} wet {digest.rainyDays === 1 ? 'day' : 'days'}</span>
