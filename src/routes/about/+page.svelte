@@ -3,6 +3,14 @@
 	import type { PageProps } from './$types';
 
 	const { data }: PageProps = $props();
+
+	const jsonLd = {
+		'@context': 'https://schema.org',
+		'@type': 'WebPage',
+		name: data.page.title,
+		description: data.page.seo.description,
+		url: `https://www.readingweather.co.uk/${data.page.slug}`
+	};
 </script>
 
 <svelte:head>
@@ -16,6 +24,7 @@
 	<meta name="twitter:title" content={data.page.title} />
 	<meta name="twitter:description" content={data.page.seo.opengraphDescription || data.page.seo.description} />
 	<meta name="twitter:image" content={data.page.featuredImage?.node?.sourceUrl ?? 'https://www.readingweather.co.uk/images/weather.png'} />
+	{@html `<script type="application/ld+json">${JSON.stringify(jsonLd)}</script>`}
 </svelte:head>
 
 {#if data.page}

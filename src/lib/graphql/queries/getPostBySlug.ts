@@ -12,6 +12,7 @@ const GET_POST_BY_SLUG = `
           altText
           sourceUrl(size: MEDIUM_LARGE)
           srcSet(size: MEDIUM_LARGE)
+          altText
           mediaDetails {
             width
             height
