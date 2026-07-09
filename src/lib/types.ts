@@ -9,9 +9,9 @@ export type GqlComment = {
 export type ThreadedComment = GqlComment & { replies: ThreadedComment[] };
 
 export type GqlPostFeaturedImageNode = {
+	altText?: string;
 	sourceUrl: string;
 	srcSet?: string;
-	altText?: string;
 	mediaDetails?: {
 		width?: number;
 		height?: number;
@@ -50,21 +50,23 @@ export type GqlPageNode = {
 	};
 };
 
+export type AllPostsNode = {
+	date: string;
+	slug: string;
+	title: string;
+	content: string;
+	featuredImage?: {
+		node?: {
+			sourceUrl: string;
+			srcSet: string;
+			mediaDetails?: { width?: number; height?: number };
+		};
+	};
+};
+
 export type AllPostsResponse = {
 	posts: {
-		nodes: Array<{
-			date: string;
-			slug: string;
-			title: string;
-			content: string;
-			featuredImage?: {
-				node?: {
-					sourceUrl: string;
-					srcSet: string;
-					mediaDetails?: { width?: number; height?: number };
-				};
-			};
-		}>;
+		nodes: Array<AllPostsNode>;
 	};
 };
 

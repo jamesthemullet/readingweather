@@ -44,7 +44,7 @@ jobs:
       - name: Install dependencies
         run: yarn install
       - name: Run type check
-        run: yarn check
+        run: yarn run check
   unit:
     needs: lint
     runs-on: ubuntu-latest

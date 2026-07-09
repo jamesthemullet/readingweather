@@ -9,15 +9,14 @@
 		{ href: '/about', label: 'About' },
 		{ href: '/archives', label: 'Archives' }
 	];
-	// biome-ignore lint/style/useConst: needed for Svelte reactivity ok
-	let isOpen = false;
+	let isOpen = $state(false);
 </script>
 
-<nav class="navbar">
+<nav class="navbar" aria-label="Main navigation">
 	<a href="/" class="home-button">Home </a>
 	<button
 		class="menu-button"
-		on:click={() => (isOpen = !isOpen)}
+		onclick={() => (isOpen = !isOpen)}
 		aria-label={isOpen ? 'Close navigation menu' : 'Open navigation menu'}
 		aria-expanded={isOpen}
 		aria-controls="nav-menu"
@@ -29,16 +28,12 @@
 		</svg>
 	</button>
 
-	<ul
-		id="nav-menu"
-		class:open={isOpen}
-		style="transition: {isOpen ? 'max-height 0.3s ease-out' : 'none'};"
-	>
+	<ul id="nav-menu" class:open={isOpen}>
 		{#each links as link}
 			<li class:active={$page.url.pathname === link.href}>
 				<a
 					href={link.href}
-					on:click={() => (isOpen = false)}
+					onclick={() => (isOpen = false)}
 					aria-current={$page.url.pathname === link.href ? 'page' : undefined}>{link.label}</a
 				>
 			</li>
@@ -94,6 +89,9 @@
 		overflow: hidden;
 		padding: 0 1rem;
 		margin-top: 0.75rem;
+		transition:
+			max-height 0.3s ease-out,
+			visibility 0s 0.3s;
 
 		@media screen and (min-width: 768px) {
 			margin-top: 0;
@@ -102,6 +100,9 @@
 
 	.navbar ul.open {
 		max-height: 500px;
+		transition:
+			max-height 0.3s ease-out,
+			visibility 0s 0s;
 	}
 
 	.navbar li a {
@@ -128,12 +129,14 @@
 			left: 0;
 			right: 0;
 			max-height: 0;
+			visibility: hidden;
 		}
 
 		.navbar ul.open {
 			max-height: 500px;
 			padding-bottom: 1rem;
 			padding-top: 1rem;
+			visibility: visible;
 		}
 	}
 </style>
