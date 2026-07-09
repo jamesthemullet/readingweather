@@ -96,13 +96,16 @@
 	<meta name="description" content={postDescription} />
 	<meta property="og:title" content={postTitle} />
 	<meta property="og:description" content={postDescription} />
-	{#if data.post.featuredImage?.node?.sourceUrl}
-		<meta property="og:image" content={data.post.featuredImage.node.sourceUrl} />
-		<meta name="twitter:image" content={data.post.featuredImage.node.sourceUrl} />
-	{/if}
+	<meta
+		property="og:image"
+		content={data.post.featuredImage?.node?.sourceUrl ?? 'https://www.readingweather.co.uk/images/weather.png'}
+	/>
+	<meta
+		name="twitter:image"
+		content={data.post.featuredImage?.node?.sourceUrl ?? 'https://www.readingweather.co.uk/images/weather.png'}
+	/>
 	<meta property="og:type" content="article" />
 	<meta property="og:url" content={postUrl} />
-	<meta name="twitter:card" content="summary_large_image" />
 	<meta name="twitter:title" content={postTitle} />
 	<meta name="twitter:description" content={postDescription} />
 	{@html `<script type="application/ld+json">${JSON.stringify(jsonLd)}</script>`}
@@ -122,7 +125,7 @@
 			src={data.post.featuredImage.node.sourceUrl}
 			srcset={data.post.featuredImage.node.srcSet}
 			sizes="(min-width: 768px) 700px, 100vw"
-			alt=""
+			alt={data.post.featuredImage.node.altText ?? ''}
 			width={data.post.featuredImage.node.mediaDetails?.width ?? undefined}
 			height={data.post.featuredImage.node.mediaDetails?.height ?? undefined}
 			fetchpriority="high"

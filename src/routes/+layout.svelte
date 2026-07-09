@@ -60,8 +60,8 @@
 
 <footer>
 	<section class="post">
-		<h2>Be notified of new posts by e-mail</h2>
-<form id="subscribe-form" onsubmit={handleSubmit}>
+		<h2 id="subscribe-heading">Be notified of new posts by e-mail</h2>
+<form id="subscribe-form" aria-labelledby="subscribe-heading" onsubmit={handleSubmit}>
 			<label for="subscribe-name">
 				Name:
 				<input id="subscribe-name" autocomplete="name" type="text" bind:value={name} required aria-required="true" />

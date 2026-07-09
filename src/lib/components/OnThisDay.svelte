@@ -73,7 +73,7 @@
 			<ul class="on-this-day-list">
 				{#each historicalPosts as post}
 					<li>
-						<span class="year">{getYear(post.date)}</span>
+						<time class="year" datetime={post.date}>{getYear(post.date)}</time>
 						<a href="/{post.slug}">{post.title}</a>
 					</li>
 				{/each}

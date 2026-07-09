@@ -20,13 +20,13 @@
 		<p class="range">{history.windowLabel} · {history.yearsOfData} years of records</p>
 		<ul class="records">
 			<li>
-				🌡️ Hottest day: <strong>{history.hottestDay.value}°C</strong> in {history.hottestDay.year}
+				<span aria-hidden="true">🌡️</span> Hottest day: <strong>{history.hottestDay.value}°C</strong> in {history.hottestDay.year}
 			</li>
 			<li>
-				❄️ Coldest day: <strong>{history.coldestDay.value}°C</strong> in {history.coldestDay.year}
+				<span aria-hidden="true">❄️</span> Coldest day: <strong>{history.coldestDay.value}°C</strong> in {history.coldestDay.year}
 			</li>
 			<li>
-				🌧️ Wettest week (total rainfall): <strong>{history.wettestWeek.value}mm</strong> in {history
+				<span aria-hidden="true">🌧️</span> Wettest week (total rainfall): <strong>{history.wettestWeek.value}mm</strong> in {history
 					.wettestWeek.year}
 			</li>
 		</ul>
