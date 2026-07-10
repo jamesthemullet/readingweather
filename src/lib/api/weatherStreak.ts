@@ -44,6 +44,9 @@ type StreakDefinition = {
 	emoji: string;
 	label: (n: number) => string;
 	test: (day: DayMetrics) => boolean;
+	// A fixed, plain-English statement of the threshold, for a "what counts as X"
+	// key — e.g. so a reader doesn't assume a bit of drizzle rules out a dry day.
+	description: string;
 	// Explains the threshold in absolute, human terms for the current time of
 	// year (e.g. "needs more than 10 hours of sunshine in July"), since the
 	// underlying rule for `sunny` is a ratio the reader can't sanity-check
@@ -56,41 +59,51 @@ const STREAK_DEFINITIONS: StreakDefinition[] = [
 		type: 'dry',
 		emoji: '☀️',
 		label: (n) => `${n} consecutive dry day${n === 1 ? '' : 's'} in Reading`,
-		test: (d) => d.precipitation < 0.5
+		test: (d) => d.precipitation < 0.5,
+		description: 'Under 0.5mm of rain in the day — light drizzle still counts as dry.'
 	},
 	{
 		type: 'wet',
 		emoji: '🌧️',
 		label: (n) => `${n} consecutive day${n === 1 ? '' : 's'} of rain in Reading`,
-		test: (d) => d.precipitation >= 1
+		test: (d) => d.precipitation >= 1,
+		description: '1mm of rain or more in the day.'
 	},
 	{
 		type: 'warm',
 		emoji: '🔥',
-		label: (n) => `${n} day${n === 1 ? '' : 's'} above 25°C in Reading`,
-		test: (d) => d.tempMax >= 25
+		label: (n) => `${n} consecutive day${n === 1 ? '' : 's'} above 25°C in Reading`,
+		test: (d) => d.tempMax >= 25,
+		description: 'A high of 25°C or above.'
 	},
 	{
 		type: 'cold',
 		emoji: '🥶',
-		label: (n) => `${n} day${n === 1 ? '' : 's'} below 5°C in Reading`,
-		test: (d) => d.tempMax < 5
+		label: (n) => `${n} consecutive day${n === 1 ? '' : 's'} below 5°C in Reading`,
+		test: (d) => d.tempMax < 5,
+		description: "A high that never climbs above 5°C — it stays cold all day."
 	},
 	{
 		type: 'frost',
 		emoji: '❄️',
 		label: (n) => `${n} consecutive night${n === 1 ? '' : 's'} of frost in Reading`,
-		test: (d) => d.tempMin < 0
+		test: (d) => d.tempMin < 0,
+		description: 'An overnight low below 0°C.'
 	},
 	{
 		type: 'sunny',
 		emoji: '🌞',
 		label: (n) => `${n} sunny day${n === 1 ? '' : 's'} in a row in Reading`,
 		test: (d) => d.sunshineRatio > SUNNY_RATIO,
+		description:
+			'More than 60% of that day’s daylight hours have genuine sunshine — the equivalent hour count varies by season and is shown alongside the streak.',
 		buildDefinition: (daylightHours, monthName) =>
 			`Counted as sunny if it gets more than ${Math.round(daylightHours * SUNNY_RATIO)} hours of sunshine here in ${monthName} (~${Math.round(daylightHours)} hours of daylight this time of year)`
 	}
 ];
+
+export const STREAK_KEY: { type: StreakType; emoji: string; description: string }[] =
+	STREAK_DEFINITIONS.map(({ type, emoji, description }) => ({ type, emoji, description }));
 
 export type Streak = {
 	type: StreakType;

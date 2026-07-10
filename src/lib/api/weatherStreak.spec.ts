@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { fetchWeatherStreak } from './weatherStreak';
+import { fetchWeatherStreak, STREAK_KEY } from './weatherStreak';
 
 // Fixed "now" so the fetch window always ends yesterday, 2026-07-09.
 const NOW = new Date('2026-07-10T12:00:00Z');
@@ -209,6 +209,17 @@ describe('fetchWeatherStreak', () => {
 		const result = await fetchWeatherStreak(NOW);
 		expect(result?.active.type).toBe('dry');
 		expect(result?.active.context).toBe('the longest so far this year');
+	});
+
+	it('describes the dry threshold as under 0.5mm, not zero, so drizzle still counts', () => {
+		const dry = STREAK_KEY.find((k) => k.type === 'dry');
+		expect(dry?.description).toBe(
+			'Under 0.5mm of rain in the day — light drizzle still counts as dry.'
+		);
+	});
+
+	it('exposes a key entry for every streak type', () => {
+		expect(STREAK_KEY.map((k) => k.type)).toEqual(['dry', 'wet', 'warm', 'cold', 'frost', 'sunny']);
 	});
 
 	it('throws when the API request fails', async () => {

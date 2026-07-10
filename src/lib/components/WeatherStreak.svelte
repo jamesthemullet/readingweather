@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import type { WeatherStreakResult } from '$lib/api/weatherStreak';
+	import { STREAK_KEY, type WeatherStreakResult } from '$lib/api/weatherStreak';
 
 	let streak = $state<WeatherStreakResult | null>(null);
 
@@ -16,6 +16,7 @@
 
 {#if streak}
 	<section class="weather-streak">
+		<h2>Reading Weather Streak Tracker</h2>
 		<p class="headline">
 			<span aria-hidden="true">{streak.active.emoji}</span>
 			<strong>{streak.active.headline}</strong>
@@ -35,6 +36,14 @@
 				{/each}
 			</ul>
 		{/if}
+		<details class="streak-key">
+			<summary>What counts as a streak?</summary>
+			<ul>
+				{#each STREAK_KEY as k}
+					<li><span aria-hidden="true">{k.emoji}</span> <strong>{k.type}</strong> — {k.description}</li>
+				{/each}
+			</ul>
+		</details>
 		<p class="conditions-note">
 			Streak measured through {streak.asOf}. Weather conditions are sourced from ERA5
 			reanalysis data and should be treated as an approximate guide only.

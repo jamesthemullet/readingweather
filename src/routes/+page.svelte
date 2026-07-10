@@ -42,17 +42,17 @@
 	</section>
 {/if}
 
-<WeatherStreak />
-
 {#if data.onThisDay?.posts?.nodes?.length}
 	<OnThisDay posts={data.onThisDay.posts.nodes} />
 {/if}
+
+<WeeklyDigest />
+
+<WeekInHistory />
+
+<WeatherStreak />
 
 <div class="older-posts">
 	<p>Looking for older posts?</p>
 	<a href="/archives">Check out the archives</a>
 </div>
-
-<WeeklyDigest />
-
-<WeekInHistory />
