@@ -4,21 +4,25 @@ import ALL_POSTS_QUERY from '$lib/graphql/queries/allPosts';
 import GET_LATEST_SEASONAL_POST_QUERY from '$lib/graphql/queries/getLatestSeasonalPost';
 import GET_POSTS_ON_THIS_DAY from '$lib/graphql/queries/getPostsOnThisDay';
 import type { AllPostsResponse, LatestSeasonalPostResponse, OnThisDayResponse } from '$lib/types';
-import type { PageLoad } from './$types';
+import type { PageServerLoad } from './$types';
 
-export const load: PageLoad = async ({ fetch }) => {
+export const load: PageServerLoad = async ({ fetch, setHeaders }) => {
 	const today = new Date();
 	const month = today.getMonth() + 1;
 	const day = today.getDate();
 
 	const [postsResult, latestSeasonalPost, onThisDay, historicalWeather] = await Promise.all([
-		fetchGraphQL<AllPostsResponse>(ALL_POSTS_QUERY).catch(() => null),
-		fetchGraphQL<LatestSeasonalPostResponse>(GET_LATEST_SEASONAL_POST_QUERY).catch(() => null),
-		fetchGraphQL<OnThisDayResponse>(GET_POSTS_ON_THIS_DAY, { month, day }).catch(() => null),
+		fetchGraphQL<AllPostsResponse>(ALL_POSTS_QUERY, {}, fetch).catch(() => null),
+		fetchGraphQL<LatestSeasonalPostResponse>(GET_LATEST_SEASONAL_POST_QUERY, {}, fetch).catch(
+			() => null
+		),
+		fetchGraphQL<OnThisDayResponse>(GET_POSTS_ON_THIS_DAY, { month, day }, fetch).catch(() => null),
 		fetch(`/api/historical-weather?month=${month}&day=${day}`)
 			.then((r) => (r.ok ? (r.json() as Promise<DailyWeather[]>) : null))
 			.catch(() => null)
 	]);
+
+	setHeaders({ 'cache-control': 'public, max-age=900, stale-while-revalidate=3600' });
 
 	const meta = {
 		title: 'Weather Forecast For Reading & Berkshire',

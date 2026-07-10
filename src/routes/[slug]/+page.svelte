@@ -14,9 +14,6 @@
 	const organiseComments = (comments: GqlComment[]): ThreadedComment[] => {
 		const threaded: ThreadedComment[] = comments.map((c) => ({ ...c, replies: [] }));
 		const commentMap = new Map<string, ThreadedComment>(threaded.map((c) => [c.id, c]));
-		for (const comment of threaded) {
-			commentMap.set(comment.id, comment);
-		}
 
 		const topLevelComments: ThreadedComment[] = [];
 		for (const comment of threaded) {
@@ -66,8 +63,6 @@
 		}
 	});
 
-	const paragraphs = data.post.content.split(/<\/?p>/).filter((p) => p.trim() !== '');
-
 	const decodeHtmlEntities = (str: string): string =>
 		str
 			.replace(/&#(\d+);/g, (_, code) => String.fromCharCode(Number(code)))
@@ -79,13 +74,17 @@
 			.replace(/&apos;/g, "'")
 			.replace(/&nbsp;/g, ' ');
 
-	const firstParagraphText = decodeHtmlEntities(
-		(paragraphs[0] ?? '').replace(/<[^>]*>/g, '').trim()
-	);
-	const firstSentenceMatch = firstParagraphText.match(/^.*?[.!?]/);
-	const postSummary = firstSentenceMatch ? firstSentenceMatch[0].trim() : firstParagraphText;
+	const postSummary = $derived.by(() => {
+		const paragraphs = data.post.content.split(/<\/?p>/).filter((p) => p.trim() !== '');
+		const firstParagraphText = decodeHtmlEntities(
+			(paragraphs[0] ?? '').replace(/<[^>]*>/g, '').trim()
+		);
+		const firstSentenceMatch = firstParagraphText.match(/^.*?[.!?]/);
+		return firstSentenceMatch ? firstSentenceMatch[0].trim() : firstParagraphText;
+	});
 
-	const modifiedContent = injectKofiWidget(data.post.content);
+	const modifiedContent = $derived(injectKofiWidget(data.post.content));
+	const sanitizedContent = $derived(sanitize(modifiedContent));
 
 	const hoursOld = $derived((Date.now() - new Date(data.post.date).getTime()) / 36e5);
 	const daysOld = $derived(Math.floor(hoursOld / 24));
@@ -97,13 +96,16 @@
 	<meta name="description" content={postDescription} />
 	<meta property="og:title" content={postTitle} />
 	<meta property="og:description" content={postDescription} />
-	{#if data.post.featuredImage?.node?.sourceUrl}
-		<meta property="og:image" content={data.post.featuredImage.node.sourceUrl} />
-		<meta name="twitter:image" content={data.post.featuredImage.node.sourceUrl} />
-	{/if}
+	<meta
+		property="og:image"
+		content={data.post.featuredImage?.node?.sourceUrl ?? 'https://www.readingweather.co.uk/images/weather.png'}
+	/>
+	<meta
+		name="twitter:image"
+		content={data.post.featuredImage?.node?.sourceUrl ?? 'https://www.readingweather.co.uk/images/weather.png'}
+	/>
 	<meta property="og:type" content="article" />
 	<meta property="og:url" content={postUrl} />
-	<meta name="twitter:card" content="summary_large_image" />
 	<meta name="twitter:title" content={postTitle} />
 	<meta name="twitter:description" content={postDescription} />
 	{@html `<script type="application/ld+json">${JSON.stringify(jsonLd)}</script>`}
@@ -123,13 +125,13 @@
 			src={data.post.featuredImage.node.sourceUrl}
 			srcset={data.post.featuredImage.node.srcSet}
 			sizes="(min-width: 768px) 700px, 100vw"
-			alt=""
+			alt={data.post.featuredImage.node.altText ?? ''}
 			width={data.post.featuredImage.node.mediaDetails?.width ?? undefined}
 			height={data.post.featuredImage.node.mediaDetails?.height ?? undefined}
-			loading="lazy"
+			fetchpriority="high"
 		/>
 	{/if}
-	<div class="content">{@html sanitize(modifiedContent)}</div>
+	<div class="content">{@html sanitizedContent}</div>
 
 	<ShareButton {postUrl} {postTitle} {postSummary} />
 

@@ -1,25 +1,9 @@
 <script lang="ts">
-	
 	import { injectKofiWidget } from '$lib/kofi';
-import { sanitize } from '$lib/sanitize';
+	import { sanitize } from '$lib/sanitize';
+	import type { AllPostsNode } from '$lib/types';
 
-	type Post = {
-		slug: string;
-		title: string;
-		content: string;
-		featuredImage?: {
-			node?: {
-				sourceUrl: string;
-				srcSet: string;
-				mediaDetails?: {
-					width?: number;
-					height?: number;
-				};
-			};
-		};
-	};
-
-	const { posts, preview = false }: { posts: Post[]; preview?: boolean } = $props();
+	const { posts, preview = false }: { posts: AllPostsNode[]; preview?: boolean } = $props();
 
 	const firstParagraph = (content: string): string => {
 		const first = content.split(/<\/?p>/).find((p) => p.trim() !== '');
@@ -28,7 +12,7 @@ import { sanitize } from '$lib/sanitize';
 </script>
 
 <ul>
-	{#each posts as post}
+	{#each posts as post, i}
 		<li>
 			<article class="post">
 				<a href="/{post.slug}">
@@ -40,7 +24,8 @@ import { sanitize } from '$lib/sanitize';
 							alt=""
 							width={post.featuredImage.node.mediaDetails?.width ?? undefined}
 							height={post.featuredImage.node.mediaDetails?.height ?? undefined}
-							loading="lazy"
+							loading={i === 0 ? 'eager' : 'lazy'}
+							fetchpriority={i === 0 ? 'high' : undefined}
 						/>
 					{/if}
 					<h2>{post.title}</h2>

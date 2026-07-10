@@ -7,7 +7,7 @@
 
 	let copied = $state(false);
 
-	function copyLink() {
+	function copyLink(): void {
 		navigator.clipboard.writeText(postUrl).then(() => {
 			copied = true;
 			setTimeout(() => {
@@ -16,22 +16,22 @@
 		});
 	}
 
-	function shareOnBluesky() {
+	function shareOnBluesky(): void {
 		const url = `https://bsky.app/intent/compose?text=${encodeURIComponent(`${postSummary} ${postUrl}`)}`;
 		window.open(url, '_blank', 'noopener,noreferrer');
 	}
 
-	function shareOnThreads() {
+	function shareOnThreads(): void {
 		const url = `https://www.threads.net/intent/post?text=${encodeURIComponent(`${postSummary} ${postUrl}`)}`;
 		window.open(url, '_blank', 'noopener,noreferrer');
 	}
 
-	function shareOnFacebook() {
+	function shareOnFacebook(): void {
 		const url = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(postUrl)}`;
 		window.open(url, '_blank', 'noopener,noreferrer');
 	}
 
-	function shareOnWhatsApp() {
+	function shareOnWhatsApp(): void {
 		const url = `https://api.whatsapp.com/send?text=${encodeURIComponent(`${postSummary} ${postUrl}`)}`;
 		window.open(url, '_blank', 'noopener,noreferrer');
 	}

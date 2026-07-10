@@ -1,14 +1,18 @@
 <script lang="ts">
 	import type { DailyWeather } from '$lib/api/historicalWeather';
 
-	type Post = {
+	type OnThisDayPost = {
 		title: string;
 		slug: string;
 		date: string;
 	};
 
-	const { posts, historicalWeather }: { posts: Post[]; historicalWeather: DailyWeather[] | null } =
-		$props();
+	type Props = {
+		posts: OnThisDayPost[];
+		historicalWeather: DailyWeather[] | null;
+	};
+
+	const { posts, historicalWeather }: Props = $props();
 
 	const currentYear = new Date().getFullYear();
 	const historicalPosts = $derived(
@@ -33,8 +37,8 @@
 							<span class="year">{w.year}</span>
 							<div class="weather-details">
 								<div class="weather-stats">
-									<span>↑{w.tempMax}°C</span>
-									<span>↓{w.tempMin}°C</span>
+									<span><span aria-hidden="true">↑</span><span class="sr-only">High: </span>{w.tempMax}°C</span>
+									<span><span aria-hidden="true">↓</span><span class="sr-only">Low: </span>{w.tempMin}°C</span>
 									{#if w.precipitation > 0}<span>{w.precipitation}mm rain</span>{/if}
 									<span>{w.windSpeedMax} km/h wind</span>
 								</div>
@@ -55,7 +59,7 @@
 			<ul class="on-this-day-list">
 				{#each historicalPosts as post}
 					<li>
-						<span class="year">{getYear(post.date)}</span>
+						<time class="year" datetime={post.date}>{getYear(post.date)}</time>
 						<a href="/{post.slug}">{post.title}</a>
 					</li>
 				{/each}
