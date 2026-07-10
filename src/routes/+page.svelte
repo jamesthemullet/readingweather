@@ -6,6 +6,7 @@
 	import '../styles/index.css';
 	import OnThisDay from '$lib/components/OnThisDay.svelte';
 	import PostList from '$lib/components/PostList.svelte';
+	import WeatherStreak from '$lib/components/WeatherStreak.svelte';
 	import WeekInHistory from '$lib/components/WeekInHistory.svelte';
 	import WeeklyDigest from '$lib/components/WeeklyDigest.svelte';
 
@@ -40,6 +41,8 @@
 		<a href="/{data.latestSeasonalPost.slug}">{data.latestSeasonalPost.title}</a>
 	</section>
 {/if}
+
+<WeatherStreak />
 
 {#if data.onThisDay?.posts?.nodes?.length}
 	<OnThisDay posts={data.onThisDay.posts.nodes} />
