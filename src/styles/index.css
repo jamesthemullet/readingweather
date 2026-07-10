@@ -203,6 +203,70 @@ main {
 	}
 }
 
+.weather-streak {
+	border: 5px solid var(--nav);
+	margin-bottom: 2rem;
+	padding: 1rem;
+	text-align: center;
+	background: var(--white);
+
+	/* biome-ignore lint/style/noDescendingSpecificity: targets .weather-streak h2, unrelated to main .post h2 */
+	h2 {
+		margin: 0 0 0.75rem;
+	}
+
+	.headline {
+		margin: 0 0 0.5rem;
+		font-size: 1.1rem;
+	}
+
+	.secondary {
+		list-style: none;
+		padding: 0;
+		margin: 0 0 0.5rem;
+		display: flex;
+		flex-direction: column;
+		gap: 0.35rem;
+		font-size: 0.95rem;
+		color: #555;
+	}
+
+	.definition {
+		font-size: 0.8rem;
+		color: #767676;
+		margin: 0 0 0.5rem;
+	}
+
+	.streak-key {
+		text-align: left;
+		font-size: 0.85rem;
+		color: #555;
+		margin: 0.5rem 0 0;
+
+		summary {
+			cursor: pointer;
+			text-align: center;
+			color: var(--nav);
+		}
+
+		ul {
+			list-style: none;
+			padding: 0;
+			margin: 0.5rem 0 0;
+			display: flex;
+			flex-direction: column;
+			gap: 0.3rem;
+		}
+	}
+
+	.conditions-note {
+		font-size: 0.8rem;
+		color: #767676;
+		margin: 0.75rem 0 0;
+		font-style: italic;
+	}
+}
+
 .older-posts {
 	text-align: center;
 	margin: 0 0 2rem 0;
@@ -224,6 +288,7 @@ main {
 	margin: 2rem;
 	flex-direction: column;
 
+	/* biome-ignore lint/style/noDescendingSpecificity: targets .archive-container ul, unrelated to .streak-key ul */
 	ul {
 		list-style: none;
 		padding: 0;
