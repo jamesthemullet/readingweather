@@ -43,7 +43,7 @@
 {/if}
 
 {#if data.onThisDay?.posts?.nodes?.length}
-	<OnThisDay posts={data.onThisDay.posts.nodes} />
+	<OnThisDay posts={data.onThisDay.posts.nodes} historicalWeather={data.historicalWeather ?? null} />
 {/if}
 
 <WeeklyDigest />
