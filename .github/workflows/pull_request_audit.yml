@@ -10,7 +10,7 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Use Node.js 18.x
         uses: actions/setup-node@v6
         with:
@@ -23,7 +23,7 @@ jobs:
     needs: lint
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Use Node.js 24.x
         uses: actions/setup-node@v6
         with:
@@ -36,7 +36,7 @@ jobs:
     needs: lint
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Use Node.js 24.x
         uses: actions/setup-node@v6
         with:
@@ -44,12 +44,12 @@ jobs:
       - name: Install dependencies
         run: yarn install
       - name: Run type check
-        run: yarn check
+        run: yarn run check
   unit:
     needs: lint
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Use Node.js 24.x
         uses: actions/setup-node@v6
         with:
@@ -62,7 +62,7 @@ jobs:
     needs: lint
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Use Node.js 24.x
         uses: actions/setup-node@v6
         with:
@@ -81,7 +81,7 @@ jobs:
     env:
       GITHUB_API_SECRET: ${{ secrets.PIPELINE_GITHUB_API_SECRET }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Use Node.js 18.x
         uses: actions/setup-node@v6
         with:

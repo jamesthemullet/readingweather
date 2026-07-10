@@ -2,17 +2,25 @@
 	import { onMount } from 'svelte';
 	import type { DailyWeather } from '$lib/api/historicalWeather';
 
-	export let posts: Array<{
+	type OnThisDayPost = {
 		title: string;
 		slug: string;
 		date: string;
-	}>;
+	};
+
+	type Props = {
+		posts: OnThisDayPost[];
+	};
+
+	const { posts }: Props = $props();
 
 	const currentYear = new Date().getFullYear();
-	const historicalPosts = posts.filter((post) => new Date(post.date).getFullYear() < currentYear);
+	const historicalPosts = $derived(
+		posts.filter((post) => new Date(post.date).getFullYear() < currentYear)
+	);
 	const getYear = (dateString: string): string => String(new Date(dateString).getFullYear());
 
-	let historicalWeather: DailyWeather[] | null = null;
+	let historicalWeather = $state<DailyWeather[] | null>(null);
 
 	onMount(async () => {
 		const today = new Date();
@@ -20,7 +28,7 @@
 			const res = await fetch(
 				`/api/historical-weather?month=${today.getMonth() + 1}&day=${today.getDate()}`
 			);
-			if (res.ok) historicalWeather = await res.json();
+			if (res.ok) historicalWeather = (await res.json()) as DailyWeather[];
 		} catch {
 			// silently fail — weather data is supplementary
 		}
@@ -43,8 +51,8 @@
 							<span class="year">{w.year}</span>
 							<div class="weather-details">
 								<div class="weather-stats">
-									<span>↑{w.tempMax}°C</span>
-									<span>↓{w.tempMin}°C</span>
+									<span><span aria-hidden="true">↑</span><span class="sr-only">High: </span>{w.tempMax}°C</span>
+									<span><span aria-hidden="true">↓</span><span class="sr-only">Low: </span>{w.tempMin}°C</span>
 									{#if w.precipitation > 0}<span>{w.precipitation}mm rain</span>{/if}
 									<span>{w.windSpeedMax} km/h wind</span>
 								</div>
@@ -65,7 +73,7 @@
 			<ul class="on-this-day-list">
 				{#each historicalPosts as post}
 					<li>
-						<span class="year">{getYear(post.date)}</span>
+						<time class="year" datetime={post.date}>{getYear(post.date)}</time>
 						<a href="/{post.slug}">{post.title}</a>
 					</li>
 				{/each}

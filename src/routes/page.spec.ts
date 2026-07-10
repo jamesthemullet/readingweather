@@ -1,6 +1,7 @@
-import { describe, expect, it, vi } from 'vitest';
-import type { AllPostsResponse, LatestSeasonalPostResponse, OnThisDayResponse } from '$lib/types';
-import { load } from './+page';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { load } from './+page.server';
+
+type LoadResult = Exclude<Awaited<ReturnType<typeof load>>, void>;
 
 vi.mock('$lib/graphql/api', () => ({
 	fetchGraphQL: vi.fn()
@@ -8,64 +9,96 @@ vi.mock('$lib/graphql/api', () => ({
 
 import { fetchGraphQL } from '$lib/graphql/api';
 
-type HomeLoadResult = {
-	posts: AllPostsResponse;
-	latestSeasonalPost: LatestSeasonalPostResponse['posts']['nodes'][0] | null;
-	onThisDay: OnThisDayResponse | null;
-	meta: { title: string; description: string };
+const mockPosts = {
+	posts: {
+		nodes: [
+			{
+				date: '2026-06-01T00:00:00',
+				slug: 'sunny-june',
+				title: 'Sunny June',
+				content: '<p>Warm</p>'
+			}
+		]
+	}
 };
 
-const mockPosts = { posts: { nodes: [{ date: '2026-01-01', slug: 'test', title: 'Test', content: '' }] } };
-const mockSeasonalPost = { posts: { nodes: [{ slug: 'summer-2026', title: 'Summer 2026 Forecast', date: '2026-06-01' }] } };
-const mockOnThisDay = { posts: { nodes: [{ title: 'Old post', slug: 'old-post', date: '2020-06-02' }] } };
+const mockSeasonalResponse = {
+	posts: {
+		nodes: [
+			{
+				slug: 'summer-2026',
+				title: 'Summer 2026',
+				date: '2026-06-01T00:00:00'
+			}
+		]
+	}
+};
+
+const mockOnThisDay = {
+	posts: {
+		nodes: [{ title: 'Rain in 2024', slug: 'rain-june-2024', date: '2024-06-21T00:00:00' }]
+	}
+};
+
+beforeEach(() => {
+	vi.clearAllMocks();
+});
 
 describe('home page load', () => {
-	it('returns posts, latestSeasonalPost, onThisDay, and meta', async () => {
+	it('returns posts and correct meta on a successful fetch', async () => {
 		vi.mocked(fetchGraphQL)
 			.mockResolvedValueOnce(mockPosts)
-			.mockResolvedValueOnce(mockSeasonalPost)
+			.mockResolvedValueOnce(mockSeasonalResponse)
 			.mockResolvedValueOnce(mockOnThisDay);
 
-		const result = await load({} as Parameters<typeof load>[0]);
+		const result = await load({ setHeaders: vi.fn() } as unknown as Parameters<typeof load>[0]) as LoadResult;
 
-		expect(result).toMatchObject({
-			posts: mockPosts,
-			latestSeasonalPost: mockSeasonalPost.posts.nodes[0],
-			onThisDay: mockOnThisDay,
-			meta: expect.objectContaining({ title: expect.any(String), description: expect.any(String) })
-		});
+		expect(result.posts).toEqual(mockPosts);
+		expect(result.meta.title).toBe('Weather Forecast For Reading & Berkshire');
+		expect(result.meta.description).toContain('Reading');
 	});
 
-	it('sets the correct page title in meta', async () => {
+	it('returns the first seasonal post node as latestSeasonalPost', async () => {
 		vi.mocked(fetchGraphQL)
 			.mockResolvedValueOnce(mockPosts)
-			.mockResolvedValueOnce(mockSeasonalPost)
+			.mockResolvedValueOnce(mockSeasonalResponse)
 			.mockResolvedValueOnce(mockOnThisDay);
 
-		const { meta } = (await load({} as Parameters<typeof load>[0])) as HomeLoadResult;
+		const result = await load({ setHeaders: vi.fn() } as unknown as Parameters<typeof load>[0]) as LoadResult;
 
-		expect(meta.title).toBe('Weather Forecast For Reading & Berkshire');
+		expect(result.latestSeasonalPost).toEqual(mockSeasonalResponse.posts.nodes[0]);
 	});
 
-	it('returns null for latestSeasonalPost when the query throws', async () => {
+	it('returns null for latestSeasonalPost when the seasonal fetch fails', async () => {
 		vi.mocked(fetchGraphQL)
 			.mockResolvedValueOnce(mockPosts)
-			.mockRejectedValueOnce(new Error('Not found'))
+			.mockRejectedValueOnce(new Error('GraphQL down'))
 			.mockResolvedValueOnce(mockOnThisDay);
 
-		const { latestSeasonalPost } = (await load({} as Parameters<typeof load>[0])) as HomeLoadResult;
+		const result = await load({ setHeaders: vi.fn() } as unknown as Parameters<typeof load>[0]) as LoadResult;
 
-		expect(latestSeasonalPost).toBeNull();
+		expect(result.latestSeasonalPost).toBeNull();
 	});
 
-	it('returns null for onThisDay when the query throws', async () => {
+	it('returns null for latestSeasonalPost when the seasonal response has no nodes', async () => {
 		vi.mocked(fetchGraphQL)
 			.mockResolvedValueOnce(mockPosts)
-			.mockResolvedValueOnce(mockSeasonalPost)
-			.mockRejectedValueOnce(new Error('Not found'));
+			.mockResolvedValueOnce({ posts: { nodes: [] } })
+			.mockResolvedValueOnce(mockOnThisDay);
 
-		const { onThisDay } = (await load({} as Parameters<typeof load>[0])) as HomeLoadResult;
+		const result = await load({ setHeaders: vi.fn() } as unknown as Parameters<typeof load>[0]) as LoadResult;
 
-		expect(onThisDay).toBeNull();
+		expect(result.latestSeasonalPost).toBeNull();
+	});
+
+	it('returns null for onThisDay when that fetch fails', async () => {
+		vi.mocked(fetchGraphQL)
+			.mockResolvedValueOnce(mockPosts)
+			.mockResolvedValueOnce(mockSeasonalResponse)
+			.mockRejectedValueOnce(new Error('GraphQL down'));
+
+		const result = await load({ setHeaders: vi.fn() } as unknown as Parameters<typeof load>[0]) as LoadResult;
+
+		expect(result.onThisDay).toBeNull();
 	});
 });

@@ -1,34 +1,9 @@
 <script lang="ts">
+	import { injectKofiWidget } from '$lib/kofi';
 	import { sanitize } from '$lib/sanitize';
+	import type { AllPostsNode } from '$lib/types';
 
-	export let posts: Array<{
-		slug: string;
-		title: string;
-		content: string;
-		featuredImage?: {
-			node?: {
-				sourceUrl: string;
-				srcSet: string;
-				mediaDetails?: {
-					width?: number;
-					height?: number;
-				};
-			};
-		};
-	}>;
-
-	export let preview: boolean = false;
-
-	const modifyContent = (content: string): string => {
-		const paragraphs = content.split(/<\/?p>/).filter((p) => p.trim() !== '');
-
-		const iframeHTML = `<iframe id='kofiframe' src='https://ko-fi.com/wffrb/?hidefeed=true&widget=true&embed=true&preview=true' style='border:none;width:100%;padding:4px;background:#f9f9f9;' height='612' title='Support Reading Weather on Ko-fi'></iframe>`;
-		if (paragraphs.length > 2) {
-			paragraphs.splice(-3, 0, iframeHTML);
-		}
-
-		return paragraphs.map((p) => `<p>${p}</p>`).join('');
-	};
+	const { posts, preview = false }: { posts: AllPostsNode[]; preview?: boolean } = $props();
 
 	const firstParagraph = (content: string): string => {
 		const first = content.split(/<\/?p>/).find((p) => p.trim() !== '');
@@ -37,7 +12,7 @@
 </script>
 
 <ul>
-	{#each posts as post}
+	{#each posts as post, i}
 		<li>
 			<article class="post">
 				<a href="/{post.slug}">
@@ -49,16 +24,17 @@
 							alt=""
 							width={post.featuredImage.node.mediaDetails?.width ?? undefined}
 							height={post.featuredImage.node.mediaDetails?.height ?? undefined}
-							loading="lazy"
+							loading={i === 0 ? 'eager' : 'lazy'}
+							fetchpriority={i === 0 ? 'high' : undefined}
 						/>
 					{/if}
 					<h2>{post.title}</h2>
 				</a>
-				{#if preview}
+			{#if preview}
 					<div class="content">{@html sanitize(firstParagraph(post.content))}</div>
 					<a href="/{post.slug}" class="read-more">Read full forecast</a>
 				{:else}
-					<div class="content">{@html sanitize(modifyContent(post.content))}</div>
+					<div class="content">{@html sanitize(injectKofiWidget(post.content))}</div>
 					<div class="comment-link">
 						<a href="/{post.slug}#comments" aria-label="View or add a comment on {post.title}">View or add a comment</a>
 					</div>

@@ -1,5 +1,5 @@
 import { json } from '@sveltejs/kit';
-import { fetchHistoricalWeather } from '$lib/api/historicalWeather';
+import { type DailyWeather, fetchHistoricalWeather } from '$lib/api/historicalWeather';
 import { getCache, setCache } from '$lib/server/cache';
 import type { RequestHandler } from './$types';
 
@@ -14,7 +14,7 @@ export const GET: RequestHandler = async ({ url }) => {
 	}
 
 	const cacheKey = `historical-weather-${month}-${day}`;
-	const cached = getCache(cacheKey);
+	const cached = getCache<DailyWeather[]>(cacheKey);
 	if (cached) return json(cached);
 
 	const data = await fetchHistoricalWeather(month, day);

@@ -1,14 +1,14 @@
 import { describe, expect, it, vi } from 'vitest';
 import type { SeasonalPostsResponse } from '$lib/types';
-import { load } from './+page';
+import { load } from './+page.server';
+
+type LoadResult = Exclude<Awaited<ReturnType<typeof load>>, void>;
 
 vi.mock('$lib/graphql/api', () => ({
 	fetchGraphQL: vi.fn()
 }));
 
 import { fetchGraphQL } from '$lib/graphql/api';
-
-type SeasonalForecastsLoadResult = { posts: SeasonalPostsResponse };
 
 const mockPost = {
 	date: '2025-06-01T00:00:00',
@@ -24,14 +24,14 @@ describe('seasonal-forecasts page load', () => {
 		const mockResponse: SeasonalPostsResponse = { posts: { nodes: [mockPost] } };
 		vi.mocked(fetchGraphQL).mockResolvedValueOnce(mockResponse);
 
-		const { posts } = (await load({} as Parameters<typeof load>[0])) as SeasonalForecastsLoadResult;
+		const result = await load({ setHeaders: vi.fn() } as unknown as Parameters<typeof load>[0]) as LoadResult;
 
-		expect(posts).toEqual(mockResponse);
+		expect(result.posts).toEqual(mockResponse);
 	});
 
 	it('propagates errors thrown by fetchGraphQL', async () => {
 		vi.mocked(fetchGraphQL).mockRejectedValueOnce(new Error('Network error'));
 
-		await expect(load({} as Parameters<typeof load>[0])).rejects.toThrow('Network error');
+		await expect(load({ setHeaders: vi.fn() } as unknown as Parameters<typeof load>[0])).rejects.toThrow('Network error');
 	});
 });

@@ -9,8 +9,10 @@ const GET_POST_BY_SLUG = `
       content
       featuredImage {
         node {
+          altText
           sourceUrl(size: MEDIUM_LARGE)
           srcSet(size: MEDIUM_LARGE)
+          altText
           mediaDetails {
             width
             height
