@@ -25,7 +25,8 @@ function makeArchiveResponse(time: string[], overrides: Partial<Record<string, n
 				temperature_2m_max: overrides.temperature_2m_max ?? Array(n).fill(15),
 				temperature_2m_min: overrides.temperature_2m_min ?? Array(n).fill(8),
 				precipitation_sum: overrides.precipitation_sum ?? Array(n).fill(2),
-				sunshine_duration: overrides.sunshine_duration ?? Array(n).fill(0)
+				sunshine_duration: overrides.sunshine_duration ?? Array(n).fill(0),
+				daylight_duration: overrides.daylight_duration ?? Array(n).fill(50000)
 			}
 		})
 	};
@@ -132,6 +133,51 @@ describe('fetchWeatherStreak', () => {
 		const result = await fetchWeatherStreak(NOW);
 		expect(result?.active.type).toBe('dry');
 		expect(result?.active.context).toBe('the longest since 2020');
+	});
+
+	it('judges "sunny" by the share of daylight hours, not an absolute hour count', async () => {
+		const time = dateRange('2026-06-01', '2026-07-09');
+		// Midsummer day length here is ~16h (57600s). A day with 10h of sunshine is
+		// genuinely sunny (63% of daylight); one with 8h is mostly overcast (50%),
+		// even though both would have cleared a naive flat "> 6 hours" threshold.
+		const daylight_duration = time.map(() => 57600);
+		const sunshine_duration = time.map((_, i) => (i === time.length - 2 ? 8 * 3600 : 10 * 3600));
+		// Keep precipitation in the gap between the dry/wet thresholds so those
+		// streaks stay inactive and don't outrank the sunny streak under test.
+		const precipitation_sum = time.map(() => 0.7);
+
+		vi.stubGlobal(
+			'fetch',
+			vi
+				.fn()
+				.mockResolvedValue(
+					makeArchiveResponse(time, { sunshine_duration, daylight_duration, precipitation_sum })
+				)
+		);
+
+		const result = await fetchWeatherStreak(NOW);
+		expect(result?.active.type).toBe('sunny');
+		// Streak resets on the overcast day two days ago, so only "yesterday" counts.
+		expect(result?.active.length).toBe(1);
+	});
+
+	it('reports "the longest so far this year" instead of naming the current year', async () => {
+		const time = dateRange('2016-07-10', '2026-07-09');
+		const precipitation_sum = Array(time.length).fill(5);
+		// An earlier 5-day dry spell in March 2026, then the current 5-day streak
+		// ending "yesterday" — both fall within the same year as NOW.
+		const idxMarchStart = time.indexOf('2026-03-01');
+		for (let i = idxMarchStart; i < idxMarchStart + 5; i++) precipitation_sum[i] = 0;
+		for (let i = time.length - 5; i < time.length; i++) precipitation_sum[i] = 0;
+
+		vi.stubGlobal(
+			'fetch',
+			vi.fn().mockResolvedValue(makeArchiveResponse(time, { precipitation_sum }))
+		);
+
+		const result = await fetchWeatherStreak(NOW);
+		expect(result?.active.type).toBe('dry');
+		expect(result?.active.context).toBe('the longest so far this year');
 	});
 
 	it('throws when the API request fails', async () => {

@@ -15,6 +15,7 @@ type OpenMeteoArchiveResponse = {
 		temperature_2m_min: number[];
 		precipitation_sum: number[];
 		sunshine_duration: number[];
+		daylight_duration: number[];
 	};
 };
 
@@ -22,7 +23,13 @@ type DayMetrics = {
 	tempMax: number;
 	tempMin: number;
 	precipitation: number;
-	sunshineHours: number;
+	// Fraction of daylight hours that saw genuine sunshine (irradiance above the
+	// WMO threshold). A flat hour count is useless here: Reading's midsummer days
+	// are ~16.5h long, so "sunshine_duration > 6h" was true on almost every day of
+	// the year regardless of actual cloud cover, including a 19.4mm rain day. The
+	// ratio to daylight length is what actually distinguishes a sunny day from an
+	// overcast one, in any season.
+	sunshineRatio: number;
 };
 
 type StreakType = 'dry' | 'wet' | 'warm' | 'cold' | 'frost' | 'sunny';
@@ -69,7 +76,7 @@ const STREAK_DEFINITIONS: StreakDefinition[] = [
 		type: 'sunny',
 		emoji: '🌞',
 		label: (n) => `${n} sunny day${n === 1 ? '' : 's'} in a row in Reading`,
-		test: (d) => d.sunshineHours > 6
+		test: (d) => d.sunshineRatio > 0.6
 	}
 ];
 
@@ -109,7 +116,7 @@ function findRuns(matches: boolean[]): Run[] {
 	return runs;
 }
 
-function buildContext(currentLength: number, priorRuns: Run[], dates: string[]): string {
+function buildContext(currentLength: number, priorRuns: Run[], dates: string[], currentYear: number): string {
 	const atLeastAsLong = priorRuns
 		.filter((r) => r.length >= currentLength)
 		.sort((a, b) => b.endIndex - a.endIndex);
@@ -119,7 +126,9 @@ function buildContext(currentLength: number, priorRuns: Run[], dates: string[]):
 	}
 
 	const year = new Date(dates[atLeastAsLong[0].endIndex]).getUTCFullYear();
-	return `the longest since ${year}`;
+	// A match found earlier in the same year isn't a meaningful "since <year>" —
+	// that phrasing only makes sense pointing back at a previous year.
+	return year === currentYear ? 'the longest so far this year' : `the longest since ${year}`;
 }
 
 export async function fetchWeatherStreak(now: Date = new Date()): Promise<WeatherStreakResult | null> {
@@ -133,7 +142,7 @@ export async function fetchWeatherStreak(now: Date = new Date()): Promise<Weathe
 		longitude: String(READING_LON),
 		start_date: toDateStr(start),
 		end_date: toDateStr(end),
-		daily: 'temperature_2m_max,temperature_2m_min,precipitation_sum,sunshine_duration',
+		daily: 'temperature_2m_max,temperature_2m_min,precipitation_sum,sunshine_duration,daylight_duration',
 		timezone: 'Europe/London'
 	});
 
@@ -143,15 +152,23 @@ export async function fetchWeatherStreak(now: Date = new Date()): Promise<Weathe
 	if (!response.ok) throw new Error(`Open-Meteo error: ${response.status}`);
 
 	const data = (await response.json()) as OpenMeteoArchiveResponse;
-	const { time, temperature_2m_max, temperature_2m_min, precipitation_sum, sunshine_duration } = data.daily;
+	const {
+		time,
+		temperature_2m_max,
+		temperature_2m_min,
+		precipitation_sum,
+		sunshine_duration,
+		daylight_duration
+	} = data.daily;
 
 	const days: DayMetrics[] = time.map((_, i) => ({
 		tempMax: temperature_2m_max[i],
 		tempMin: temperature_2m_min[i],
 		precipitation: precipitation_sum[i],
-		sunshineHours: sunshine_duration[i] / 3600
+		sunshineRatio: sunshine_duration[i] / daylight_duration[i]
 	}));
 
+	const currentYear = end.getUTCFullYear();
 	const candidates: { def: StreakDefinition; length: number; context: string }[] = [];
 
 	for (const def of STREAK_DEFINITIONS) {
@@ -166,7 +183,7 @@ export async function fetchWeatherStreak(now: Date = new Date()): Promise<Weathe
 		candidates.push({
 			def,
 			length: lastRun.length,
-			context: buildContext(lastRun.length, priorRuns, time)
+			context: buildContext(lastRun.length, priorRuns, time, currentYear)
 		});
 	}
 
