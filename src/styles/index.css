@@ -226,6 +226,12 @@ main {
 		color: #555;
 	}
 
+	.definition {
+		font-size: 0.8rem;
+		color: #767676;
+		margin: 0 0 0.5rem;
+	}
+
 	.conditions-note {
 		font-size: 0.8rem;
 		color: #767676;

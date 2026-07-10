@@ -18,7 +18,8 @@ const mockStreak: WeatherStreakResult = {
 		headline: '14 consecutive dry days in Reading',
 		context: 'the longest since 2022'
 	},
-	secondary: []
+	secondary: [],
+	asOf: '9 July 2026'
 };
 
 vi.mock('$lib/api/weatherStreak', () => ({

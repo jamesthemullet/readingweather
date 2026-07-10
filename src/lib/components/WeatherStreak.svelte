@@ -21,16 +21,23 @@
 			<strong>{streak.active.headline}</strong>
 			— {streak.active.context}
 		</p>
+		{#if streak.active.definition}
+			<p class="definition">{streak.active.definition}</p>
+		{/if}
 		{#if streak.secondary.length > 0}
 			<ul class="secondary">
 				{#each streak.secondary as s}
-					<li><span aria-hidden="true">{s.emoji}</span> {s.headline}</li>
+					<li>
+						<span aria-hidden="true">{s.emoji}</span>
+						{s.headline} — {s.context}
+						{#if s.definition}<span class="definition"> ({s.definition})</span>{/if}
+					</li>
 				{/each}
 			</ul>
 		{/if}
 		<p class="conditions-note">
-			Weather conditions are sourced from ERA5 reanalysis data and should be treated as an
-			approximate guide only.
+			Streak measured through {streak.asOf}. Weather conditions are sourced from ERA5
+			reanalysis data and should be treated as an approximate guide only.
 		</p>
 	</section>
 {/if}

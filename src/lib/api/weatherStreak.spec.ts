@@ -161,6 +161,37 @@ describe('fetchWeatherStreak', () => {
 		expect(result?.active.length).toBe(1);
 	});
 
+	it('reports the sunny threshold in absolute hours for the current month', async () => {
+		const time = dateRange('2026-06-01', '2026-07-09');
+		const daylight_duration = time.map(() => 16 * 3600);
+		const sunshine_duration = time.map(() => 15 * 3600);
+		const precipitation_sum = time.map(() => 0.7);
+
+		vi.stubGlobal(
+			'fetch',
+			vi
+				.fn()
+				.mockResolvedValue(
+					makeArchiveResponse(time, { sunshine_duration, daylight_duration, precipitation_sum })
+				)
+		);
+
+		const result = await fetchWeatherStreak(NOW);
+		expect(result?.active.type).toBe('sunny');
+		// SUNNY_RATIO (0.6) of a 16-hour daylight day, in the month of the last data point (July).
+		expect(result?.active.definition).toBe(
+			'Counted as sunny if it gets more than 10 hours of sunshine here in July (~16 hours of daylight this time of year)'
+		);
+	});
+
+	it('reports the date the streak was last measured through', async () => {
+		const time = dateRange('2026-06-01', '2026-07-09');
+		vi.stubGlobal('fetch', vi.fn().mockResolvedValue(makeArchiveResponse(time)));
+
+		const result = await fetchWeatherStreak(NOW);
+		expect(result?.asOf).toBe('9 July 2026');
+	});
+
 	it('reports "the longest so far this year" instead of naming the current year', async () => {
 		const time = dateRange('2016-07-10', '2026-07-09');
 		const precipitation_sum = Array(time.length).fill(5);

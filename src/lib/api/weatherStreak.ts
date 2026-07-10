@@ -34,11 +34,21 @@ type DayMetrics = {
 
 type StreakType = 'dry' | 'wet' | 'warm' | 'cold' | 'frost' | 'sunny';
 
+// A day counts as "sunny" once it clears this share of that day's daylight
+// hours — see the note on `sunshineRatio` above for why this has to scale
+// with the season rather than being a flat number of hours.
+const SUNNY_RATIO = 0.6;
+
 type StreakDefinition = {
 	type: StreakType;
 	emoji: string;
 	label: (n: number) => string;
 	test: (day: DayMetrics) => boolean;
+	// Explains the threshold in absolute, human terms for the current time of
+	// year (e.g. "needs more than 10 hours of sunshine in July"), since the
+	// underlying rule for `sunny` is a ratio the reader can't sanity-check
+	// on its own.
+	buildDefinition?: (daylightHours: number, monthName: string) => string;
 };
 
 const STREAK_DEFINITIONS: StreakDefinition[] = [
@@ -76,7 +86,9 @@ const STREAK_DEFINITIONS: StreakDefinition[] = [
 		type: 'sunny',
 		emoji: '🌞',
 		label: (n) => `${n} sunny day${n === 1 ? '' : 's'} in a row in Reading`,
-		test: (d) => d.sunshineRatio > 0.6
+		test: (d) => d.sunshineRatio > SUNNY_RATIO,
+		buildDefinition: (daylightHours, monthName) =>
+			`Counted as sunny if it gets more than ${Math.round(daylightHours * SUNNY_RATIO)} hours of sunshine here in ${monthName} (~${Math.round(daylightHours)} hours of daylight this time of year)`
 	}
 ];
 
@@ -86,11 +98,15 @@ export type Streak = {
 	length: number;
 	headline: string;
 	context: string;
+	definition?: string;
 };
 
 export type WeatherStreakResult = {
 	active: Streak;
 	secondary: Streak[];
+	// The last complete day the streak was measured through, e.g. "9 July 2026" —
+	// without this, "the longest since 2023" has no visible anchor for what "now" means.
+	asOf: string;
 };
 
 type Run = { startIndex: number; endIndex: number; length: number };
@@ -169,7 +185,13 @@ export async function fetchWeatherStreak(now: Date = new Date()): Promise<Weathe
 	}));
 
 	const currentYear = end.getUTCFullYear();
-	const candidates: { def: StreakDefinition; length: number; context: string }[] = [];
+	const lastDayDaylightHours = daylight_duration[daylight_duration.length - 1] / 3600;
+	const lastDayMonthName = new Date(time[time.length - 1]).toLocaleString('en-GB', {
+		month: 'long',
+		timeZone: 'UTC'
+	});
+
+	const candidates: { def: StreakDefinition; length: number; context: string; definition?: string }[] = [];
 
 	for (const def of STREAK_DEFINITIONS) {
 		const matches = days.map((d) => def.test(d));
@@ -183,7 +205,8 @@ export async function fetchWeatherStreak(now: Date = new Date()): Promise<Weathe
 		candidates.push({
 			def,
 			length: lastRun.length,
-			context: buildContext(lastRun.length, priorRuns, time, currentYear)
+			context: buildContext(lastRun.length, priorRuns, time, currentYear),
+			definition: def.buildDefinition?.(lastDayDaylightHours, lastDayMonthName)
 		});
 	}
 
@@ -196,12 +219,21 @@ export async function fetchWeatherStreak(now: Date = new Date()): Promise<Weathe
 		emoji: c.def.emoji,
 		length: c.length,
 		headline: c.def.label(c.length),
-		context: c.context
+		context: c.context,
+		definition: c.definition
+	});
+
+	const asOf = new Date(time[time.length - 1]).toLocaleDateString('en-GB', {
+		day: 'numeric',
+		month: 'long',
+		year: 'numeric',
+		timeZone: 'UTC'
 	});
 
 	const [primary, ...rest] = candidates;
 	return {
 		active: toStreak(primary),
-		secondary: rest.slice(0, 2).map(toStreak)
+		secondary: rest.slice(0, 2).map(toStreak),
+		asOf
 	};
 }
