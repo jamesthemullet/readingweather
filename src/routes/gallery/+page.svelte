@@ -26,13 +26,23 @@
 
 	let lightboxUrl = $state('');
 	let lightboxName = $state('');
+	let lightboxWidth = $state<number | undefined>(undefined);
+	let lightboxHeight = $state<number | undefined>(undefined);
 	let lightboxDialog = $state<HTMLDialogElement | null>(null);
 	let triggerButton = $state<HTMLButtonElement | null>(null);
 
-	const openLightbox = (url: string, name: string, btn: HTMLButtonElement) => {
+	const openLightbox = (
+		url: string,
+		name: string,
+		btn: HTMLButtonElement,
+		width?: number,
+		height?: number
+	) => {
 		triggerButton = btn;
 		lightboxUrl = url;
 		lightboxName = name;
+		lightboxWidth = width;
+		lightboxHeight = height;
 	};
 
 	const closeLightbox = () => {
@@ -42,6 +52,8 @@
 	const onDialogClose = () => {
 		lightboxUrl = '';
 		lightboxName = '';
+		lightboxWidth = undefined;
+		lightboxHeight = undefined;
 		triggerButton?.focus();
 		triggerButton = null;
 	};
@@ -89,9 +101,18 @@
 					<ul class="photo-grid">
 						{#each posts as post}
 							<li class="photo-item">
-								<button onclick={(e) => openLightbox(post.featuredImage.node.sourceUrl, post.name, e.currentTarget as HTMLButtonElement)} aria-label="View full size: {post.name}">
+								<button
+									onclick={(e) => openLightbox(
+										post.featuredImage.node.sourceUrl,
+										post.name,
+										e.currentTarget as HTMLButtonElement,
+										post.featuredImage.node.mediaDetails?.width,
+										post.featuredImage.node.mediaDetails?.height
+									)}
+									aria-label="View full size: {post.name}"
+								>
 									<img
-										src={post.featuredImage.node.sourceUrl}
+										src={post.thumbnailUrl}
 										alt={post.name}
 										width={post.featuredImage.node.mediaDetails?.width ?? undefined}
 										height={post.featuredImage.node.mediaDetails?.height ?? undefined}
@@ -118,7 +139,13 @@
 	<div class="lightbox-inner">
 		<button class="lightbox-close" onclick={closeLightbox} aria-label="Close lightbox">&#x2715;</button>
 		{#if lightboxUrl}
-			<img src={lightboxUrl} alt={lightboxName} loading="eager" />
+			<img
+				src={lightboxUrl}
+				alt={lightboxName}
+				width={lightboxWidth}
+				height={lightboxHeight}
+				loading="eager"
+			/>
 		{/if}
 		{#if lightboxName}
 			<p class="lightbox-name">{lightboxName}</p>
