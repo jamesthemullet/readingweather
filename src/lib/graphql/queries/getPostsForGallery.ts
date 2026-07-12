@@ -11,6 +11,10 @@ const GET_POSTS_FOR_GALLERY = `
             mediaDetails {
               width
               height
+              sizes {
+                name
+                sourceUrl
+              }
             }
           }
         }
