@@ -29,17 +29,17 @@
 	let lightboxDialog = $state<HTMLDialogElement | null>(null);
 	let triggerButton = $state<HTMLButtonElement | null>(null);
 
-	const openLightbox = (url: string, name: string, btn: HTMLButtonElement) => {
+	const openLightbox = (url: string, name: string, btn: HTMLButtonElement): void => {
 		triggerButton = btn;
 		lightboxUrl = url;
 		lightboxName = name;
 	};
 
-	const closeLightbox = () => {
+	const closeLightbox = (): void => {
 		lightboxDialog?.close();
 	};
 
-	const onDialogClose = () => {
+	const onDialogClose = (): void => {
 		lightboxUrl = '';
 		lightboxName = '';
 		triggerButton?.focus();
