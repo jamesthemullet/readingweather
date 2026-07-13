@@ -1,3 +1,5 @@
+import { toDateStr } from '$lib/dateUtils';
+
 const READING_LAT = 51.4543;
 const READING_LON = -0.9781;
 
@@ -123,10 +125,6 @@ export type WeatherStreakResult = {
 };
 
 type Run = { startIndex: number; endIndex: number; length: number };
-
-function toDateStr(date: Date): string {
-	return date.toISOString().slice(0, 10);
-}
 
 function findRuns(matches: boolean[]): Run[] {
 	const runs: Run[] = [];

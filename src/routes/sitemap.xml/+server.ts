@@ -1,7 +1,7 @@
 import type { RequestHandler } from '@sveltejs/kit';
-import { fetchSitemapPosts, generateSitemapXml } from '$lib/server/sitemap';
+import { fetchSitemapPosts, generateSitemapXml, type StaticRoute } from '$lib/server/sitemap';
 
-const staticRoutes = [
+const staticRoutes: StaticRoute[] = [
 	{ path: '/', changefreq: 'daily', priority: '1.0' },
 	{ path: '/about', changefreq: 'monthly', priority: '0.8' },
 	{ path: '/archives', changefreq: 'monthly', priority: '0.6' },

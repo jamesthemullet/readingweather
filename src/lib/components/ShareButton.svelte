@@ -1,9 +1,11 @@
 <script lang="ts">
-	const {
-		postUrl,
-		postTitle,
-		postSummary
-	}: { postUrl: string; postTitle: string; postSummary: string } = $props();
+	type Props = {
+		postUrl: string;
+		postTitle: string;
+		postSummary: string;
+	};
+
+	const { postUrl, postTitle, postSummary }: Props = $props();
 
 	let copied = $state(false);
 
