@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
 import type { GqlPageNode } from '$lib/types';
-import { load } from './+page';
+import { load } from './+page.server';
 
 vi.mock('$lib/graphql/api', () => ({
 	fetchGraphQL: vi.fn()
