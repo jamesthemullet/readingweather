@@ -594,9 +594,9 @@
   integrity sha512-dvuPm1E7M9NI/+canIQ6KKQDU2AkEefEZ2Dp7cY6uKoPq9Z/PhOXABe526UdW2mN986gjVkuSLkOYIBnS/M2LQ==
 
 "@sveltejs/kit@^2.0.0":
-  version "2.69.2"
-  resolved "https://registry.yarnpkg.com/@sveltejs/kit/-/kit-2.69.2.tgz#6225a7581207f041830cf90a7e7ce83c9c95345b"
-  integrity sha512-CMdPDbYjRwRu4KXTxBVMuOpFPCt1i/v0ANennotec+K9Cmb2e3w2yYzJiC6Vh/WSvm9Khi5sJMZa0rJPqfHlDw==
+  version "2.69.3"
+  resolved "https://registry.yarnpkg.com/@sveltejs/kit/-/kit-2.69.3.tgz#6d88239b7053309578e8d8d2b06c115c8aaee45a"
+  integrity sha512-cphwqMRcE19/9VkrIPr5qZhQ0SptSSDfDzRUpYHu9OJDFGuYBFyJzK+KQA27wB4YG32O/yF2QjBkDmTyo0vtCw==
   dependencies:
     "@standard-schema/spec" "^1.0.0"
     "@sveltejs/acorn-typescript" "^1.0.9"
@@ -1194,9 +1194,9 @@ sade@^1.7.4:
     mri "^1.1.0"
 
 set-cookie-parser@^3.0.0:
-  version "3.1.1"
-  resolved "https://registry.yarnpkg.com/set-cookie-parser/-/set-cookie-parser-3.1.1.tgz#5d80652208e37545aba30ea613d4f797ea405af8"
-  integrity sha512-vM9SUhjsUYs6UeJUmygc5Ofm5eQGe85riob5ju6XCgFGJI5PLV4nrDAQpQjd+LkFBpAkADn5BQQpZ9EUNkyLuA==
+  version "3.1.2"
+  resolved "https://registry.yarnpkg.com/set-cookie-parser/-/set-cookie-parser-3.1.2.tgz#f4e490298759d756a68eabcbcd0fc9261ad0fee0"
+  integrity sha512-5/r/lTwbJ3zQ+qwdUFZYeRNqda7P5HD8zQKqlSjdGt1/S0cjLAphHusj4Y58ahDtWn/g32xrIS58/ikOvwl0Lw==
 
 siginfo@^2.0.0:
   version "2.0.0"
