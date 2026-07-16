@@ -41,12 +41,22 @@
 	);
 	const postUrl = $derived(`https://www.readingweather.co.uk/${data.post.slug}`);
 
+	const ogImageUrl = $derived(
+		data.post.featuredImage?.node?.sourceUrl ?? 'https://www.readingweather.co.uk/images/weather.png'
+	);
+	const ogImageAlt = $derived(
+		data.post.featuredImage?.node?.sourceUrl
+			? (data.post.featuredImage.node.altText || `Weather forecast image for ${data.post.title}`)
+			: 'Weather forecast illustration for Reading and Berkshire'
+	);
+
 	const jsonLd = $derived({
 		'@context': 'https://schema.org',
 		'@type': 'BlogPosting',
 		headline: postTitle,
 		description: postDescription,
 		url: postUrl,
+		mainEntityOfPage: { '@type': 'WebPage', '@id': postUrl },
 		...(data.post.date ? { datePublished: data.post.date } : {}),
 		...(data.post.featuredImage?.node?.sourceUrl
 			? { image: data.post.featuredImage.node.sourceUrl }
@@ -96,14 +106,10 @@
 	<meta name="description" content={postDescription} />
 	<meta property="og:title" content={postTitle} />
 	<meta property="og:description" content={postDescription} />
-	<meta
-		property="og:image"
-		content={data.post.featuredImage?.node?.sourceUrl ?? 'https://www.readingweather.co.uk/images/weather.png'}
-	/>
-	<meta
-		name="twitter:image"
-		content={data.post.featuredImage?.node?.sourceUrl ?? 'https://www.readingweather.co.uk/images/weather.png'}
-	/>
+	<meta property="og:image" content={ogImageUrl} />
+	<meta property="og:image:alt" content={ogImageAlt} />
+	<meta name="twitter:image" content={ogImageUrl} />
+	<meta name="twitter:image:alt" content={ogImageAlt} />
 	<meta property="og:type" content="article" />
 	<meta property="og:url" content={postUrl} />
 	<meta name="twitter:title" content={postTitle} />
@@ -125,7 +131,7 @@
 			src={data.post.featuredImage.node.sourceUrl}
 			srcset={data.post.featuredImage.node.srcSet}
 			sizes="(min-width: 768px) 700px, 100vw"
-			alt={data.post.featuredImage.node.altText ?? ''}
+			alt={data.post.featuredImage.node.altText || `Featured image for: ${data.post.title}`}
 			width={data.post.featuredImage.node.mediaDetails?.width ?? undefined}
 			height={data.post.featuredImage.node.mediaDetails?.height ?? undefined}
 			fetchpriority="high"

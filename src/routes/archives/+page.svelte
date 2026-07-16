@@ -45,16 +45,18 @@
 	<meta property="og:title" content="Weather Forecast Archives – Reading Weather" />
 	<meta property="og:description" content="Browse the archives of weather forecasts for Reading and Berkshire, searchable by month and year." />
 	<meta property="og:image" content="https://www.readingweather.co.uk/images/weather.png" />
+	<meta property="og:image:alt" content="Weather forecast illustration for Reading and Berkshire" />
 	<meta property="og:type" content="website" />
 	<meta property="og:url" content="https://www.readingweather.co.uk/archives" />
 	<meta name="twitter:title" content="Weather Forecast Archives – Reading Weather" />
 	<meta name="twitter:description" content="Browse the archives of weather forecasts for Reading and Berkshire, searchable by month and year." />
 	<meta name="twitter:image" content="https://www.readingweather.co.uk/images/weather.png" />
+	<meta name="twitter:image:alt" content="Weather forecast illustration for Reading and Berkshire" />
 	{@html `<script type="application/ld+json">${JSON.stringify(jsonLd)}</script>`}
 </svelte:head>
 
 <h1>Weather Forecast Archives</h1>
-<article class="post">
+<section class="post" aria-label="Archives">
 	<div class="archive-container">
 		<label for="archive-select">Select Month:</label>
 		<select id="archive-select" onchange={updateArchive}>
@@ -81,4 +83,4 @@
 			<p>Select a month to view posts.</p>
 		{/if}
 	</div>
-</article>
+</section>
