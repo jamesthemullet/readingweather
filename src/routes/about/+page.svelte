@@ -4,13 +4,13 @@
 
 	const { data }: PageProps = $props();
 
-	const jsonLd = {
+	const jsonLd = $derived({
 		'@context': 'https://schema.org',
 		'@type': 'WebPage',
 		name: data.page.title,
 		description: data.page.seo.description,
 		url: `https://www.readingweather.co.uk/${data.page.slug}`
-	};
+	});
 </script>
 
 <svelte:head>
