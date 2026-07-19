@@ -101,8 +101,16 @@
 		content={data.post.featuredImage?.node?.sourceUrl ?? 'https://www.readingweather.co.uk/images/weather.png'}
 	/>
 	<meta
+		property="og:image:alt"
+		content={data.post.featuredImage?.node?.altText || 'Reading Weather – weather forecasts for Reading and Berkshire'}
+	/>
+	<meta
 		name="twitter:image"
 		content={data.post.featuredImage?.node?.sourceUrl ?? 'https://www.readingweather.co.uk/images/weather.png'}
+	/>
+	<meta
+		name="twitter:image:alt"
+		content={data.post.featuredImage?.node?.altText || 'Reading Weather – weather forecasts for Reading and Berkshire'}
 	/>
 	<meta property="og:type" content="article" />
 	<meta property="og:url" content={postUrl} />

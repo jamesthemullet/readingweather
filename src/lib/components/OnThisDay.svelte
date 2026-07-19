@@ -44,9 +44,9 @@
 								</div>
 								<div class="weather-conditions">
 									<span>Morning: {w.conditions.morning}</span>
-									<span class="sep">·</span>
+									<span class="sep" aria-hidden="true">·</span>
 									<span>Afternoon: {w.conditions.afternoon}</span>
-									<span class="sep">·</span>
+									<span class="sep" aria-hidden="true">·</span>
 									<span>Evening: {w.conditions.evening}</span>
 								</div>
 							</div>
