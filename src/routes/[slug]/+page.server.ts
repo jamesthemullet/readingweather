@@ -26,7 +26,7 @@ export const load: PageServerLoad = async ({ params, fetch }) => {
 	const [response, latestSlug, latestSeasonal] = await Promise.all([
 		fetchGraphQL<GetPostBySlugResponse>(GET_POST_BY_SLUG, { slug }, fetch),
 		fetchLatestPostSlug(fetch),
-		fetchGraphQL<LatestSeasonalPostResponse>(GET_LATEST_SEASONAL_POST_QUERY, {}, fetch)
+		fetchGraphQL<LatestSeasonalPostResponse>(GET_LATEST_SEASONAL_POST_QUERY, {}, fetch).catch(() => null)
 	]);
 
 	if (!response.postBy) {
