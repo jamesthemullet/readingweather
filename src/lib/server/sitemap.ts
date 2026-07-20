@@ -16,7 +16,9 @@ const CACHE_TTL_MS = 60 * 60 * 1000; // 1 hour
 
 export type SitemapNode = { slug: string; date: string | null };
 
-export type StaticRoute = { path: string; changefreq: string; priority: string };
+export type SitemapChangefreq = 'always' | 'hourly' | 'daily' | 'weekly' | 'monthly' | 'yearly' | 'never';
+
+export type StaticRoute = { path: string; changefreq: SitemapChangefreq; priority: string };
 
 function escapeXml(value: string): string {
 	return value
@@ -27,7 +29,7 @@ function escapeXml(value: string): string {
 		.replace(/'/g, '&apos;');
 }
 
-function toXmlUrl(loc: string, lastmod?: string, changefreq = 'monthly', priority = '0.7'): string {
+function toXmlUrl(loc: string, lastmod?: string, changefreq: SitemapChangefreq = 'monthly', priority = '0.7'): string {
 	const last = lastmod ? `<lastmod>${escapeXml(lastmod)}</lastmod>` : '';
 	return `
     <url>

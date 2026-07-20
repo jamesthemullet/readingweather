@@ -10,6 +10,14 @@
 		'July', 'August', 'September', 'October', 'November', 'December'
 	];
 
+	const jsonLd = $derived({
+		'@context': 'https://schema.org',
+		'@type': 'ImageGallery',
+		name: `Photo Gallery ${data.selectedYear} – Reading Weather`,
+		description: 'A photo gallery of weather conditions in Reading and Berkshire, organised by month and year.',
+		url: `https://www.readingweather.co.uk/gallery?year=${data.selectedYear}`
+	});
+
 	const updateYear = (event: Event & { currentTarget: EventTarget & HTMLSelectElement }): void => {
 		const selected = event.currentTarget.value;
 		if (!selected) return;
@@ -29,7 +37,7 @@
 		btn: HTMLButtonElement,
 		width?: number,
 		height?: number
-	) => {
+	): void => {
 		triggerButton = btn;
 		lightboxUrl = url;
 		lightboxName = name;
@@ -37,11 +45,11 @@
 		lightboxHeight = height;
 	};
 
-	const closeLightbox = () => {
+	const closeLightbox = (): void => {
 		lightboxDialog?.close();
 	};
 
-	const onDialogClose = () => {
+	const onDialogClose = (): void => {
 		lightboxUrl = '';
 		lightboxName = '';
 		lightboxWidth = undefined;
@@ -68,6 +76,7 @@
 	<meta name="twitter:title" content="Photo Gallery – Reading Weather" />
 	<meta name="twitter:description" content="A photo gallery of weather conditions in Reading and Berkshire, organised by month and year." />
 	<meta name="twitter:image" content="https://www.readingweather.co.uk/images/weather.png" />
+	{@html `<script type="application/ld+json">${JSON.stringify(jsonLd)}</script>`}
 </svelte:head>
 
 <h1>Photo Gallery</h1>
