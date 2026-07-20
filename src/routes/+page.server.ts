@@ -6,7 +6,7 @@ import GET_POSTS_ON_THIS_DAY from '$lib/graphql/queries/getPostsOnThisDay';
 import type { AllPostsResponse, LatestSeasonalPostResponse, OnThisDayResponse } from '$lib/types';
 import type { PageServerLoad } from './$types';
 
-export const load: PageServerLoad = async ({ fetch, setHeaders }) => {
+export const load: PageServerLoad = async ({ fetch }) => {
 	const today = new Date();
 	const month = today.getMonth() + 1;
 	const day = today.getDate();
@@ -21,8 +21,6 @@ export const load: PageServerLoad = async ({ fetch, setHeaders }) => {
 			.then((r) => (r.ok ? (r.json() as Promise<DailyWeather[]>) : null))
 			.catch(() => null)
 	]);
-
-	setHeaders({ 'cache-control': 'public, max-age=900, stale-while-revalidate=3600' });
 
 	const meta = {
 		title: 'Weather Forecast For Reading & Berkshire',
