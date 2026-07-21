@@ -87,4 +87,17 @@ describe('GET /api/weather-streak', () => {
 		expect(await response.json()).toBeNull();
 		expect(fetchWeatherStreak).not.toHaveBeenCalled();
 	});
+
+	it('returns cached streak data without calling the upstream when a successful result is cached', async () => {
+		vi.mocked(fetchWeatherStreak).mockResolvedValue(mockStreak);
+		await GET({} as Parameters<typeof GET>[0]);
+
+		vi.mocked(fetchWeatherStreak).mockClear();
+		const response = await GET({} as Parameters<typeof GET>[0]);
+
+		expect(response.status).toBe(200);
+		const body = await response.json();
+		expect(body.active.headline).toBe('14 consecutive dry days in Reading');
+		expect(fetchWeatherStreak).not.toHaveBeenCalled();
+	});
 });

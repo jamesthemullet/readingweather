@@ -66,4 +66,17 @@ describe('GET /api/weekly-digest', () => {
 		expect(response.status).toBe(502);
 		expect(fetchWeeklyDigest).not.toHaveBeenCalled();
 	});
+
+	it('returns cached digest without calling fetchWeeklyDigest when data is already cached', async () => {
+		vi.mocked(fetchWeeklyDigest).mockResolvedValue(mockDigest);
+		await GET({} as Parameters<typeof GET>[0]);
+
+		vi.mocked(fetchWeeklyDigest).mockClear();
+		const response = await GET({} as Parameters<typeof GET>[0]);
+
+		expect(response.status).toBe(200);
+		const body = await response.json();
+		expect(body.dominantConditions).toBe('partly cloudy');
+		expect(fetchWeeklyDigest).not.toHaveBeenCalled();
+	});
 });

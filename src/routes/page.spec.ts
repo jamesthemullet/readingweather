@@ -104,4 +104,28 @@ describe('home page load', () => {
 
 		expect(result.onThisDay).toBeNull();
 	});
+
+	it('passes through historicalWeather data when the internal API call succeeds', async () => {
+		vi.mocked(fetchGraphQL)
+			.mockResolvedValueOnce(mockPosts)
+			.mockResolvedValueOnce(mockSeasonalResponse)
+			.mockResolvedValueOnce(mockOnThisDay);
+		const weatherData = [{ year: 2024, tempMax: 22, tempMin: 11, precipitation: 0, windSpeedMax: 10, conditions: { morning: 'clear sky', afternoon: 'mainly clear', evening: 'clear sky' } }];
+		mockFetch.mockResolvedValueOnce({ ok: true, json: async () => weatherData });
+
+		const result = await load({ setHeaders: vi.fn(), fetch: mockFetch } as unknown as Parameters<typeof load>[0]) as LoadResult;
+
+		expect(result.historicalWeather).toEqual(weatherData);
+	});
+
+	it('falls back to empty posts when the allPosts fetchGraphQL call fails', async () => {
+		vi.mocked(fetchGraphQL)
+			.mockRejectedValueOnce(new Error('GraphQL down'))
+			.mockResolvedValueOnce(mockSeasonalResponse)
+			.mockResolvedValueOnce(mockOnThisDay);
+
+		const result = await load({ setHeaders: vi.fn(), fetch: mockFetch } as unknown as Parameters<typeof load>[0]) as LoadResult;
+
+		expect(result.posts).toEqual({ posts: { nodes: [] } });
+	});
 });
