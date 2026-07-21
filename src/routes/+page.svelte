@@ -25,7 +25,11 @@
 	<meta property="og:title" content={data.meta.title} />
 	<meta property="og:description" content={data.meta.description} />
 	<meta property="og:image" content="https://www.readingweather.co.uk/images/weather.png" />
+	<meta property="og:image:alt" content="Weather forecast illustration for Reading and Berkshire" />
+	<meta name="twitter:title" content={data.meta.title} />
+	<meta name="twitter:description" content={data.meta.description} />
 	<meta name="twitter:image" content="https://www.readingweather.co.uk/images/weather.png" />
+	<meta name="twitter:image:alt" content="Weather forecast illustration for Reading and Berkshire" />
 	<meta property="og:type" content="website" />
 	<meta property="og:url" content="https://www.readingweather.co.uk/" />
 	{@html `<script type="application/ld+json">${JSON.stringify(jsonLd)}</script>`}

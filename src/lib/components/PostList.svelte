@@ -37,7 +37,7 @@
 				</a>
 			{#if preview}
 					<div class="content">{@html sanitize(firstParagraph(post.content))}</div>
-					<a href="/{post.slug}" class="read-more">Read full forecast</a>
+					<a href="/{post.slug}" class="read-more" aria-label="Read full forecast for {post.title}">Read full forecast</a>
 				{:else}
 					<div class="content">{@html sanitize(injectKofiWidget(post.content))}</div>
 					<div class="comment-link">
