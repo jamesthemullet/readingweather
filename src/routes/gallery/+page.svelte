@@ -104,10 +104,13 @@
 								<button onclick={(e) => openLightbox(post.featuredImage.node.sourceUrl, post.name, e.currentTarget as HTMLButtonElement, post.featuredImage.node.mediaDetails?.width, post.featuredImage.node.mediaDetails?.height)} aria-label="View full size: {post.name}">
 									<img
 										src={post.featuredImage.node.sourceUrl}
+										srcset={post.featuredImage.node.srcSet}
+										sizes="(min-width: 480px) 200px, 100vw"
 										alt={post.name}
 										width={post.featuredImage.node.mediaDetails?.width ?? undefined}
 										height={post.featuredImage.node.mediaDetails?.height ?? undefined}
 										loading="lazy"
+										decoding="async"
 									/>
 									<span class="photo-name" aria-hidden="true">{post.name}</span>
 								</button>

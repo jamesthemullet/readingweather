@@ -15,14 +15,14 @@ type GalleryPost = {
 	title: string;
 	slug: string;
 	date: string;
-	featuredImage?: { node?: { sourceUrl: string; mediaDetails?: MediaDetails } };
+	featuredImage?: { node?: { sourceUrl: string; srcSet?: string; mediaDetails?: MediaDetails } };
 };
 
 type GalleryPostFiltered = {
 	title: string;
 	slug: string;
 	date: string;
-	featuredImage: { node: { sourceUrl: string; mediaDetails?: MediaDetails } };
+	featuredImage: { node: { sourceUrl: string; srcSet?: string; mediaDetails?: MediaDetails } };
 };
 
 export type GalleryPostWithImage = GalleryPostFiltered & { name: string };
