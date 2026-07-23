@@ -129,6 +129,7 @@
 			width={data.post.featuredImage.node.mediaDetails?.width ?? undefined}
 			height={data.post.featuredImage.node.mediaDetails?.height ?? undefined}
 			fetchpriority="high"
+			loading="eager"
 		/>
 	{/if}
 	<div class="content">{@html sanitizedContent}</div>
