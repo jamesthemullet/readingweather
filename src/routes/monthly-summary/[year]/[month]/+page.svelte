@@ -1,0 +1,109 @@
+<script lang="ts">
+	import type { PageProps } from './$types';
+
+	const { data }: PageProps = $props();
+
+	const { summary } = data;
+
+	function formatDate(dateStr: string): string {
+		return new Date(dateStr).toLocaleDateString('en-GB', {
+			weekday: 'long',
+			day: 'numeric',
+			month: 'long',
+			timeZone: 'UTC'
+		});
+	}
+</script>
+
+<svelte:head>
+	<title>{summary.label} Weather Report Card | Reading Weather</title>
+	<meta name="description" content={summary.headline} />
+	<meta property="og:title" content="{summary.label} Weather Report Card" />
+	<meta property="og:description" content={summary.headline} />
+</svelte:head>
+
+<h1>{summary.label} Weather Report Card</h1>
+
+<section class="monthly-summary-card">
+	<p class="headline">{summary.headline}</p>
+
+	<div class="stat-group">
+		<h2>Temperature</h2>
+		<p>
+			High: <strong>{summary.temperature.high}°C</strong> · Low: <strong
+				>{summary.temperature.low}°C</strong
+			>
+		</p>
+		<p>
+			Mean: <strong>{summary.temperature.mean}°C</strong> (average for {summary.monthName}: {summary
+				.temperature.historicalAverageMean}°C)
+		</p>
+	</div>
+
+	<div class="stat-group">
+		<h2>Rainfall</h2>
+		<p>
+			Total: <strong>{summary.rainfall.total}mm</strong> (average: {summary.rainfall
+				.historicalAverageTotal}mm)
+		</p>
+		<p>
+			Wettest day: {formatDate(summary.rainfall.wettestDay.date)} ({summary.rainfall.wettestDay
+				.value}mm)
+		</p>
+	</div>
+
+	<div class="stat-group">
+		<h2>Sunshine</h2>
+		<p>
+			Total: <strong>{summary.sunshine.totalHours}h</strong> (average: {summary.sunshine
+				.historicalAverageHours}h)
+		</p>
+		<p>
+			Sunniest day: {formatDate(summary.sunshine.sunniestDay.date)} ({summary.sunshine.sunniestDay
+				.hours}h sun)
+		</p>
+	</div>
+
+	<div class="stat-group">
+		<h2>Notable days</h2>
+		<p class="range">{summary.yearsOfData} years of records</p>
+		<ul class="records">
+			<li>
+				<span aria-hidden="true">🌡️</span> Hottest day: <strong
+					>{summary.records.hottestDay.value}°C</strong
+				>
+				— {formatDate(summary.records.hottestDay.date)}, {summary.records.hottestDay.year}
+				{#if summary.records.hottestDay.year === summary.year}
+					<span class="new-record">New record</span>
+				{/if}
+			</li>
+			<li>
+				<span aria-hidden="true">❄️</span> Coldest day: <strong
+					>{summary.records.coldestDay.value}°C</strong
+				>
+				— {formatDate(summary.records.coldestDay.date)}, {summary.records.coldestDay.year}
+				{#if summary.records.coldestDay.year === summary.year}
+					<span class="new-record">New record</span>
+				{/if}
+			</li>
+			<li>
+				<span aria-hidden="true">🌧️</span> Wettest day: <strong
+					>{summary.records.wettestDay.value}mm</strong
+				>
+				— {formatDate(summary.records.wettestDay.date)}, {summary.records.wettestDay.year}
+				{#if summary.records.wettestDay.year === summary.year}
+					<span class="new-record">New record</span>
+				{/if}
+			</li>
+		</ul>
+	</div>
+
+	<p class="conditions-note">
+		Weather conditions are sourced from ERA5 reanalysis data and should be treated as an
+		approximate guide only
+	</p>
+</section>
+
+<p class="older-posts">
+	<a href="/monthly-summary">Browse all monthly report cards</a>
+</p>
