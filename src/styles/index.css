@@ -295,7 +295,6 @@ main {
 	.stat-group {
 		margin: 0 0 1rem;
 
-		/* biome-ignore lint/style/noDescendingSpecificity: targets .stat-group h2, unrelated to main .post h2 */
 		h2 {
 			margin: 0 0 0.5rem;
 			font-size: 1.1rem;

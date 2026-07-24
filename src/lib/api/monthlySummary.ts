@@ -97,6 +97,25 @@ function indicesInRange(indexByDate: Map<string, number>, start: Date, end: Date
 	return indices;
 }
 
+// This full-range request is heavy enough (86 years of daily data across 5 variables)
+// that browsing between several months in quick succession can trip Open-Meteo's rate
+// limit. Retry a 429 a couple of times, honouring Retry-After when the upstream sends one,
+// rather than surfacing a spurious failure for what is otherwise a valid request.
+const MAX_ATTEMPTS = 3;
+
+async function fetchArchive(url: string): Promise<Response> {
+	let response: Response | undefined;
+	for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
+		response = await fetch(url, { signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS) });
+		if (response.status !== 429 || attempt === MAX_ATTEMPTS) return response;
+
+		const retryAfterSeconds = Number(response.headers.get('retry-after'));
+		const delayMs = retryAfterSeconds > 0 ? retryAfterSeconds * 1000 : attempt * 1000;
+		await new Promise((resolve) => setTimeout(resolve, delayMs));
+	}
+	return response as Response;
+}
+
 export async function fetchMonthlySummary(
 	year: number,
 	month: number,
@@ -122,9 +141,7 @@ export async function fetchMonthlySummary(
 		timezone: 'Europe/London'
 	});
 
-	const response = await fetch(`https://archive-api.open-meteo.com/v1/archive?${params}`, {
-		signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS)
-	});
+	const response = await fetchArchive(`https://archive-api.open-meteo.com/v1/archive?${params}`);
 	if (!response.ok) throw new Error(`Open-Meteo error: ${response.status}`);
 
 	const data = (await response.json()) as OpenMeteoArchiveResponse;

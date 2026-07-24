@@ -73,10 +73,12 @@ function makeArchiveResponse() {
 
 describe('fetchMonthlySummary', () => {
 	beforeEach(() => {
+		vi.useFakeTimers();
 		vi.stubGlobal('fetch', vi.fn().mockResolvedValue(makeArchiveResponse()));
 	});
 
 	afterEach(() => {
+		vi.useRealTimers();
 		vi.unstubAllGlobals();
 	});
 
@@ -129,6 +131,53 @@ describe('fetchMonthlySummary', () => {
 	it('throws when the API request fails', async () => {
 		vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ ok: false, status: 500 }));
 		await expect(fetchMonthlySummary(2026, 6, NOW)).rejects.toThrow('Open-Meteo error: 500');
+	});
+
+	it('retries after a 429 and succeeds once the upstream stops rate-limiting', async () => {
+		const mockFetch = vi
+			.fn()
+			.mockResolvedValueOnce({ ok: false, status: 429, headers: new Headers() })
+			.mockResolvedValueOnce(makeArchiveResponse());
+		vi.stubGlobal('fetch', mockFetch);
+
+		const summaryPromise = fetchMonthlySummary(2026, 6, NOW);
+		await vi.runAllTimersAsync();
+		const summary = await summaryPromise;
+
+		expect(mockFetch).toHaveBeenCalledTimes(2);
+		expect(summary.temperature.high).toBe(32.1);
+	});
+
+	it('honours a Retry-After header when backing off a 429', async () => {
+		const mockFetch = vi
+			.fn()
+			.mockResolvedValueOnce({
+				ok: false,
+				status: 429,
+				headers: new Headers({ 'retry-after': '2' })
+			})
+			.mockResolvedValueOnce(makeArchiveResponse());
+		vi.stubGlobal('fetch', mockFetch);
+
+		const summaryPromise = fetchMonthlySummary(2026, 6, NOW);
+		await vi.advanceTimersByTimeAsync(1000);
+		expect(mockFetch).toHaveBeenCalledTimes(1);
+		await vi.advanceTimersByTimeAsync(1000);
+		await summaryPromise;
+
+		expect(mockFetch).toHaveBeenCalledTimes(2);
+	});
+
+	it('gives up after repeated 429s and surfaces the error', async () => {
+		vi.stubGlobal(
+			'fetch',
+			vi.fn().mockResolvedValue({ ok: false, status: 429, headers: new Headers() })
+		);
+
+		const summaryPromise = fetchMonthlySummary(2026, 6, NOW);
+		const assertion = expect(summaryPromise).rejects.toThrow('Open-Meteo error: 429');
+		await vi.runAllTimersAsync();
+		await assertion;
 	});
 
 	it('throws with a descriptive message when the archive response contains no data for the month', async () => {
