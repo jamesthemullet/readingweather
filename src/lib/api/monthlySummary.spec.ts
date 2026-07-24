@@ -1,4 +1,14 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+
+const cacheStore = new Map<string, unknown>();
+
+vi.mock('$lib/server/cache', () => ({
+	getCache: vi.fn((key: string) => cacheStore.get(key) ?? null),
+	setCache: vi.fn((key: string, data: unknown) => {
+		cacheStore.set(key, data);
+	})
+}));
+
 import { fetchMonthlySummary } from './monthlySummary';
 
 // "Now" is set well into July so June 2026 is a fully completed month.
@@ -73,6 +83,7 @@ function makeArchiveResponse() {
 
 describe('fetchMonthlySummary', () => {
 	beforeEach(() => {
+		cacheStore.clear();
 		vi.useFakeTimers();
 		vi.stubGlobal('fetch', vi.fn().mockResolvedValue(makeArchiveResponse()));
 	});
@@ -88,12 +99,23 @@ describe('fetchMonthlySummary', () => {
 		);
 	});
 
-	it('requests a single continuous range from 1940 through the requested month', async () => {
+	it('requests a single continuous range from 1940 through the last complete year for this month', async () => {
 		await fetchMonthlySummary(2026, 6, NOW);
 		const calledUrl = vi.mocked(fetch).mock.calls[0][0] as string;
 		const params = new URL(calledUrl).searchParams;
 		expect(params.get('start_date')).toBe('1940-06-01');
 		expect(params.get('end_date')).toBe('2026-06-30');
+	});
+
+	it('reuses the cached historical baseline across different years of the same month, without refetching', async () => {
+		await fetchMonthlySummary(2026, 6, NOW);
+		expect(fetch).toHaveBeenCalledTimes(1);
+
+		const summary2020 = await fetchMonthlySummary(2020, 6, NOW);
+
+		expect(fetch).toHaveBeenCalledTimes(1);
+		expect(summary2020.temperature.mean).toBe(20.0);
+		expect(summary2020.temperatureRank).toBe(1);
 	});
 
 	it('reports the requested year’s high, low and mean temperature', async () => {
