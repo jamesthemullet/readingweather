@@ -1,9 +1,33 @@
 <script lang="ts">
+	import ShareButton from '$lib/components/ShareButton.svelte';
 	import type { PageProps } from './$types';
 
 	const { data }: PageProps = $props();
 
 	const { summary } = data;
+
+	const postUrl = $derived(
+		`https://www.readingweather.co.uk/monthly-summary/${summary.year}/${String(summary.month).padStart(2, '0')}`
+	);
+	const postTitle = $derived(`${summary.label} Weather Report Card`);
+
+	const jsonLd = $derived({
+		'@context': 'https://schema.org',
+		'@type': 'Dataset',
+		name: `${summary.label} Weather Report Card`,
+		description: summary.headline,
+		url: postUrl,
+		temporalCoverage: `${summary.year}-${String(summary.month).padStart(2, '0')}`,
+		spatialCoverage: {
+			'@type': 'Place',
+			name: 'Reading, UK'
+		},
+		creator: {
+			'@type': 'Organization',
+			name: 'Reading Weather',
+			url: 'https://www.readingweather.co.uk'
+		}
+	});
 
 	function formatDate(dateStr: string): string {
 		return new Date(dateStr).toLocaleDateString('en-GB', {
@@ -16,10 +40,15 @@
 </script>
 
 <svelte:head>
-	<title>{summary.label} Weather Report Card | Reading Weather</title>
+	<title>{postTitle} | Reading Weather</title>
 	<meta name="description" content={summary.headline} />
-	<meta property="og:title" content="{summary.label} Weather Report Card" />
+	<meta property="og:title" content={postTitle} />
 	<meta property="og:description" content={summary.headline} />
+	<meta property="og:type" content="article" />
+	<meta property="og:url" content={postUrl} />
+	<meta name="twitter:title" content={postTitle} />
+	<meta name="twitter:description" content={summary.headline} />
+	{@html `<script type="application/ld+json">${JSON.stringify(jsonLd)}</script>`}
 </svelte:head>
 
 <h1>{summary.label} Weather Report Card</h1>
@@ -64,6 +93,18 @@
 		</p>
 	</div>
 
+	{#if summary.condition || summary.streak}
+		<div class="stat-group">
+			<h2>The month at a glance</h2>
+			{#if summary.condition}
+				<p>Most common condition: <strong>{summary.condition.label}</strong></p>
+			{/if}
+			{#if summary.streak}
+				<p>Longest streak: <strong>{summary.streak.label}</strong> {summary.streak.emoji}</p>
+			{/if}
+		</div>
+	{/if}
+
 	<div class="stat-group">
 		<h2>Notable days</h2>
 		<p class="range">{summary.yearsOfData} years of records</p>
@@ -103,6 +144,8 @@
 		approximate guide only
 	</p>
 </section>
+
+<ShareButton {postUrl} {postTitle} postSummary={summary.headline} />
 
 <p class="older-posts">
 	<a href="/monthly-summary">Browse all monthly report cards</a>

@@ -65,6 +65,19 @@ function makeArchiveResponse() {
 		...fill(2020, 5 * 3600),
 		...fill(2026, 5 * 3600, 14.8 * 3600)
 	];
+	// 2026 is mostly "cloudy" (code 3), aside from the 20th (code 61, "light rain").
+	const weather_code = [
+		...fill(1962, 3),
+		...fill(1971, 3),
+		...fill(2020, 3),
+		...years
+			.filter((y) => y === 2026)
+			.flatMap((y) => {
+				const codes = new Array(juneDates(y).length).fill(3);
+				codes[19] = 61;
+				return codes;
+			})
+	];
 
 	return {
 		ok: true,
@@ -75,7 +88,8 @@ function makeArchiveResponse() {
 				temperature_2m_min,
 				temperature_2m_mean,
 				precipitation_sum,
-				sunshine_duration
+				sunshine_duration,
+				weather_code
 			}
 		})
 	};
@@ -221,6 +235,75 @@ describe('fetchMonthlySummary', () => {
 		);
 		await expect(fetchMonthlySummary(2026, 6, NOW)).rejects.toThrow(
 			'No historical data available for this month'
+		);
+	});
+
+	it('reports the dominant weather condition for the requested month', async () => {
+		const summary = await fetchMonthlySummary(2026, 6, NOW);
+		expect(summary.condition).toEqual({ category: 'cloudy', label: 'cloudy' });
+	});
+
+	it('falls back to a null condition when the archive response has no weather codes', async () => {
+		const { weather_code: _weather_code, ...dailyWithoutCodes } = (
+			await makeArchiveResponse().json()
+		).daily;
+		vi.stubGlobal(
+			'fetch',
+			vi.fn().mockResolvedValue({ ok: true, json: async () => ({ daily: dailyWithoutCodes }) })
+		);
+
+		const summary = await fetchMonthlySummary(2026, 6, NOW);
+		expect(summary.condition).toBeNull();
+	});
+
+	it('finds the longest run of consecutive days meeting a streak threshold within the month', async () => {
+		const summary = await fetchMonthlySummary(2026, 6, NOW);
+		// Every day in June 2026 has at least 1mm of rain in the fixture, so the
+		// whole month qualifies as one long "wet" streak.
+		expect(summary.streak).toEqual({
+			type: 'wet',
+			emoji: '🌧️',
+			length: 30,
+			label: '30 consecutive days of rain'
+		});
+	});
+
+	it('uses a rainfall headline instead of the temperature ranking when rainfall is far from average', async () => {
+		const years = [1962, 1971, 2020, 2026];
+		const time = years.flatMap(juneDates);
+
+		function fill(year: number, value: number) {
+			return new Array(juneDates(year).length).fill(value);
+		}
+
+		const flat = (value: number) => years.flatMap((y) => fill(y, value));
+
+		vi.stubGlobal(
+			'fetch',
+			vi.fn().mockResolvedValue({
+				ok: true,
+				json: async () => ({
+					daily: {
+						time,
+						temperature_2m_max: flat(20),
+						temperature_2m_min: flat(10),
+						temperature_2m_mean: flat(15),
+						// 2026 gets 4x the rain of every other year on record.
+						precipitation_sum: [
+							...fill(1962, 1.0),
+							...fill(1971, 1.0),
+							...fill(2020, 1.0),
+							...fill(2026, 4.0)
+						],
+						sunshine_duration: flat(5 * 3600)
+					}
+				})
+			})
+		);
+
+		const summary = await fetchMonthlySummary(2026, 6, NOW);
+		expect(summary.headline).toBe(
+			'June 2026 was an unusually wet month in Reading — 2.3× the typical June rainfall'
 		);
 	});
 });

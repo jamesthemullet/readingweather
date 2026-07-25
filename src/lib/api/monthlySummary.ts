@@ -26,6 +26,7 @@ type OpenMeteoArchiveResponse = {
 		temperature_2m_mean: number[];
 		precipitation_sum: number[];
 		sunshine_duration: number[];
+		weather_code?: number[];
 	};
 };
 
@@ -34,6 +35,98 @@ export type DayRecord = {
 	year: number;
 	value: number;
 };
+
+// Buckets Open-Meteo's WMO weather codes into the handful of categories a
+// reader actually cares about for "what was the month like overall" — the
+// same granularity used for the daily conditions elsewhere in the app would
+// be too noisy to summarise 28-31 days into one label.
+export type ConditionCategory = 'sunny' | 'cloudy' | 'rainy' | 'snowy' | 'foggy';
+
+const CONDITION_LABELS: Record<ConditionCategory, string> = {
+	sunny: 'sunny',
+	cloudy: 'cloudy',
+	rainy: 'rainy',
+	snowy: 'snowy',
+	foggy: 'foggy'
+};
+
+function categoriseCode(code: number): ConditionCategory {
+	if (code === 0 || code === 1) return 'sunny';
+	if (code === 45 || code === 48) return 'foggy';
+	if (code >= 71 && code <= 86) return 'snowy';
+	if (code >= 51) return 'rainy';
+	return 'cloudy';
+}
+
+export type MonthStreakType = 'dry' | 'wet' | 'warm' | 'cold';
+
+// Mirrors the thresholds in weatherStreak.ts's dry/wet/warm/cold definitions,
+// kept independent here since this streak is measured within a fixed calendar
+// month rather than as an ongoing run ending today.
+const MONTH_STREAK_DEFINITIONS: {
+	type: MonthStreakType;
+	emoji: string;
+	label: (n: number) => string;
+	test: (tempMax: number, precipitation: number) => boolean;
+}[] = [
+	{
+		type: 'dry',
+		emoji: '☀️',
+		label: (n) => `${n} consecutive dry day${n === 1 ? '' : 's'}`,
+		test: (_tempMax, precipitation) => precipitation < 0.5
+	},
+	{
+		type: 'wet',
+		emoji: '🌧️',
+		label: (n) => `${n} consecutive day${n === 1 ? '' : 's'} of rain`,
+		test: (_tempMax, precipitation) => precipitation >= 1
+	},
+	{
+		type: 'warm',
+		emoji: '🔥',
+		label: (n) => `${n} consecutive day${n === 1 ? '' : 's'} above 25°C`,
+		test: (tempMax) => tempMax >= 25
+	},
+	{
+		type: 'cold',
+		emoji: '🥶',
+		label: (n) => `${n} consecutive day${n === 1 ? '' : 's'} below 5°C`,
+		test: (tempMax) => tempMax < 5
+	}
+];
+
+export type MonthStreak = {
+	type: MonthStreakType;
+	emoji: string;
+	length: number;
+	label: string;
+};
+
+function longestRun(matches: boolean[]): number {
+	let longest = 0;
+	let current = 0;
+	for (const m of matches) {
+		current = m ? current + 1 : 0;
+		if (current > longest) longest = current;
+	}
+	return longest;
+}
+
+function longestMonthStreak(
+	indices: number[],
+	temperature_2m_max: number[],
+	precipitation_sum: number[]
+): MonthStreak | null {
+	let best: MonthStreak | null = null;
+	for (const def of MONTH_STREAK_DEFINITIONS) {
+		const matches = indices.map((i) => def.test(temperature_2m_max[i], precipitation_sum[i]));
+		const length = longestRun(matches);
+		if (length >= 2 && (!best || length > best.length)) {
+			best = { type: def.type, emoji: def.emoji, length, label: def.label(length) };
+		}
+	}
+	return best;
+}
 
 export type MonthlySummary = {
 	year: number;
@@ -64,6 +157,8 @@ export type MonthlySummary = {
 		coldestDay: DayRecord;
 		wettestDay: DayRecord;
 	};
+	condition: { category: ConditionCategory; label: string } | null;
+	streak: MonthStreak | null;
 };
 
 type YearStats = {
@@ -75,6 +170,8 @@ type YearStats = {
 	sunshineHours: number;
 	wettestDay: { date: string; value: number };
 	sunniestDay: { date: string; hours: number };
+	condition: { category: ConditionCategory; label: string } | null;
+	streak: MonthStreak | null;
 };
 
 type MonthlyBaseline = {
@@ -157,7 +254,7 @@ async function fetchMonthlyBaseline(month: number, upToYear: number): Promise<Mo
 		start_date: toDateStr(rangeStart),
 		end_date: toDateStr(rangeEnd),
 		daily:
-			'temperature_2m_max,temperature_2m_min,temperature_2m_mean,precipitation_sum,sunshine_duration',
+			'temperature_2m_max,temperature_2m_min,temperature_2m_mean,precipitation_sum,sunshine_duration,weather_code',
 		timezone: 'Europe/London'
 	});
 
@@ -171,7 +268,8 @@ async function fetchMonthlyBaseline(month: number, upToYear: number): Promise<Mo
 		temperature_2m_min,
 		temperature_2m_mean,
 		precipitation_sum,
-		sunshine_duration
+		sunshine_duration,
+		weather_code = []
 	} = data.daily;
 	const indexByDate = new Map(time.map((dateStr, i) => [dateStr, i]));
 
@@ -209,6 +307,17 @@ async function fetchMonthlyBaseline(month: number, upToYear: number): Promise<Mo
 			}
 		}
 
+		let condition: { category: ConditionCategory; label: string } | null = null;
+		if (weather_code.length > 0) {
+			const counts = new Map<ConditionCategory, number>();
+			for (const i of indices) {
+				const category = categoriseCode(weather_code[i]);
+				counts.set(category, (counts.get(category) ?? 0) + 1);
+			}
+			const [dominant] = [...counts.entries()].sort((a, b) => b[1] - a[1])[0];
+			condition = { category: dominant, label: CONDITION_LABELS[dominant] };
+		}
+
 		yearStats.push({
 			year: y,
 			high,
@@ -223,7 +332,9 @@ async function fetchMonthlyBaseline(month: number, upToYear: number): Promise<Mo
 			sunniestDay: {
 				date: time[sunniestIdx],
 				hours: Math.round((sunshine_duration[sunniestIdx] / 3600) * 10) / 10
-			}
+			},
+			condition,
+			streak: longestMonthStreak(indices, temperature_2m_max, precipitation_sum)
 		});
 	}
 
@@ -234,6 +345,72 @@ async function fetchMonthlyBaseline(month: number, upToYear: number): Promise<Mo
 	const baseline: MonthlyBaseline = { yearStats, hottestDay, coldestDay, wettestDay };
 	setCache(cacheKey, baseline, BASELINE_TTL_MS);
 	return baseline;
+}
+
+// A run-of-the-mill temperature ranking is the sensible default headline, but
+// a genuinely remarkable rainfall or sunshine total is more newsworthy — e.g.
+// "3x the typical rainfall" beats "14th warmest" every time. These thresholds
+// are deliberately high so an ordinary month doesn't get an overstated headline.
+const RAIN_HEADLINE_THRESHOLD_PCT = 40;
+const SUNSHINE_HEADLINE_THRESHOLD_PCT = 30;
+
+function rankAmong(values: number[], target: number, direction: 'desc' | 'asc'): number {
+	const sorted = [...values].sort((a, b) => (direction === 'desc' ? b - a : a - b));
+	return sorted.indexOf(target) + 1;
+}
+
+function buildHeadline(
+	yearStats: YearStats[],
+	target: YearStats,
+	label: string,
+	monthName: string,
+	temperatureRank: number,
+	historicalAverageTotal: number,
+	historicalAverageHours: number
+): string {
+	const rainDeviationPct =
+		historicalAverageTotal > 0
+			? ((target.rain - historicalAverageTotal) / historicalAverageTotal) * 100
+			: 0;
+	const sunshineDeviationPct =
+		historicalAverageHours > 0
+			? ((target.sunshineHours - historicalAverageHours) / historicalAverageHours) * 100
+			: 0;
+
+	const rainTriggered = Math.abs(rainDeviationPct) >= RAIN_HEADLINE_THRESHOLD_PCT;
+	const sunshineTriggered = Math.abs(sunshineDeviationPct) >= SUNSHINE_HEADLINE_THRESHOLD_PCT;
+
+	if (rainTriggered && (!sunshineTriggered || Math.abs(rainDeviationPct) >= Math.abs(sunshineDeviationPct))) {
+		if (rainDeviationPct > 0) {
+			const multiplier = Math.round((target.rain / historicalAverageTotal) * 10) / 10;
+			return `${label} was an unusually wet month in Reading — ${multiplier}× the typical ${monthName} rainfall`;
+		}
+		const driestRank = rankAmong(
+			yearStats.map((s) => s.rain),
+			target.rain,
+			'asc'
+		);
+		return `${label} was the ${ordinal(driestRank)} driest ${monthName} in Reading since ${EARLIEST_YEAR}`;
+	}
+
+	if (sunshineTriggered) {
+		if (sunshineDeviationPct > 0) {
+			const sunniestRank = rankAmong(
+				yearStats.map((s) => s.sunshineHours),
+				target.sunshineHours,
+				'desc'
+			);
+			return `${label} was the ${ordinal(sunniestRank)} sunniest ${monthName} in Reading since ${EARLIEST_YEAR}`;
+		}
+		const dullestRank = rankAmong(
+			yearStats.map((s) => s.sunshineHours),
+			target.sunshineHours,
+			'asc'
+		);
+		return `${label} saw just ${Math.round(target.sunshineHours * 10) / 10} hours of sunshine — the ${ordinal(dullestRank)} gloomiest ${monthName} in Reading since ${EARLIEST_YEAR}`;
+	}
+
+	return `${label} was the ${ordinal(temperatureRank)} warmest ${monthName} in Reading since ${EARLIEST_YEAR}`;
 }
 
 export async function fetchMonthlySummary(
@@ -294,11 +471,21 @@ export async function fetchMonthlySummary(
 			historicalAverageHours: Math.round(historicalAverageHours * 10) / 10
 		},
 		temperatureRank,
-		headline: `${monthName} ${year} was the ${ordinal(temperatureRank)} warmest ${monthName} in Reading since ${EARLIEST_YEAR}`,
+		headline: buildHeadline(
+			baseline.yearStats,
+			targetYearStats,
+			`${monthName} ${year}`,
+			monthName,
+			temperatureRank,
+			historicalAverageTotal,
+			historicalAverageHours
+		),
 		records: {
 			hottestDay: baseline.hottestDay,
 			coldestDay: baseline.coldestDay,
 			wettestDay: baseline.wettestDay
-		}
+		},
+		condition: targetYearStats.condition,
+		streak: targetYearStats.streak
 	};
 }

@@ -32,7 +32,9 @@ const mockSummary = {
 		hottestDay: { date: '2026-06-20', year: 2026, value: 32.1 },
 		coldestDay: { date: '1962-06-02', year: 1962, value: 1.2 },
 		wettestDay: { date: '1971-06-14', year: 1971, value: 40.5 }
-	}
+	},
+	condition: { category: 'cloudy' as const, label: 'cloudy' },
+	streak: { type: 'wet' as const, emoji: '🌧️', length: 5, label: '5 consecutive days of rain' }
 };
 
 vi.mock('$lib/api/monthlySummary', () => ({
