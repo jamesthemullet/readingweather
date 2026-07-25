@@ -63,4 +63,11 @@ describe('monthly-summary/[year]/[month] load', () => {
 
 		await expect(load(event)).rejects.toMatchObject({ status: 404 });
 	});
+
+	it('throws a 503 when the API reports the upstream is temporarily unavailable', async () => {
+		const mockFetch = vi.fn().mockResolvedValue({ ok: false, status: 502 });
+		const event = makeEvent({ year: '2026', month: '07' }, mockFetch);
+
+		await expect(load(event)).rejects.toMatchObject({ status: 503 });
+	});
 });

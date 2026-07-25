@@ -12,6 +12,9 @@ export const load: PageServerLoad = async ({ params, fetch, setHeaders }) => {
 
 	const response = await fetch(`/api/monthly-summary?year=${year}&month=${month}`);
 	if (!response.ok) {
+		if (response.status === 502) {
+			throw error(503, 'This report is temporarily unavailable — please try again in a few minutes.');
+		}
 		throw error(404, 'Monthly summary not found');
 	}
 
