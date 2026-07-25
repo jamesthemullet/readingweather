@@ -37,7 +37,7 @@
 		btn: HTMLButtonElement,
 		width?: number,
 		height?: number
-	) => {
+	): void => {
 		triggerButton = btn;
 		lightboxUrl = url;
 		lightboxName = name;
@@ -45,11 +45,11 @@
 		lightboxHeight = height;
 	};
 
-	const closeLightbox = () => {
+	const closeLightbox = (): void => {
 		lightboxDialog?.close();
 	};
 
-	const onDialogClose = () => {
+	const onDialogClose = (): void => {
 		lightboxUrl = '';
 		lightboxName = '';
 		lightboxWidth = undefined;
@@ -139,13 +139,7 @@
 	<div class="lightbox-inner">
 		<button class="lightbox-close" onclick={closeLightbox} aria-label="Close lightbox">&#x2715;</button>
 		{#if lightboxUrl}
-			<img
-				src={lightboxUrl}
-				alt={lightboxName}
-				width={lightboxWidth}
-				height={lightboxHeight}
-				loading="eager"
-			/>
+			<img src={lightboxUrl} alt={lightboxName} loading="eager" width={lightboxWidth} height={lightboxHeight} />
 		{/if}
 		{#if lightboxName}
 			<p class="lightbox-name">{lightboxName}</p>

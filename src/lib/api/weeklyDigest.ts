@@ -1,3 +1,5 @@
+import { toDateStr } from '$lib/dateUtils';
+
 const READING_LAT = 51.4543;
 const READING_LON = -0.9781;
 
@@ -76,10 +78,6 @@ export type WeeklyDigest = {
 	cloudiestDay: DaySummary;
 	dominantConditions: string;
 };
-
-function toDateStr(date: Date): string {
-	return date.toISOString().slice(0, 10);
-}
 
 export async function fetchWeeklyDigest(now: Date = new Date()): Promise<WeeklyDigest> {
 	const end = new Date(now);

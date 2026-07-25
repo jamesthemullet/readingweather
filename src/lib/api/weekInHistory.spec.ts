@@ -107,4 +107,19 @@ describe('fetchWeekInHistory', () => {
 		vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ ok: false, status: 500 }));
 		await expect(fetchWeekInHistory(NOW)).rejects.toThrow('Open-Meteo error: 500');
 	});
+
+	it('throws with a descriptive message when the archive response contains no dates in the window', async () => {
+		vi.stubGlobal(
+			'fetch',
+			vi.fn().mockResolvedValue({
+				ok: true,
+				json: async () => ({
+					daily: { time: [], temperature_2m_max: [], temperature_2m_min: [], precipitation_sum: [] }
+				})
+			})
+		);
+		await expect(fetchWeekInHistory(NOW)).rejects.toThrow(
+			'No historical data available for this window'
+		);
+	});
 });

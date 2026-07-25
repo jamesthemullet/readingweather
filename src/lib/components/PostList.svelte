@@ -3,7 +3,12 @@
 	import { sanitize } from '$lib/sanitize';
 	import type { AllPostsNode } from '$lib/types';
 
-	const { posts, preview = false }: { posts: AllPostsNode[]; preview?: boolean } = $props();
+	type Props = {
+		posts: AllPostsNode[];
+		preview?: boolean;
+	};
+
+	const { posts, preview = false }: Props = $props();
 
 	const firstParagraph = (content: string): string => {
 		const first = content.split(/<\/?p>/).find((p) => p.trim() !== '');

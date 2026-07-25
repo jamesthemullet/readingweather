@@ -48,6 +48,14 @@
 
 <WeeklyDigest />
 
+{#if data.lastMonth}
+	<section class="monthly-summary-teaser">
+		<a href="/monthly-summary/{data.lastMonth.year}/{String(data.lastMonth.month).padStart(2, '0')}">
+			📅 {data.lastMonth.label} report card
+		</a>
+	</section>
+{/if}
+
 <WeekInHistory />
 
 <WeatherStreak />

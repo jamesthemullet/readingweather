@@ -100,7 +100,7 @@ async function fetchOneDay(dateStr: string): Promise<DailyWeather> {
 
 export async function fetchHistoricalWeather(month: number, day: number): Promise<DailyWeather[]> {
 	const currentYear = new Date().getFullYear();
-	const pad = (n: number) => String(n).padStart(2, '0');
+	const pad = (n: number): string => String(n).padStart(2, '0');
 	const mmdd = `${pad(month)}-${pad(day)}`;
 
 	const years = Array.from({ length: 6 }, (_, i) => currentYear - 6 + i);

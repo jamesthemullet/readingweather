@@ -40,7 +40,8 @@ describe('[slug] page load', () => {
 	it('returns post data and isLatest=true when slug matches the newest post', async () => {
 		vi.mocked(fetchGraphQL)
 			.mockResolvedValueOnce({ postBy: mockPost })
-			.mockResolvedValueOnce({ posts: { nodes: [{ slug: 'test-post' }] } });
+			.mockResolvedValueOnce({ posts: { nodes: [{ slug: 'test-post' }] } })
+			.mockResolvedValueOnce({ posts: { nodes: [] } });
 
 		const result = (await load({ params: { slug: 'test-post' } } as Parameters<typeof load>[0])) as SlugLoadResult;
 
@@ -52,7 +53,8 @@ describe('[slug] page load', () => {
 	it('returns isLatest=false when the slug is not the newest post', async () => {
 		vi.mocked(fetchGraphQL)
 			.mockResolvedValueOnce({ postBy: mockPost })
-			.mockResolvedValueOnce({ posts: { nodes: [{ slug: 'newer-post' }] } });
+			.mockResolvedValueOnce({ posts: { nodes: [{ slug: 'newer-post' }] } })
+			.mockResolvedValueOnce({ posts: { nodes: [] } });
 
 		const result = (await load({ params: { slug: 'test-post' } } as Parameters<typeof load>[0])) as SlugLoadResult;
 
@@ -63,6 +65,7 @@ describe('[slug] page load', () => {
 	it('throws a 404 error when postBy is null', async () => {
 		vi.mocked(fetchGraphQL)
 			.mockResolvedValueOnce({ postBy: null })
+			.mockResolvedValueOnce({ posts: { nodes: [] } })
 			.mockResolvedValueOnce({ posts: { nodes: [] } });
 
 		await expect(

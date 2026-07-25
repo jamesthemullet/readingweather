@@ -1,3 +1,5 @@
+import { toDateStr } from '$lib/dateUtils';
+
 const READING_LAT = 51.4543;
 const READING_LON = -0.9781;
 
@@ -30,10 +32,6 @@ export type WeekInHistory = {
 	coldestDay: YearRecord;
 	wettestWeek: YearRecord;
 };
-
-function toDateStr(date: Date): string {
-	return date.toISOString().slice(0, 10);
-}
 
 function sameWindowInYear(start: Date, end: Date, year: number): { start: Date; end: Date } {
 	const yearStart = new Date(Date.UTC(year, start.getUTCMonth(), start.getUTCDate()));
