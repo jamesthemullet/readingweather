@@ -101,9 +101,18 @@
 					<ul class="photo-grid">
 						{#each posts as post}
 							<li class="photo-item">
-								<button onclick={(e) => openLightbox(post.featuredImage.node.sourceUrl, post.name, e.currentTarget as HTMLButtonElement, post.featuredImage.node.mediaDetails?.width, post.featuredImage.node.mediaDetails?.height)} aria-label="View full size: {post.name}">
+								<button
+									onclick={(e) => openLightbox(
+										post.featuredImage.node.sourceUrl,
+										post.name,
+										e.currentTarget as HTMLButtonElement,
+										post.featuredImage.node.mediaDetails?.width,
+										post.featuredImage.node.mediaDetails?.height
+									)}
+									aria-label="View full size: {post.name}"
+								>
 									<img
-										src={post.featuredImage.node.sourceUrl}
+										src={post.thumbnailUrl}
 										alt={post.name}
 										width={post.featuredImage.node.mediaDetails?.width ?? undefined}
 										height={post.featuredImage.node.mediaDetails?.height ?? undefined}

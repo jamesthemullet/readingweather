@@ -128,6 +128,7 @@
 			alt={data.post.featuredImage.node.altText ?? ''}
 			width={data.post.featuredImage.node.mediaDetails?.width ?? undefined}
 			height={data.post.featuredImage.node.mediaDetails?.height ?? undefined}
+			loading="eager"
 			fetchpriority="high"
 		/>
 	{/if}
