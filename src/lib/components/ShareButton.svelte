@@ -45,16 +45,16 @@
 		<button onclick={copyLink} aria-label="Copy link to this forecast">
 			{copied ? 'Copied!' : 'Copy link'}
 		</button>
-		<button onclick={shareOnBluesky} aria-label="Share this forecast on Bluesky">
+		<button onclick={shareOnBluesky} aria-label="Share this forecast on Bluesky (opens in new tab)">
 			Share on Bluesky
 		</button>
-		<button onclick={shareOnThreads} aria-label="Share this forecast on Threads">
+		<button onclick={shareOnThreads} aria-label="Share this forecast on Threads (opens in new tab)">
 			Share on Threads
 		</button>
-		<button onclick={shareOnFacebook} aria-label="Share this forecast on Facebook">
+		<button onclick={shareOnFacebook} aria-label="Share this forecast on Facebook (opens in new tab)">
 			Share on Facebook
 		</button>
-		<button onclick={shareOnWhatsApp} aria-label="Share this forecast on WhatsApp">
+		<button onclick={shareOnWhatsApp} aria-label="Share this forecast on WhatsApp (opens in new tab)">
 			Share on WhatsApp
 		</button>
 	</div>

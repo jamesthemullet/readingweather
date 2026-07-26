@@ -31,6 +31,7 @@
 		content={data.posts.posts.nodes[0]?.featuredImage?.node?.sourceUrl ??
 			'https://www.readingweather.co.uk/images/weather.png'}
 	/>
+	<meta property="og:image:alt" content="Weather forecast illustration for Reading and Berkshire" />
 	<meta property="og:type" content="website" />
 	<meta property="og:url" content="https://www.readingweather.co.uk/seasonal-forecasts" />
 	<meta name="twitter:title" content="Seasonal Forecasts – Reading Weather" />
@@ -43,6 +44,7 @@
 		content={data.posts.posts.nodes[0]?.featuredImage?.node?.sourceUrl ??
 			'https://www.readingweather.co.uk/images/weather.png'}
 	/>
+	<meta name="twitter:image:alt" content="Weather forecast illustration for Reading and Berkshire" />
 	{@html `<script type="application/ld+json">${JSON.stringify(jsonLd)}</script>`}
 </svelte:head>
 
