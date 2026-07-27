@@ -50,17 +50,20 @@ export type GqlPageNode = {
 	};
 };
 
+// Shared shape for featured image nodes returned by list/feed queries (no altText).
+export type PostFeaturedImageListNode = {
+	sourceUrl: string;
+	srcSet: string;
+	mediaDetails?: { width?: number; height?: number };
+};
+
 export type AllPostsNode = {
 	date: string;
 	slug: string;
 	title: string;
 	content: string;
 	featuredImage?: {
-		node?: {
-			sourceUrl: string;
-			srcSet: string;
-			mediaDetails?: { width?: number; height?: number };
-		};
+		node?: PostFeaturedImageListNode;
 	};
 };
 
@@ -84,47 +87,36 @@ export type GetPageByIdResponse = {
 	page: GqlPageNode | null;
 };
 
+// Seasonal forecast posts share the same query shape as AllPostsNode.
 export type SeasonalPostsResponse = {
 	posts: {
-		nodes: Array<{
-			date: string;
-			slug: string;
-			title: string;
-			content: string;
-			featuredImage?: {
-				node?: {
-					sourceUrl: string;
-					srcSet: string;
-					mediaDetails?: { width?: number; height?: number };
-				};
-			};
-		}>;
+		nodes: Array<AllPostsNode>;
+	};
+};
+
+export type LatestSeasonalPost = {
+	slug: string;
+	title: string;
+	date: string;
+	featuredImage?: {
+		node?: PostFeaturedImageListNode;
 	};
 };
 
 export type LatestSeasonalPostResponse = {
 	posts: {
-		nodes: Array<{
-			slug: string;
-			title: string;
-			date: string;
-			featuredImage?: {
-				node?: {
-					sourceUrl: string;
-					srcSet: string;
-					mediaDetails?: { width?: number; height?: number };
-				};
-			};
-		}>;
+		nodes: Array<LatestSeasonalPost>;
 	};
+};
+
+export type OnThisDayPost = {
+	title: string;
+	slug: string;
+	date: string;
 };
 
 export type OnThisDayResponse = {
 	posts: {
-		nodes: Array<{
-			title: string;
-			slug: string;
-			date: string;
-		}>;
+		nodes: Array<OnThisDayPost>;
 	};
 };
