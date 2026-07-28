@@ -1,10 +1,4 @@
-import { beforeEach, describe, expect, it, vi } from 'vitest';
-
-vi.mock('$lib/graphql/api', () => ({
-	fetchGraphQL: vi.fn()
-}));
-
-import { fetchGraphQL } from '$lib/graphql/api';
+import { describe, expect, it, vi } from 'vitest';
 import { load } from './+page.server';
 
 const mockSummary = {
@@ -42,38 +36,17 @@ function makeEvent(params: Record<string, string>, fetchImpl: typeof fetch) {
 }
 
 describe('monthly-summary/[year]/[month] load', () => {
-	beforeEach(() => {
-		vi.clearAllMocks();
-	});
-
-	it('loads the summary from the API, related posts from GraphQL, and sets an immutable cache header', async () => {
+	it('loads the summary from the API and sets an immutable cache header', async () => {
 		const mockFetch = vi.fn().mockResolvedValue({ ok: true, json: async () => mockSummary });
-		const relatedPosts = [{ title: 'A sunny June day', slug: 'a-sunny-june-day', date: '2026-06-05' }];
-		vi.mocked(fetchGraphQL).mockResolvedValueOnce({ posts: { nodes: relatedPosts } });
 		const event = makeEvent({ year: '2026', month: '06' }, mockFetch);
 
 		const result = await load(event);
 
-		expect(result).toEqual({ summary: mockSummary, relatedPosts });
+		expect(result).toEqual({ summary: mockSummary });
 		expect(mockFetch).toHaveBeenCalledWith('/api/monthly-summary?year=2026&month=6');
-		expect(fetchGraphQL).toHaveBeenCalledWith(
-			expect.any(String),
-			{ year: 2026, month: 6 },
-			mockFetch
-		);
 		expect(event.setHeaders).toHaveBeenCalledWith({
 			'cache-control': 'public, max-age=31536000, immutable'
 		});
-	});
-
-	it('falls back to an empty related posts list when the GraphQL fetch fails', async () => {
-		const mockFetch = vi.fn().mockResolvedValue({ ok: true, json: async () => mockSummary });
-		vi.mocked(fetchGraphQL).mockRejectedValueOnce(new Error('WordPress unavailable'));
-		const event = makeEvent({ year: '2026', month: '06' }, mockFetch);
-
-		const result = await load(event);
-
-		expect(result).toEqual({ summary: mockSummary, relatedPosts: [] });
 	});
 
 	it('throws a 404 when the month param is out of range', async () => {
