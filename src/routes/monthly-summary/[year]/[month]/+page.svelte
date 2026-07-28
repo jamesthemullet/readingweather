@@ -4,7 +4,7 @@
 
 	const { data }: PageProps = $props();
 
-	const { summary } = data;
+	const { summary, relatedPosts } = data;
 
 	const postUrl = $derived(
 		`https://www.readingweather.co.uk/monthly-summary/${summary.year}/${String(summary.month).padStart(2, '0')}`
@@ -144,6 +144,17 @@
 		approximate guide only
 	</p>
 </section>
+
+{#if relatedPosts.length > 0}
+	<section class="related-posts">
+		<h2>Posts from {summary.label}</h2>
+		<ul>
+			{#each relatedPosts as post (post.slug)}
+				<li><a href="/{post.slug}">{post.title}</a></li>
+			{/each}
+		</ul>
+	</section>
+{/if}
 
 <ShareButton {postUrl} {postTitle} postSummary={summary.headline} />
 
