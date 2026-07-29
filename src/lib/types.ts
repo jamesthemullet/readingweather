@@ -35,7 +35,7 @@ export type GqlPostNode = {
 
 export type GqlPageSeo = {
 	description: string;
-	opengraphDescription: string;
+	opengraphDescription: string | null;
 };
 
 export type GqlPageNode = {
