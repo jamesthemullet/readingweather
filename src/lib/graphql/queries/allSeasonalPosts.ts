@@ -1,6 +1,6 @@
 const ALL_SEASONAL_POSTS_QUERY = `
   query AllPosts {
-    posts(where: { categoryName: "seasonal" }) {
+    posts(first: 50, where: { categoryName: "seasonal" }) {
       nodes {
         date
         slug
@@ -9,22 +9,13 @@ const ALL_SEASONAL_POSTS_QUERY = `
           node {
             sourceUrl(size: MEDIUM_LARGE)
             srcSet(size: MEDIUM_LARGE)
+            mediaDetails {
+              width
+              height
+            }
           }
         }
         content
-        comments(where: { order: ASC }) {
-          nodes {
-            id
-            content
-            parentId
-            author {
-              node {
-                name
-              }
-            }
-            date
-          }
-        }
       }
     }
   }

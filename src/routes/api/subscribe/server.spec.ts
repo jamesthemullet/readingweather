@@ -87,4 +87,20 @@ describe('POST /api/subscribe', () => {
 		const data = await response.json();
 		expect(data.message).toBe('Something went wrong. Please try again.');
 	});
+
+	it('passes through non-200 status codes and the upstream error message', async () => {
+		vi.stubGlobal(
+			'fetch',
+			vi.fn().mockResolvedValue({
+				ok: false,
+				status: 422,
+				json: async () => ({ message: 'Email already registered' })
+			})
+		);
+		const request = makeRequest({ name: 'Alice', email: 'alice@example.com' });
+		const response = await POST({ request } as Parameters<typeof POST>[0]);
+		expect(response.status).toBe(422);
+		const data = await response.json();
+		expect(data.message).toBe('Email already registered');
+	});
 });

@@ -56,7 +56,7 @@
 </svelte:head>
 
 <h1>Weather Forecast Archives</h1>
-<article class="post">
+<section class="post" aria-label="Archives">
 	<div class="archive-container">
 		<label for="archive-select">Select Month:</label>
 		<select id="archive-select" onchange={updateArchive}>
@@ -83,4 +83,4 @@
 			<p>Select a month to view posts.</p>
 		{/if}
 	</div>
-</article>
+</section>

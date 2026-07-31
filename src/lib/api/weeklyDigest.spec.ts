@@ -127,6 +127,26 @@ describe('fetchWeeklyDigest', () => {
 		expect(digest.dominantConditions).toBe('a mix of sun and cloud');
 	});
 
+	it('describes a week with roughly a quarter of daylight hours as sunshine as mostly cloudy', async () => {
+		const quarterSunshine = mostlySunnyWeek.daylight.map((d) => d * 0.25);
+		vi.stubGlobal(
+			'fetch',
+			vi.fn().mockResolvedValue(makeArchiveResponse(quarterSunshine, mostlySunnyWeek.daylight))
+		);
+		const digest = await fetchWeeklyDigest(new Date('2026-06-25T12:00:00Z'));
+		expect(digest.dominantConditions).toBe('mostly cloudy');
+	});
+
+	it('describes a week with zero daylight duration as unsettled', async () => {
+		const zeroDaylight = [0, 0, 0, 0, 0, 0, 0];
+		vi.stubGlobal(
+			'fetch',
+			vi.fn().mockResolvedValue(makeArchiveResponse(zeroDaylight, zeroDaylight))
+		);
+		const digest = await fetchWeeklyDigest(new Date('2026-06-25T12:00:00Z'));
+		expect(digest.dominantConditions).toBe('unsettled');
+	});
+
 	it('ends the window yesterday to account for ERA5 data lag on the current day', async () => {
 		await fetchWeeklyDigest(new Date('2026-06-25T12:00:00Z'));
 		const calledUrl = vi.mocked(fetch).mock.calls[0][0] as string;

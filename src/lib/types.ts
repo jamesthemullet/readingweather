@@ -35,7 +35,7 @@ export type GqlPostNode = {
 
 export type GqlPageSeo = {
 	description: string;
-	opengraphDescription: string;
+	opengraphDescription: string | null;
 };
 
 export type GqlPageNode = {
@@ -95,10 +95,8 @@ export type SeasonalPostsResponse = {
 				node?: {
 					sourceUrl: string;
 					srcSet: string;
+					mediaDetails?: { width?: number; height?: number };
 				};
-			};
-			comments?: {
-				nodes: GqlComment[];
 			};
 		}>;
 	};

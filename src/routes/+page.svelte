@@ -26,6 +26,8 @@
 	<meta property="og:description" content={data.meta.description} />
 	<meta property="og:image" content="https://www.readingweather.co.uk/images/weather.png" />
 	<meta property="og:image:alt" content="Reading Weather – weather forecasts for Reading and Berkshire" />
+	<meta name="twitter:title" content={data.meta.title} />
+	<meta name="twitter:description" content={data.meta.description} />
 	<meta name="twitter:image" content="https://www.readingweather.co.uk/images/weather.png" />
 	<meta name="twitter:image:alt" content="Reading Weather – weather forecasts for Reading and Berkshire" />
 	<meta property="og:type" content="website" />
@@ -49,6 +51,14 @@
 {/if}
 
 <WeeklyDigest />
+
+{#if data.lastMonth}
+	<section class="monthly-summary-teaser">
+		<a href="/monthly-summary/{data.lastMonth.year}/{String(data.lastMonth.month).padStart(2, '0')}">
+			📅 {data.lastMonth.label} report card
+		</a>
+	</section>
+{/if}
 
 <WeekInHistory />
 

@@ -45,7 +45,7 @@
 	<link rel="preconnect" href="https://www.googletagmanager.com" />
 	<link rel="preload" href="/fonts/Caveat-VariableFont_wght.ttf" as="font" type="font/ttf" crossorigin="anonymous" />
 	<link rel="preload" href="/fonts/FiraSans-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous" />
-	<link rel="canonical" href={$page.url.href} />
+	<link rel="canonical" href={`https://www.readingweather.co.uk${$page.url.pathname}`} />
 	<meta property="og:site_name" content="Reading Weather" />
 	<meta property="og:locale" content="en_GB" />
 	<meta name="twitter:card" content="summary_large_image" />
@@ -59,7 +59,7 @@
 </main>
 
 <footer>
-	<section class="post">
+	<div class="post">
 		<h2 id="subscribe-heading">Be notified of new posts by e-mail</h2>
 <form id="subscribe-form" aria-labelledby="subscribe-heading" onsubmit={handleSubmit}>
 			<label for="subscribe-name">
@@ -74,6 +74,6 @@
 		</form>
 
 		<p class="response" role="status" aria-live="polite">{responseMessage}</p>
-	</section>
+	</div>
 	<p>&copy; {new Date().getFullYear()} Weather Forecast For Reading & Berkshire</p>
 </footer>

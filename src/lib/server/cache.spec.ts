@@ -39,4 +39,15 @@ describe('getCache', () => {
 		expect(getCache('key-a')).toBe('alpha');
 		expect(getCache('key-b')).toBe('beta');
 	});
+
+	it('overwrites an existing key so the new value is returned and the new TTL applies', () => {
+		setCache('overwrite-key', 'original', 10_000);
+		vi.advanceTimersByTime(5_000);
+		setCache('overwrite-key', 'updated', 1_000);
+		// Value should be the newly written one
+		expect(getCache('overwrite-key')).toBe('updated');
+		// The new 1-second TTL should expire after advancing past it
+		vi.advanceTimersByTime(1_001);
+		expect(getCache('overwrite-key')).toBeNull();
+	});
 });

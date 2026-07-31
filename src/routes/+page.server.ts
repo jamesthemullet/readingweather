@@ -6,10 +6,22 @@ import GET_POSTS_ON_THIS_DAY from '$lib/graphql/queries/getPostsOnThisDay';
 import type { AllPostsResponse, LatestSeasonalPostResponse, OnThisDayResponse } from '$lib/types';
 import type { PageServerLoad } from './$types';
 
-export const load: PageServerLoad = async ({ fetch, setHeaders }) => {
+function lastCompletedMonth(now: Date): { year: number; month: number } {
+	const year = now.getUTCFullYear();
+	const month = now.getUTCMonth() + 1;
+	return month === 1 ? { year: year - 1, month: 12 } : { year, month: month - 1 };
+}
+
+export const load: PageServerLoad = async ({ fetch }) => {
 	const today = new Date();
 	const month = today.getMonth() + 1;
 	const day = today.getDate();
+
+	const last = lastCompletedMonth(today);
+	const lastMonthLabel = new Date(Date.UTC(last.year, last.month - 1, 1)).toLocaleDateString(
+		'en-GB',
+		{ month: 'long', year: 'numeric', timeZone: 'UTC' }
+	);
 
 	const [postsResult, latestSeasonalPost, onThisDay, historicalWeather] = await Promise.all([
 		fetchGraphQL<AllPostsResponse>(ALL_POSTS_QUERY, {}, fetch).catch(() => null),
@@ -21,8 +33,6 @@ export const load: PageServerLoad = async ({ fetch, setHeaders }) => {
 			.then((r) => (r.ok ? (r.json() as Promise<DailyWeather[]>) : null))
 			.catch(() => null)
 	]);
-
-	setHeaders({ 'cache-control': 'public, max-age=900, stale-while-revalidate=3600' });
 
 	const meta = {
 		title: 'Weather Forecast For Reading & Berkshire',
@@ -37,6 +47,7 @@ export const load: PageServerLoad = async ({ fetch, setHeaders }) => {
 		latestSeasonalPost: latestSeasonalPost?.posts?.nodes?.[0] ?? null,
 		onThisDay,
 		historicalWeather,
+		lastMonth: { ...last, label: lastMonthLabel },
 		meta
 	};
 };

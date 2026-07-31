@@ -94,6 +94,23 @@ describe('home page load', () => {
 		expect(result.latestSeasonalPost).toBeNull();
 	});
 
+	it('returns lastMonth as the previous calendar month', async () => {
+		vi.useFakeTimers();
+		vi.setSystemTime(new Date('2026-07-15T12:00:00Z'));
+		vi.mocked(fetchGraphQL)
+			.mockResolvedValueOnce(mockPosts)
+			.mockResolvedValueOnce(mockSeasonalResponse)
+			.mockResolvedValueOnce(mockOnThisDay);
+
+		const result = (await load({
+			setHeaders: vi.fn(),
+			fetch: mockFetch
+		} as unknown as Parameters<typeof load>[0])) as LoadResult;
+
+		expect(result.lastMonth).toEqual({ year: 2026, month: 6, label: 'June 2026' });
+		vi.useRealTimers();
+	});
+
 	it('returns null for onThisDay when that fetch fails', async () => {
 		vi.mocked(fetchGraphQL)
 			.mockResolvedValueOnce(mockPosts)
