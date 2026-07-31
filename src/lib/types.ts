@@ -46,6 +46,7 @@ export type GqlPageNode = {
 	featuredImage?: {
 		node?: {
 			sourceUrl: string;
+			altText?: string;
 		};
 	};
 };
@@ -95,6 +96,7 @@ export type SeasonalPostsResponse = {
 				node?: {
 					sourceUrl: string;
 					srcSet: string;
+					altText?: string;
 					mediaDetails?: { width?: number; height?: number };
 				};
 			};
