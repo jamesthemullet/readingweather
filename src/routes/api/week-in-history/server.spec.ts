@@ -61,4 +61,17 @@ describe('GET /api/week-in-history', () => {
 		expect(response.status).toBe(502);
 		expect(fetchWeekInHistory).not.toHaveBeenCalled();
 	});
+
+	it('returns cached history without calling fetchWeekInHistory when data is already cached', async () => {
+		vi.mocked(fetchWeekInHistory).mockResolvedValue(mockHistory);
+		await GET({} as Parameters<typeof GET>[0]);
+
+		vi.mocked(fetchWeekInHistory).mockClear();
+		const response = await GET({} as Parameters<typeof GET>[0]);
+
+		expect(response.status).toBe(200);
+		const body = await response.json();
+		expect(body.hottestDay).toEqual({ year: 2003, value: 31.5 });
+		expect(fetchWeekInHistory).not.toHaveBeenCalled();
+	});
 });

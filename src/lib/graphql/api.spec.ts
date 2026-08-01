@@ -138,3 +138,22 @@ describe('fetchGraphQL — non-JSON response', () => {
 		);
 	});
 });
+
+describe('fetchGraphQL — custom fetchFn', () => {
+	it('uses the provided fetchFn instead of the global fetch, passing the correct URL and variables', async () => {
+		const jsonHeaders = { get: (key: string) => (key === 'content-type' ? 'application/json' : null) };
+		const customFetch = vi.fn().mockResolvedValue({
+			ok: true,
+			headers: jsonHeaders,
+			json: async () => ({ data: { result: true } })
+		});
+
+		await fetchGraphQL('{ result }', { foo: 'bar' }, customFetch as unknown as typeof fetch);
+
+		expect(customFetch).toHaveBeenCalledTimes(1);
+		const [url, opts] = customFetch.mock.calls[0] as [string, { body: string }];
+		expect(url).toBe('https://blog.readingweather.co.uk/graphql');
+		const body = JSON.parse(opts.body) as { variables: Record<string, unknown> };
+		expect(body.variables).toEqual({ foo: 'bar' });
+	});
+});
