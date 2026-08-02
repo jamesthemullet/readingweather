@@ -60,7 +60,7 @@
 	<small>
 		By <strong>{comment.author.node.name}</strong> on <time datetime={comment.date}>{formatDate(comment.date)}</time>:
 	</small>
-	<p>{@html sanitize(comment.content)}</p>
+	<div class="comment-content">{@html sanitize(comment.content)}</div>
 
 	{#if comment.replies.length > 0}
 		<ul class="comment-replies">
