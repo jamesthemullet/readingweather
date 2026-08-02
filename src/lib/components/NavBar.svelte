@@ -13,7 +13,7 @@
 </script>
 
 <nav class="navbar" aria-label="Main navigation">
-	<a href="/" class="home-button">Home </a>
+	<a href="/" class="home-button">Home</a>
 	<button
 		class="menu-button"
 		onclick={() => (isOpen = !isOpen)}
