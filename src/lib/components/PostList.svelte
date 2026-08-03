@@ -31,6 +31,7 @@
 							height={post.featuredImage.node.mediaDetails?.height ?? undefined}
 							loading={i === 0 ? 'eager' : 'lazy'}
 							fetchpriority={i === 0 ? 'high' : undefined}
+							decoding={i === 0 ? undefined : 'async'}
 						/>
 					{/if}
 					<h2>{post.title}</h2>
