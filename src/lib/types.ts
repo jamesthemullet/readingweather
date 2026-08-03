@@ -35,7 +35,7 @@ export type GqlPostNode = {
 
 export type GqlPageSeo = {
 	description: string;
-	opengraphDescription: string;
+	opengraphDescription: string | null;
 };
 
 export type GqlPageNode = {
@@ -46,6 +46,7 @@ export type GqlPageNode = {
 	featuredImage?: {
 		node?: {
 			sourceUrl: string;
+			altText?: string;
 		};
 	};
 };
@@ -95,6 +96,7 @@ export type SeasonalPostsResponse = {
 				node?: {
 					sourceUrl: string;
 					srcSet: string;
+					altText?: string;
 					mediaDetails?: { width?: number; height?: number };
 				};
 			};

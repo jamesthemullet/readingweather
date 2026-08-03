@@ -9,6 +9,11 @@
 
 	const { postId, parentCommentId = null }: Props = $props();
 
+	const fieldPrefix = $derived(
+		`${postId.replace(/[^a-zA-Z0-9]/g, '')}${parentCommentId ? `-${parentCommentId.replace(/[^a-zA-Z0-9]/g, '')}` : ''}`
+	);
+	const formHeadingId = $derived(`comment-form-heading-${fieldPrefix}`);
+
 	let name = $state('');
 	let email = $state('');
 	let commentContent = $state('');
@@ -51,20 +56,20 @@
 	}
 </script>
 
-<form class="add-comment" onsubmit={submitComment}>
-	<h2>{parentCommentId ? 'Reply to Comment' : 'Add Your Comment'}</h2>
+<form class="add-comment" aria-labelledby={formHeadingId} onsubmit={submitComment}>
+	<h2 id={formHeadingId}>{parentCommentId ? 'Reply to Comment' : 'Add Your Comment'}</h2>
 	{#if !successMessage}
 		<div>
-			<label for="name">Name:</label>
-			<input type="text" bind:value={name} id="name" name="name" autocomplete="name" required aria-required="true" />
+			<label for="name-{fieldPrefix}">Name:</label>
+			<input type="text" bind:value={name} id="name-{fieldPrefix}" name="name" autocomplete="name" required aria-required="true" />
 		</div>
 		<div>
-			<label for="email">Email:</label>
-			<input type="email" bind:value={email} id="email" name="email" autocomplete="email" required aria-required="true" />
+			<label for="email-{fieldPrefix}">Email:</label>
+			<input type="email" bind:value={email} id="email-{fieldPrefix}" name="email" autocomplete="email" required aria-required="true" />
 		</div>
 		<div>
-			<label for="comment">Comment:</label>
-			<textarea bind:value={commentContent} id="comment" name="comment" autocomplete="off" required aria-required="true"></textarea>
+			<label for="comment-{fieldPrefix}">Comment:</label>
+			<textarea bind:value={commentContent} id="comment-{fieldPrefix}" name="comment" autocomplete="off" required aria-required="true"></textarea>
 		</div>
 		<button type="submit" disabled={submitting}>
 			{submitting ? 'Submitting...' : 'Post Comment'}

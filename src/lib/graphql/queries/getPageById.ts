@@ -11,6 +11,7 @@ const GET_PAGE_BY_ID = `
       featuredImage {
         node {
           sourceUrl
+          altText
         }
       }
     }

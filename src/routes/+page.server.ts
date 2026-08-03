@@ -6,10 +6,22 @@ import GET_POSTS_ON_THIS_DAY from '$lib/graphql/queries/getPostsOnThisDay';
 import type { AllPostsResponse, LatestSeasonalPostResponse, OnThisDayResponse } from '$lib/types';
 import type { PageServerLoad } from './$types';
 
+function lastCompletedMonth(now: Date): { year: number; month: number } {
+	const year = now.getUTCFullYear();
+	const month = now.getUTCMonth() + 1;
+	return month === 1 ? { year: year - 1, month: 12 } : { year, month: month - 1 };
+}
+
 export const load: PageServerLoad = async ({ fetch }) => {
 	const today = new Date();
 	const month = today.getMonth() + 1;
 	const day = today.getDate();
+
+	const last = lastCompletedMonth(today);
+	const lastMonthLabel = new Date(Date.UTC(last.year, last.month - 1, 1)).toLocaleDateString(
+		'en-GB',
+		{ month: 'long', year: 'numeric', timeZone: 'UTC' }
+	);
 
 	const [postsResult, latestSeasonalPost, onThisDay, historicalWeather] = await Promise.all([
 		fetchGraphQL<AllPostsResponse>(ALL_POSTS_QUERY, {}, fetch).catch(() => null),
@@ -35,6 +47,7 @@ export const load: PageServerLoad = async ({ fetch }) => {
 		latestSeasonalPost: latestSeasonalPost?.posts?.nodes?.[0] ?? null,
 		onThisDay,
 		historicalWeather,
+		lastMonth: { ...last, label: lastMonthLabel },
 		meta
 	};
 };

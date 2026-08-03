@@ -94,6 +94,23 @@ describe('home page load', () => {
 		expect(result.latestSeasonalPost).toBeNull();
 	});
 
+	it('returns lastMonth as the previous calendar month', async () => {
+		vi.useFakeTimers();
+		vi.setSystemTime(new Date('2026-07-15T12:00:00Z'));
+		vi.mocked(fetchGraphQL)
+			.mockResolvedValueOnce(mockPosts)
+			.mockResolvedValueOnce(mockSeasonalResponse)
+			.mockResolvedValueOnce(mockOnThisDay);
+
+		const result = (await load({
+			setHeaders: vi.fn(),
+			fetch: mockFetch
+		} as unknown as Parameters<typeof load>[0])) as LoadResult;
+
+		expect(result.lastMonth).toEqual({ year: 2026, month: 6, label: 'June 2026' });
+		vi.useRealTimers();
+	});
+
 	it('returns null for onThisDay when that fetch fails', async () => {
 		vi.mocked(fetchGraphQL)
 			.mockResolvedValueOnce(mockPosts)
@@ -103,5 +120,29 @@ describe('home page load', () => {
 		const result = await load({ setHeaders: vi.fn(), fetch: mockFetch } as unknown as Parameters<typeof load>[0]) as LoadResult;
 
 		expect(result.onThisDay).toBeNull();
+	});
+
+	it('passes through historicalWeather data when the internal API call succeeds', async () => {
+		vi.mocked(fetchGraphQL)
+			.mockResolvedValueOnce(mockPosts)
+			.mockResolvedValueOnce(mockSeasonalResponse)
+			.mockResolvedValueOnce(mockOnThisDay);
+		const weatherData = [{ year: 2024, tempMax: 22, tempMin: 11, precipitation: 0, windSpeedMax: 10, conditions: { morning: 'clear sky', afternoon: 'mainly clear', evening: 'clear sky' } }];
+		mockFetch.mockResolvedValueOnce({ ok: true, json: async () => weatherData });
+
+		const result = await load({ setHeaders: vi.fn(), fetch: mockFetch } as unknown as Parameters<typeof load>[0]) as LoadResult;
+
+		expect(result.historicalWeather).toEqual(weatherData);
+	});
+
+	it('falls back to empty posts when the allPosts fetchGraphQL call fails', async () => {
+		vi.mocked(fetchGraphQL)
+			.mockRejectedValueOnce(new Error('GraphQL down'))
+			.mockResolvedValueOnce(mockSeasonalResponse)
+			.mockResolvedValueOnce(mockOnThisDay);
+
+		const result = await load({ setHeaders: vi.fn(), fetch: mockFetch } as unknown as Parameters<typeof load>[0]) as LoadResult;
+
+		expect(result.posts).toEqual({ posts: { nodes: [] } });
 	});
 });
