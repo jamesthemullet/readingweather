@@ -8,13 +8,13 @@
 
 	const sanitizedContent = $derived(sanitize(data.page.content));
 
-	const jsonLd = {
+	const jsonLd = $derived({
 		'@context': 'https://schema.org',
 		'@type': 'WebPage',
 		name: data.page.title,
 		description: data.page.seo.description,
 		url: `https://www.readingweather.co.uk/${data.page.slug}`
-	};
+	});
 </script>
 
 <svelte:head>
@@ -26,11 +26,13 @@
 		content={data.page.seo.opengraphDescription || data.page.seo.description}
 	/>
 	<meta property="og:image" content={data.page.featuredImage?.node?.sourceUrl ?? 'https://www.readingweather.co.uk/images/weather.png'} />
+	<meta property="og:image:alt" content={data.page.featuredImage?.node?.altText || 'Reading Weather – weather forecasts for Reading and Berkshire'} />
 	<meta property="og:type" content="website" />
 	<meta property="og:url" content={`https://www.readingweather.co.uk/${data.page.slug}`} />
 	<meta name="twitter:title" content={data.page.title} />
 	<meta name="twitter:description" content={data.page.seo.opengraphDescription || data.page.seo.description} />
 	<meta name="twitter:image" content={data.page.featuredImage?.node?.sourceUrl ?? 'https://www.readingweather.co.uk/images/weather.png'} />
+	<meta name="twitter:image:alt" content={data.page.featuredImage?.node?.altText || 'Reading Weather – weather forecasts for Reading and Berkshire'} />
 	{@html `<script type="application/ld+json">${JSON.stringify(jsonLd)}</script>`}
 </svelte:head>
 

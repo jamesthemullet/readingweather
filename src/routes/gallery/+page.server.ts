@@ -6,31 +6,48 @@ import type { PageServerLoad } from './$types';
 const START_YEAR = 2020;
 const CACHE_TTL_MS = 60 * 60 * 1000; // 1 hour
 
+type MediaSize = {
+	name: string;
+	sourceUrl: string;
+};
+
 type MediaDetails = {
 	width?: number;
 	height?: number;
+	sizes?: MediaSize[];
 };
 
 type GalleryPost = {
 	title: string;
 	slug: string;
 	date: string;
-	featuredImage?: { node?: { sourceUrl: string; mediaDetails?: MediaDetails } };
+	featuredImage?: { node?: { sourceUrl: string; srcSet?: string; mediaDetails?: MediaDetails } };
 };
 
 type GalleryPostFiltered = {
 	title: string;
 	slug: string;
 	date: string;
-	featuredImage: { node: { sourceUrl: string; mediaDetails?: MediaDetails } };
+	featuredImage: { node: { sourceUrl: string; srcSet?: string; mediaDetails?: MediaDetails } };
 };
 
-export type GalleryPostWithImage = GalleryPostFiltered & { name: string };
+export type GalleryPostWithImage = GalleryPostFiltered & { name: string; thumbnailUrl: string };
 
 type GroupedMonth = {
 	month: number;
 	posts: GalleryPostWithImage[];
 };
+
+const THUMBNAIL_SIZE_PREFERENCE = ['medium_large', 'medium', 'thumbnail'];
+
+function getThumbnailUrl(post: GalleryPostFiltered): string {
+	const sizes = post.featuredImage.node.mediaDetails?.sizes ?? [];
+	for (const sizeName of THUMBNAIL_SIZE_PREFERENCE) {
+		const match = sizes.find((s) => s.name === sizeName);
+		if (match?.sourceUrl) return match.sourceUrl;
+	}
+	return post.featuredImage.node.sourceUrl;
+}
 
 function getImageName(url: string): string {
 	const filename = url.split('/').pop()?.split('?')[0] ?? '';
@@ -98,7 +115,8 @@ export const load: PageServerLoad = async ({ url, fetch, setHeaders }) => {
 				})
 				.map((post): GalleryPostWithImage => ({
 					...post,
-					name: getImageName(post.featuredImage.node.sourceUrl)
+					name: getImageName(post.featuredImage.node.sourceUrl),
+					thumbnailUrl: getThumbnailUrl(post)
 				}));
 			return { month, posts };
 		})

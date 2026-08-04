@@ -126,6 +126,13 @@ export type WeatherStreakResult = {
 
 type Run = { startIndex: number; endIndex: number; length: number };
 
+type StreakCandidate = {
+	def: StreakDefinition;
+	length: number;
+	context: string;
+	definition?: string;
+};
+
 function findRuns(matches: boolean[]): Run[] {
 	const runs: Run[] = [];
 	let runStart = -1;
@@ -202,7 +209,7 @@ export async function fetchWeatherStreak(now: Date = new Date()): Promise<Weathe
 		timeZone: 'UTC'
 	});
 
-	const candidates: { def: StreakDefinition; length: number; context: string; definition?: string }[] = [];
+	const candidates: StreakCandidate[] = [];
 
 	for (const def of STREAK_DEFINITIONS) {
 		const matches = days.map((d) => def.test(d));
@@ -225,7 +232,7 @@ export async function fetchWeatherStreak(now: Date = new Date()): Promise<Weathe
 
 	candidates.sort((a, b) => b.length - a.length);
 
-	const toStreak = (c: (typeof candidates)[number]): Streak => ({
+	const toStreak = (c: StreakCandidate): Streak => ({
 		type: c.def.type,
 		emoji: c.def.emoji,
 		length: c.length,

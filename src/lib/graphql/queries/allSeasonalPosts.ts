@@ -9,6 +9,7 @@ const ALL_SEASONAL_POSTS_QUERY = `
           node {
             sourceUrl(size: MEDIUM_LARGE)
             srcSet(size: MEDIUM_LARGE)
+            altText
             mediaDetails {
               width
               height

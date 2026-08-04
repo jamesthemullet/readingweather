@@ -15,7 +15,7 @@
 		'@type': 'ImageGallery',
 		name: `Photo Gallery ${data.selectedYear} – Reading Weather`,
 		description: 'A photo gallery of weather conditions in Reading and Berkshire, organised by month and year.',
-		url: `https://www.readingweather.co.uk/gallery?year=${data.selectedYear}`
+		url: 'https://www.readingweather.co.uk/gallery'
 	});
 
 	const updateYear = (event: Event & { currentTarget: EventTarget & HTMLSelectElement }): void => {
@@ -71,11 +71,13 @@
 	<meta property="og:title" content="Photo Gallery – Reading Weather" />
 	<meta property="og:description" content="A photo gallery of weather conditions in Reading and Berkshire, organised by month and year." />
 	<meta property="og:image" content="https://www.readingweather.co.uk/images/weather.png" />
+	<meta property="og:image:alt" content="Photo gallery of weather conditions in Reading and Berkshire" />
 	<meta property="og:type" content="website" />
 	<meta property="og:url" content={`https://www.readingweather.co.uk/gallery${data.selectedYear ? `?year=${data.selectedYear}` : ''}`} />
 	<meta name="twitter:title" content="Photo Gallery – Reading Weather" />
 	<meta name="twitter:description" content="A photo gallery of weather conditions in Reading and Berkshire, organised by month and year." />
 	<meta name="twitter:image" content="https://www.readingweather.co.uk/images/weather.png" />
+	<meta name="twitter:image:alt" content="Photo gallery of weather conditions in Reading and Berkshire" />
 	{@html `<script type="application/ld+json">${JSON.stringify(jsonLd)}</script>`}
 </svelte:head>
 
@@ -101,13 +103,25 @@
 					<ul class="photo-grid">
 						{#each posts as post}
 							<li class="photo-item">
-								<button onclick={(e) => openLightbox(post.featuredImage.node.sourceUrl, post.name, e.currentTarget as HTMLButtonElement, post.featuredImage.node.mediaDetails?.width, post.featuredImage.node.mediaDetails?.height)} aria-label="View full size: {post.name}">
+								<button
+									onclick={(e) => openLightbox(
+										post.featuredImage.node.sourceUrl,
+										post.name,
+										e.currentTarget as HTMLButtonElement,
+										post.featuredImage.node.mediaDetails?.width,
+										post.featuredImage.node.mediaDetails?.height
+									)}
+									aria-label="View full size: {post.name}"
+								>
 									<img
 										src={post.featuredImage.node.sourceUrl}
+										srcset={post.featuredImage.node.srcSet}
+										sizes="(min-width: 480px) 200px, 100vw"
 										alt={post.name}
 										width={post.featuredImage.node.mediaDetails?.width ?? undefined}
 										height={post.featuredImage.node.mediaDetails?.height ?? undefined}
 										loading="lazy"
+										decoding="async"
 									/>
 									<span class="photo-name" aria-hidden="true">{post.name}</span>
 								</button>
