@@ -51,10 +51,11 @@ export type GqlPageNode = {
 	};
 };
 
-// Shared shape for featured image nodes returned by list/feed queries (no altText).
+// Shared shape for featured image nodes returned by list/feed queries.
 export type PostFeaturedImageListNode = {
 	sourceUrl: string;
 	srcSet: string;
+	altText?: string;
 	mediaDetails?: { width?: number; height?: number };
 };
 
