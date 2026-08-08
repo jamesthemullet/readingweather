@@ -35,7 +35,7 @@ export type GqlPostNode = {
 
 export type GqlPageSeo = {
 	description: string;
-	opengraphDescription: string;
+	opengraphDescription: string | null;
 };
 
 export type GqlPageNode = {
@@ -46,6 +46,7 @@ export type GqlPageNode = {
 	featuredImage?: {
 		node?: {
 			sourceUrl: string;
+			altText?: string;
 		};
 	};
 };
@@ -100,6 +101,20 @@ export type LatestSeasonalPost = {
 	date: string;
 	featuredImage?: {
 		node?: PostFeaturedImageListNode;
+		nodes: Array<{
+			date: string;
+			slug: string;
+			title: string;
+			content: string;
+			featuredImage?: {
+				node?: {
+					sourceUrl: string;
+					srcSet: string;
+					altText?: string;
+					mediaDetails?: { width?: number; height?: number };
+				};
+			};
+		}>;
 	};
 };
 

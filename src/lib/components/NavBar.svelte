@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
 
 	const links = [
@@ -10,10 +11,22 @@
 		{ href: '/archives', label: 'Archives' }
 	];
 	let isOpen = $state(false);
+	let isMobile = $state(false);
+
+	onMount(() => {
+		const mq = window.matchMedia('(max-width: 768px)');
+		isMobile = mq.matches;
+		const handler = (e: MediaQueryListEvent) => {
+			isMobile = e.matches;
+			if (!e.matches) isOpen = false;
+		};
+		mq.addEventListener('change', handler);
+		return () => mq.removeEventListener('change', handler);
+	});
 </script>
 
 <nav class="navbar" aria-label="Main navigation">
-	<a href="/" class="home-button">Home </a>
+	<a href="/" class="home-button">Home</a>
 	<button
 		class="menu-button"
 		onclick={() => (isOpen = !isOpen)}
@@ -28,7 +41,7 @@
 		</svg>
 	</button>
 
-	<ul id="nav-menu" class:open={isOpen}>
+	<ul id="nav-menu" class:open={isOpen} inert={isMobile && !isOpen}>
 		{#each links as link}
 			<li class:active={$page.url.pathname === link.href}>
 				<a

@@ -8,6 +8,7 @@ const GET_POSTS_FOR_GALLERY = `
         featuredImage {
           node {
             sourceUrl
+            srcSet(size: MEDIUM_LARGE)
             mediaDetails {
               width
               height

@@ -46,6 +46,7 @@
 	<link rel="preload" href="/fonts/Caveat-VariableFont_wght.ttf" as="font" type="font/ttf" crossorigin="anonymous" />
 	<link rel="preload" href="/fonts/FiraSans-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous" />
 	<link rel="canonical" href={`https://www.readingweather.co.uk${$page.url.pathname}`} />
+	<link rel="alternate" type="application/rss+xml" title="Reading Weather" href="/feed.xml" />
 	<meta property="og:site_name" content="Reading Weather" />
 	<meta property="og:locale" content="en_GB" />
 	<meta name="twitter:card" content="summary_large_image" />
@@ -53,7 +54,9 @@
 
 <Analytics />
 <a href="#main" class="skip-link">Skip to main content</a>
-<NavBar />
+<header>
+	<NavBar />
+</header>
 <main id="main">
 	{@render children()}
 </main>
@@ -75,5 +78,6 @@
 
 		<p class="response" role="status" aria-live="polite">{responseMessage}</p>
 	</div>
+	<p><a href="/feed.xml">Subscribe via RSS</a></p>
 	<p>&copy; {new Date().getFullYear()} Weather Forecast For Reading & Berkshire</p>
 </footer>
