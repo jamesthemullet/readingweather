@@ -44,10 +44,20 @@
 	<meta name="description" content={summary.headline} />
 	<meta property="og:title" content={postTitle} />
 	<meta property="og:description" content={summary.headline} />
+	<meta property="og:image" content="https://www.readingweather.co.uk/images/weather.png" />
+	<meta
+		property="og:image:alt"
+		content="Reading Weather – monthly weather report card for Reading and Berkshire"
+	/>
 	<meta property="og:type" content="article" />
 	<meta property="og:url" content={postUrl} />
 	<meta name="twitter:title" content={postTitle} />
 	<meta name="twitter:description" content={summary.headline} />
+	<meta name="twitter:image" content="https://www.readingweather.co.uk/images/weather.png" />
+	<meta
+		name="twitter:image:alt"
+		content="Reading Weather – monthly weather report card for Reading and Berkshire"
+	/>
 	{@html `<script type="application/ld+json">${JSON.stringify(jsonLd)}</script>`}
 </svelte:head>
 

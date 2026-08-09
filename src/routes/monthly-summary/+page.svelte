@@ -3,6 +3,15 @@
 
 	const { data }: PageProps = $props();
 
+	const jsonLd = {
+		'@context': 'https://schema.org',
+		'@type': 'CollectionPage',
+		name: 'Monthly Weather Report Cards | Reading Weather',
+		description:
+			'Browse monthly weather report cards for Reading, comparing each month\'s temperature, rainfall and sunshine against the historical average.',
+		url: 'https://www.readingweather.co.uk/monthly-summary'
+	};
+
 	const MONTH_NAMES = [
 		'January',
 		'February',
@@ -25,6 +34,29 @@
 		name="description"
 		content="Browse monthly weather report cards for Reading, comparing each month's temperature, rainfall and sunshine against the historical average."
 	/>
+	<meta property="og:title" content="Monthly Weather Report Cards | Reading Weather" />
+	<meta
+		property="og:description"
+		content="Browse monthly weather report cards for Reading, comparing each month's temperature, rainfall and sunshine against the historical average."
+	/>
+	<meta property="og:image" content="https://www.readingweather.co.uk/images/weather.png" />
+	<meta
+		property="og:image:alt"
+		content="Reading Weather – weather forecasts for Reading and Berkshire"
+	/>
+	<meta property="og:type" content="website" />
+	<meta property="og:url" content="https://www.readingweather.co.uk/monthly-summary" />
+	<meta name="twitter:title" content="Monthly Weather Report Cards | Reading Weather" />
+	<meta
+		name="twitter:description"
+		content="Browse monthly weather report cards for Reading, comparing each month's temperature, rainfall and sunshine against the historical average."
+	/>
+	<meta name="twitter:image" content="https://www.readingweather.co.uk/images/weather.png" />
+	<meta
+		name="twitter:image:alt"
+		content="Reading Weather – weather forecasts for Reading and Berkshire"
+	/>
+	{@html `<script type="application/ld+json">${JSON.stringify(jsonLd)}</script>`}
 </svelte:head>
 
 <h1>Monthly Weather Report Cards</h1>
