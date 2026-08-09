@@ -42,7 +42,10 @@
 <div class="share">
 	<p class="share-label">Found this forecast useful?</p>
 	<div class="share-buttons">
-		<button onclick={copyLink} aria-label="Copy link to this forecast">
+		<button
+			onclick={copyLink}
+			aria-label={copied ? 'Link copied to clipboard' : 'Copy link to this forecast'}
+		>
 			{copied ? 'Copied!' : 'Copy link'}
 		</button>
 		<button onclick={shareOnBluesky} aria-label="Share this forecast on Bluesky (opens in new tab)">

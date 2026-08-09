@@ -44,10 +44,20 @@
 	<meta name="description" content={summary.headline} />
 	<meta property="og:title" content={postTitle} />
 	<meta property="og:description" content={summary.headline} />
+	<meta property="og:image" content="https://www.readingweather.co.uk/images/weather.png" />
+	<meta
+		property="og:image:alt"
+		content="Reading Weather – weather forecasts for Reading and Berkshire"
+	/>
 	<meta property="og:type" content="article" />
 	<meta property="og:url" content={postUrl} />
 	<meta name="twitter:title" content={postTitle} />
 	<meta name="twitter:description" content={summary.headline} />
+	<meta name="twitter:image" content="https://www.readingweather.co.uk/images/weather.png" />
+	<meta
+		name="twitter:image:alt"
+		content="Reading Weather – weather forecasts for Reading and Berkshire"
+	/>
 	{@html `<script type="application/ld+json">${JSON.stringify(jsonLd)}</script>`}
 </svelte:head>
 
@@ -100,7 +110,7 @@
 				<p>Most common condition: <strong>{summary.condition.label}</strong></p>
 			{/if}
 			{#if summary.streak}
-				<p>Longest streak: <strong>{summary.streak.label}</strong> {summary.streak.emoji}</p>
+				<p>Longest streak: <strong>{summary.streak.label}</strong> <span aria-hidden="true">{summary.streak.emoji}</span></p>
 			{/if}
 		</div>
 	{/if}
