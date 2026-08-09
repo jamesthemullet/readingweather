@@ -56,11 +56,12 @@
 		headline: postTitle,
 		description: postDescription,
 		url: postUrl,
+		inLanguage: 'en-GB',
 		mainEntityOfPage: { '@type': 'WebPage', '@id': postUrl },
 		...(data.post.date ? { datePublished: data.post.date } : {}),
-		...(data.post.featuredImage?.node?.sourceUrl
-			? { image: data.post.featuredImage.node.sourceUrl }
-			: {}),
+		image:
+			data.post.featuredImage?.node?.sourceUrl ??
+			'https://www.readingweather.co.uk/images/weather.png',
 		author: {
 			'@type': 'Organization',
 			name: 'Reading Weather',

@@ -6,7 +6,7 @@
 
 	const jsonLd = $derived({
 		'@context': 'https://schema.org',
-		'@type': 'WebPage',
+		'@type': 'AboutPage',
 		name: data.page.title,
 		description: data.page.seo.description,
 		url: `https://www.readingweather.co.uk/${data.page.slug}`

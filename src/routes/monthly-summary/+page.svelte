@@ -3,6 +3,18 @@
 
 	const { data }: PageProps = $props();
 
+	const monthlySummaryDescription =
+		"Browse monthly weather report cards for Reading, comparing each month's temperature, rainfall and sunshine against the historical average.";
+
+	const jsonLd = {
+		'@context': 'https://schema.org',
+		'@type': 'CollectionPage',
+		name: 'Monthly Weather Report Cards',
+		description: monthlySummaryDescription,
+		url: 'https://www.readingweather.co.uk/monthly-summary',
+		isPartOf: { '@type': 'WebSite', name: 'Reading Weather', url: 'https://www.readingweather.co.uk' }
+	};
+
 	const MONTH_NAMES = [
 		'January',
 		'February',
@@ -17,17 +29,6 @@
 		'November',
 		'December'
 	];
-
-	const monthlySummaryDescription =
-		"Browse monthly weather report cards for Reading, comparing each month's temperature, rainfall and sunshine against the historical average.";
-
-	const jsonLd = {
-		'@context': 'https://schema.org',
-		'@type': 'CollectionPage',
-		name: 'Monthly Weather Report Cards',
-		description: monthlySummaryDescription,
-		url: 'https://www.readingweather.co.uk/monthly-summary'
-	};
 </script>
 
 <svelte:head>

@@ -53,11 +53,11 @@
 <WeeklyDigest />
 
 {#if data.lastMonth}
-	<section class="monthly-summary-teaser">
+	<div class="monthly-summary-teaser">
 		<a href="/monthly-summary/{data.lastMonth.year}/{String(data.lastMonth.month).padStart(2, '0')}">
 			<span aria-hidden="true">📅</span> {data.lastMonth.label} report card
 		</a>
-	</section>
+	</div>
 {/if}
 
 <WeekInHistory />

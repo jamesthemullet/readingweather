@@ -17,7 +17,12 @@
 		name: `${summary.label} Weather Report Card`,
 		description: summary.headline,
 		url: postUrl,
-		temporalCoverage: `${summary.year}-${String(summary.month).padStart(2, '0')}`,
+		temporalCoverage: (() => {
+			const year = summary.year;
+			const month = String(summary.month).padStart(2, '0');
+			const lastDay = new Date(year, summary.month, 0).getDate();
+			return `${year}-${month}-01/${year}-${month}-${String(lastDay).padStart(2, '0')}`;
+		})(),
 		spatialCoverage: {
 			'@type': 'Place',
 			name: 'Reading, UK'
