@@ -102,20 +102,6 @@ export type LatestSeasonalPost = {
 	date: string;
 	featuredImage?: {
 		node?: PostFeaturedImageListNode;
-		nodes: Array<{
-			date: string;
-			slug: string;
-			title: string;
-			content: string;
-			featuredImage?: {
-				node?: {
-					sourceUrl: string;
-					srcSet: string;
-					altText?: string;
-					mediaDetails?: { width?: number; height?: number };
-				};
-			};
-		}>;
 	};
 };
 
