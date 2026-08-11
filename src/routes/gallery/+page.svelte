@@ -73,7 +73,7 @@
 	<meta property="og:image" content="https://www.readingweather.co.uk/images/weather.png" />
 	<meta property="og:image:alt" content="Photo gallery of weather conditions in Reading and Berkshire" />
 	<meta property="og:type" content="website" />
-	<meta property="og:url" content="https://www.readingweather.co.uk/gallery" />
+	<meta property="og:url" content={`https://www.readingweather.co.uk/gallery${data.selectedYear ? `?year=${data.selectedYear}` : ''}`} />
 	<meta name="twitter:title" content="Photo Gallery – Reading Weather" />
 	<meta name="twitter:description" content="A photo gallery of weather conditions in Reading and Berkshire, organised by month and year." />
 	<meta name="twitter:image" content="https://www.readingweather.co.uk/images/weather.png" />
@@ -114,11 +114,14 @@
 									aria-label="View full size: {post.name}"
 								>
 									<img
-										src={post.thumbnailUrl}
+										src={post.featuredImage.node.sourceUrl}
+										srcset={post.featuredImage.node.srcSet}
+										sizes="(min-width: 480px) 200px, 100vw"
 										alt={post.name}
 										width={post.featuredImage.node.mediaDetails?.width ?? undefined}
 										height={post.featuredImage.node.mediaDetails?.height ?? undefined}
 										loading="lazy"
+										decoding="async"
 									/>
 									<span class="photo-name" aria-hidden="true">{post.name}</span>
 								</button>

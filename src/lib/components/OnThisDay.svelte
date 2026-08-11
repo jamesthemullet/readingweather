@@ -1,11 +1,6 @@
 <script lang="ts">
 	import type { DailyWeather } from '$lib/api/historicalWeather';
-
-	type OnThisDayPost = {
-		title: string;
-		slug: string;
-		date: string;
-	};
+	import type { OnThisDayPost } from '$lib/types';
 
 	type Props = {
 		posts: OnThisDayPost[];

@@ -4,7 +4,7 @@
 
 	const { data }: PageProps = $props();
 
-	const { summary } = data;
+	const summary = $derived(data.summary);
 
 	const postUrl = $derived(
 		`https://www.readingweather.co.uk/monthly-summary/${summary.year}/${String(summary.month).padStart(2, '0')}`
