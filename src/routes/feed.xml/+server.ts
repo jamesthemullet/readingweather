@@ -1,5 +1,5 @@
-import type { RequestHandler } from '@sveltejs/kit';
 import { fetchFeedPosts, generateFeedXml } from '$lib/server/feed';
+import type { RequestHandler } from './$types';
 
 export const GET: RequestHandler = async () => {
 	const base = 'https://www.readingweather.co.uk';
