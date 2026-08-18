@@ -3,6 +3,9 @@
 
 	const { data }: PageProps = $props();
 
+	const monthlySummaryDescription =
+		"Browse monthly weather report cards for Reading, comparing each month's temperature, rainfall and sunshine against the historical average.";
+
 	const MONTH_NAMES = [
 		'January',
 		'February',
@@ -22,8 +25,7 @@
 		'@context': 'https://schema.org',
 		'@type': 'CollectionPage',
 		name: 'Monthly Weather Report Cards | Reading Weather',
-		description:
-			"Browse monthly weather report cards for Reading, comparing each month's temperature, rainfall and sunshine against the historical average.",
+		description: monthlySummaryDescription,
 		url: 'https://www.readingweather.co.uk/monthly-summary',
 		publisher: {
 			'@type': 'Organization',
@@ -35,24 +37,15 @@
 
 <svelte:head>
 	<title>Monthly Weather Report Cards | Reading Weather</title>
-	<meta
-		name="description"
-		content="Browse monthly weather report cards for Reading, comparing each month's temperature, rainfall and sunshine against the historical average."
-	/>
+	<meta name="description" content={monthlySummaryDescription} />
 	<meta property="og:title" content="Monthly Weather Report Cards | Reading Weather" />
-	<meta
-		property="og:description"
-		content="Browse monthly weather report cards for Reading, comparing each month's temperature, rainfall and sunshine against the historical average."
-	/>
+	<meta property="og:description" content={monthlySummaryDescription} />
 	<meta property="og:image" content="https://www.readingweather.co.uk/images/weather.png" />
 	<meta property="og:image:alt" content="Monthly weather report cards for Reading and Berkshire" />
 	<meta property="og:type" content="website" />
 	<meta property="og:url" content="https://www.readingweather.co.uk/monthly-summary" />
 	<meta name="twitter:title" content="Monthly Weather Report Cards | Reading Weather" />
-	<meta
-		name="twitter:description"
-		content="Browse monthly weather report cards for Reading, comparing each month's temperature, rainfall and sunshine against the historical average."
-	/>
+	<meta name="twitter:description" content={monthlySummaryDescription} />
 	<meta name="twitter:image" content="https://www.readingweather.co.uk/images/weather.png" />
 	<meta
 		name="twitter:image:alt"

@@ -26,7 +26,7 @@
 							src={post.featuredImage.node.sourceUrl}
 							srcset={post.featuredImage.node.srcSet}
 							sizes="(min-width: 768px) 700px, 100vw"
-							alt=""
+							alt={post.featuredImage?.node?.altText || ''}
 							width={post.featuredImage.node.mediaDetails?.width ?? undefined}
 							height={post.featuredImage.node.mediaDetails?.height ?? undefined}
 							loading={i === 0 ? 'eager' : 'lazy'}

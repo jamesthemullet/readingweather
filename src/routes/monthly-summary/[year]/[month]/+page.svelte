@@ -17,7 +17,12 @@
 		name: `${summary.label} Weather Report Card`,
 		description: summary.headline,
 		url: postUrl,
-		temporalCoverage: `${summary.year}-${String(summary.month).padStart(2, '0')}`,
+		temporalCoverage: (() => {
+			const year = summary.year;
+			const month = String(summary.month).padStart(2, '0');
+			const lastDay = new Date(year, summary.month, 0).getDate();
+			return `${year}-${month}-01/${year}-${month}-${String(lastDay).padStart(2, '0')}`;
+		})(),
 		spatialCoverage: {
 			'@type': 'Place',
 			name: 'Reading, UK'
@@ -44,9 +49,9 @@
 	<meta name="description" content={summary.headline} />
 	<meta property="og:title" content={postTitle} />
 	<meta property="og:description" content={summary.headline} />
-	<meta property="og:type" content="article" />
 	<meta property="og:image" content="https://www.readingweather.co.uk/images/weather.png" />
 	<meta property="og:image:alt" content="Monthly weather report card for Reading and Berkshire" />
+	<meta property="og:type" content="article" />
 	<meta property="og:url" content={postUrl} />
 	<meta name="twitter:title" content={postTitle} />
 	<meta name="twitter:description" content={summary.headline} />
@@ -104,7 +109,7 @@
 				<p>Most common condition: <strong>{summary.condition.label}</strong></p>
 			{/if}
 			{#if summary.streak}
-				<p>Longest streak: <strong>{summary.streak.label}</strong> {summary.streak.emoji}</p>
+				<p>Longest streak: <strong>{summary.streak.label}</strong> <span aria-hidden="true">{summary.streak.emoji}</span></p>
 			{/if}
 		</section>
 	{/if}

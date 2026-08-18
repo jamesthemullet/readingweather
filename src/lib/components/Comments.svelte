@@ -13,8 +13,8 @@
 	const replyForms = writable<Record<string, boolean>>({});
 </script>
 
-<section id="comments" class="comments-block">
-	<h2>Any comments?</h2>
+<section id="comments" class="comments-block" aria-labelledby="comments-heading">
+	<h2 id="comments-heading">Any comments?</h2>
 	{#if threadedComments.length > 0}
 		<ul class="comments-list">
 			{#each threadedComments as comment}

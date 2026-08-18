@@ -51,7 +51,10 @@
 <div class="share">
 	<p class="share-label">Found this forecast useful?</p>
 	<div class="share-buttons">
-		<button onclick={copyLink} aria-label="Copy link to this forecast">
+		<button
+			onclick={copyLink}
+			aria-label={copied ? 'Link copied to clipboard' : 'Copy link to this forecast'}
+		>
 			{copied ? 'Copied!' : copyError ? 'Copy failed' : 'Copy link'}
 		</button>
 		{#if copyError}
