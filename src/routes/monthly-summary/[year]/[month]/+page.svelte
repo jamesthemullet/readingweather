@@ -50,19 +50,13 @@
 	<meta property="og:title" content={postTitle} />
 	<meta property="og:description" content={summary.headline} />
 	<meta property="og:image" content="https://www.readingweather.co.uk/images/weather.png" />
-	<meta
-		property="og:image:alt"
-		content="Reading Weather – weather forecasts for Reading and Berkshire"
-	/>
+	<meta property="og:image:alt" content="Monthly weather report card for Reading and Berkshire" />
 	<meta property="og:type" content="article" />
 	<meta property="og:url" content={postUrl} />
 	<meta name="twitter:title" content={postTitle} />
 	<meta name="twitter:description" content={summary.headline} />
 	<meta name="twitter:image" content="https://www.readingweather.co.uk/images/weather.png" />
-	<meta
-		name="twitter:image:alt"
-		content="Reading Weather – weather forecasts for Reading and Berkshire"
-	/>
+	<meta name="twitter:image:alt" content="Monthly weather report card for Reading and Berkshire" />
 	{@html `<script type="application/ld+json">${JSON.stringify(jsonLd)}</script>`}
 </svelte:head>
 
@@ -71,7 +65,7 @@
 <section class="monthly-summary-card">
 	<p class="headline">{summary.headline}</p>
 
-	<div class="stat-group">
+	<section class="stat-group">
 		<h2>Temperature</h2>
 		<p>
 			High: <strong>{summary.temperature.high}°C</strong> · Low: <strong
@@ -82,9 +76,9 @@
 			Mean: <strong>{summary.temperature.mean}°C</strong> (average for {summary.monthName}: {summary
 				.temperature.historicalAverageMean}°C)
 		</p>
-	</div>
+	</section>
 
-	<div class="stat-group">
+	<section class="stat-group">
 		<h2>Rainfall</h2>
 		<p>
 			Total: <strong>{summary.rainfall.total}mm</strong> (average: {summary.rainfall
@@ -94,9 +88,9 @@
 			Wettest day: {formatDate(summary.rainfall.wettestDay.date)} ({summary.rainfall.wettestDay
 				.value}mm)
 		</p>
-	</div>
+	</section>
 
-	<div class="stat-group">
+	<section class="stat-group">
 		<h2>Sunshine</h2>
 		<p>
 			Total: <strong>{summary.sunshine.totalHours}h</strong> (average: {summary.sunshine
@@ -106,10 +100,10 @@
 			Sunniest day: {formatDate(summary.sunshine.sunniestDay.date)} ({summary.sunshine.sunniestDay
 				.hours}h sun)
 		</p>
-	</div>
+	</section>
 
 	{#if summary.condition || summary.streak}
-		<div class="stat-group">
+		<section class="stat-group">
 			<h2>The month at a glance</h2>
 			{#if summary.condition}
 				<p>Most common condition: <strong>{summary.condition.label}</strong></p>
@@ -117,10 +111,10 @@
 			{#if summary.streak}
 				<p>Longest streak: <strong>{summary.streak.label}</strong> <span aria-hidden="true">{summary.streak.emoji}</span></p>
 			{/if}
-		</div>
+		</section>
 	{/if}
 
-	<div class="stat-group">
+	<section class="stat-group">
 		<h2>Notable days</h2>
 		<p class="range">{summary.yearsOfData} years of records</p>
 		<ul class="records">
@@ -152,7 +146,7 @@
 				{/if}
 			</li>
 		</ul>
-	</div>
+	</section>
 
 	<p class="conditions-note">
 		Weather conditions are sourced from ERA5 reanalysis data and should be treated as an

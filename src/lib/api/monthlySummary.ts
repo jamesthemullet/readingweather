@@ -228,16 +228,18 @@ function lastCompleteYearForMonth(month: number, now: Date): number {
 const MAX_ATTEMPTS = 3;
 
 async function fetchArchive(url: string): Promise<Response> {
-	let response: Response | undefined;
 	for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
-		response = await fetch(url, { signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS) });
+		const response = await fetch(url, { signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS) });
 		if (response.status !== 429 || attempt === MAX_ATTEMPTS) return response;
 
 		const retryAfterSeconds = Number(response.headers.get('retry-after'));
 		const delayMs = retryAfterSeconds > 0 ? retryAfterSeconds * 1000 : attempt * 1000;
 		await new Promise((resolve) => setTimeout(resolve, delayMs));
 	}
-	return response as Response;
+	// Unreachable: the loop always returns on the final attempt. TypeScript cannot
+	// prove this because MAX_ATTEMPTS is a runtime constant, not a literal in the
+	// loop bounds, so an explicit throw satisfies the control-flow analysis.
+	throw new Error('Unexpected: fetchArchive retry loop exhausted without returning');
 }
 
 async function fetchMonthlyBaseline(month: number, upToYear: number): Promise<MonthlyBaseline> {

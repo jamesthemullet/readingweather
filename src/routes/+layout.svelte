@@ -53,8 +53,8 @@
 </svelte:head>
 
 <Analytics />
-<a href="#main" class="skip-link">Skip to main content</a>
 <header>
+	<a href="#main" class="skip-link">Skip to main content</a>
 	<NavBar />
 </header>
 <main id="main">

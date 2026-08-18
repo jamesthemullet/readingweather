@@ -6,15 +6,6 @@
 	const monthlySummaryDescription =
 		"Browse monthly weather report cards for Reading, comparing each month's temperature, rainfall and sunshine against the historical average.";
 
-	const jsonLd = {
-		'@context': 'https://schema.org',
-		'@type': 'CollectionPage',
-		name: 'Monthly Weather Report Cards',
-		description: monthlySummaryDescription,
-		url: 'https://www.readingweather.co.uk/monthly-summary',
-		isPartOf: { '@type': 'WebSite', name: 'Reading Weather', url: 'https://www.readingweather.co.uk' }
-	};
-
 	const MONTH_NAMES = [
 		'January',
 		'February',
@@ -29,6 +20,19 @@
 		'November',
 		'December'
 	];
+
+	const jsonLd = {
+		'@context': 'https://schema.org',
+		'@type': 'CollectionPage',
+		name: 'Monthly Weather Report Cards | Reading Weather',
+		description: monthlySummaryDescription,
+		url: 'https://www.readingweather.co.uk/monthly-summary',
+		publisher: {
+			'@type': 'Organization',
+			name: 'Reading Weather',
+			url: 'https://www.readingweather.co.uk'
+		}
+	};
 </script>
 
 <svelte:head>
@@ -37,10 +41,7 @@
 	<meta property="og:title" content="Monthly Weather Report Cards | Reading Weather" />
 	<meta property="og:description" content={monthlySummaryDescription} />
 	<meta property="og:image" content="https://www.readingweather.co.uk/images/weather.png" />
-	<meta
-		property="og:image:alt"
-		content="Reading Weather – weather forecasts for Reading and Berkshire"
-	/>
+	<meta property="og:image:alt" content="Monthly weather report cards for Reading and Berkshire" />
 	<meta property="og:type" content="website" />
 	<meta property="og:url" content="https://www.readingweather.co.uk/monthly-summary" />
 	<meta name="twitter:title" content="Monthly Weather Report Cards | Reading Weather" />
@@ -48,9 +49,9 @@
 	<meta name="twitter:image" content="https://www.readingweather.co.uk/images/weather.png" />
 	<meta
 		name="twitter:image:alt"
-		content="Reading Weather – weather forecasts for Reading and Berkshire"
+		content="Monthly weather report cards for Reading and Berkshire"
 	/>
-	{@html `<script type="application/ld+json">${JSON.stringify(jsonLd)}</script>`}
+	{@html `<script type="application/ld+json">${JSON.stringify(jsonLd)}<\/script>`}
 </svelte:head>
 
 <h1>Monthly Weather Report Cards</h1>

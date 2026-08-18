@@ -114,7 +114,7 @@
 									aria-label="View full size: {post.name}"
 								>
 									<img
-										src={post.featuredImage.node.sourceUrl}
+										src={post.thumbnailUrl}
 										srcset={post.featuredImage.node.srcSet}
 										sizes="(min-width: 480px) 200px, 100vw"
 										alt={post.name}
