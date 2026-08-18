@@ -7,6 +7,16 @@ vi.mock('$lib/graphql/api', () => ({
 	fetchGraphQL: vi.fn()
 }));
 
+vi.mock('$lib/api/historicalWeather', () => ({
+	fetchHistoricalWeather: vi.fn()
+}));
+
+vi.mock('$lib/server/cache', () => ({
+	getCache: vi.fn(() => null),
+	setCache: vi.fn()
+}));
+
+import { fetchHistoricalWeather } from '$lib/api/historicalWeather';
 import { fetchGraphQL } from '$lib/graphql/api';
 
 const mockPosts = {
@@ -40,11 +50,11 @@ const mockOnThisDay = {
 	}
 };
 
-const mockFetch = vi.fn().mockResolvedValue({ ok: false });
+const mockFetch = vi.fn();
 
 beforeEach(() => {
 	vi.clearAllMocks();
-	mockFetch.mockResolvedValue({ ok: false });
+	vi.mocked(fetchHistoricalWeather).mockResolvedValue([]);
 });
 
 describe('home page load', () => {
@@ -128,7 +138,7 @@ describe('home page load', () => {
 			.mockResolvedValueOnce(mockSeasonalResponse)
 			.mockResolvedValueOnce(mockOnThisDay);
 		const weatherData = [{ year: 2024, tempMax: 22, tempMin: 11, precipitation: 0, windSpeedMax: 10, conditions: { morning: 'clear sky', afternoon: 'mainly clear', evening: 'clear sky' } }];
-		mockFetch.mockResolvedValueOnce({ ok: true, json: async () => weatherData });
+		vi.mocked(fetchHistoricalWeather).mockResolvedValueOnce(weatherData);
 
 		const result = await load({ setHeaders: vi.fn(), fetch: mockFetch } as unknown as Parameters<typeof load>[0]) as LoadResult;
 
