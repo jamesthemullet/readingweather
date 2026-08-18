@@ -1,10 +1,13 @@
-import type { DailyWeather } from '$lib/api/historicalWeather';
+import { type DailyWeather, fetchHistoricalWeather } from '$lib/api/historicalWeather';
 import { fetchGraphQL } from '$lib/graphql/api';
 import ALL_POSTS_QUERY from '$lib/graphql/queries/allPosts';
 import GET_LATEST_SEASONAL_POST_QUERY from '$lib/graphql/queries/getLatestSeasonalPost';
 import GET_POSTS_ON_THIS_DAY from '$lib/graphql/queries/getPostsOnThisDay';
+import { getCache, setCache } from '$lib/server/cache';
 import type { AllPostsResponse, LatestSeasonalPostResponse, OnThisDayResponse } from '$lib/types';
 import type { PageServerLoad } from './$types';
+
+const HISTORICAL_WEATHER_TTL_MS = 24 * 60 * 60 * 1000;
 
 function lastCompletedMonth(now: Date): { year: number; month: number } {
 	const year = now.getUTCFullYear();
@@ -23,15 +26,21 @@ export const load: PageServerLoad = async ({ fetch }) => {
 		{ month: 'long', year: 'numeric', timeZone: 'UTC' }
 	);
 
+	const historicalWeatherCacheKey = `historical-weather-${month}-${day}`;
+
 	const [postsResult, latestSeasonalPost, onThisDay, historicalWeather] = await Promise.all([
 		fetchGraphQL<AllPostsResponse>(ALL_POSTS_QUERY, {}, fetch).catch(() => null),
 		fetchGraphQL<LatestSeasonalPostResponse>(GET_LATEST_SEASONAL_POST_QUERY, {}, fetch).catch(
 			() => null
 		),
 		fetchGraphQL<OnThisDayResponse>(GET_POSTS_ON_THIS_DAY, { month, day }, fetch).catch(() => null),
-		fetch(`/api/historical-weather?month=${month}&day=${day}`)
-			.then((r) => (r.ok ? (r.json() as Promise<DailyWeather[]>) : null))
-			.catch(() => null)
+		(async (): Promise<DailyWeather[] | null> => {
+			const cached = getCache<DailyWeather[]>(historicalWeatherCacheKey);
+			if (cached) return cached;
+			const data = await fetchHistoricalWeather(month, day).catch(() => null);
+			if (data) setCache(historicalWeatherCacheKey, data, HISTORICAL_WEATHER_TTL_MS);
+			return data;
+		})()
 	]);
 
 	const meta = {
