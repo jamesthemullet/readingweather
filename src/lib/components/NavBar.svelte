@@ -25,6 +25,8 @@
 	});
 </script>
 
+<svelte:window onkeydown={(e) => { if (e.key === 'Escape' && isOpen) isOpen = false; }} />
+
 <nav class="navbar" aria-label="Main navigation">
 	<a href="/" class="home-button">Home</a>
 	<button

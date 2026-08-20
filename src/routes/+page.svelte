@@ -53,11 +53,11 @@
 <WeeklyDigest />
 
 {#if data.lastMonth}
-	<section class="monthly-summary-teaser">
+	<div class="monthly-summary-teaser">
 		<a href="/monthly-summary/{data.lastMonth.year}/{String(data.lastMonth.month).padStart(2, '0')}">
-			📅 {data.lastMonth.label} report card
+			<span aria-hidden="true">📅</span> {data.lastMonth.label} report card
 		</a>
-	</section>
+	</div>
 {/if}
 
 <WeekInHistory />
@@ -66,5 +66,5 @@
 
 <div class="older-posts">
 	<p>Looking for older posts?</p>
-	<a href="/archives">Check out the archives</a>
+	<a href="/archives" aria-label="Check out the weather forecast archives">Check out the archives</a>
 </div>

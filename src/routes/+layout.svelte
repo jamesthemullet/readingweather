@@ -41,8 +41,8 @@
 </script>
 
 <svelte:head>
-	<link rel="preconnect" href="https://blog.readingweather.co.uk" />
-	<link rel="preconnect" href="https://www.googletagmanager.com" />
+	<link rel="preconnect" href="https://blog.readingweather.co.uk" crossorigin="anonymous" />
+	<link rel="preconnect" href="https://www.googletagmanager.com" crossorigin="anonymous" />
 	<link rel="preload" href="/fonts/Caveat-VariableFont_wght.ttf" as="font" type="font/ttf" crossorigin="anonymous" />
 	<link rel="preload" href="/fonts/FiraSans-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous" />
 	<link rel="canonical" href={`https://www.readingweather.co.uk${$page.url.pathname}`} />
@@ -53,8 +53,8 @@
 </svelte:head>
 
 <Analytics />
-<a href="#main" class="skip-link">Skip to main content</a>
 <header>
+	<a href="#main" class="skip-link">Skip to main content</a>
 	<NavBar />
 </header>
 <main id="main">
@@ -67,11 +67,11 @@
 <form id="subscribe-form" aria-labelledby="subscribe-heading" onsubmit={handleSubmit}>
 			<label for="subscribe-name">
 				Name:
-				<input id="subscribe-name" autocomplete="name" type="text" bind:value={name} required aria-required="true" />
+				<input id="subscribe-name" autocomplete="name" type="text" bind:value={name} required />
 			</label>
 			<label for="subscribe-email">
 				Email:
-				<input id="subscribe-email" autocomplete="email" type="email" bind:value={email} required aria-required="true" />
+				<input id="subscribe-email" autocomplete="email" type="email" bind:value={email} required />
 			</label>
 			<button type="submit">Subscribe</button>
 		</form>

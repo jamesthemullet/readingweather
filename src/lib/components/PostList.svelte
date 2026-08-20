@@ -20,22 +20,22 @@
 	{#each posts as post, i}
 		<li>
 			<article class="post">
-				<a href="/{post.slug}">
-					{#if post.featuredImage?.node?.sourceUrl}
+				{#if post.featuredImage?.node?.sourceUrl}
+					<a href="/{post.slug}" aria-hidden="true" tabindex="-1">
 						<img
 							src={post.featuredImage.node.sourceUrl}
 							srcset={post.featuredImage.node.srcSet}
 							sizes="(min-width: 768px) 700px, 100vw"
-							alt=""
+							alt={post.featuredImage?.node?.altText || ''}
 							width={post.featuredImage.node.mediaDetails?.width ?? undefined}
 							height={post.featuredImage.node.mediaDetails?.height ?? undefined}
 							loading={i === 0 ? 'eager' : 'lazy'}
 							fetchpriority={i === 0 ? 'high' : undefined}
 							decoding={i === 0 ? undefined : 'async'}
 						/>
-					{/if}
-					<h2>{post.title}</h2>
-				</a>
+					</a>
+				{/if}
+				<h2><a href="/{post.slug}">{post.title}</a></h2>
 			{#if preview}
 					<div class="content">{@html sanitize(firstParagraph(post.content))}</div>
 					<a href="/{post.slug}" class="read-more" aria-label="Read full forecast: {post.title}">Read full forecast</a>

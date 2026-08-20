@@ -61,15 +61,15 @@
 	{#if !successMessage}
 		<div>
 			<label for="name-{fieldPrefix}">Name:</label>
-			<input type="text" bind:value={name} id="name-{fieldPrefix}" name="name" autocomplete="name" required aria-required="true" />
+			<input type="text" bind:value={name} id="name-{fieldPrefix}" name="name" autocomplete="name" required />
 		</div>
 		<div>
 			<label for="email-{fieldPrefix}">Email:</label>
-			<input type="email" bind:value={email} id="email-{fieldPrefix}" name="email" autocomplete="email" required aria-required="true" />
+			<input type="email" bind:value={email} id="email-{fieldPrefix}" name="email" autocomplete="email" required />
 		</div>
 		<div>
 			<label for="comment-{fieldPrefix}">Comment:</label>
-			<textarea bind:value={commentContent} id="comment-{fieldPrefix}" name="comment" autocomplete="off" required aria-required="true"></textarea>
+			<textarea bind:value={commentContent} id="comment-{fieldPrefix}" name="comment" autocomplete="off" required></textarea>
 		</div>
 		<button type="submit" disabled={submitting}>
 			{submitting ? 'Submitting...' : 'Post Comment'}

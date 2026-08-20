@@ -8,14 +8,23 @@
 	const { postUrl, postTitle, postSummary }: Props = $props();
 
 	let copied = $state(false);
+	let copyError = $state(false);
 
 	function copyLink(): void {
-		navigator.clipboard.writeText(postUrl).then(() => {
-			copied = true;
-			setTimeout(() => {
-				copied = false;
-			}, 2000);
-		});
+		navigator.clipboard
+			.writeText(postUrl)
+			.then(() => {
+				copied = true;
+				setTimeout(() => {
+					copied = false;
+				}, 2000);
+			})
+			.catch(() => {
+				copyError = true;
+				setTimeout(() => {
+					copyError = false;
+				}, 3000);
+			});
 	}
 
 	function shareOnBluesky(): void {
@@ -43,9 +52,15 @@
 	<p class="share-label">Found this forecast useful?</p>
 	<span aria-live="polite" class="sr-only">{copied ? 'Link copied to clipboard' : ''}</span>
 	<div class="share-buttons">
-		<button onclick={copyLink} aria-label="Copy link to this forecast">
-			{copied ? 'Copied!' : 'Copy link'}
+		<button
+			onclick={copyLink}
+			aria-label={copied ? 'Link copied to clipboard' : 'Copy link to this forecast'}
+		>
+			{copied ? 'Copied!' : copyError ? 'Copy failed' : 'Copy link'}
 		</button>
+		{#if copyError}
+			<span role="alert" class="copy-error">Could not copy link — please copy it manually.</span>
+		{/if}
 		<button onclick={shareOnBluesky} aria-label="Share this forecast on Bluesky (opens in new tab)">
 			Share on Bluesky
 		</button>

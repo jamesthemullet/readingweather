@@ -56,11 +56,10 @@
 		headline: postTitle,
 		description: postDescription,
 		url: postUrl,
+		inLanguage: 'en-GB',
 		mainEntityOfPage: { '@type': 'WebPage', '@id': postUrl },
-		...(data.post.date ? { datePublished: data.post.date } : {}),
-		...(data.post.featuredImage?.node?.sourceUrl
-			? { image: data.post.featuredImage.node.sourceUrl }
-			: {}),
+		...(data.post.date ? { datePublished: data.post.date, dateModified: data.post.date } : {}),
+		image: ogImageUrl,
 		author: {
 			'@type': 'Organization',
 			name: 'Reading Weather',
@@ -112,6 +111,10 @@
 	<meta name="twitter:image:alt" content={ogImageAlt} />
 	<meta property="og:type" content="article" />
 	<meta property="og:url" content={postUrl} />
+	{#if data.post.date}
+		<meta property="article:published_time" content={data.post.date} />
+	{/if}
+	<meta property="article:author" content="Reading Weather" />
 	<meta name="twitter:title" content={postTitle} />
 	<meta name="twitter:description" content={postDescription} />
 	{@html `<script type="application/ld+json">${JSON.stringify(jsonLd)}</script>`}
