@@ -50,6 +50,7 @@
 
 <div class="share">
 	<p class="share-label">Found this forecast useful?</p>
+	<span aria-live="polite" class="sr-only">{copied ? 'Link copied to clipboard' : ''}</span>
 	<div class="share-buttons">
 		<button
 			onclick={copyLink}

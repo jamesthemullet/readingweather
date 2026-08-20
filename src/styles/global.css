@@ -1,3 +1,18 @@
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		/* biome-ignore lint/complexity/noImportantStyles: needed to override higher-specificity transitions for users who prefer reduced motion */
+		animation-duration: 0.01ms !important;
+		/* biome-ignore lint/complexity/noImportantStyles: needed to override higher-specificity animations for users who prefer reduced motion */
+		animation-iteration-count: 1 !important;
+		/* biome-ignore lint/complexity/noImportantStyles: needed to override higher-specificity transitions for users who prefer reduced motion */
+		transition-duration: 0.01ms !important;
+		/* biome-ignore lint/complexity/noImportantStyles: needed to override higher-specificity scroll behaviour for users who prefer reduced motion */
+		scroll-behavior: auto !important;
+	}
+}
+
 @font-face {
 	font-family: 'Caveat';
 	src: url('/fonts/Caveat-VariableFont_wght.ttf') format('truetype');
