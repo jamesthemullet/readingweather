@@ -60,15 +60,17 @@ function categoriseCode(code: number): ConditionCategory {
 
 export type MonthStreakType = 'dry' | 'wet' | 'warm' | 'cold';
 
-// Mirrors the thresholds in weatherStreak.ts's dry/wet/warm/cold definitions,
-// kept independent here since this streak is measured within a fixed calendar
-// month rather than as an ongoing run ending today.
-const MONTH_STREAK_DEFINITIONS: {
+type MonthStreakDefinition = {
 	type: MonthStreakType;
 	emoji: string;
 	label: (n: number) => string;
 	test: (tempMax: number, precipitation: number) => boolean;
-}[] = [
+};
+
+// Mirrors the thresholds in weatherStreak.ts's dry/wet/warm/cold definitions,
+// kept independent here since this streak is measured within a fixed calendar
+// month rather than as an ongoing run ending today.
+const MONTH_STREAK_DEFINITIONS: MonthStreakDefinition[] = [
 	{
 		type: 'dry',
 		emoji: '☀️',

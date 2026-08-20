@@ -1,4 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
+import type { ArchiveEntry, ArchivePost } from './+page.server';
 import { load } from './+page.server';
 
 vi.mock('$lib/graphql/api', () => ({
@@ -7,8 +8,6 @@ vi.mock('$lib/graphql/api', () => ({
 
 import { fetchGraphQL } from '$lib/graphql/api';
 
-type ArchiveEntry = { year: number; month: number };
-type ArchivePost = { title: string; slug: string; date: string };
 type ArchiveLoadResult = {
 	archives: ArchiveEntry[];
 	selectedYear: number;
