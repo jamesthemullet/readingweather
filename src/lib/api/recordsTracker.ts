@@ -26,7 +26,6 @@ type OpenMeteoArchiveResponse = {
 		temperature_2m_max: number[];
 		temperature_2m_min: number[];
 		precipitation_sum: number[];
-		sunshine_duration: number[];
 	};
 };
 
@@ -37,32 +36,41 @@ type DayEntry = {
 	tempMax: number;
 	tempMin: number;
 	precipitation: number;
-	sunshineHours: number;
 };
 
-export type RecordMetricType = 'hottest' | 'coldest' | 'wettest' | 'sunniest';
+export type RecordMetricType = 'hottest' | 'coldest' | 'wettest';
 
 type MetricDefinition = {
 	type: RecordMetricType;
 	emoji: string;
 	unit: string;
 	direction: 'desc' | 'asc';
-	allTimeLabel: string;
-	label: (monthName: string) => string;
+	allTimeLabel: (value: number) => string;
+	label: (monthName: string, value: number) => string;
 	value: (d: DayEntry) => number;
 };
 
-// Direction controls which end of the ranking counts as "the record" — the hottest,
-// wettest and sunniest days are the highest values, but the coldest night is the
-// lowest, so its ranking runs the other way.
+// A "hottest day" record set by a mild winter month reads oddly — Reading's record
+// high for December might only be 15°C, which isn't hot by any reasonable measure.
+// Below this threshold the day is described as merely the "warmest" on record for
+// its month, rather than "hottest".
+const HOT_THRESHOLD_C = 26;
+
+function hottestOrWarmest(value: number): string {
+	return value >= HOT_THRESHOLD_C ? 'Hottest' : 'Warmest';
+}
+
+// Direction controls which end of the ranking counts as "the record" — the hottest
+// and wettest days are the highest values, but the coldest night is the lowest, so
+// its ranking runs the other way.
 const METRIC_DEFINITIONS: MetricDefinition[] = [
 	{
 		type: 'hottest',
 		emoji: '🌡️',
 		unit: '°C',
 		direction: 'desc',
-		allTimeLabel: 'Hottest day on record',
-		label: (monthName) => `Hottest ${monthName} day`,
+		allTimeLabel: (value) => `${hottestOrWarmest(value)} day on record`,
+		label: (monthName, value) => `${hottestOrWarmest(value)} ${monthName} day`,
 		value: (d) => d.tempMax
 	},
 	{
@@ -70,7 +78,7 @@ const METRIC_DEFINITIONS: MetricDefinition[] = [
 		emoji: '❄️',
 		unit: '°C',
 		direction: 'asc',
-		allTimeLabel: 'Coldest night on record',
+		allTimeLabel: () => 'Coldest night on record',
 		label: (monthName) => `Coldest ${monthName} night`,
 		value: (d) => d.tempMin
 	},
@@ -79,18 +87,9 @@ const METRIC_DEFINITIONS: MetricDefinition[] = [
 		emoji: '🌧️',
 		unit: 'mm',
 		direction: 'desc',
-		allTimeLabel: 'Wettest day on record',
+		allTimeLabel: () => 'Wettest day on record',
 		label: (monthName) => `Wettest ${monthName} day`,
 		value: (d) => d.precipitation
-	},
-	{
-		type: 'sunniest',
-		emoji: '☀️',
-		unit: 'h',
-		direction: 'desc',
-		allTimeLabel: 'Sunniest day on record',
-		label: (monthName) => `Sunniest ${monthName} day`,
-		value: (d) => d.sunshineHours
 	}
 ];
 
@@ -170,7 +169,7 @@ export async function fetchRecordsTracker(now: Date = new Date()): Promise<Recor
 		longitude: String(READING_LON),
 		start_date: `${EARLIEST_YEAR}-01-01`,
 		end_date: toDateStr(end),
-		daily: 'temperature_2m_max,temperature_2m_min,precipitation_sum,sunshine_duration',
+		daily: 'temperature_2m_max,temperature_2m_min,precipitation_sum',
 		timezone: 'Europe/London'
 	});
 
@@ -178,8 +177,7 @@ export async function fetchRecordsTracker(now: Date = new Date()): Promise<Recor
 	if (!response.ok) throw new Error(`Open-Meteo error: ${response.status}`);
 
 	const data = (await response.json()) as OpenMeteoArchiveResponse;
-	const { time, temperature_2m_max, temperature_2m_min, precipitation_sum, sunshine_duration } =
-		data.daily;
+	const { time, temperature_2m_max, temperature_2m_min, precipitation_sum } = data.daily;
 
 	if (time.length === 0) {
 		throw new Error('No historical data available');
@@ -191,8 +189,7 @@ export async function fetchRecordsTracker(now: Date = new Date()): Promise<Recor
 		month: Number(dateStr.slice(5, 7)),
 		tempMax: temperature_2m_max[i],
 		tempMin: temperature_2m_min[i],
-		precipitation: precipitation_sum[i],
-		sunshineHours: sunshine_duration[i] / 3600
+		precipitation: precipitation_sum[i]
 	}));
 
 	const entriesByMonth = new Map<number, DayEntry[]>();
@@ -213,7 +210,7 @@ export async function fetchRecordsTracker(now: Date = new Date()): Promise<Recor
 			const sorted = [...pool].sort((a, b) =>
 				def.direction === 'desc' ? def.value(b) - def.value(a) : def.value(a) - def.value(b)
 			);
-			const label = def.label(monthName(month));
+			const monthLabel = monthName(month);
 
 			for (const entry of currentYearEntries) {
 				const rank = sorted.findIndex((e) => e.date === entry.date) + 1;
@@ -224,7 +221,7 @@ export async function fetchRecordsTracker(now: Date = new Date()): Promise<Recor
 						date: entry.date,
 						metric: def.type,
 						emoji: def.emoji,
-						label,
+						label: def.label(monthLabel, def.value(entry)),
 						value: round1(def.value(entry)),
 						unit: def.unit,
 						previousValue: round1(def.value(previous)),
@@ -236,7 +233,7 @@ export async function fetchRecordsTracker(now: Date = new Date()): Promise<Recor
 						date: entry.date,
 						metric: def.type,
 						emoji: def.emoji,
-						label,
+						label: def.label(monthLabel, def.value(entry)),
 						value: round1(def.value(entry)),
 						unit: def.unit,
 						rank,
@@ -260,7 +257,7 @@ export async function fetchRecordsTracker(now: Date = new Date()): Promise<Recor
 		return {
 			metric: def.type,
 			emoji: def.emoji,
-			label: def.allTimeLabel,
+			label: def.allTimeLabel(def.value(best)),
 			value: round1(def.value(best)),
 			unit: def.unit,
 			date: best.date

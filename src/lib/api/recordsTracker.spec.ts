@@ -12,13 +12,20 @@ function augDates(year: number, throughDay = 31): string[] {
 	return Array.from({ length: throughDay }, (_, i) => `${year}-08-${String(i + 1).padStart(2, '0')}`);
 }
 
-// Two calendar months across three years: a fully-elapsed January and a
-// partially-elapsed August (2026 only runs to the 20th, matching "yesterday").
+function decDates(year: number): string[] {
+	return Array.from({ length: 31 }, (_, i) => `${year}-12-${String(i + 1).padStart(2, '0')}`);
+}
+
+// Three calendar months across three years: a fully-elapsed January and December,
+// and a partially-elapsed August (2026 only runs to the 20th, matching "yesterday").
 function makeArchiveResponse() {
 	const time = [
 		...janDates(1962),
 		...janDates(1990),
 		...janDates(2026),
+		...decDates(1962),
+		...decDates(1990),
+		...decDates(2026),
 		...augDates(1962),
 		...augDates(1990),
 		...augDates(2026, 20)
@@ -27,7 +34,6 @@ function makeArchiveResponse() {
 	const tempMax = new Array(time.length).fill(8.0);
 	const tempMin = new Array(time.length).fill(1.0);
 	const precip = new Array(time.length).fill(0);
-	const sunshine = new Array(time.length).fill(5 * 3600);
 
 	const idx = (dateStr: string) => time.indexOf(dateStr);
 
@@ -51,6 +57,13 @@ function makeArchiveResponse() {
 	for (const dateStr of janDates(2026)) tempMin[idx(dateStr)] = 2.0;
 	tempMin[idx('2026-01-10')] = -8.2;
 
+	// December: a mild month where even the record high never gets properly hot.
+	// 2026 sets a new "warmest December day" record on the 5th, well under 26°C.
+	for (const dateStr of decDates(1962)) tempMax[idx(dateStr)] = 10.0;
+	for (const dateStr of decDates(1990)) tempMax[idx(dateStr)] = 13.5;
+	for (const dateStr of decDates(2026)) tempMax[idx(dateStr)] = 11.0;
+	tempMax[idx('2026-12-05')] = 14.1;
+
 	return {
 		ok: true,
 		json: async () => ({
@@ -58,8 +71,7 @@ function makeArchiveResponse() {
 				time,
 				temperature_2m_max: tempMax,
 				temperature_2m_min: tempMin,
-				precipitation_sum: precip,
-				sunshine_duration: sunshine
+				precipitation_sum: precip
 			}
 		})
 	};
@@ -98,7 +110,7 @@ describe('fetchRecordsTracker', () => {
 
 	it('detects a broken record for the current year against the calendar-month baseline', async () => {
 		const result = await fetchRecordsTracker(NOW);
-		const hottest = result.brokenRecords.find((r) => r.metric === 'hottest');
+		const hottest = result.brokenRecords.find((r) => r.date === '2026-08-12');
 		expect(hottest).toEqual({
 			date: '2026-08-12',
 			metric: 'hottest',
@@ -126,6 +138,21 @@ describe('fetchRecordsTracker', () => {
 		});
 	});
 
+	it('calls a mild record high "warmest" rather than "hottest" when it falls under 26°C', async () => {
+		const result = await fetchRecordsTracker(NOW);
+		const warmest = result.brokenRecords.find((r) => r.date === '2026-12-05');
+		expect(warmest).toEqual({
+			date: '2026-12-05',
+			metric: 'hottest',
+			emoji: '🌡️',
+			label: 'Warmest December day',
+			value: 14.1,
+			unit: '°C',
+			previousValue: 13.5,
+			previousDate: '1990-12-01'
+		});
+	});
+
 	it('surfaces a top-10 near miss that did not break the record', async () => {
 		const result = await fetchRecordsTracker(NOW);
 		const nearMiss = result.nearMisses.find((r) => r.metric === 'wettest');
@@ -144,7 +171,7 @@ describe('fetchRecordsTracker', () => {
 
 	it('does not report a near miss for a metric the current year never came close on', async () => {
 		const result = await fetchRecordsTracker(NOW);
-		expect(result.nearMisses.some((r) => r.metric === 'sunniest')).toBe(false);
+		expect(result.nearMisses.some((r) => r.metric === 'coldest')).toBe(false);
 	});
 
 	it('reports the all-time extreme for each metric across the whole dataset', async () => {
@@ -196,8 +223,7 @@ describe('fetchRecordsTracker', () => {
 						time: [],
 						temperature_2m_max: [],
 						temperature_2m_min: [],
-						precipitation_sum: [],
-						sunshine_duration: []
+						precipitation_sum: []
 					}
 				})
 			})
