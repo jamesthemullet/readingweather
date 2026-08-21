@@ -7,6 +7,7 @@ const staticRoutes: StaticRoute[] = [
 	{ path: '/archives', changefreq: 'monthly', priority: '0.6' },
 	{ path: '/gallery', changefreq: 'monthly', priority: '0.6' },
 	{ path: '/photographs', changefreq: 'monthly', priority: '0.6' },
+	{ path: '/records', changefreq: 'daily', priority: '0.8' },
 	{ path: '/seasonal-forecasts', changefreq: 'monthly', priority: '0.8' },
 	{ path: '/useful-links', changefreq: 'monthly', priority: '0.5' }
 ];
