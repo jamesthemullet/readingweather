@@ -41,6 +41,8 @@
 </script>
 
 <svelte:head>
+	<title>Reading Weather — Forecasts &amp; Observations for Reading, UK</title>
+	<meta name="description" content="Weather forecasts, observations, and records for Reading, Berkshire, UK. Updated regularly with local conditions and seasonal outlooks." />
 	<link rel="preconnect" href="https://blog.readingweather.co.uk" crossorigin="anonymous" />
 	<link rel="preconnect" href="https://www.googletagmanager.com" crossorigin="anonymous" />
 	<link rel="preload" href="/fonts/Caveat-VariableFont_wght.ttf" as="font" type="font/ttf" crossorigin="anonymous" />

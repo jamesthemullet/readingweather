@@ -14,12 +14,16 @@
 			: `Tracking Reading's weather records for ${records.year}`
 	);
 
+	const ogImage = 'https://www.readingweather.co.uk/images/weather.png';
+	const ogImageAlt = 'Weather illustration for Reading and Berkshire';
+
 	const jsonLd = $derived({
 		'@context': 'https://schema.org',
 		'@type': 'Dataset',
 		name: postTitle,
 		description: postSummary,
 		url: postUrl,
+		image: ogImage,
 		temporalCoverage: String(records.year),
 		spatialCoverage: {
 			'@type': 'Place',
@@ -58,8 +62,12 @@
 	<meta property="og:description" content={postSummary} />
 	<meta property="og:type" content="website" />
 	<meta property="og:url" content={postUrl} />
+	<meta property="og:image" content={ogImage} />
+	<meta property="og:image:alt" content={ogImageAlt} />
 	<meta name="twitter:title" content={postTitle} />
 	<meta name="twitter:description" content={postSummary} />
+	<meta name="twitter:image" content={ogImage} />
+	<meta name="twitter:image:alt" content={ogImageAlt} />
 	{@html `<script type="application/ld+json">${JSON.stringify(jsonLd)}</script>`}
 </svelte:head>
 
@@ -68,7 +76,7 @@
 <section class="records-tracker">
 	<p class="range">As of {records.asOf} · {records.yearsOfData} years of ERA5 records since 1940</p>
 
-	<div class="stat-group">
+	<section class="stat-group">
 		<h2>Records broken this year</h2>
 		{#if records.brokenRecords.length === 0}
 			<p>No all-time records have been broken in Reading yet in {records.year}.</p>
@@ -92,10 +100,10 @@
 				{/each}
 			</ul>
 		{/if}
-	</div>
+	</section>
 
 	{#if records.nearMisses.length > 0}
-		<div class="stat-group">
+		<section class="stat-group">
 			<h2>Near misses</h2>
 			<p class="range">Days that entered the all-time top 10 without quite breaking the record.</p>
 			<ul class="records">
@@ -116,10 +124,10 @@
 					</li>
 				{/each}
 			</ul>
-		</div>
-	{/if}
+		</section>
+{/if}
 
-	<div class="stat-group">
+	<section class="stat-group">
 		<h2>All-time records for Reading</h2>
 		<ul class="records">
 			{#each records.allTimeRecords as record (record.metric)}
@@ -135,7 +143,7 @@
 				</li>
 			{/each}
 		</ul>
-	</div>
+	</section>
 
 	<p class="conditions-note">
 		Weather records are sourced from ERA5 reanalysis data and should be treated as an approximate

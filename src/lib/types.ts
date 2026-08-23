@@ -24,6 +24,7 @@ export type GqlPostNode = {
 	slug: string;
 	excerpt?: string;
 	date: string;
+	modified?: string;
 	content: string;
 	featuredImage?: {
 		node?: GqlPostFeaturedImageNode;
