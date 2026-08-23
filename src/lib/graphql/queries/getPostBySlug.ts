@@ -6,6 +6,7 @@ const GET_POST_BY_SLUG = `
       slug
       excerpt
       date
+      modified
       content
       featuredImage {
         node {

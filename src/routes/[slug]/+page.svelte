@@ -58,7 +58,12 @@
 		url: postUrl,
 		inLanguage: 'en-GB',
 		mainEntityOfPage: { '@type': 'WebPage', '@id': postUrl },
-		...(data.post.date ? { datePublished: data.post.date, dateModified: data.post.date } : {}),
+		...(data.post.date
+			? {
+					datePublished: data.post.date,
+					dateModified: data.post.modified ?? data.post.date
+				}
+			: {}),
 		image: ogImageUrl,
 		author: {
 			'@type': 'Organization',
