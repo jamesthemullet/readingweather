@@ -62,7 +62,7 @@
 
 <h1>{summary.label} Weather Report Card</h1>
 
-<section class="monthly-summary-card">
+<div class="monthly-summary-card">
 	<p class="headline">{summary.headline}</p>
 
 	<section class="stat-group">
@@ -152,7 +152,7 @@
 		Weather conditions are sourced from ERA5 reanalysis data and should be treated as an
 		approximate guide only
 	</p>
-</section>
+</div>
 
 <ShareButton {postUrl} {postTitle} postSummary={summary.headline} />
 

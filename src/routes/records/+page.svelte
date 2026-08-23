@@ -73,7 +73,7 @@
 
 <h1>{postTitle}</h1>
 
-<section class="records-tracker">
+<div class="records-tracker">
 	<p class="range">As of {records.asOf} · {records.yearsOfData} years of ERA5 records since 1940</p>
 
 	<section class="stat-group">
@@ -149,6 +149,6 @@
 		Weather records are sourced from ERA5 reanalysis data and should be treated as an approximate
 		guide only
 	</p>
-</section>
+</div>
 
 <ShareButton {postUrl} {postTitle} {postSummary} />

@@ -119,6 +119,9 @@
 	{#if data.post.date}
 		<meta property="article:published_time" content={data.post.date} />
 	{/if}
+	{#if data.post.modified}
+		<meta property="article:modified_time" content={data.post.modified} />
+	{/if}
 	<meta property="article:author" content="Reading Weather" />
 	<meta name="twitter:title" content={postTitle} />
 	<meta name="twitter:description" content={postDescription} />

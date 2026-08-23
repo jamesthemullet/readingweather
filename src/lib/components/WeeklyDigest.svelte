@@ -32,8 +32,8 @@
 </script>
 
 {#if digest}
-	<section class="weekly-digest">
-		<h2>Last Week in Reading</h2>
+	<section class="weekly-digest" aria-labelledby="weekly-digest-heading">
+		<h2 id="weekly-digest-heading">Last Week in Reading</h2>
 		<p class="range">{formatRange(digest.startDate, digest.endDate)}</p>
 		<div class="stats">
 			<span><span aria-hidden="true">↑</span><span class="sr-only">High: </span>{digest.tempHigh}°C</span>

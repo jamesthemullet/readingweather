@@ -40,16 +40,23 @@
 </script>
 
 <svelte:head>
-	<title>Weather Forecast Archives – Reading Weather</title>
-	<meta name="description" content="Browse the archives of weather forecasts for Reading and Berkshire, searchable by month and year." />
-	<meta property="og:title" content="Weather Forecast Archives – Reading Weather" />
-	<meta property="og:description" content="Browse the archives of weather forecasts for Reading and Berkshire, searchable by month and year." />
+	{#if data.selectedYear && data.selectedMonth}
+		<title>{getMonthName(data.selectedMonth)} {data.selectedYear} Forecasts – Reading Weather</title>
+		<meta name="description" content="Weather forecasts for Reading and Berkshire from {getMonthName(data.selectedMonth)} {data.selectedYear}." />
+		<meta property="og:title" content="{getMonthName(data.selectedMonth)} {data.selectedYear} Forecasts – Reading Weather" />
+		<meta property="og:description" content="Weather forecasts for Reading and Berkshire from {getMonthName(data.selectedMonth)} {data.selectedYear}." />
+	{:else}
+		<title>Weather Forecast Archives – Reading Weather</title>
+		<meta name="description" content="Browse the archives of weather forecasts for Reading and Berkshire, searchable by month and year." />
+		<meta property="og:title" content="Weather Forecast Archives – Reading Weather" />
+		<meta property="og:description" content="Browse the archives of weather forecasts for Reading and Berkshire, searchable by month and year." />
+	{/if}
 	<meta property="og:image" content="https://www.readingweather.co.uk/images/weather.png" />
 	<meta property="og:image:alt" content="Reading Weather – weather forecasts for Reading and Berkshire" />
 	<meta property="og:type" content="website" />
 	<meta property="og:url" content="https://www.readingweather.co.uk/archives" />
-	<meta name="twitter:title" content="Weather Forecast Archives – Reading Weather" />
-	<meta name="twitter:description" content="Browse the archives of weather forecasts for Reading and Berkshire, searchable by month and year." />
+	<meta name="twitter:title" content={data.selectedYear && data.selectedMonth ? `${getMonthName(data.selectedMonth)} ${data.selectedYear} Forecasts – Reading Weather` : 'Weather Forecast Archives – Reading Weather'} />
+	<meta name="twitter:description" content={data.selectedYear && data.selectedMonth ? `Weather forecasts for Reading and Berkshire from ${getMonthName(data.selectedMonth)} ${data.selectedYear}.` : 'Browse the archives of weather forecasts for Reading and Berkshire, searchable by month and year.'} />
 	<meta name="twitter:image" content="https://www.readingweather.co.uk/images/weather.png" />
 	<meta name="twitter:image:alt" content="Reading Weather – weather forecasts for Reading and Berkshire" />
 	{@html `<script type="application/ld+json">${JSON.stringify(jsonLd)}</script>`}
