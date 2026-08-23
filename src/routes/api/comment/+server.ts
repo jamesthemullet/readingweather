@@ -1,7 +1,7 @@
-import type { RequestHandler } from '@sveltejs/kit';
 import { json } from '@sveltejs/kit';
 import { addComment } from '$lib/graphql/api';
 import { ALLOWED_ORIGINS } from '$lib/server/config';
+import type { RequestHandler } from './$types';
 
 export const POST: RequestHandler = async ({ request }) => {
 	// CSRF: reject requests whose Origin doesn't match the app's own origin.

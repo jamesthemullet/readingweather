@@ -2,8 +2,8 @@ import { fetchGraphQL } from '$lib/graphql/api';
 import GET_POSTS_BY_DATE from '$lib/graphql/queries/getPostsByDate';
 import type { PageServerLoad } from './$types';
 
-type ArchiveEntry = { year: number; month: number };
-type ArchivePost = { title: string; slug: string; date: string };
+export type ArchiveEntry = { year: number; month: number };
+export type ArchivePost = { title: string; slug: string; date: string };
 
 const generateArchives = (): ArchiveEntry[] => {
 	const startYear = 2020;
