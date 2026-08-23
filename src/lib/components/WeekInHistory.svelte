@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import type { WeekInHistory } from '$lib/api/weekInHistory';
+	import ShareButton from '$lib/components/ShareButton.svelte';
 
 	let history = $state<WeekInHistory | null>(null);
 
@@ -34,5 +35,12 @@
 			Weather conditions are sourced from ERA5 reanalysis data and should be treated as an
 			approximate guide only
 		</p>
+		<ShareButton
+			postUrl="https://www.readingweather.co.uk/"
+			postTitle="This Week in Reading Weather History"
+			postSummary="Wettest week on record in Reading: {history.wettestWeek.value}mm in {history
+				.wettestWeek.year}"
+			card="week_in_history"
+		/>
 	</section>
 {/if}

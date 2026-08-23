@@ -3,14 +3,22 @@
 		postUrl: string;
 		postTitle: string;
 		postSummary: string;
+		card?: string;
 	};
 
-	const { postUrl, postTitle, postSummary }: Props = $props();
+	const { postUrl, postTitle, postSummary, card }: Props = $props();
 
 	let copied = $state(false);
 	let copyError = $state(false);
 
+	function trackShare(): void {
+		if (card && typeof window.gtag === 'function') {
+			window.gtag('event', 'share_click', { card });
+		}
+	}
+
 	function copyLink(): void {
+		trackShare();
 		navigator.clipboard
 			.writeText(postUrl)
 			.then(() => {
@@ -28,21 +36,25 @@
 	}
 
 	function shareOnBluesky(): void {
+		trackShare();
 		const url = `https://bsky.app/intent/compose?text=${encodeURIComponent(`${postSummary} ${postUrl}`)}`;
 		window.open(url, '_blank', 'noopener,noreferrer');
 	}
 
 	function shareOnThreads(): void {
+		trackShare();
 		const url = `https://www.threads.net/intent/post?text=${encodeURIComponent(`${postSummary} ${postUrl}`)}`;
 		window.open(url, '_blank', 'noopener,noreferrer');
 	}
 
 	function shareOnFacebook(): void {
+		trackShare();
 		const url = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(postUrl)}`;
 		window.open(url, '_blank', 'noopener,noreferrer');
 	}
 
 	function shareOnWhatsApp(): void {
+		trackShare();
 		const url = `https://api.whatsapp.com/send?text=${encodeURIComponent(`${postSummary} ${postUrl}`)}`;
 		window.open(url, '_blank', 'noopener,noreferrer');
 	}

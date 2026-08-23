@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { STREAK_KEY, type WeatherStreakResult } from '$lib/api/weatherStreak';
+	import ShareButton from '$lib/components/ShareButton.svelte';
 
 	let streak = $state<WeatherStreakResult | null>(null);
 
@@ -48,5 +49,11 @@
 			Streak measured through {streak.asOf}. Weather conditions are sourced from ERA5
 			reanalysis data and should be treated as an approximate guide only.
 		</p>
+		<ShareButton
+			postUrl="https://www.readingweather.co.uk/"
+			postTitle="Reading Weather Streak Tracker"
+			postSummary="{streak.active.headline} — {streak.active.context}"
+			card="streak"
+		/>
 	</section>
 {/if}
