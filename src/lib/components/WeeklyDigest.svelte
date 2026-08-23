@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import type { WeeklyDigest } from '$lib/api/weeklyDigest';
+	import ShareButton from '$lib/components/ShareButton.svelte';
 
 	let digest = $state<WeeklyDigest | null>(null);
 
@@ -54,5 +55,11 @@
 			Weather conditions are sourced from ERA5 reanalysis data and should be treated as an
 			approximate guide only
 		</p>
+		<ShareButton
+			postUrl="https://www.readingweather.co.uk/"
+			postTitle="Last Week in Reading"
+			postSummary="Last week in Reading: {digest.tempHigh}°C high, {digest.totalPrecipitation}mm rain — {capitalize(digest.dominantConditions)}"
+			card="digest"
+		/>
 	</section>
 {/if}
