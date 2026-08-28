@@ -151,6 +151,24 @@ function findRuns(matches: boolean[]): Run[] {
 }
 
 function buildContext(currentLength: number, priorRuns: Run[], dates: string[], currentYear: number): string {
+	const yearOf = (r: Run) => new Date(dates[r.endIndex]).getUTCFullYear();
+
+	// A strictly longer run earlier this year means the active streak isn't a
+	// record at all — calling it "the longest so far this year" would be false,
+	// unlike a tie, which still fairly counts as (tied-)longest so far.
+	const longerThisYear = priorRuns
+		.filter((r) => yearOf(r) === currentYear && r.length > currentLength)
+		.sort((a, b) => b.length - a.length || b.endIndex - a.endIndex);
+
+	if (longerThisYear.length > 0) {
+		const best = longerThisYear[0];
+		const monthName = new Date(dates[best.endIndex]).toLocaleString('en-GB', {
+			month: 'long',
+			timeZone: 'UTC'
+		});
+		return `not the longest this year — ${monthName} had a longer run (${best.length} days)`;
+	}
+
 	const atLeastAsLong = priorRuns
 		.filter((r) => r.length >= currentLength)
 		.sort((a, b) => b.endIndex - a.endIndex);
@@ -159,7 +177,7 @@ function buildContext(currentLength: number, priorRuns: Run[], dates: string[], 
 		return `the longest in at least ${HISTORY_YEARS} years of records`;
 	}
 
-	const year = new Date(dates[atLeastAsLong[0].endIndex]).getUTCFullYear();
+	const year = yearOf(atLeastAsLong[0]);
 	// A match found earlier in the same year isn't a meaningful "since <year>" —
 	// that phrasing only makes sense pointing back at a previous year.
 	return year === currentYear ? 'the longest so far this year' : `the longest since ${year}`;
