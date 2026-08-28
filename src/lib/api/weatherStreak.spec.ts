@@ -211,6 +211,28 @@ describe('fetchWeatherStreak', () => {
 		expect(result?.active.context).toBe('the longest so far this year');
 	});
 
+	it('does not call the active streak "the longest so far this year" when an earlier, longer streak already happened this year', async () => {
+		const time = dateRange('2016-07-10', '2026-07-09');
+		const precipitation_sum = Array(time.length).fill(5);
+		// An 8-day dry spell in March 2026 is longer than the current 3-day streak
+		// ending "yesterday" — both fall within the same year as NOW.
+		const idxMarchStart = time.indexOf('2026-03-01');
+		for (let i = idxMarchStart; i < idxMarchStart + 8; i++) precipitation_sum[i] = 0;
+		for (let i = time.length - 3; i < time.length; i++) precipitation_sum[i] = 0;
+
+		vi.stubGlobal(
+			'fetch',
+			vi.fn().mockResolvedValue(makeArchiveResponse(time, { precipitation_sum }))
+		);
+
+		const result = await fetchWeatherStreak(NOW);
+		expect(result?.active.type).toBe('dry');
+		expect(result?.active.length).toBe(3);
+		expect(result?.active.context).toBe(
+			'not the longest this year — March had a longer run (8 days)'
+		);
+	});
+
 	it('describes the dry threshold as under 0.5mm, not zero, so drizzle still counts', () => {
 		const dry = STREAK_KEY.find((k) => k.type === 'dry');
 		expect(dry?.description).toBe(
