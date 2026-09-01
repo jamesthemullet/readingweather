@@ -62,6 +62,27 @@ describe('GET /api/historical-weather', () => {
 		expect(body[0].year).toBe(2025);
 	});
 
+	it('returns a 502 with an error body when the upstream fetch fails', async () => {
+		vi.mocked(fetchHistoricalWeather).mockRejectedValueOnce(new Error('Open-Meteo error: 429'));
+
+		const response = await GET(makeEvent({ month: '6', day: '15' }));
+
+		expect(response.status).toBe(502);
+		const body = await response.json();
+		expect(body.error).toBeTruthy();
+	});
+
+	it('does not call the upstream again while a recent failure is cached', async () => {
+		vi.mocked(fetchHistoricalWeather).mockRejectedValue(new Error('Open-Meteo error: 429'));
+		await GET(makeEvent({ month: '6', day: '15' }));
+
+		vi.mocked(fetchHistoricalWeather).mockClear();
+		const response = await GET(makeEvent({ month: '6', day: '15' }));
+
+		expect(response.status).toBe(502);
+		expect(fetchHistoricalWeather).not.toHaveBeenCalled();
+	});
+
 	it('returns cached data without calling fetchHistoricalWeather on a cache hit', async () => {
 		const cachedData = [
 			{

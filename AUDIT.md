@@ -19,7 +19,7 @@ audit adds new findings to the bottom of each section and leaves checked items a
 - [ ] `src/lib/components/PostList.svelte` has no spec (found: 2026-09-01)
 - [ ] `src/lib/components/ShareButton.svelte` has no spec (found: 2026-09-01)
 - [ ] `src/lib/components/WeatherStreak.svelte`, `WeekInHistory.svelte`, `WeeklyDigest.svelte` have no specs — no `@testing-library/svelte` usage exists anywhere in the repo, so the whole Svelte component/markup layer has zero test coverage even though every route's `+page.server.ts` load function is unit-tested (found: 2026-09-01)
-- [ ] `src/routes/api/historical-weather/+server.ts` has no `try/catch` around `fetchHistoricalWeather`, unlike every other cached API endpoint which returns a graceful 502 on upstream failure — untested and unhandled (found: 2026-09-01)
+- [x] `src/routes/api/historical-weather/+server.ts` has no `try/catch` around `fetchHistoricalWeather`, unlike every other cached API endpoint which returns a graceful 502 on upstream failure — untested and unhandled (found: 2026-09-01) (resolved: 2026-09-01, fixed by automated routine)
 - [ ] `src/routes/api/comment/server.spec.ts` has no test for the `parentCommentId` (threaded reply) code path (`+server.ts:39-42`) (found: 2026-09-01)
 - [ ] `src/routes/api/comment/server.spec.ts` has no test for the content/name/email truncation logic (`+server.ts:36-38`, `.slice(5000/100/254)`) (found: 2026-09-01)
 - [ ] No e2e coverage of the post detail + comment flow (`/[slug]` → `AddComment.svelte`/`Comments.svelte`) — add `e2e/post-comment.test.ts`: navigate from `/` into the first post, submit the comment form with valid data (mocked success), then with an invalid email (mocked 400) and assert the error message appears without reload (found: 2026-09-01)
