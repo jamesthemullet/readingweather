@@ -10,7 +10,7 @@ audit adds new findings to the bottom of each section and leaves checked items a
 
 ## 1. Test coverage — unit gaps and e2e
 
-- [ ] `yarn test:e2e` fails outright with `Error: http://localhost:4173 is already used` because `playwright.config.ts` has no `webServer.reuseExistingServer` set (defaults to `false`); add `reuseExistingServer: !process.env.CI` so it can run against a server already open in dev (found: 2026-09-01)
+- [x] `yarn test:e2e` fails outright with `Error: http://localhost:4173 is already used` because `playwright.config.ts` has no `webServer.reuseExistingServer` set (defaults to `false`); add `reuseExistingServer: !process.env.CI` so it can run against a server already open in dev (found: 2026-09-01) (resolved: 2026-09-01, fixed by automated routine)
 - [ ] `src/lib/components/AddComment.svelte` has no spec — contains form validation/submit logic, untested (found: 2026-09-01)
 - [ ] `src/lib/components/Comment.svelte` has no spec (found: 2026-09-01)
 - [ ] `src/lib/components/Comments.svelte` has no spec (found: 2026-09-01)
