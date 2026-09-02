@@ -32,7 +32,7 @@
 	<meta name="twitter:image:alt" content="Reading Weather – weather forecasts for Reading and Berkshire" />
 	<meta property="og:type" content="website" />
 	<meta property="og:url" content="https://www.readingweather.co.uk/" />
-	{@html `<script type="application/ld+json">${JSON.stringify(jsonLd)}</script>`}
+	{@html `<script type="application/ld+json">${JSON.stringify(jsonLd)}<\/script>`}
 </svelte:head>
 
 <h1>Weather Forecast For Reading & Berkshire</h1>

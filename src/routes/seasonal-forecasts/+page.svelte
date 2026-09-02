@@ -51,7 +51,7 @@
 		name="twitter:image:alt"
 		content={data.posts.posts.nodes[0]?.featuredImage?.node?.altText || 'Reading Weather – seasonal weather forecasts for Reading and Berkshire'}
 	/>
-	{@html `<script type="application/ld+json">${JSON.stringify(jsonLd)}</script>`}
+	{@html `<script type="application/ld+json">${JSON.stringify(jsonLd)}<\/script>`}
 </svelte:head>
 
 <h1>Seasonal Forecasts</h1>

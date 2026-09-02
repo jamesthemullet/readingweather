@@ -122,7 +122,7 @@
 	<meta property="article:author" content="Reading Weather" />
 	<meta name="twitter:title" content={postTitle} />
 	<meta name="twitter:description" content={postDescription} />
-	{@html `<script type="application/ld+json">${JSON.stringify(jsonLd)}</script>`}
+	{@html `<script type="application/ld+json">${JSON.stringify(jsonLd)}<\/script>`}
 </svelte:head>
 
 <h1>{data.post.title}</h1>

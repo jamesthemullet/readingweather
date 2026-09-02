@@ -28,7 +28,7 @@
 	<meta name="twitter:description" content={data.page.seo.opengraphDescription || data.page.seo.description} />
 	<meta name="twitter:image" content={data.page.featuredImage?.node?.sourceUrl ?? 'https://www.readingweather.co.uk/images/weather.png'} />
 	<meta name="twitter:image:alt" content={data.page.featuredImage?.node?.altText || 'Reading Weather – weather forecasts for Reading and Berkshire'} />
-	{@html `<script type="application/ld+json">${JSON.stringify(jsonLd)}</script>`}
+	{@html `<script type="application/ld+json">${JSON.stringify(jsonLd)}<\/script>`}
 </svelte:head>
 
 {#if data.page}
