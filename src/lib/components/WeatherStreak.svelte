@@ -16,8 +16,8 @@
 </script>
 
 {#if streak}
-	<section class="weather-streak">
-		<h2>Reading Weather Streak Tracker</h2>
+	<section class="weather-streak" aria-labelledby="streak-heading">
+		<h2 id="streak-heading">Reading Weather Streak Tracker</h2>
 		<p class="headline">
 			<span aria-hidden="true">{streak.active.emoji}</span>
 			<strong>{streak.active.headline}</strong>

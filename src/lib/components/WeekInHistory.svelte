@@ -16,8 +16,8 @@
 </script>
 
 {#if history}
-	<section class="week-in-history">
-		<h2>This Week in Reading Weather History</h2>
+	<section class="week-in-history" aria-labelledby="week-history-heading">
+		<h2 id="week-history-heading">This Week in Reading Weather History</h2>
 		<p class="range">{history.windowLabel} · {history.yearsOfData} years of records</p>
 		<ul class="records">
 			<li>
