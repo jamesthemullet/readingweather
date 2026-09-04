@@ -68,7 +68,7 @@
 	<meta name="twitter:description" content={postSummary} />
 	<meta name="twitter:image" content={ogImage} />
 	<meta name="twitter:image:alt" content={ogImageAlt} />
-	{@html `<script type="application/ld+json">${JSON.stringify(jsonLd)}</script>`}
+	{@html `<script type="application/ld+json">${JSON.stringify(jsonLd)}<\/script>`}
 </svelte:head>
 
 <h1>{postTitle}</h1>

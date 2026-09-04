@@ -59,7 +59,7 @@
 	<meta name="twitter:description" content={data.selectedYear && data.selectedMonth ? `Weather forecasts for Reading and Berkshire from ${getMonthName(data.selectedMonth)} ${data.selectedYear}.` : 'Browse the archives of weather forecasts for Reading and Berkshire, searchable by month and year.'} />
 	<meta name="twitter:image" content="https://www.readingweather.co.uk/images/weather.png" />
 	<meta name="twitter:image:alt" content="Reading Weather – weather forecasts for Reading and Berkshire" />
-	{@html `<script type="application/ld+json">${JSON.stringify(jsonLd)}</script>`}
+	{@html `<script type="application/ld+json">${JSON.stringify(jsonLd)}<\/script>`}
 </svelte:head>
 
 <h1>Weather Forecast Archives</h1>

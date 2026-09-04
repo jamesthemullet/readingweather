@@ -78,7 +78,7 @@
 	<meta name="twitter:description" content="A photo gallery of weather conditions in Reading and Berkshire, organised by month and year." />
 	<meta name="twitter:image" content="https://www.readingweather.co.uk/images/weather.png" />
 	<meta name="twitter:image:alt" content="Photo gallery of weather conditions in Reading and Berkshire" />
-	{@html `<script type="application/ld+json">${JSON.stringify(jsonLd)}</script>`}
+	{@html `<script type="application/ld+json">${JSON.stringify(jsonLd)}<\/script>`}
 </svelte:head>
 
 <h1>Photo Gallery</h1>

@@ -57,7 +57,7 @@
 	<meta name="twitter:description" content={summary.headline} />
 	<meta name="twitter:image" content="https://www.readingweather.co.uk/images/weather.png" />
 	<meta name="twitter:image:alt" content="Monthly weather report card for Reading and Berkshire" />
-	{@html `<script type="application/ld+json">${JSON.stringify(jsonLd)}</script>`}
+	{@html `<script type="application/ld+json">${JSON.stringify(jsonLd)}<\/script>`}
 </svelte:head>
 
 <h1>{summary.label} Weather Report Card</h1>
