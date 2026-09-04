@@ -31,7 +31,7 @@ audit adds new findings to the bottom of each section and leaves checked items a
 
 - [ ] Weather-map images embedded in WordPress post body content (rendered via `{@html sanitize(...)}` in `PostList.svelte` and `[slug]/+page.svelte`) consistently have `alt=""` despite being informational pressure charts, not decorative — e.g. on `/sunday-30th-august-2026` — a recurring WCAG 1.1.1 gap across most post pages, not a one-off (found: 2026-09-01)
 - [ ] `/seasonal-forecasts` renders ~69 consecutive `<h2>` elements with no intermediate structure or landmark grouping — hard to navigate by heading for screen-reader users; consider grouping under `<section>`s (found: 2026-09-01)
-- [ ] 404 page (`/[slug]` miss) has no explicit "back to home" CTA in the page body itself, relying only on the persistent nav bar — minor dead-end UX gap (found: 2026-09-01)
+- [x] 404 page (`/[slug]` miss) has no explicit "back to home" CTA in the page body itself, relying only on the persistent nav bar — minor dead-end UX gap (found: 2026-09-01) (resolved: 2026-09-04, fixed by automated routine)
 
 ## 3. Performance
 
