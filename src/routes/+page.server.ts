@@ -25,6 +25,11 @@ export const load: PageServerLoad = async ({ fetch }) => {
 		'en-GB',
 		{ month: 'long', year: 'numeric', timeZone: 'UTC' }
 	);
+	const currentMonthLabel = today.toLocaleDateString('en-GB', {
+		month: 'long',
+		year: 'numeric',
+		timeZone: 'UTC'
+	});
 
 	const historicalWeatherCacheKey = `historical-weather-${month}-${day}`;
 
@@ -57,6 +62,7 @@ export const load: PageServerLoad = async ({ fetch }) => {
 		onThisDay,
 		historicalWeather,
 		lastMonth: { ...last, label: lastMonthLabel },
+		currentMonth: { label: currentMonthLabel },
 		meta
 	};
 };

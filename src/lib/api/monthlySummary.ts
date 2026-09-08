@@ -244,13 +244,24 @@ async function fetchArchive(url: string): Promise<Response> {
 	throw new Error('Unexpected: fetchArchive retry loop exhausted without returning');
 }
 
-async function fetchMonthlyBaseline(month: number, upToYear: number): Promise<MonthlyBaseline> {
-	const cacheKey = `monthly-baseline-${month}-${upToYear}`;
+// `dayLimit` restricts each year's window to that year's first N days of the month —
+// used to build a month-to-date baseline (e.g. "the first 8 days of every August since
+// 1940") for the in-progress month view, rather than the full month.
+async function fetchMonthlyBaseline(
+	month: number,
+	upToYear: number,
+	dayLimit?: number
+): Promise<MonthlyBaseline> {
+	const cacheKey = dayLimit
+		? `monthly-baseline-${month}-${upToYear}-mtd${dayLimit}`
+		: `monthly-baseline-${month}-${upToYear}`;
 	const cached = getCache<MonthlyBaseline>(cacheKey);
 	if (cached) return cached;
 
 	const rangeStart = new Date(Date.UTC(EARLIEST_YEAR, month - 1, 1));
-	const rangeEnd = monthBounds(upToYear, month).end;
+	const rangeEnd = dayLimit
+		? new Date(Date.UTC(upToYear, month - 1, dayLimit))
+		: monthBounds(upToYear, month).end;
 
 	const params = new URLSearchParams({
 		latitude: String(READING_LAT),
@@ -284,7 +295,10 @@ async function fetchMonthlyBaseline(month: number, upToYear: number): Promise<Mo
 
 	for (let y = EARLIEST_YEAR; y <= upToYear; y++) {
 		const bounds = monthBounds(y, month);
-		const indices = indicesInRange(indexByDate, bounds.start, bounds.end);
+		const windowEnd = dayLimit
+			? new Date(Date.UTC(y, month - 1, Math.min(dayLimit, bounds.end.getUTCDate())))
+			: bounds.end;
+		const indices = indicesInRange(indexByDate, bounds.start, windowEnd);
 		if (indices.length === 0) continue;
 
 		const high = Math.max(...indices.map((i) => temperature_2m_max[i]));
@@ -491,5 +505,202 @@ export async function fetchMonthlySummary(
 		},
 		condition: targetYearStats.condition,
 		streak: targetYearStats.streak
+	};
+}
+
+// Archive data can lag behind real-time, so "today" is excluded from the in-progress
+// window — mirrors the same guard used for the weekly digest.
+const PROGRESS_DATA_LAG_DAYS = 1;
+
+export type MonthInProgress = {
+	year: number;
+	month: number;
+	monthName: string;
+	label: string;
+	daysElapsed: number;
+	daysInMonth: number;
+	daysRemaining: number;
+	asOfDate: string;
+	yearsOfData: number;
+	temperature: {
+		meanSoFar: number;
+		historicalAverageMeanSoFar: number;
+		projectedMean: number;
+	};
+	rainfall: {
+		totalSoFar: number;
+		historicalAverageTotalSoFar: number;
+		projectedTotal: number;
+		projectedRankLabel: string;
+	};
+	sunshine: {
+		totalHoursSoFar: number;
+		historicalAverageHoursSoFar: number;
+		projectedHours: number;
+	};
+	headline: string;
+};
+
+// The current month/year and how many of its days have usable archive data, or null
+// if the lag pushes "yesterday" back into the previous month (e.g. very early on the
+// 1st) — there's nothing meaningful to show for the new month yet in that case.
+function currentMonthProgress(now: Date): { year: number; month: number; daysElapsed: number } | null {
+	const year = now.getUTCFullYear();
+	const month = now.getUTCMonth() + 1;
+	const lastAvailable = new Date(now);
+	lastAvailable.setUTCDate(lastAvailable.getUTCDate() - PROGRESS_DATA_LAG_DAYS);
+	if (lastAvailable.getUTCFullYear() !== year || lastAvailable.getUTCMonth() + 1 !== month) {
+		return null;
+	}
+	return { year, month, daysElapsed: lastAvailable.getUTCDate() };
+}
+
+function average(values: number[]): number {
+	return values.reduce((sum, v) => sum + v, 0) / values.length;
+}
+
+// Projects a full-month total/mean by carrying forward the month-to-date anomaly:
+// if this year is running X above/below the historical month-to-date average, it's
+// assumed to finish the month X above/below the historical full-month average too.
+function projectFullMonth(actualSoFar: number, historicalSoFar: number, historicalFullMonth: number): number {
+	return historicalFullMonth + (actualSoFar - historicalSoFar);
+}
+
+function buildProgressHeadline(
+	monthName: string,
+	label: string,
+	daysRemaining: number,
+	projectedRain: number,
+	historicalFullRain: number,
+	rainRankLabel: string,
+	projectedHours: number,
+	historicalFullHours: number,
+	historicalFullYears: YearStats[]
+): string {
+	const remaining = `with ${daysRemaining} day${daysRemaining === 1 ? '' : 's'} still to go`;
+
+	const rainDeviationPct =
+		historicalFullRain > 0 ? ((projectedRain - historicalFullRain) / historicalFullRain) * 100 : 0;
+	const sunshineDeviationPct =
+		historicalFullHours > 0 ? ((projectedHours - historicalFullHours) / historicalFullHours) * 100 : 0;
+
+	const rainTriggered = Math.abs(rainDeviationPct) >= RAIN_HEADLINE_THRESHOLD_PCT;
+	const sunshineTriggered = Math.abs(sunshineDeviationPct) >= SUNSHINE_HEADLINE_THRESHOLD_PCT;
+
+	if (
+		rainTriggered &&
+		(!sunshineTriggered || Math.abs(rainDeviationPct) >= Math.abs(sunshineDeviationPct))
+	) {
+		return `${label} is on track to be the ${rainRankLabel} ${monthName} in Reading since ${EARLIEST_YEAR}, ${remaining}`;
+	}
+
+	if (sunshineTriggered) {
+		const hoursValues = historicalFullYears.map((s) => s.sunshineHours);
+		if (sunshineDeviationPct > 0) {
+			const sunniestRank = rankAmong(hoursValues.concat(projectedHours), projectedHours, 'desc');
+			return `${label} is on track to be the ${ordinal(sunniestRank)} sunniest ${monthName} in Reading since ${EARLIEST_YEAR}, ${remaining}`;
+		}
+		const dullestRank = rankAmong(hoursValues.concat(projectedHours), projectedHours, 'asc');
+		return `${label} is on track to be the ${ordinal(dullestRank)} gloomiest ${monthName} in Reading since ${EARLIEST_YEAR}, ${remaining}`;
+	}
+
+	return `${label} is tracking close to the historical average so far, ${remaining}`;
+}
+
+// A live view of the current, still-running month: how it compares to the historical
+// average so far, and where it's on track to rank if the rest of the month plays out
+// like an average one. Complements fetchMonthlySummary, which only covers completed
+// months.
+export async function fetchMonthInProgress(now: Date = new Date()): Promise<MonthInProgress> {
+	const progress = currentMonthProgress(now);
+	if (!progress) {
+		throw new Error('Not enough data available yet for the current month');
+	}
+	const { year, month, daysElapsed } = progress;
+
+	const { start, end } = monthBounds(year, month);
+	const daysInMonth = end.getUTCDate();
+	const monthName = start.toLocaleDateString('en-GB', { month: 'long', timeZone: 'UTC' });
+	const label = `${monthName} ${year}`;
+
+	const [mtdBaseline, fullBaseline] = await Promise.all([
+		fetchMonthlyBaseline(month, year, daysElapsed),
+		fetchMonthlyBaseline(month, year - 1)
+	]);
+
+	const target = mtdBaseline.yearStats.find((s) => s.year === year);
+	if (!target) {
+		throw new Error('No data available yet for the current month');
+	}
+
+	const historicalMtdYears = mtdBaseline.yearStats.filter((s) => s.year !== year);
+	if (historicalMtdYears.length === 0 || fullBaseline.yearStats.length === 0) {
+		throw new Error('No historical data available for this month');
+	}
+
+	const historicalAverageMeanSoFar = average(historicalMtdYears.map((s) => s.mean));
+	const historicalAverageTotalSoFar = average(historicalMtdYears.map((s) => s.rain));
+	const historicalAverageHoursSoFar = average(historicalMtdYears.map((s) => s.sunshineHours));
+
+	const historicalFullMean = average(fullBaseline.yearStats.map((s) => s.mean));
+	const historicalFullRain = average(fullBaseline.yearStats.map((s) => s.rain));
+	const historicalFullHours = average(fullBaseline.yearStats.map((s) => s.sunshineHours));
+
+	const projectedMean = projectFullMonth(target.mean, historicalAverageMeanSoFar, historicalFullMean);
+	const projectedTotal = Math.max(
+		0,
+		projectFullMonth(target.rain, historicalAverageTotalSoFar, historicalFullRain)
+	);
+	const projectedHours = Math.max(
+		0,
+		projectFullMonth(target.sunshineHours, historicalAverageHoursSoFar, historicalFullHours)
+	);
+
+	const rainValues = fullBaseline.yearStats.map((s) => s.rain);
+	const isDrierThanAverage = projectedTotal < historicalFullRain;
+	const rainRank = rankAmong(
+		rainValues.concat(projectedTotal),
+		projectedTotal,
+		isDrierThanAverage ? 'asc' : 'desc'
+	);
+	const rainRankLabel = `${ordinal(rainRank)} ${isDrierThanAverage ? 'driest' : 'wettest'}`;
+
+	return {
+		year,
+		month,
+		monthName,
+		label,
+		daysElapsed,
+		daysInMonth,
+		daysRemaining: daysInMonth - daysElapsed,
+		asOfDate: toDateStr(new Date(Date.UTC(year, month - 1, daysElapsed))),
+		yearsOfData: fullBaseline.yearStats.length,
+		temperature: {
+			meanSoFar: Math.round(target.mean * 10) / 10,
+			historicalAverageMeanSoFar: Math.round(historicalAverageMeanSoFar * 10) / 10,
+			projectedMean: Math.round(projectedMean * 10) / 10
+		},
+		rainfall: {
+			totalSoFar: Math.round(target.rain * 10) / 10,
+			historicalAverageTotalSoFar: Math.round(historicalAverageTotalSoFar * 10) / 10,
+			projectedTotal: Math.round(projectedTotal * 10) / 10,
+			projectedRankLabel: rainRankLabel
+		},
+		sunshine: {
+			totalHoursSoFar: Math.round(target.sunshineHours * 10) / 10,
+			historicalAverageHoursSoFar: Math.round(historicalAverageHoursSoFar * 10) / 10,
+			projectedHours: Math.round(projectedHours * 10) / 10
+		},
+		headline: buildProgressHeadline(
+			monthName,
+			label,
+			daysInMonth - daysElapsed,
+			projectedTotal,
+			historicalFullRain,
+			rainRankLabel,
+			projectedHours,
+			historicalFullHours,
+			fullBaseline.yearStats
+		)
 	};
 }

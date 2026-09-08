@@ -52,6 +52,14 @@
 
 <WeeklyDigest />
 
+{#if data.currentMonth}
+	<div class="monthly-summary-teaser">
+		<a href="/monthly-summary/current">
+			<span aria-hidden="true">📈</span> {data.currentMonth.label} so far
+		</a>
+	</div>
+{/if}
+
 {#if data.lastMonth}
 	<div class="monthly-summary-teaser">
 		<a href="/monthly-summary/{data.lastMonth.year}/{String(data.lastMonth.month).padStart(2, '0')}">
