@@ -11,8 +11,8 @@ a monthly summary, an RSS feed (`feed.xml`), and an archive. Roadmap items are s
 actually grows and deepens engagement with a personal blog/weather site. Covers more than new
 features:
 
-- **Findability** — making posts/photos/records easier to browse as the archive grows: related
-  posts, better cross-linking between `archives`, `gallery`, `records`, `seasonal-forecasts`.
+- **Findability** — making posts/photos/records easier to browse as the archive grows: better
+  cross-linking between `archives`, `gallery`, `records`, `seasonal-forecasts`.
 - **SEO** — the site already has a sitemap and RSS — next-level plays are structured data on
   posts/records, and indexable content for weather-record search intent.
 - **Improving what already exists** — `monthly-summary`, `records`, `seasonal-forecasts`, and
@@ -55,4 +55,6 @@ Sequence data/logic → UI → wiring, splitting wherever a step could stand alo
 
 - Personal/small project — don't propose enterprise-scale features as "Now"/"Next".
 - Don't re-propose anything already tracked as an open item in `AUDIT.md`.
+- Never propose "related posts" / "more from this month" / "nearby-in-time" recommendation
+  features. Rejected: nobody wants a different day's forecast surfaced next to the current one.
 - Do not commit, push, or open a PR for `ROADMAP.md` changes unless the user explicitly asks.

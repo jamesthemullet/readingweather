@@ -14,22 +14,14 @@ about 15 minutes. Genuinely atomic changes are left as one PR.
 
 ## Now (ship in weeks — reuses existing infra)
 
-### 1. Related posts — *Engagement, Retention*
-"More from this month" / "more photos from around this date" links at the bottom of a post, so a
-visit doesn't dead-end after one entry.
-
-1. Query: given a post, find nearby-in-time posts/photos — pure function + tests, reusing
-   `+page.server.ts`'s existing data-loading pattern.
-2. Component rendering the related-content list on `[slug]`.
-
-### 2. Record structured data — *Acquisition, SEO*
+### 1. Record structured data — *Acquisition, SEO*
 Weather-record pages (`records`) are exactly the kind of specific, factual content search
 engines like — add structured data so they can surface directly.
 
 1. **One PR.** A single JSON-LD block added to the `records` template from fields that already
    exist.
 
-### 3. Cross-linking gallery ↔ posts ↔ seasonal forecasts — *Engagement*
+### 2. Cross-linking gallery ↔ posts ↔ seasonal forecasts — *Engagement*
 The `gallery`, `photographs`, `seasonal-forecasts`, and `[slug]` post routes currently don't
 reference each other — improving existing pages rather than building new ones.
 
@@ -38,7 +30,7 @@ reference each other — improving existing pages rather than building new ones.
 
 ## Next (this quarter — moderate new build)
 
-### 4. Monthly digest email — *Retention, Acquisition*
+### 3. Monthly digest email — *Retention, Acquisition*
 A monthly email summarizing the month's posts and weather records — the site's first outbound
 channel, reusing `monthly-summary`'s existing data.
 
@@ -50,4 +42,4 @@ channel, reusing `monthly-summary`'s existing data.
 5. Unsubscribe/preference handling.
 
 ---
-*Reading Weather — product roadmap, 2 September 2026*
+*Reading Weather — product roadmap, 9 September 2026*
