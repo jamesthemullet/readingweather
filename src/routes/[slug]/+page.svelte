@@ -106,7 +106,7 @@
 </script>
 
 <svelte:head>
-	<title>{postTitle}</title>
+	<title>{postTitle} | Reading Weather</title>
 	<meta name="description" content={postDescription} />
 	<meta property="og:title" content={postTitle} />
 	<meta property="og:description" content={postDescription} />
