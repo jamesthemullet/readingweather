@@ -122,6 +122,17 @@ main {
 	}
 }
 
+.error-page {
+	text-align: center;
+	padding: 2rem 1rem;
+
+	a {
+		display: inline-block;
+		margin-top: 1rem;
+		font-size: 1.125rem;
+	}
+}
+
 .weekly-digest {
 	border: 5px solid var(--nav);
 	margin-bottom: 2rem;
