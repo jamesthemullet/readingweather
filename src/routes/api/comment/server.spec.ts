@@ -90,6 +90,44 @@ describe('POST /api/comment', () => {
 		expect(data.success).toBe(true);
 	});
 
+	it('passes a numeric parentCommentId through to addComment as a threaded reply', async () => {
+		const request = makeRequest({
+			postId: validPostId,
+			content: 'Great post!',
+			name: 'Alice',
+			email: 'alice@example.com',
+			parentCommentId: 42
+		});
+		const response = await POST({ request } as Parameters<typeof POST>[0]);
+		expect(response.status).toBe(200);
+		expect(addComment).toHaveBeenCalledWith(123, 'Great post!', 'Alice', 'alice@example.com', 42);
+	});
+
+	it('passes null to addComment when parentCommentId is omitted', async () => {
+		const request = makeRequest({
+			postId: validPostId,
+			content: 'Great post!',
+			name: 'Alice',
+			email: 'alice@example.com'
+		});
+		const response = await POST({ request } as Parameters<typeof POST>[0]);
+		expect(response.status).toBe(200);
+		expect(addComment).toHaveBeenCalledWith(123, 'Great post!', 'Alice', 'alice@example.com', null);
+	});
+
+	it('passes null to addComment when parentCommentId is not a number', async () => {
+		const request = makeRequest({
+			postId: validPostId,
+			content: 'Great post!',
+			name: 'Alice',
+			email: 'alice@example.com',
+			parentCommentId: '42'
+		});
+		const response = await POST({ request } as Parameters<typeof POST>[0]);
+		expect(response.status).toBe(200);
+		expect(addComment).toHaveBeenCalledWith(123, 'Great post!', 'Alice', 'alice@example.com', null);
+	});
+
 	it('returns 422 when addComment resolves with success: false', async () => {
 		vi.mocked(addComment).mockResolvedValueOnce({ success: false });
 		const request = makeRequest({
