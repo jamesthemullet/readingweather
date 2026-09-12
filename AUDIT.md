@@ -42,7 +42,7 @@ audit adds new findings to the bottom of each section and leaves checked items a
 
 ## 4. SEO / metadata
 
-- [ ] `src/routes/[slug]/+page.svelte:109` post title is raw `{postTitle}` with no site-name suffix, unlike `/records` and `/monthly-summary` which append `| Reading Weather` — inconsistent title format across routes (found: 2026-09-01)
+- [x] `src/routes/[slug]/+page.svelte:109` post title is raw `{postTitle}` with no site-name suffix, unlike `/records` and `/monthly-summary` which append `| Reading Weather` — inconsistent title format across routes (found: 2026-09-01) (resolved: 2026-09-09, fixed by automated routine)
 - [ ] `src/routes/+layout.svelte:50` sets the canonical URL globally from `$page.url.pathname` only (no query string), so `/archives?year=2024&month=3` and bare `/archives` (and `/gallery?year=2023` vs `/gallery`) all canonicalize to the same URL — should be a deliberate, documented choice (self-referencing canonical or explicit noindex) rather than an accidental side effect (found: 2026-09-01)
 - [ ] `src/lib/server/sitemap.ts` omits `/monthly-summary` and all `/monthly-summary/[year]/[month]` pages entirely from both sitemaps, despite these being indexable content pages with unique per-month data (found: 2026-09-01)
 - [x] `static/robots.txt` has no explicit `Disallow` for `/api/*` routes (found: 2026-09-01) (resolved: 2026-09-03, fixed by automated routine)
