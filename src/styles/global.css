@@ -163,6 +163,10 @@ footer {
 	justify-content: center;
 	flex-direction: column;
 
+	a {
+		color: var(--white);
+	}
+
 	button {
 		background-color: var(--white);
 		color: var(--nav);

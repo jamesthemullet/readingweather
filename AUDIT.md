@@ -68,7 +68,7 @@ audit adds new findings to the bottom of each section and leaves checked items a
 ## 7. README / feature-scope alignment
 
 - [ ] `README.md` (intro line) doesn't mention several live routes: `gallery`, `useful-links`, `records`, `monthly-summary` (+ `[year]/[month]` sub-route), `about` (found: 2026-09-01)
-- [ ] `README.md` says "an archive" but the actual route directory is `src/routes/archives` (plural) — minor wording mismatch (found: 2026-09-01)
+- [x] `README.md` says "an archive" but the actual route directory is `src/routes/archives` (plural) — minor wording mismatch (found: 2026-09-01) (resolved: 2026-09-10, fixed by automated routine)
 - [ ] `package.json` script `prepare` (`svelte-kit sync`) is undocumented in the README Scripts table (found: 2026-09-01)
 - [ ] `package.json` script `ts-check` (duplicate of `check`) is undocumented in the README Scripts table — also worth asking whether it's dead/redundant given `check` does the same thing (found: 2026-09-01)
 - [ ] `package.json` script `check:watch` is undocumented in the README Scripts table (found: 2026-09-01)
