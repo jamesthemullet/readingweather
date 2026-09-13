@@ -9,5 +9,6 @@
 		}
 	],
 	"schedule": ["* 2-5 * * *"],
-	"timezone": "Europe/London"
+	"timezone": "Europe/London",
+	"rebaseWhen": "conflicted"
 }
