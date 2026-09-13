@@ -110,4 +110,33 @@ describe('fetchMonthInProgress', () => {
 			'August 2026 is on track to be the 1st wettest August in Reading since 1940, with 22 days still to go'
 		);
 	});
+
+	it('falls back to a temperature-rank headline when rain and sunshine are unremarkable', async () => {
+		const historicalYears = [1962, 1971, 2020, 2025];
+		const years = [...historicalYears, 2026];
+		const time = years.flatMap(augDates);
+		const flatFor = (year: number, value: number) => new Array(augDates(year).length).fill(value);
+
+		vi.stubGlobal(
+			'fetch',
+			vi.fn().mockResolvedValue({
+				ok: true,
+				json: async () => ({
+					daily: {
+						time,
+						temperature_2m_max: years.flatMap((y) => flatFor(y, y === 2026 ? 28 : 20)),
+						temperature_2m_min: years.flatMap((y) => flatFor(y, y === 2026 ? 18 : 10)),
+						temperature_2m_mean: years.flatMap((y) => flatFor(y, y === 2026 ? 28 : 20)),
+						precipitation_sum: years.flatMap(() => flatFor(2026, 1.0)),
+						sunshine_duration: years.flatMap(() => flatFor(2026, 5 * 3600))
+					}
+				})
+			})
+		);
+
+		const progress = await fetchMonthInProgress(NOW);
+		expect(progress.headline).toBe(
+			'August 2026 is on track to be the 1st warmest August in Reading since 1940, with 22 days still to go'
+		);
+	});
 });

@@ -575,7 +575,8 @@ function buildProgressHeadline(
 	rainRankLabel: string,
 	projectedHours: number,
 	historicalFullHours: number,
-	historicalFullYears: YearStats[]
+	historicalFullYears: YearStats[],
+	projectedMean: number
 ): string {
 	const remaining = `with ${daysRemaining} day${daysRemaining === 1 ? '' : 's'} still to go`;
 
@@ -604,7 +605,9 @@ function buildProgressHeadline(
 		return `${label} is on track to be the ${ordinal(dullestRank)} gloomiest ${monthName} in Reading since ${EARLIEST_YEAR}, ${remaining}`;
 	}
 
-	return `${label} is tracking close to the historical average so far, ${remaining}`;
+	const meanValues = historicalFullYears.map((s) => s.mean);
+	const temperatureRank = rankAmong(meanValues.concat(projectedMean), projectedMean, 'desc');
+	return `${label} is on track to be the ${ordinal(temperatureRank)} warmest ${monthName} in Reading since ${EARLIEST_YEAR}, ${remaining}`;
 }
 
 // A live view of the current, still-running month: how it compares to the historical
@@ -700,7 +703,8 @@ export async function fetchMonthInProgress(now: Date = new Date()): Promise<Mont
 			rainRankLabel,
 			projectedHours,
 			historicalFullHours,
-			fullBaseline.yearStats
+			fullBaseline.yearStats,
+			projectedMean
 		)
 	};
 }
