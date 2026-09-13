@@ -626,10 +626,12 @@ export async function fetchMonthInProgress(now: Date = new Date()): Promise<Mont
 	const monthName = start.toLocaleDateString('en-GB', { month: 'long', timeZone: 'UTC' });
 	const label = `${monthName} ${year}`;
 
-	const [mtdBaseline, fullBaseline] = await Promise.all([
-		fetchMonthlyBaseline(month, year, daysElapsed),
-		fetchMonthlyBaseline(month, year - 1)
-	]);
+	// Fetched sequentially, not in parallel: each covers ~85 years of daily data, and
+	// firing both at once trips Open-Meteo's per-minute rate limit far more easily than
+	// one at a time — the 429 retry backoff (a few seconds) isn't enough to recover
+	// within the same minute once that happens.
+	const mtdBaseline = await fetchMonthlyBaseline(month, year, daysElapsed);
+	const fullBaseline = await fetchMonthlyBaseline(month, year - 1);
 
 	const target = mtdBaseline.yearStats.find((s) => s.year === year);
 	if (!target) {
