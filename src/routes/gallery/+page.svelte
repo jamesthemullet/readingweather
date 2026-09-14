@@ -97,11 +97,11 @@
 		{#if data.groupedPosts.length === 0}
 			<p class="no-images">No photographs found for {data.selectedYear}.</p>
 		{:else}
-			{#each data.groupedPosts as { month, posts }}
+			{#each data.groupedPosts as { month, posts }, monthIndex}
 				<section class="month-section">
 					<h2>{monthNames[month - 1]} {data.selectedYear}</h2>
 					<ul class="photo-grid">
-						{#each posts as post}
+						{#each posts as post, photoIndex}
 							<li class="photo-item">
 								<button
 									onclick={(e) => openLightbox(
@@ -120,8 +120,9 @@
 										alt={post.name}
 										width={post.featuredImage.node.mediaDetails?.width ?? undefined}
 										height={post.featuredImage.node.mediaDetails?.height ?? undefined}
-										loading="lazy"
-										decoding="async"
+										loading={monthIndex === 0 && photoIndex === 0 ? 'eager' : 'lazy'}
+										fetchpriority={monthIndex === 0 && photoIndex === 0 ? 'high' : undefined}
+										decoding={monthIndex === 0 && photoIndex === 0 ? undefined : 'async'}
 									/>
 									<span class="photo-name" aria-hidden="true">{post.name}</span>
 								</button>
