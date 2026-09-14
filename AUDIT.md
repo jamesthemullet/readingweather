@@ -35,7 +35,7 @@ audit adds new findings to the bottom of each section and leaves checked items a
 
 ## 3. Performance
 
-- [ ] `/gallery` (`src/routes/gallery/+page.svelte:123`) hardcodes `loading="lazy"` on all 71 thumbnail `<img>`s, including ones visible above the fold — delays LCP; the homepage's `PostList.svelte` correctly sets `loading="eager"`/`fetchpriority="high"` on the first item, `/gallery` should match that pattern (found: 2026-09-01)
+- [x] `/gallery` (`src/routes/gallery/+page.svelte:123`) hardcodes `loading="lazy"` on all 71 thumbnail `<img>`s, including ones visible above the fold — delays LCP; the homepage's `PostList.svelte` correctly sets `loading="eager"`/`fetchpriority="high"` on the first item, `/gallery` should match that pattern (found: 2026-09-01) (resolved: 2026-09-08, fixed by automated routine)
 - [ ] Homepage hero image srcset from the CMS advertises a "960w" candidate but the actual decoded image is only 699×525px while displayed at 991×743px CSS size, causing visible upscale blur — likely a WordPress srcset-metadata generation issue worth flagging upstream (found: 2026-09-01)
 - [ ] `src/routes/sitemap-2.xml/+server.ts` and `src/routes/sitemap.xml/+server.ts` both independently call `fetchSitemapPosts()` (same GraphQL query, up to 10,000 posts) on every request — `sitemap-2.xml` is a near-duplicate that only differs by omitting `/records` and `/gallery`; `static/robots.txt` references only `sitemap.xml`, making `sitemap-2.xml` a live but orphaned, redundantly-fetching duplicate that should be removed or intentionally wired in (found: 2026-09-01)
 - [ ] `src/lib/server/sitemap.ts`'s `toXmlUrl` never emits `<lastmod>` for static routes (only for post nodes) — `/`, `/about`, `/archives`, etc. have no lastmod hint (found: 2026-09-01)
