@@ -84,4 +84,4 @@ audit adds new findings to the bottom of each section and leaves checked items a
 - [ ] `src/routes/about/+page.server.ts`, `useful-links/+page.server.ts`, `photographs/+page.server.ts` are byte-identical except for a hardcoded `pageId` literal (2, 161, 169) with no comment tying the number to which WP page it is — extract a shared `loadPageById(id)` factory with named constants (found: 2026-09-01)
 - [x] `src/lib/components/OnThisDay.svelte:66-152` uses a `<style>` block instead of `src/styles/index.css`, against project convention (found: 2026-09-01) (resolved: 2026-09-07, fixed by automated routine)
 - [x] `src/lib/components/NavBar.svelte:60-158` uses a `<style>` block instead of `src/styles/index.css` (found: 2026-09-01) (resolved: 2026-09-15, fixed by automated routine)
-- [ ] `src/routes/gallery/+page.svelte:155` onward uses a `<style>` block instead of `src/styles/index.css` (found: 2026-09-01)
+- [x] `src/routes/gallery/+page.svelte:155` onward uses a `<style>` block instead of `src/styles/index.css` (found: 2026-09-01) (resolved: 2026-09-16, fixed by automated routine)
