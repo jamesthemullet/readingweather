@@ -162,11 +162,22 @@ function buildContext(currentLength: number, priorRuns: Run[], dates: string[], 
 
 	if (longerThisYear.length > 0) {
 		const best = longerThisYear[0];
-		const monthName = new Date(dates[best.endIndex]).toLocaleString('en-GB', {
-			month: 'long',
-			timeZone: 'UTC'
-		});
-		return `not the longest this year — ${monthName} had a longer run (${best.length} days)`;
+		const startDate = new Date(dates[best.startIndex]);
+		const endDate = new Date(dates[best.endIndex]);
+		const startMonth = startDate.toLocaleString('en-GB', { month: 'long', timeZone: 'UTC' });
+
+		// A run's length can exceed the number of days in its end month, which means
+		// it actually started in an earlier month — naming only the end month would
+		// then produce an impossible-looking claim (e.g. "August had a 47-day run").
+		// Name the span instead whenever the run crosses a calendar month boundary.
+		const spansOneMonth = startDate.getUTCFullYear() === endDate.getUTCFullYear() &&
+			startDate.getUTCMonth() === endDate.getUTCMonth();
+
+		const when = spansOneMonth
+			? startMonth
+			: `${startDate.toLocaleString('en-GB', { day: 'numeric', month: 'short', timeZone: 'UTC' })}–${endDate.toLocaleString('en-GB', { day: 'numeric', month: 'short', timeZone: 'UTC' })}`;
+
+		return `not the longest this year — ${when} had a longer run (${best.length} days)`;
 	}
 
 	const atLeastAsLong = priorRuns
