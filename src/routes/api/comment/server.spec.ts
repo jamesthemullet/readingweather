@@ -153,4 +153,47 @@ describe('POST /api/comment', () => {
 		const response = await POST({ request } as Parameters<typeof POST>[0]);
 		expect(response.status).toBe(502);
 	});
+
+	it('truncates content to 5000 characters before passing it to addComment', async () => {
+		const longContent = 'a'.repeat(5010);
+		const request = makeRequest({
+			postId: validPostId,
+			content: longContent,
+			name: 'Alice',
+			email: 'alice@example.com'
+		});
+		const response = await POST({ request } as Parameters<typeof POST>[0]);
+		expect(response.status).toBe(200);
+		expect(addComment).toHaveBeenCalledWith(123, 'a'.repeat(5000), 'Alice', 'alice@example.com', null);
+		expect(vi.mocked(addComment).mock.calls[0][1]).toHaveLength(5000);
+	});
+
+	it('truncates name to 100 characters before passing it to addComment', async () => {
+		const longName = 'b'.repeat(110);
+		const request = makeRequest({
+			postId: validPostId,
+			content: 'Great post!',
+			name: longName,
+			email: 'alice@example.com'
+		});
+		const response = await POST({ request } as Parameters<typeof POST>[0]);
+		expect(response.status).toBe(200);
+		expect(addComment).toHaveBeenCalledWith(123, 'Great post!', 'b'.repeat(100), 'alice@example.com', null);
+	});
+
+	it('truncates email to 254 characters before validating and passing it to addComment', async () => {
+		const localPart = 'c'.repeat(254 - '@example.com'.length);
+		const longEmail = `${localPart}@example.com${'d'.repeat(20)}`;
+		const truncatedEmail = `${localPart}@example.com`;
+		const request = makeRequest({
+			postId: validPostId,
+			content: 'Great post!',
+			name: 'Alice',
+			email: longEmail
+		});
+		const response = await POST({ request } as Parameters<typeof POST>[0]);
+		expect(response.status).toBe(200);
+		expect(truncatedEmail).toHaveLength(254);
+		expect(addComment).toHaveBeenCalledWith(123, 'Great post!', 'Alice', truncatedEmail, null);
+	});
 });
