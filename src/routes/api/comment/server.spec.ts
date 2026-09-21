@@ -128,6 +128,28 @@ describe('POST /api/comment', () => {
 		expect(addComment).toHaveBeenCalledWith(123, 'Great post!', 'Alice', 'alice@example.com', null);
 	});
 
+	it('truncates content, name, and email to their maximum lengths before submitting', async () => {
+		const longContent = 'x'.repeat(5010);
+		const longName = 'n'.repeat(110);
+		const longEmail = `${'a'.repeat(250)}@b.co`;
+		const request = makeRequest({
+			postId: validPostId,
+			content: longContent,
+			name: longName,
+			email: longEmail
+		});
+		const response = await POST({ request } as Parameters<typeof POST>[0]);
+		expect(response.status).toBe(200);
+		const calls = vi.mocked(addComment).mock.calls;
+		const [, submittedContent, submittedName, submittedEmail] = calls[calls.length - 1];
+		expect(submittedContent).toHaveLength(5000);
+		expect(submittedContent).toBe('x'.repeat(5000));
+		expect(submittedName).toHaveLength(100);
+		expect(submittedName).toBe('n'.repeat(100));
+		expect(submittedEmail).toHaveLength(254);
+		expect(submittedEmail).toBe(longEmail.slice(0, 254));
+	});
+
 	it('returns 422 when addComment resolves with success: false', async () => {
 		vi.mocked(addComment).mockResolvedValueOnce({ success: false });
 		const request = makeRequest({
