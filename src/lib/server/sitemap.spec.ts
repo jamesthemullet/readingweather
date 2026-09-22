@@ -25,6 +25,20 @@ describe('generateSitemapXml', () => {
 		expect(xml).toContain('<changefreq>daily</changefreq>');
 	});
 
+	it('defaults static route lastmod to the current date when none is given', () => {
+		const staticRoutes: StaticRoute[] = [{ path: '/about', changefreq: 'yearly', priority: '0.5' }];
+		const xml = generateSitemapXml([], staticRoutes, BASE);
+		expect(xml).toMatch(/<lastmod>\d{4}-\d{2}-\d{2}<\/lastmod>/);
+	});
+
+	it('uses an explicit lastmod for a static route when provided', () => {
+		const staticRoutes: StaticRoute[] = [
+			{ path: '/about', changefreq: 'yearly', priority: '0.5', lastmod: '2026-01-15' }
+		];
+		const xml = generateSitemapXml([], staticRoutes, BASE);
+		expect(xml).toContain('<lastmod>2026-01-15</lastmod>');
+	});
+
 	it('includes post slugs with lastmod from the first 10 chars of date when date is present', () => {
 		const nodes: SitemapNode[] = [{ slug: 'reading-flood-march', date: '2025-03-15T08:00:00' }];
 		const xml = generateSitemapXml(nodes, [], BASE);
