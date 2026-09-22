@@ -1,18 +1,8 @@
-import { error } from '@sveltejs/kit';
-import { fetchGraphQL } from '$lib/graphql/api';
-import GET_PAGE_BY_ID from '$lib/graphql/queries/getPageById';
-import type { GetPageByIdResponse } from '$lib/types';
+import { loadPageById } from '$lib/server/loadPageById';
 import type { PageServerLoad } from './$types';
 
 export const prerender = true;
 
-export const load: PageServerLoad = async ({ fetch }) => {
-	const pageId = 161;
-	const response = await fetchGraphQL<GetPageByIdResponse>(GET_PAGE_BY_ID, { id: pageId }, fetch);
+const USEFUL_LINKS_PAGE_ID = 161;
 
-	if (!response.page) {
-		throw error(404, 'Page not found');
-	}
-
-	return { page: response.page };
-};
+export const load: PageServerLoad = loadPageById(USEFUL_LINKS_PAGE_ID);
