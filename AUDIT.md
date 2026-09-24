@@ -46,7 +46,7 @@ audit adds new findings to the bottom of each section and leaves checked items a
 - [ ] `src/routes/+layout.svelte:50` sets the canonical URL globally from `$page.url.pathname` only (no query string), so `/archives?year=2024&month=3` and bare `/archives` (and `/gallery?year=2023` vs `/gallery`) all canonicalize to the same URL — should be a deliberate, documented choice (self-referencing canonical or explicit noindex) rather than an accidental side effect (found: 2026-09-01)
 - [ ] `src/lib/server/sitemap.ts` omits `/monthly-summary` and all `/monthly-summary/[year]/[month]` pages entirely from both sitemaps, despite these being indexable content pages with unique per-month data (found: 2026-09-01)
 - [x] `static/robots.txt` has no explicit `Disallow` for `/api/*` routes (found: 2026-09-01) (resolved: 2026-09-03, fixed by automated routine)
-- [ ] `src/app.html` has no fallback `<title>`/`<meta name="description">` in the static head — relies entirely on `%sveltekit.head%` injection; confirm SSR always renders these before hydration (found: 2026-09-01)
+- [x] `src/app.html` has no fallback `<title>`/`<meta name="description">` in the static head — relies entirely on `%sveltekit.head%` injection; confirm SSR always renders these before hydration (found: 2026-09-01) (resolved: 2026-09-24, fixed by automated routine)
 - [ ] No sitewide `og:image:width`/`og:image:height` fallback set anywhere — some social-card debuggers need these for correct rendering (found: 2026-09-01)
 
 ## 5. Responsive / UX
