@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import type { SitemapNode, StaticRoute } from './sitemap';
-import { generateSitemapXml } from './sitemap';
+import { generateSitemapXml, getMonthlySummaryRoutes } from './sitemap';
 
 const BASE = 'https://readingweather.co.uk';
 
@@ -44,5 +44,20 @@ describe('generateSitemapXml', () => {
 		const xml = generateSitemapXml(nodes, [], BASE);
 		expect(xml).toContain('rain-&amp;-shine');
 		expect(xml).not.toContain('rain-&-shine');
+	});
+});
+
+describe('getMonthlySummaryRoutes', () => {
+	it('lists a route for every completed month back to the start year', () => {
+		const routes = getMonthlySummaryRoutes(new Date('2026-07-15T12:00:00Z'));
+
+		expect(routes[0]).toEqual({ path: '/monthly-summary/2026/06', changefreq: 'yearly', priority: '0.5' });
+		expect(routes[routes.length - 1]).toEqual({ path: '/monthly-summary/2020/01', changefreq: 'yearly', priority: '0.5' });
+	});
+
+	it('rolls over into December of the previous year when the current month is January', () => {
+		const routes = getMonthlySummaryRoutes(new Date('2026-01-15T12:00:00Z'));
+
+		expect(routes[0]).toEqual({ path: '/monthly-summary/2025/12', changefreq: 'yearly', priority: '0.5' });
 	});
 });

@@ -1,4 +1,5 @@
 import { fetchGraphQL } from '$lib/graphql/api';
+import { getMonthlySummaryMonths } from '$lib/monthlySummaryMonths';
 import { getCache, setCache } from './cache';
 
 const ALL_POSTS_SITEMAP_QUERY = `
@@ -38,6 +39,14 @@ function toXmlUrl(loc: string, lastmod?: string, changefreq: SitemapChangefreq =
       <changefreq>${changefreq}</changefreq>
       <priority>${priority}</priority>
     </url>`;
+}
+
+export function getMonthlySummaryRoutes(now: Date = new Date()): StaticRoute[] {
+	return getMonthlySummaryMonths(now).map(({ year, month }) => ({
+		path: `/monthly-summary/${year}/${String(month).padStart(2, '0')}`,
+		changefreq: 'yearly',
+		priority: '0.5'
+	}));
 }
 
 export async function fetchSitemapPosts(): Promise<SitemapNode[]> {
