@@ -30,6 +30,7 @@ yarn dev
 | Command | Description |
 |---|---|
 | `yarn dev` | Start development server |
+| `yarn prepare` | Sync SvelteKit generated files (`svelte-kit sync`) |
 | `yarn build` | Build for production |
 | `yarn preview` | Preview production build |
 | `yarn test` | Run unit and e2e tests |
