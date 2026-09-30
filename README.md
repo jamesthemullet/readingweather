@@ -7,7 +7,8 @@ A personal blog and weather site built with SvelteKit, featuring posts, photogra
 - [SvelteKit](https://kit.svelte.dev/) — framework
 - [Vite](https://vite.dev/) — build tool
 - [TypeScript](https://www.typescriptlang.org/) — type checking
-- [Biome](https://biomejs.dev/) — linting and formatting
+- [Biome](https://biomejs.dev/) — linting
+- [Prettier](https://prettier.io/) — formatting
 - [Vitest](https://vitest.dev/) — unit tests
 - [Playwright](https://playwright.dev/) — end-to-end tests
 
@@ -37,4 +38,5 @@ yarn dev
 | `yarn test:e2e` | Run e2e tests (Playwright) |
 | `yarn lint` | Lint with Biome |
 | `yarn lint:fix` | Lint and auto-fix |
+| `yarn format` | Format code with Prettier |
 | `yarn check` | Type-check with svelte-check |
