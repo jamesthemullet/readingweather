@@ -14,6 +14,9 @@
 		></script>
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		%sveltekit.head%
+		<!-- Fallback head tags if %sveltekit.head% fails to render a page-specific title/description (e.g. a fatal error before svelte:head runs); the first <title>/<meta name="description"> in document order wins, so these never override a normal page's own tags. -->
+		<title>Reading Weather — Forecasts &amp; Observations for Reading, UK</title>
+		<meta name="description" content="Weather forecasts, observations, and records for Reading, Berkshire, UK. Updated regularly with local conditions and seasonal outlooks." />
 	</head>
 	<body data-sveltekit-preload-data="hover">
 		<div class="page-container">%sveltekit.body%</div>
