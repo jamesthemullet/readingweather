@@ -38,3 +38,4 @@ yarn dev
 | `yarn lint` | Lint with Biome |
 | `yarn lint:fix` | Lint and auto-fix |
 | `yarn check` | Type-check with svelte-check |
+| `yarn check:watch` | Type-check with svelte-check, watching for changes |

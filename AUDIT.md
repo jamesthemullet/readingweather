@@ -71,7 +71,7 @@ audit adds new findings to the bottom of each section and leaves checked items a
 - [x] `README.md` says "an archive" but the actual route directory is `src/routes/archives` (plural) — minor wording mismatch (found: 2026-09-01) (resolved: 2026-09-10, fixed by automated routine)
 - [ ] `package.json` script `prepare` (`svelte-kit sync`) is undocumented in the README Scripts table (found: 2026-09-01)
 - [ ] `package.json` script `ts-check` (duplicate of `check`) is undocumented in the README Scripts table — also worth asking whether it's dead/redundant given `check` does the same thing (found: 2026-09-01)
-- [ ] `package.json` script `check:watch` is undocumented in the README Scripts table (found: 2026-09-01)
+- [x] `package.json` script `check:watch` is undocumented in the README Scripts table (found: 2026-09-01) (resolved: 2026-09-23, fixed by automated routine)
 - [ ] `package.json` script `format` (prettier) is undocumented in the README Scripts table, and Prettier isn't mentioned in README's Tech stack section despite `prettier`/`prettier-plugin-svelte` being devDependencies (found: 2026-09-01)
 - [ ] `package.json` script `knip` is undocumented in the README Scripts table, and Knip isn't mentioned in README's Tech stack section despite being a devDependency (found: 2026-09-01)
 - [ ] GitHub issue #467 ("feat: Live 'Month in Progress' page", `enhancement`) opened 2026-08-30 is still open and unaddressed — no superseding `monthly-summary/current` route exists; legitimate open item worth triaging (found: 2026-09-01)
