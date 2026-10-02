@@ -1,5 +1,6 @@
 import { error, redirect } from '@sveltejs/kit';
 import { fetchMonthInProgress, type MonthInProgress } from '$lib/api/monthlySummary';
+import { lastCompletedMonth } from '$lib/monthlySummaryMonths';
 import { getCache, setCache } from '$lib/server/cache';
 import type { PageServerLoad } from './$types';
 
@@ -25,9 +26,7 @@ export const load: PageServerLoad = async () => {
 		// No usable data yet for the new month (e.g. very early on the 1st) — send
 		// visitors to last month's completed report card instead of a dead end.
 		if (fetchErr instanceof Error && fetchErr.message.includes('Not enough data available yet')) {
-			const year = now.getUTCFullYear();
-			const month = now.getUTCMonth() + 1;
-			const last = month === 1 ? { year: year - 1, month: 12 } : { year, month: month - 1 };
+			const last = lastCompletedMonth(now);
 			throw redirect(307, `/monthly-summary/${last.year}/${String(last.month).padStart(2, '0')}`);
 		}
 		setCache(errorCacheKey, true as const, ERROR_CACHE_TTL_MS);
