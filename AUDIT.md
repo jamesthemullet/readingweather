@@ -63,7 +63,7 @@ audit adds new findings to the bottom of each section and leaves checked items a
 - [x] `src/routes/[slug]/+page.svelte:125` JSON-LD is injected via `{@html ...}` without escaping `</script>` inside the JSON payload — a post title/description containing the literal string `</script>` breaks out of the script tag and allows markup/script injection; `src/routes/monthly-summary/+page.svelte:54` already escapes this correctly (`&lt;\/script&gt;`), making it an inconsistently-applied fix rather than a one-off — audit and fix all `jsonLd` `{@html}` sinks under `src/routes` (found: 2026-09-01) (resolved: 2026-09-02, fixed by automated routine)
 - [ ] `yarn audit` flags 1 low-severity transitive vuln: `cookie <0.7.0` (CVE-2024-47764) via `@sveltejs/kit@2.70.3` — not exploitable in this app's flow but worth tracking via the normal Renovate bump (found: 2026-09-01)
 - [ ] No `Strict-Transport-Security` header set anywhere in `src/hooks.server.ts` (which does set X-Frame-Options, X-Content-Type-Options, Referrer-Policy, Permissions-Policy, CSP) — may be supplied by the hosting platform under `adapter-auto` but unverifiable from source; confirm on the live deploy target (found: 2026-09-01)
-- [ ] `renovate.json` doesn't enable `osvVulnerabilityAlerts` for dedicated security-vulnerability PRs, relying only on the general minor/patch grouping schedule (found: 2026-09-01)
+- [x] `renovate.json` doesn't enable `osvVulnerabilityAlerts` for dedicated security-vulnerability PRs, relying only on the general minor/patch grouping schedule (found: 2026-09-01) (resolved: 2026-09-25, fixed by automated routine)
 
 ## 7. README / feature-scope alignment
 
