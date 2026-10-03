@@ -19,7 +19,7 @@ export type SitemapNode = { slug: string; date: string | null };
 
 export type SitemapChangefreq = 'always' | 'hourly' | 'daily' | 'weekly' | 'monthly' | 'yearly' | 'never';
 
-export type StaticRoute = { path: string; changefreq: SitemapChangefreq; priority: string };
+export type StaticRoute = { path: string; changefreq: SitemapChangefreq; priority: string; lastmod?: string };
 
 function escapeXml(value: string): string {
 	return value
@@ -62,12 +62,14 @@ export async function fetchSitemapPosts(): Promise<SitemapNode[]> {
 export function generateSitemapXml(
 	nodes: SitemapNode[],
 	staticRoutes: StaticRoute[],
-	base: string
+	base: string,
+	now: Date = new Date()
 ): string {
 	const urls: string[] = [];
+	const generatedAt = now.toISOString().slice(0, 10);
 
 	for (const r of staticRoutes) {
-		urls.push(toXmlUrl(`${base}${r.path}`, undefined, r.changefreq, r.priority));
+		urls.push(toXmlUrl(`${base}${r.path}`, r.lastmod ?? generatedAt, r.changefreq, r.priority));
 	}
 
 	for (const node of nodes) {

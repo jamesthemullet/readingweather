@@ -11,6 +11,7 @@ A personal blog and weather site built with SvelteKit, featuring posts, photogra
 - [Prettier](https://prettier.io/) — formatting
 - [Vitest](https://vitest.dev/) — unit tests
 - [Playwright](https://playwright.dev/) — end-to-end tests
+- [Knip](https://knip.dev/) — unused files, dependencies, and exports
 
 ## Getting started
 
@@ -40,3 +41,5 @@ yarn dev
 | `yarn lint:fix` | Lint and auto-fix |
 | `yarn format` | Format code with Prettier |
 | `yarn check` | Type-check with svelte-check |
+| `yarn knip` | Find unused files, dependencies, and exports |
+| `yarn check:watch` | Type-check with svelte-check, watching for changes |
