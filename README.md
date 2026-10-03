@@ -40,3 +40,4 @@ yarn dev
 | `yarn lint:fix` | Lint and auto-fix |
 | `yarn check` | Type-check with svelte-check |
 | `yarn knip` | Find unused files, dependencies, and exports |
+| `yarn check:watch` | Type-check with svelte-check, watching for changes |

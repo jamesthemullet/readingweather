@@ -1,10 +1,16 @@
-import { fetchSitemapPosts, generateSitemapXml, type StaticRoute } from '$lib/server/sitemap';
+import {
+	fetchSitemapPosts,
+	generateSitemapXml,
+	getMonthlySummaryRoutes,
+	type StaticRoute
+} from '$lib/server/sitemap';
 import type { RequestHandler } from './$types';
 
 const staticRoutes: StaticRoute[] = [
 	{ path: '/', changefreq: 'daily', priority: '1.0' },
 	{ path: '/about', changefreq: 'monthly', priority: '0.8' },
 	{ path: '/archives', changefreq: 'monthly', priority: '0.6' },
+	{ path: '/monthly-summary', changefreq: 'monthly', priority: '0.6' },
 	{ path: '/photographs', changefreq: 'monthly', priority: '0.6' },
 	{ path: '/seasonal-forecasts', changefreq: 'monthly', priority: '0.8' },
 	{ path: '/useful-links', changefreq: 'monthly', priority: '0.5' }
@@ -15,7 +21,7 @@ export const GET: RequestHandler = async () => {
 
 	try {
 		const nodes = await fetchSitemapPosts();
-		const xml = generateSitemapXml(nodes, staticRoutes, base);
+		const xml = generateSitemapXml(nodes, [...staticRoutes, ...getMonthlySummaryRoutes()], base);
 
 		return new Response(xml, {
 			headers: {

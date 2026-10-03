@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import type { SitemapNode, StaticRoute } from './sitemap';
-import { generateSitemapXml } from './sitemap';
+import { generateSitemapXml, getMonthlySummaryRoutes } from './sitemap';
 
 const BASE = 'https://readingweather.co.uk';
 
@@ -25,6 +25,20 @@ describe('generateSitemapXml', () => {
 		expect(xml).toContain('<changefreq>daily</changefreq>');
 	});
 
+	it('defaults static route lastmod to the generation date when none is provided', () => {
+		const staticRoutes: StaticRoute[] = [{ path: '/about', changefreq: 'monthly', priority: '0.8' }];
+		const xml = generateSitemapXml([], staticRoutes, BASE, new Date('2026-05-17T12:00:00Z'));
+		expect(xml).toContain('<lastmod>2026-05-17</lastmod>');
+	});
+
+	it('uses an explicit static route lastmod when provided', () => {
+		const staticRoutes: StaticRoute[] = [
+			{ path: '/about', changefreq: 'monthly', priority: '0.8', lastmod: '2026-01-02' }
+		];
+		const xml = generateSitemapXml([], staticRoutes, BASE, new Date('2026-05-17T12:00:00Z'));
+		expect(xml).toContain('<lastmod>2026-01-02</lastmod>');
+	});
+
 	it('includes post slugs with lastmod from the first 10 chars of date when date is present', () => {
 		const nodes: SitemapNode[] = [{ slug: 'reading-flood-march', date: '2025-03-15T08:00:00' }];
 		const xml = generateSitemapXml(nodes, [], BASE);
@@ -44,5 +58,20 @@ describe('generateSitemapXml', () => {
 		const xml = generateSitemapXml(nodes, [], BASE);
 		expect(xml).toContain('rain-&amp;-shine');
 		expect(xml).not.toContain('rain-&-shine');
+	});
+});
+
+describe('getMonthlySummaryRoutes', () => {
+	it('lists a route for every completed month back to the start year', () => {
+		const routes = getMonthlySummaryRoutes(new Date('2026-07-15T12:00:00Z'));
+
+		expect(routes[0]).toEqual({ path: '/monthly-summary/2026/06', changefreq: 'yearly', priority: '0.5' });
+		expect(routes[routes.length - 1]).toEqual({ path: '/monthly-summary/2020/01', changefreq: 'yearly', priority: '0.5' });
+	});
+
+	it('rolls over into December of the previous year when the current month is January', () => {
+		const routes = getMonthlySummaryRoutes(new Date('2026-01-15T12:00:00Z'));
+
+		expect(routes[0]).toEqual({ path: '/monthly-summary/2025/12', changefreq: 'yearly', priority: '0.5' });
 	});
 });
