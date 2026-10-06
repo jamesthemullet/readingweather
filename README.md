@@ -1,6 +1,6 @@
 # Reading Weather
 
-A personal blog and weather site built with SvelteKit, featuring posts, photographs, seasonal forecasts, and archives.
+A personal blog and weather site built with SvelteKit, featuring posts, a photo gallery and photographs, seasonal forecasts, weather records, monthly summaries, archives, an about page, and a page of useful links.
 
 ## Tech stack
 
