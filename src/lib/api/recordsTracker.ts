@@ -1,20 +1,11 @@
 import { toDateStr } from '$lib/dateUtils';
+import { fetchArchive } from './openMeteo';
 
 const READING_LAT = 51.4543;
 const READING_LON = -0.9781;
 
 // ERA5 reanalysis coverage starts 1940-01-01.
 const EARLIEST_YEAR = 1940;
-
-// A single continuous-range request covering every year back to 1940 takes a few
-// seconds to generate upstream, so give it more headroom than a single-day fetch.
-const REQUEST_TIMEOUT_MS = 20000;
-
-// A request spanning every year back to 1940 is heavy enough that browsing the site
-// in quick succession can trip Open-Meteo's rate limit. Retry a 429 a couple of
-// times, honouring Retry-After when the upstream sends one, rather than surfacing a
-// spurious failure for what is otherwise a valid request.
-const MAX_ATTEMPTS = 3;
 
 // A record that doesn't quite land at #1 is still worth showing if it's close — this
 // caps how far down the all-time ranking counts as a "near miss" worth surfacing.
@@ -144,21 +135,6 @@ function monthName(month: number): string {
 
 function round1(n: number): number {
 	return Math.round(n * 10) / 10;
-}
-
-async function fetchArchive(url: string): Promise<Response> {
-	for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
-		const response = await fetch(url, { signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS) });
-		if (response.status !== 429 || attempt === MAX_ATTEMPTS) return response;
-
-		const retryAfterSeconds = Number(response.headers.get('retry-after'));
-		const delayMs = retryAfterSeconds > 0 ? retryAfterSeconds * 1000 : attempt * 1000;
-		await new Promise((resolve) => setTimeout(resolve, delayMs));
-	}
-	// Unreachable: the loop always returns on the final attempt. TypeScript cannot
-	// prove this because MAX_ATTEMPTS is a runtime constant, not a literal in the
-	// loop bounds, so an explicit throw satisfies the control-flow analysis.
-	throw new Error('Unexpected: fetchArchive retry loop exhausted without returning');
 }
 
 export async function fetchRecordsTracker(now: Date = new Date()): Promise<RecordsTrackerResult> {
