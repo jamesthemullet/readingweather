@@ -1,6 +1,6 @@
 // A single continuous-range request covering many years of history takes a few
 // seconds to generate upstream, so give it more headroom than a single-day fetch.
-export const REQUEST_TIMEOUT_MS = 20000;
+const REQUEST_TIMEOUT_MS = 20000;
 
 // A request spanning many years of history is heavy enough that browsing the site
 // in quick succession can trip Open-Meteo's rate limit. Retry a 429 a couple of
