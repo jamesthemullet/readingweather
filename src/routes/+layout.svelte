@@ -3,7 +3,7 @@
 	import '../styles/global.css';
 	import type { Snippet } from 'svelte';
 	import { onMount } from 'svelte';
-	import { page } from '$app/stores';
+	import { page } from '$app/state';
 	import Analytics from '$lib/analytics/analytics.svelte';
 	import NavBar from '$lib/components/NavBar.svelte';
 
@@ -47,7 +47,7 @@
 	<link rel="preconnect" href="https://www.googletagmanager.com" crossorigin="anonymous" />
 	<link rel="preload" href="/fonts/Caveat-VariableFont_wght.ttf" as="font" type="font/ttf" crossorigin="anonymous" />
 	<link rel="preload" href="/fonts/FiraSans-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous" />
-	<link rel="canonical" href={`https://www.readingweather.co.uk${$page.url.pathname}`} />
+	<link rel="canonical" href={`https://www.readingweather.co.uk${page.url.pathname}`} />
 	<link rel="alternate" type="application/rss+xml" title="Reading Weather" href="/feed.xml" />
 	<meta property="og:site_name" content="Reading Weather" />
 	<meta property="og:locale" content="en_GB" />
