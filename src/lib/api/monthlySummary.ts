@@ -1,15 +1,12 @@
 import { toDateStr } from '$lib/dateUtils';
 import { getCache, setCache } from '$lib/server/cache';
+import { fetchArchive } from './openMeteo';
 
 const READING_LAT = 51.4543;
 const READING_LON = -0.9781;
 
 // ERA5 reanalysis coverage starts 1940-01-01.
 const EARLIEST_YEAR = 1940;
-
-// A single continuous-range request covering every year back to 1940 takes a few
-// seconds to generate upstream, so give it more headroom than the 7-day digest fetch.
-const REQUEST_TIMEOUT_MS = 20000;
 
 // The multi-decade historical comparison for a given calendar month is the same no
 // matter which year's report card is being viewed, so it's cached independently of
@@ -221,27 +218,6 @@ function lastCompleteYearForMonth(month: number, now: Date): number {
 	const yesterday = new Date(now);
 	yesterday.setUTCDate(yesterday.getUTCDate() - 1);
 	return monthBounds(currentYear, month).end <= yesterday ? currentYear : currentYear - 1;
-}
-
-// A request spanning every year back to 1940 is heavy enough that browsing between
-// several months in quick succession can trip Open-Meteo's rate limit. Retry a 429 a
-// couple of times, honouring Retry-After when the upstream sends one, rather than
-// surfacing a spurious failure for what is otherwise a valid request.
-const MAX_ATTEMPTS = 3;
-
-async function fetchArchive(url: string): Promise<Response> {
-	for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
-		const response = await fetch(url, { signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS) });
-		if (response.status !== 429 || attempt === MAX_ATTEMPTS) return response;
-
-		const retryAfterSeconds = Number(response.headers.get('retry-after'));
-		const delayMs = retryAfterSeconds > 0 ? retryAfterSeconds * 1000 : attempt * 1000;
-		await new Promise((resolve) => setTimeout(resolve, delayMs));
-	}
-	// Unreachable: the loop always returns on the final attempt. TypeScript cannot
-	// prove this because MAX_ATTEMPTS is a runtime constant, not a literal in the
-	// loop bounds, so an explicit throw satisfies the control-flow analysis.
-	throw new Error('Unexpected: fetchArchive retry loop exhausted without returning');
 }
 
 // `dayLimit` restricts each year's window to that year's first N days of the month —
