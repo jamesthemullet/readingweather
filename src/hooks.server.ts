@@ -1,4 +1,4 @@
-import type { Handle } from '@sveltejs/kit';
+import type { Handle } from '@sveltejs/kit/hooks';
 
 const securityHeaders = {
 	// Prevent this site from being embedded in iframes on other origins (clickjacking)

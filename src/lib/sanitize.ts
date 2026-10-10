@@ -1,5 +1,5 @@
 import DOMPurify from 'dompurify';
-import { browser } from '$app/environment';
+import { browser } from '$app/env';
 
 /**
  * Sanitizes HTML to prevent XSS. On the server (SSR) the content is returned

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { page } from '$app/stores';
+	import { page } from '$app/state';
 
 	const links = [
 		{ href: '/seasonal-forecasts', label: 'Seasonal Forecasts' },
@@ -46,11 +46,11 @@
 
 	<ul id="nav-menu" class:open={isOpen} inert={isMobile && !isOpen}>
 		{#each links as link}
-			<li class:active={$page.url.pathname === link.href}>
+			<li class:active={page.url.pathname === link.href}>
 				<a
 					href={link.href}
 					onclick={() => (isOpen = false)}
-					aria-current={$page.url.pathname === link.href ? 'page' : undefined}>{link.label}</a
+					aria-current={page.url.pathname === link.href ? 'page' : undefined}>{link.label}</a
 				>
 			</li>
 		{/each}
