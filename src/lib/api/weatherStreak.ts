@@ -1,7 +1,5 @@
 import { toDateStr } from '$lib/dateUtils';
-
-const READING_LAT = 51.4543;
-const READING_LON = -0.9781;
+import { assertOpenMeteoOk, OPEN_METEO_ARCHIVE_URL, READING_LAT, READING_LON } from './openMeteo';
 
 // How far back we look for a comparable historical streak of the same length.
 const HISTORY_YEARS = 10;
@@ -209,10 +207,10 @@ export async function fetchWeatherStreak(now: Date = new Date()): Promise<Weathe
 		timezone: 'Europe/London'
 	});
 
-	const response = await fetch(`https://archive-api.open-meteo.com/v1/archive?${params}`, {
+	const response = await fetch(`${OPEN_METEO_ARCHIVE_URL}?${params}`, {
 		signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS)
 	});
-	if (!response.ok) throw new Error(`Open-Meteo error: ${response.status}`);
+	assertOpenMeteoOk(response);
 
 	const data = (await response.json()) as OpenMeteoArchiveResponse;
 	const {
