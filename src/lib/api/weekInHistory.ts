@@ -1,7 +1,10 @@
 import { toDateStr } from '$lib/dateUtils';
-
-const READING_LAT = 51.4543;
-const READING_LON = -0.9781;
+import {
+	assertOpenMeteoOk,
+	openMeteoArchiveUrl,
+	READING_LAT,
+	READING_LON
+} from './openMeteoConstants';
 
 // ERA5 reanalysis coverage starts 1940-01-01.
 const EARLIEST_YEAR = 1940;
@@ -63,10 +66,10 @@ export async function fetchWeekInHistory(now: Date = new Date()): Promise<WeekIn
 		timezone: 'Europe/London'
 	});
 
-	const response = await fetch(`https://archive-api.open-meteo.com/v1/archive?${params}`, {
+	const response = await fetch(openMeteoArchiveUrl(params), {
 		signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS)
 	});
-	if (!response.ok) throw new Error(`Open-Meteo error: ${response.status}`);
+	assertOpenMeteoOk(response);
 
 	const data = (await response.json()) as OpenMeteoArchiveResponse;
 	const { time, temperature_2m_max, temperature_2m_min, precipitation_sum } = data.daily;

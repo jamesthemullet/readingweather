@@ -1,5 +1,9 @@
-const READING_LAT = 51.4543;
-const READING_LON = -0.9781;
+import {
+	assertOpenMeteoOk,
+	openMeteoArchiveUrl,
+	READING_LAT,
+	READING_LON
+} from './openMeteoConstants';
 
 type OpenMeteoArchiveResponse = {
 	daily: {
@@ -74,8 +78,8 @@ async function fetchOneDay(dateStr: string): Promise<DailyWeather> {
 		timezone: 'Europe/London'
 	});
 
-	const response = await fetch(`https://archive-api.open-meteo.com/v1/archive?${params}`);
-	if (!response.ok) throw new Error(`Open-Meteo error: ${response.status}`);
+	const response = await fetch(openMeteoArchiveUrl(params));
+	assertOpenMeteoOk(response);
 
 	const data = (await response.json()) as OpenMeteoArchiveResponse;
 	const { temperature_2m_max, temperature_2m_min, precipitation_sum, wind_speed_10m_max } =
