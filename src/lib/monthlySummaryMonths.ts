@@ -1,6 +1,6 @@
 // Monthly report cards are only offered from the site's launch year onward,
 // even though the underlying ERA5 data goes back to 1940.
-export const MONTHLY_SUMMARY_START_YEAR = 2020;
+const MONTHLY_SUMMARY_START_YEAR = 2020;
 
 export type MonthEntry = { year: number; month: number };
 
