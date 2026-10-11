@@ -1,7 +1,5 @@
 import { toDateStr } from '$lib/dateUtils';
-
-const READING_LAT = 51.4543;
-const READING_LON = -0.9781;
+import { assertOpenMeteoOk, OPEN_METEO_ARCHIVE_URL, READING_LAT, READING_LON } from './openMeteo';
 
 // ERA5 archive data can lag behind real-time, so the digest window ends
 // yesterday rather than today to avoid missing/null data for the current,
@@ -94,10 +92,10 @@ export async function fetchWeeklyDigest(now: Date = new Date()): Promise<WeeklyD
 		timezone: 'Europe/London'
 	});
 
-	const response = await fetch(`https://archive-api.open-meteo.com/v1/archive?${params}`, {
+	const response = await fetch(`${OPEN_METEO_ARCHIVE_URL}?${params}`, {
 		signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS)
 	});
-	if (!response.ok) throw new Error(`Open-Meteo error: ${response.status}`);
+	assertOpenMeteoOk(response);
 
 	const data = (await response.json()) as OpenMeteoArchiveResponse;
 	const {

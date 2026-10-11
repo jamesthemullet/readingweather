@@ -1,8 +1,11 @@
 import { toDateStr } from '$lib/dateUtils';
-import { fetchArchive } from './openMeteo';
-
-const READING_LAT = 51.4543;
-const READING_LON = -0.9781;
+import {
+	assertOpenMeteoOk, 
+	fetchArchive,
+	OPEN_METEO_ARCHIVE_URL,
+	READING_LAT,
+	READING_LON
+} from './openMeteo';
 
 // ERA5 reanalysis coverage starts 1940-01-01.
 const EARLIEST_YEAR = 1940;
@@ -151,8 +154,8 @@ export async function fetchRecordsTracker(now: Date = new Date()): Promise<Recor
 		timezone: 'Europe/London'
 	});
 
-	const response = await fetchArchive(`https://archive-api.open-meteo.com/v1/archive?${params}`);
-	if (!response.ok) throw new Error(`Open-Meteo error: ${response.status}`);
+	const response = await fetchArchive(`${OPEN_METEO_ARCHIVE_URL}?${params}`);
+	assertOpenMeteoOk(response);
 
 	const data = (await response.json()) as OpenMeteoArchiveResponse;
 	const { time, temperature_2m_max, temperature_2m_min, precipitation_sum } = data.daily;
