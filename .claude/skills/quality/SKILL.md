@@ -68,7 +68,7 @@ Output exactly this structure:
 - **Inline styles are a smell**: This project uses scoped CSS `<style>` blocks and CSS classes for all styling. Inline `style=` attributes are a pattern to flag and move into CSS classes.
 - **Svelte 5 runes**: Components use `$props()`, `$state()`, `$derived()`, `$effect()` — the legacy `export let`, `$:`, and `onMount` patterns should be migrated if found.
 - **`biome-ignore` comments**: Legitimate suppressions exist (e.g. `noForEach` on `threaded.forEach` in `[slug]/+page.svelte`). Only flag suppressions with empty/missing explanations or where the suppressed rule violation could be easily fixed instead.
-- **Knip ignore list**: `ignoreBinaries: ["wait-on", "axe"]` are intentional — do not flag these.
+- **Knip**: `wait-on` and `axe` (used via `npx` in CI) and the dev-only `accented` import are resolved by Knip without ignore entries — do not flag these.
 - **`$lib` path alias**: All internal imports should use `$lib/...`, not relative paths like `../../lib/...`.
 - **Server vs client**: Files in `src/lib/server/` are server-only. Files in `src/routes/api/` are API endpoints. Do not move server-only code to client-accessible paths.
 - **GraphQL queries**: Live in `src/lib/graphql/queries/` as tagged template literals — these are intentionally verbose and should not be condensed.
