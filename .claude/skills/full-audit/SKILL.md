@@ -211,7 +211,7 @@ templates, existing `biome-ignore` suppressions with real explanations).
   `export let`/`$:` instead of `$props()`/`$derived()`, `$effect` with overly broad or missing
   dependencies), magic numbers/strings, relative imports that should use the `$lib/` alias.
 - **Dead code** — anything Knip's default run wouldn't already catch (check `knip.json`'s
-  ignore list first so you don't re-flag `wait-on`/`axe`/`accented`), commented-out code blocks,
+  config first; `wait-on`/`axe`/`accented` are legitimately used), commented-out code blocks,
   server-only code in `src/lib/server/` accidentally reachable from a client-side import path.
 
 ## Notes
