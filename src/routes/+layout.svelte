@@ -51,6 +51,10 @@
 	<link rel="alternate" type="application/rss+xml" title="Reading Weather" href="/feed.xml" />
 	<meta property="og:site_name" content="Reading Weather" />
 	<meta property="og:locale" content="en_GB" />
+	<!-- Sitewide fallback for the one og:image every route sets; accurate for the default
+	     weather.png image, an approximation on routes with a CMS-sourced featured image. -->
+	<meta property="og:image:width" content="400" />
+	<meta property="og:image:height" content="400" />
 	<meta name="twitter:card" content="summary_large_image" />
 </svelte:head>
 

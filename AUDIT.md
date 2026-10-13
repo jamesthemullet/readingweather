@@ -47,7 +47,7 @@ audit adds new findings to the bottom of each section and leaves checked items a
 - [x] `src/lib/server/sitemap.ts` omits `/monthly-summary` and all `/monthly-summary/[year]/[month]` pages entirely from both sitemaps, despite these being indexable content pages with unique per-month data (found: 2026-09-01) (resolved: 2026-09-27, fixed by automated routine)
 - [x] `static/robots.txt` has no explicit `Disallow` for `/api/*` routes (found: 2026-09-01) (resolved: 2026-09-03, fixed by automated routine)
 - [x] `src/app.html` has no fallback `<title>`/`<meta name="description">` in the static head — relies entirely on `%sveltekit.head%` injection; confirm SSR always renders these before hydration (found: 2026-09-01) (resolved: 2026-09-24, fixed by automated routine)
-- [ ] No sitewide `og:image:width`/`og:image:height` fallback set anywhere — some social-card debuggers need these for correct rendering (found: 2026-09-01)
+- [x] No sitewide `og:image:width`/`og:image:height` fallback set anywhere — some social-card debuggers need these for correct rendering (found: 2026-09-01) (resolved: 2026-10-11, fixed by automated routine)
 
 ## 5. Responsive / UX
 
