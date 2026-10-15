@@ -4,6 +4,13 @@ import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
+	preview: {
+		// Playwright's e2e CSRF test (e2e/subscribe-origin.test.ts) sends a request
+		// with a non-local Host header to exercise the app's own origin check;
+		// without this, Vite's preview server blocks it before the request reaches
+		// the app.
+		allowedHosts: ['example.com']
+	},
 	plugins: [
 		sveltekit({
 			// Consult https://svelte.dev/docs/kit/integrations
