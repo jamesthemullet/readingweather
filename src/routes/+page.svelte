@@ -74,5 +74,5 @@
 
 <div class="older-posts">
 	<p>Looking for older posts?</p>
-	<a href="/archives" aria-label="Check out the weather forecast archives">Check out the archives</a>
+	<a href="/archives">Check out the weather forecast archives</a>
 </div>
