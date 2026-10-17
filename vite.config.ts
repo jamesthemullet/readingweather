@@ -1,6 +1,7 @@
 import adapter from '@sveltejs/adapter-auto';
 import { sveltekit } from '@sveltejs/kit/vite';
 import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
+import { svelteTesting } from '@testing-library/svelte/vite';
 import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
@@ -24,6 +25,26 @@ export default defineConfig({
 	],
 
 	test: {
-		include: ['src/**/*.{test,spec}.{js,ts}']
+		projects: [
+			{
+				extends: true,
+				test: {
+					name: 'unit',
+					include: ['src/**/*.{test,spec}.{js,ts}'],
+					exclude: ['src/lib/components/**/*.{test,spec}.{js,ts}']
+				}
+			},
+			{
+				extends: true,
+				// Component specs render real DOM output, which requires Svelte's
+				// client build (not the SSR build the rest of the suite uses).
+				plugins: [svelteTesting()],
+				test: {
+					name: 'components',
+					include: ['src/lib/components/**/*.{test,spec}.{js,ts}'],
+					environment: 'happy-dom'
+				}
+			}
+		]
 	}
 });
