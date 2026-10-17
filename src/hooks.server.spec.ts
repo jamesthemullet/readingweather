@@ -93,6 +93,17 @@ describe('hooks handle', () => {
 		expect(policy).toContain('geolocation=()');
 	});
 
+	it('sets a Strict-Transport-Security header on all responses', async () => {
+		const response = await handle({
+			event: makeEvent('/any-page') as Parameters<typeof handle>[0]['event'],
+			resolve: makeResolve()
+		});
+
+		expect(response.headers.get('Strict-Transport-Security')).toBe(
+			'max-age=63072000; includeSubDomains; preload'
+		);
+	});
+
 	it('sets a Content-Security-Policy header with key directives', async () => {
 		const response = await handle({
 			event: makeEvent('/any-page') as Parameters<typeof handle>[0]['event'],

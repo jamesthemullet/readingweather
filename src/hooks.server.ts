@@ -13,6 +13,10 @@ const securityHeaders = {
 	// Restrict access to powerful browser APIs
 	'Permissions-Policy': 'camera=(), microphone=(), geolocation=(), payment=()',
 
+	// Force HTTPS for this origin (and its subdomains) for two years, including on
+	// the very first visit, rather than relying solely on the hosting platform to set it
+	'Strict-Transport-Security': 'max-age=63072000; includeSubDomains; preload',
+
 	// Content Security Policy
 	// Notes on unsafe-inline for scripts: the Google Tag Manager snippet injected via
 	// <svelte:head> in analytics.svelte is an inline script. Removing unsafe-inline
