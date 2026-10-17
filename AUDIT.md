@@ -30,7 +30,7 @@ audit adds new findings to the bottom of each section and leaves checked items a
 ## 2. Accessibility
 
 - [ ] Weather-map images embedded in WordPress post body content (rendered via `{@html sanitize(...)}` in `PostList.svelte` and `[slug]/+page.svelte`) consistently have `alt=""` despite being informational pressure charts, not decorative — e.g. on `/sunday-30th-august-2026` — a recurring WCAG 1.1.1 gap across most post pages, not a one-off (found: 2026-09-01)
-- [ ] `/seasonal-forecasts` renders ~69 consecutive `<h2>` elements with no intermediate structure or landmark grouping — hard to navigate by heading for screen-reader users; consider grouping under `<section>`s (found: 2026-09-01)
+- [x] `/seasonal-forecasts` renders ~69 consecutive `<h2>` elements with no intermediate structure or landmark grouping — hard to navigate by heading for screen-reader users; consider grouping under `<section>`s (found: 2026-09-01) (resolved: 2026-10-17, fixed by automated routine — gave each post's shared `<article class="post">` in `PostList.svelte` an `aria-labelledby` pointing at its `<h2>`'s id, so assistive tech can navigate each listing entry as a named region instead of a flat run of headings; kept the `<article>` tag rather than switching to `<section>` since `src/styles/index.css` styles posts via a `main article` type selector shared across several routes)
 - [x] 404 page (`/[slug]` miss) has no explicit "back to home" CTA in the page body itself, relying only on the persistent nav bar — minor dead-end UX gap (found: 2026-09-01) (resolved: 2026-09-04, fixed by automated routine)
 
 ## 3. Performance

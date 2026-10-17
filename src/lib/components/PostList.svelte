@@ -19,7 +19,7 @@
 <ul>
 	{#each posts as post, i}
 		<li>
-			<article class="post">
+			<article class="post" aria-labelledby="post-heading-{post.slug}">
 				{#if post.featuredImage?.node?.sourceUrl}
 					<a href="/{post.slug}" aria-hidden="true" tabindex="-1">
 						<img
@@ -35,7 +35,7 @@
 						/>
 					</a>
 				{/if}
-				<h2><a href="/{post.slug}">{post.title}</a></h2>
+				<h2 id="post-heading-{post.slug}"><a href="/{post.slug}">{post.title}</a></h2>
 			{#if preview}
 					<div class="content">{@html sanitize(firstParagraph(post.content))}</div>
 					<a href="/{post.slug}" class="read-more" aria-label="Read full forecast: {post.title}">Read full forecast</a>
