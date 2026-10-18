@@ -1284,9 +1284,9 @@ strip-json-comments@5.0.3:
   integrity sha512-1tB5mhVo7U+ETBKNf92xT4hrQa3pm0MZ0PQvuDnWgAAGHDsfp4lPSpiS6psrSiet87wyGPh9ft6wmhOMQ0hDiw==
 
 svelte-check@^4.0.0:
-  version "4.7.6"
-  resolved "https://registry.yarnpkg.com/svelte-check/-/svelte-check-4.7.6.tgz#63cba2ab096d3c96b6b483575815f1f88acfe039"
-  integrity sha512-t2scM//ZuVbSY/T2w6FSBw1v9s2NEmh/g+sy1lqtosW5ylBV5AF4wFb1Ts9Kf3MbfPDUDJDZ9L436YT0SPTdvw==
+  version "4.7.7"
+  resolved "https://registry.yarnpkg.com/svelte-check/-/svelte-check-4.7.7.tgz#627039e8159c16aa0d4be890e0edb1f7221e2476"
+  integrity sha512-Ge2IMdeTpbJuzNFGRiiMg0RWgbScysKQu7xwcyFJ22+DU9F5nPX51+Q3gHmGqRxYQMx2knreVWt5oCtfe0vf2g==
   dependencies:
     "@jridgewell/trace-mapping" "^0.3.25"
     "@sveltejs/load-config" "^0.2.3"
