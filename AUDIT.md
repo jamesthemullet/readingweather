@@ -14,7 +14,7 @@ audit adds new findings to the bottom of each section and leaves checked items a
 - [ ] `src/lib/components/AddComment.svelte` has no spec — contains form validation/submit logic, untested (found: 2026-09-01)
 - [ ] `src/lib/components/Comment.svelte` has no spec (found: 2026-09-01)
 - [x] `src/lib/components/Comments.svelte` has no spec (found: 2026-09-01) (resolved: 2026-10-18, fixed by automated routine)
-- [ ] `src/lib/components/NavBar.svelte` has no spec (found: 2026-09-01)
+- [x] `src/lib/components/NavBar.svelte` has no spec (found: 2026-09-01) (resolved: 2026-10-19, fixed by automated routine)
 - [ ] `src/lib/components/OnThisDay.svelte` has no spec (found: 2026-09-01)
 - [ ] `src/lib/components/PostList.svelte` has no spec (found: 2026-09-01)
 - [x] `src/lib/components/ShareButton.svelte` has no spec (found: 2026-09-01) (resolved: 2026-10-14, fixed by automated routine)
