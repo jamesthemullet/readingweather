@@ -38,7 +38,8 @@
 		"vitest": "^5.0.0"
 	},
 	"dependencies": {
-		"dompurify": "^3.2.5"
+		"dompurify": "^3.2.5",
+		"resend": "^6.34.1"
 	},
 	"resolutions": {
 		"rollup": "^4.59.0"
