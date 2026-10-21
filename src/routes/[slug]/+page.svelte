@@ -159,6 +159,10 @@
 	{/if}
 </article>
 
+{#if data.galleryHref}
+	<p class="gallery-link"><a href={data.galleryHref}>See the photos from this post</a></p>
+{/if}
+
 {#if data.latestSeasonalPost}
 	<section class="latest-seasonal">
 		<h2>Latest Seasonal Forecast</h2>
