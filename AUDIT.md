@@ -16,7 +16,7 @@ audit adds new findings to the bottom of each section and leaves checked items a
 - [x] `src/lib/components/Comments.svelte` has no spec (found: 2026-09-01) (resolved: 2026-10-18, fixed by automated routine)
 - [x] `src/lib/components/NavBar.svelte` has no spec (found: 2026-09-01) (resolved: 2026-10-19, fixed by automated routine)
 - [ ] `src/lib/components/OnThisDay.svelte` has no spec (found: 2026-09-01)
-- [ ] `src/lib/components/PostList.svelte` has no spec (found: 2026-09-01)
+- [x] `src/lib/components/PostList.svelte` has no spec (found: 2026-09-01) (resolved: 2026-10-23, fixed by automated routine)
 - [x] `src/lib/components/ShareButton.svelte` has no spec (found: 2026-09-01) (resolved: 2026-10-14, fixed by automated routine)
 - [ ] `src/lib/components/WeatherStreak.svelte`, `WeekInHistory.svelte`, `WeeklyDigest.svelte` have no specs — no `@testing-library/svelte` usage exists anywhere in the repo, so the whole Svelte component/markup layer has zero test coverage even though every route's `+page.server.ts` load function is unit-tested (found: 2026-09-01)
 - [x] `src/routes/api/historical-weather/+server.ts` has no `try/catch` around `fetchHistoricalWeather`, unlike every other cached API endpoint which returns a graceful 502 on upstream failure — untested and unhandled (found: 2026-09-01) (resolved: 2026-09-01, fixed by automated routine)
