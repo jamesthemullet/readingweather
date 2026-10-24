@@ -20,6 +20,7 @@ type SlugLoadResult = {
 	isLatest: boolean;
 	latestSlug: string | undefined;
 	latestSeasonalPost: SeasonalPostStub | null;
+	galleryHref: string | null;
 };
 
 const mockPost = {
@@ -29,6 +30,11 @@ const mockPost = {
 	content: '<p>Content</p>',
 	date: '2026-01-01',
 	seo: { description: 'A test post', opengraphDescription: 'OG description' }
+};
+
+const mockPostWithImage = {
+	...mockPost,
+	featuredImage: { node: { sourceUrl: 'https://example.com/sunny-day.jpg' } }
 };
 
 describe('[slug] page load', () => {
@@ -111,5 +117,27 @@ describe('[slug] page load', () => {
 		const result = (await load({ params: { slug: 'test-post' } } as Parameters<typeof load>[0])) as SlugLoadResult;
 
 		expect(result.latestSeasonalPost).toBeNull();
+	});
+
+	it('returns a gallery link when the post has a gallery-eligible featured image', async () => {
+		vi.mocked(fetchGraphQL)
+			.mockResolvedValueOnce({ postBy: mockPostWithImage })
+			.mockResolvedValueOnce({ posts: { nodes: [{ slug: 'test-post' }] } })
+			.mockResolvedValueOnce({ posts: { nodes: [] } });
+
+		const result = (await load({ params: { slug: 'test-post' } } as Parameters<typeof load>[0])) as SlugLoadResult;
+
+		expect(result.galleryHref).toBe('/gallery?year=2026');
+	});
+
+	it('returns null galleryHref when the post has no featured image', async () => {
+		vi.mocked(fetchGraphQL)
+			.mockResolvedValueOnce({ postBy: mockPost })
+			.mockResolvedValueOnce({ posts: { nodes: [{ slug: 'test-post' }] } })
+			.mockResolvedValueOnce({ posts: { nodes: [] } });
+
+		const result = (await load({ params: { slug: 'test-post' } } as Parameters<typeof load>[0])) as SlugLoadResult;
+
+		expect(result.galleryHref).toBeNull();
 	});
 });
