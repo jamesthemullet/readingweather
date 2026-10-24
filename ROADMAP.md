@@ -1,8 +1,7 @@
 # Product Roadmap — Reading Weather
 
-The site already covers posts, photos, seasonal forecasts, records, and a monthly summary — but
-these sections don't yet link to each other, so a visitor reading one post has no obvious next
-step. Everything below is scored against four jobs:
+The site already covers posts, photos, seasonal forecasts, records, and a monthly summary.
+Everything below is scored against four jobs:
 
 - **Acquisition** — brings new visitors in
 - **Engagement** — deepens a single visit
@@ -20,13 +19,6 @@ engines like — add structured data so they can surface directly.
 
 - [x] **One PR.** A single JSON-LD block added to the `records` template from fields that already
   exist.
-
-### 2. Cross-linking gallery ↔ posts ↔ seasonal forecasts — *Engagement*
-The `gallery`, `photographs`, `seasonal-forecasts`, and `[slug]` post routes currently don't
-reference each other — improving existing pages rather than building new ones.
-
-- [ ] Add a "see the photos from this post" link on `[slug]` pointing into `gallery`/`photographs`
-  where a date/tag match exists — pure function (matching logic) + tests, then the link itself.
 
 ---
 *Reading Weather — product roadmap, 9 September 2026*
