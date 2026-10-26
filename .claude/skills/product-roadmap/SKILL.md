@@ -35,8 +35,11 @@ features:
 Plain markdown. Write directly to `ROADMAP.md` at the repo root, overwriting the previous
 version. Structure: intro + 4 goal-tag lenses (Acquisition/Engagement/Retention/Fun) →
 PR-sequence explainer → Now/Next/Later sections, each feature as `### N. Name — *Goal tags*` +
-description + numbered PR-step list → Mise en place table (if any infra proposed) → footer
-`*Reading Weather — product roadmap, <date>*`.
+description + PR-step checklist (`- [ ]` per step, `- [x]` once its PR has merged) → Mise en
+place table (if any infra proposed) → footer `*Reading Weather — product roadmap, <date>*`.
+
+When refreshing an existing `ROADMAP.md`, keep the checked/unchecked state of steps that carry
+over, and tick any step whose change is already on `main`.
 
 ## Breaking a feature into PR steps
 
@@ -57,4 +60,5 @@ Sequence data/logic → UI → wiring, splitting wherever a step could stand alo
 - Don't re-propose anything already tracked as an open item in `AUDIT.md`.
 - Never propose "related posts" / "more from this month" / "nearby-in-time" recommendation
   features. Rejected: nobody wants a different day's forecast surfaced next to the current one.
+- Never propose a monthly digest email (or any outbound email/newsletter digest). Rejected.
 - Do not commit, push, or open a PR for `ROADMAP.md` changes unless the user explicitly asks.
