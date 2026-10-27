@@ -12,10 +12,10 @@ audit adds new findings to the bottom of each section and leaves checked items a
 
 - [x] `yarn test:e2e` fails outright with `Error: http://localhost:4173 is already used` because `playwright.config.ts` has no `webServer.reuseExistingServer` set (defaults to `false`); add `reuseExistingServer: !process.env.CI` so it can run against a server already open in dev (found: 2026-09-01) (resolved: 2026-09-01, fixed by automated routine)
 - [x] `src/lib/components/AddComment.svelte` has no spec — contains form validation/submit logic, untested (found: 2026-09-01) (resolved: 2026-10-20, fixed by automated routine)
-- [ ] `src/lib/components/Comment.svelte` has no spec (found: 2026-09-01)
+- [x] `src/lib/components/Comment.svelte` has no spec (found: 2026-09-01) (resolved: 2026-10-22, fixed by automated routine)
 - [x] `src/lib/components/Comments.svelte` has no spec (found: 2026-09-01) (resolved: 2026-10-18, fixed by automated routine)
 - [x] `src/lib/components/NavBar.svelte` has no spec (found: 2026-09-01) (resolved: 2026-10-19, fixed by automated routine)
-- [ ] `src/lib/components/OnThisDay.svelte` has no spec (found: 2026-09-01)
+- [x] `src/lib/components/OnThisDay.svelte` has no spec (found: 2026-09-01) (resolved: 2026-10-22, fixed by automated routine)
 - [ ] `src/lib/components/PostList.svelte` has no spec (found: 2026-09-01)
 - [x] `src/lib/components/ShareButton.svelte` has no spec (found: 2026-09-01) (resolved: 2026-10-14, fixed by automated routine)
 - [x] `src/lib/components/WeatherStreak.svelte`, `WeekInHistory.svelte`, `WeeklyDigest.svelte` have no specs — no `@testing-library/svelte` usage exists anywhere in the repo, so the whole Svelte component/markup layer has zero test coverage even though every route's `+page.server.ts` load function is unit-tested (found: 2026-09-01) (resolved: 2026-10-25, fixed by automated routine)
