@@ -14,7 +14,7 @@ jobs:
       - name: Use Node.js 18.x
         uses: actions/setup-node@v7
         with:
-          node-version: 24.x
+          node-version: 26.x
       - name: Install dependencies
         run: yarn install
       - name: Run Biome lint
@@ -27,7 +27,7 @@ jobs:
       - name: Use Node.js 24.x
         uses: actions/setup-node@v7
         with:
-          node-version: 24.x
+          node-version: 26.x
       - name: Install dependencies
         run: yarn install
       - name: Run knip
@@ -40,7 +40,7 @@ jobs:
       - name: Use Node.js 24.x
         uses: actions/setup-node@v7
         with:
-          node-version: 24.x
+          node-version: 26.x
       - name: Install dependencies
         run: yarn install
       - name: Run type check
@@ -53,7 +53,7 @@ jobs:
       - name: Use Node.js 24.x
         uses: actions/setup-node@v7
         with:
-          node-version: 24.x
+          node-version: 26.x
       - name: Install dependencies
         run: yarn install
       - name: Run unit tests
@@ -66,7 +66,7 @@ jobs:
       - name: Use Node.js 24.x
         uses: actions/setup-node@v7
         with:
-          node-version: 24.x
+          node-version: 26.x
       - name: Install dependencies
         run: yarn install
       - name: Cache Playwright browsers
@@ -95,7 +95,7 @@ jobs:
       - name: Use Node.js 18.x
         uses: actions/setup-node@v7
         with:
-          node-version: 24.x
+          node-version: 26.x
       - run: yarn install
       - name: Get Chromium version 🌐
         run: |
