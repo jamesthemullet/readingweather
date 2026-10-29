@@ -4,10 +4,18 @@
 	import type { Snippet } from 'svelte';
 	import { onMount } from 'svelte';
 	import { page } from '$app/state';
+	import { building } from '$app/env';
 	import Analytics from '$lib/analytics/analytics.svelte';
 	import NavBar from '$lib/components/NavBar.svelte';
 
 	const { children }: { children: Snippet } = $props();
+
+	// url.search can't be read during prerendering; the prerendered routes (about,
+	// photographs, useful-links) never carry query params, so a pathname-only
+	// canonical is correct for them anyway.
+	const canonicalUrl = $derived(
+		`https://www.readingweather.co.uk${page.url.pathname}${building ? '' : page.url.search}`
+	);
 
 	let name = $state('');
 	let email = $state('');
@@ -47,7 +55,10 @@
 	<link rel="preconnect" href="https://www.googletagmanager.com" crossorigin="anonymous" />
 	<link rel="preload" href="/fonts/Caveat-VariableFont_wght.ttf" as="font" type="font/ttf" crossorigin="anonymous" />
 	<link rel="preload" href="/fonts/FiraSans-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous" />
-	<link rel="canonical" href={`https://www.readingweather.co.uk${page.url.pathname}`} />
+	<!-- Self-referencing canonical includes the query string: routes like /archives and
+	     /gallery render distinct content per ?year=/&month= filter, so each filtered view
+	     should canonicalize to itself rather than collapsing into the bare path. -->
+	<link rel="canonical" href={canonicalUrl} />
 	<link rel="alternate" type="application/rss+xml" title="Reading Weather" href="/feed.xml" />
 	<meta property="og:site_name" content="Reading Weather" />
 	<meta property="og:locale" content="en_GB" />
