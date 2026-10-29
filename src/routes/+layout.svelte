@@ -3,8 +3,8 @@
 	import '../styles/global.css';
 	import type { Snippet } from 'svelte';
 	import { onMount } from 'svelte';
-	import { page } from '$app/state';
 	import { building } from '$app/env';
+	import { page } from '$app/state';
 	import Analytics from '$lib/analytics/analytics.svelte';
 	import NavBar from '$lib/components/NavBar.svelte';
 
