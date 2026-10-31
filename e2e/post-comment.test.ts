@@ -31,6 +31,7 @@ test.describe('post detail comment flow', () => {
 		await page.goto('/');
 		await page.waitForLoadState('networkidle');
 		await page.locator('a.read-more').first().click();
+		await page.waitForURL((url) => url.pathname !== '/');
 		const postUrl = page.url();
 
 		await page.route('**/api/comment', async (route) => {
