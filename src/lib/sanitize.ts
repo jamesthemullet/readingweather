@@ -1,12 +1,10 @@
-import DOMPurify from 'dompurify';
-import { browser } from '$app/env';
+import DOMPurify from 'isomorphic-dompurify';
 
 /**
- * Sanitizes HTML to prevent XSS. On the server (SSR) the content is returned
- * as-is because DOMPurify requires a DOM environment; on the client it is
- * sanitized with DOMPurify before being rendered via {@html}.
+ * Sanitizes HTML to prevent XSS before it's rendered via {@html}. Backed by a
+ * jsdom instance during SSR, so the server-rendered HTML that gets hydrated is
+ * sanitized too, not just client-side re-renders.
  */
 export function sanitize(html: string): string {
-	if (!browser) return html;
 	return DOMPurify.sanitize(html);
 }
