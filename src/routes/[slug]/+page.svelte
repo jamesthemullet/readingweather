@@ -3,6 +3,7 @@
 	import AddComment from '$lib/components/AddComment.svelte';
 	import Comments from '$lib/components/Comments.svelte';
 	import ShareButton from '$lib/components/ShareButton.svelte';
+	import { ensureImageAltText } from '$lib/imageAlt';
 	import { injectKofiWidget } from '$lib/kofi';
 	import { sanitize } from '$lib/sanitize';
 	import { showAddComment } from '$lib/stores/commentState';
@@ -98,7 +99,7 @@
 	});
 
 	const modifiedContent = $derived(injectKofiWidget(data.post.content));
-	const sanitizedContent = $derived(sanitize(modifiedContent));
+	const sanitizedContent = $derived(sanitize(ensureImageAltText(modifiedContent)));
 
 	const hoursOld = $derived((Date.now() - new Date(data.post.date).getTime()) / 36e5);
 	const daysOld = $derived(Math.floor(hoursOld / 24));
