@@ -66,23 +66,23 @@
 	<div class="share-buttons">
 		<button
 			onclick={copyLink}
-			aria-label={copied ? 'Link copied to clipboard' : 'Copy link to this forecast'}
+			aria-label={copied || copyError ? undefined : 'Copy link to this forecast'}
 		>
 			{copied ? 'Copied!' : copyError ? 'Copy failed' : 'Copy link'}
 		</button>
 		{#if copyError}
 			<span role="alert" class="copy-error">Could not copy link — please copy it manually.</span>
 		{/if}
-		<button onclick={shareOnBluesky} aria-label="Share this forecast on Bluesky (opens in new tab)">
+		<button onclick={shareOnBluesky} aria-label="Share on Bluesky (opens in new tab)">
 			Share on Bluesky
 		</button>
-		<button onclick={shareOnThreads} aria-label="Share this forecast on Threads (opens in new tab)">
+		<button onclick={shareOnThreads} aria-label="Share on Threads (opens in new tab)">
 			Share on Threads
 		</button>
-		<button onclick={shareOnFacebook} aria-label="Share this forecast on Facebook (opens in new tab)">
+		<button onclick={shareOnFacebook} aria-label="Share on Facebook (opens in new tab)">
 			Share on Facebook
 		</button>
-		<button onclick={shareOnWhatsApp} aria-label="Share this forecast on WhatsApp (opens in new tab)">
+		<button onclick={shareOnWhatsApp} aria-label="Share on WhatsApp (opens in new tab)">
 			Share on WhatsApp
 		</button>
 	</div>
