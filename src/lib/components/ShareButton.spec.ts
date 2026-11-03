@@ -49,7 +49,7 @@ describe('ShareButton', () => {
 	it('opens Bluesky share intent with the post summary and url', async () => {
 		render(ShareButton, { props: { postUrl, postTitle, postSummary } });
 
-		await fireEvent.click(screen.getByRole('button', { name: /Share this forecast on Bluesky/ }));
+		await fireEvent.click(screen.getByRole('button', { name: /Share on Bluesky/ }));
 
 		expect(window.open).toHaveBeenCalledWith(
 			`https://bsky.app/intent/compose?text=${encodeURIComponent(`${postSummary} ${postUrl}`)}`,
@@ -61,7 +61,7 @@ describe('ShareButton', () => {
 	it('opens Facebook share intent with the post url', async () => {
 		render(ShareButton, { props: { postUrl, postTitle, postSummary } });
 
-		await fireEvent.click(screen.getByRole('button', { name: /Share this forecast on Facebook/ }));
+		await fireEvent.click(screen.getByRole('button', { name: /Share on Facebook/ }));
 
 		expect(window.open).toHaveBeenCalledWith(
 			`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(postUrl)}`,
@@ -75,7 +75,7 @@ describe('ShareButton', () => {
 		vi.stubGlobal('gtag', gtag);
 		render(ShareButton, { props: { postUrl, postTitle, postSummary, card: 'post-footer' } });
 
-		await fireEvent.click(screen.getByRole('button', { name: /Share this forecast on WhatsApp/ }));
+		await fireEvent.click(screen.getByRole('button', { name: /Share on WhatsApp/ }));
 
 		expect(gtag).toHaveBeenCalledWith('event', 'share_click', { card: 'post-footer' });
 	});
