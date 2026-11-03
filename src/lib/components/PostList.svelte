@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { ensureImageAltText } from '$lib/imageAlt';
 	import { injectKofiWidget } from '$lib/kofi';
 	import { sanitize } from '$lib/sanitize';
 	import type { AllPostsNode } from '$lib/types';
@@ -37,10 +38,10 @@
 				{/if}
 				<h2 id="post-heading-{post.slug}"><a href="/{post.slug}">{post.title}</a></h2>
 			{#if preview}
-					<div class="content">{@html sanitize(firstParagraph(post.content))}</div>
+					<div class="content">{@html sanitize(ensureImageAltText(firstParagraph(post.content)))}</div>
 					<a href="/{post.slug}" class="read-more" aria-label="Read full forecast: {post.title}">Read full forecast</a>
 				{:else}
-					<div class="content">{@html sanitize(injectKofiWidget(post.content))}</div>
+					<div class="content">{@html sanitize(ensureImageAltText(injectKofiWidget(post.content)))}</div>
 					<div class="comment-link">
 						<a href="/{post.slug}#comments" aria-label="View or add a comment on {post.title}">View or add a comment</a>
 					</div>
