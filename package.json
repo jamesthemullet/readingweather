@@ -26,6 +26,7 @@
 		"@sveltejs/vite-plugin-svelte": "^7.0.0",
 		"@testing-library/svelte": "^5.4.2",
 		"@types/node": "^24.10.0",
+		"@types/sanitize-html": "^2.16.2",
 		"accented": "^1.2.0",
 		"happy-dom": "^21.0.1",
 		"knip": "^6.0.0",
@@ -38,7 +39,7 @@
 		"vitest": "^5.0.0"
 	},
 	"dependencies": {
-		"isomorphic-dompurify": "^4.6.0"
+		"sanitize-html": "^2.18.1"
 	},
 	"resolutions": {
 		"rollup": "^4.59.0"
