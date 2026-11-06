@@ -2,7 +2,7 @@ import { defineConfig } from '@playwright/test';
 
 export default defineConfig({
 	webServer: {
-		command: 'yarn build && yarn preview',
+		command: 'yarn build && node scripts/check-ssr-requires.mjs && yarn preview',
 		port: 4173,
 		reuseExistingServer: !process.env.CI,
 		// Vercel's function runtime can't require() ES modules, but modern local

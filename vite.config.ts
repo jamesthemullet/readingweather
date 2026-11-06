@@ -27,6 +27,11 @@ export default defineConfig({
 			'entities',
 			'parse-srcset',
 			'postcss',
+			'picocolors',
+			'nanoid',
+			'source-map-js',
+			'launder',
+			'dayjs',
 			'deepmerge',
 			'escape-string-regexp',
 			'is-plain-object'
