@@ -12,6 +12,26 @@ export default defineConfig({
 		// the app.
 		allowedHosts: ['example.com']
 	},
+	ssr: {
+		// sanitize-html is CommonJS and require()s ESM-only deps (htmlparser2 and
+		// its parser stack). Vercel's function runtime can't require() ESM
+		// (ERR_REQUIRE_ESM), which 500s every SSR'd page, so bundle the whole
+		// chain into the server build instead of leaving it to runtime require().
+		noExternal: [
+			'sanitize-html',
+			'htmlparser2',
+			'domhandler',
+			'domutils',
+			'dom-serializer',
+			'domelementtype',
+			'entities',
+			'parse-srcset',
+			'postcss',
+			'deepmerge',
+			'escape-string-regexp',
+			'is-plain-object'
+		]
+	},
 	plugins: [
 		sveltekit({
 			// Consult https://svelte.dev/docs/kit/integrations
