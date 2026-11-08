@@ -84,4 +84,18 @@ describe('PostList', () => {
 
 		expect(screen.queryByRole('img')).toBeNull();
 	});
+
+	it('sanitizes malicious markup out of post content before rendering', () => {
+		const posts = [
+			makePost({
+				content: '<p>Safe text</p><script>window.xss = true;</script><img src="x" onerror="window.xss = true" />'
+			})
+		];
+
+		render(PostList, { props: { posts } });
+
+		expect(screen.getByText('Safe text')).toBeTruthy();
+		expect(document.querySelector('script')).toBeNull();
+		expect(document.querySelector('img[onerror]')).toBeNull();
+	});
 });
