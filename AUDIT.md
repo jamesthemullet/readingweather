@@ -52,7 +52,7 @@ audit adds new findings to the bottom of each section and leaves checked items a
 
 ## 5. Responsive / UX
 
-- [ ] Could not verify true mobile-viewport (375px) vs desktop (1280px) rendering via automated screenshot this run — `resize_window` didn't change `window.innerWidth` from the OS-maximized 2560px in this session; `NavBar.svelte`'s `@media (max-width: 768px)` rules look internally consistent on code review but need a live-viewport pass to confirm no overlap (found: 2026-09-01)
+- [x] Could not verify true mobile-viewport (375px) vs desktop (1280px) rendering via automated screenshot this run — `resize_window` didn't change `window.innerWidth` from the OS-maximized 2560px in this session; `NavBar.svelte`'s `@media (max-width: 768px)` rules look internally consistent on code review but need a live-viewport pass to confirm no overlap (found: 2026-09-01) (resolved: 2026-11-07, fixed by automated routine — added `e2e/mobile-nav.test.ts`, which runs at a real 375px Playwright viewport and asserts no horizontal overflow on the homepage, that the opened mobile menu doesn't overlap the home link, and that a link in the open menu navigates correctly; all three pass, confirming `NavBar.svelte`'s mobile rules behave as the code review expected)
 - [ ] `src/lib/kofi.ts`'s `injectKofiWidget()` sets a fixed `height='612'` iframe inline into post content with no positioning CSS found in `src/styles/index.css` — structurally looks fine but couldn't be visually confirmed at mobile width this run due to the viewport-resize issue above (found: 2026-09-01)
 
 ## 6. Security
