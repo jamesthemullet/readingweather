@@ -84,4 +84,30 @@ describe('PostList', () => {
 
 		expect(screen.queryByRole('img')).toBeNull();
 	});
+
+	it('strips malicious markup from post content before rendering', () => {
+		const posts = [
+			makePost({
+				content: '<p>Hello <img src="x.jpg" onerror="alert(1)"><script>alert(1)</script></p>'
+			})
+		];
+
+		render(PostList, { props: { posts } });
+
+		expect(document.querySelector('script')).toBeNull();
+		expect(document.querySelector('img')?.getAttribute('onerror')).toBeNull();
+	});
+
+	it('strips malicious markup from the preview excerpt before rendering', () => {
+		const posts = [
+			makePost({
+				content: '<p>Hello <img src="x.jpg" onerror="alert(1)"><script>alert(1)</script></p>'
+			})
+		];
+
+		render(PostList, { props: { posts, preview: true } });
+
+		expect(document.querySelector('script')).toBeNull();
+		expect(document.querySelector('img')?.getAttribute('onerror')).toBeNull();
+	});
 });
