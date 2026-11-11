@@ -4,6 +4,13 @@ main {
 
 		.content {
 			padding: 1rem 2rem;
+
+			/* The Ko-fi widget (see kofi.ts) sets width:100% plus its own inline
+			   padding; without border-box that padding adds to the 100% and
+			   overflows the content column on narrow viewports. */
+			#kofiframe {
+				box-sizing: border-box;
+			}
 		}
 	}
 
