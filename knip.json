@@ -4,5 +4,8 @@
 		"interface": true,
 		"type": true
 	},
+	"ignoreIssues": {
+		"tsconfig.json": ["unlisted"]
+	},
 	"tags": ["-lintignore"]
 }
