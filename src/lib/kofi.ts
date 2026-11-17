@@ -1,4 +1,4 @@
-const KOFI_IFRAME_HTML = `<iframe id='kofiframe' src='https://ko-fi.com/wffrb/?hidefeed=true&widget=true&embed=true&preview=true' style='border:none;width:100%;padding:4px;background:#f9f9f9;' height='612' title='Support Reading Weather on Ko-fi'></iframe>`;
+const KOFI_IFRAME_HTML = `<iframe id='kofiframe' class='kofi-embed' src='https://ko-fi.com/wffrb/?hidefeed=true&widget=true&embed=true&preview=true' height='612' title='Support Reading Weather on Ko-fi'></iframe>`;
 
 export function injectKofiWidget(content: string): string {
 	const paragraphs = content.split(/<\/?p>/).filter((p) => p.trim() !== '');
