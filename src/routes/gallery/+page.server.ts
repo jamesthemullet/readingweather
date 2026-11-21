@@ -1,3 +1,4 @@
+import { hasGalleryImage } from '$lib/galleryMatch';
 import { fetchGraphQL } from '$lib/graphql/api';
 import GET_POSTS_FOR_GALLERY from '$lib/graphql/queries/getPostsForGallery';
 import { getCache, setCache } from '$lib/server/cache';
@@ -107,12 +108,7 @@ export const load: PageServerLoad = async ({ url, fetch, setHeaders }) => {
 		.map((res, i) => {
 			const month = i + 1;
 			const posts = res.posts.nodes
-				.filter((post): post is GalleryPostFiltered => {
-					const sourceUrl = post.featuredImage?.node?.sourceUrl;
-					if (!sourceUrl) return false;
-					const filename = sourceUrl.split('/').pop() ?? '';
-					return !/PXL/i.test(filename);
-				})
+				.filter((post): post is GalleryPostFiltered => hasGalleryImage(post))
 				.map((post): GalleryPostWithImage => ({
 					...post,
 					name: getImageName(post.featuredImage.node.sourceUrl),

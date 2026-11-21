@@ -1,4 +1,5 @@
 import { error } from '@sveltejs/kit';
+import { findGalleryHref } from '$lib/galleryMatch';
 import { fetchGraphQL } from '$lib/graphql/api';
 import GET_LATEST_POST_SLUG from '$lib/graphql/queries/getLatestPostSlug';
 import GET_LATEST_SEASONAL_POST_QUERY from '$lib/graphql/queries/getLatestSeasonalPost';
@@ -37,6 +38,7 @@ export const load: PageServerLoad = async ({ params, fetch }) => {
 		post: response.postBy,
 		isLatest: latestSlug === slug,
 		latestSlug,
-		latestSeasonalPost: latestSeasonal?.posts?.nodes?.[0] ?? null
+		latestSeasonalPost: latestSeasonal?.posts?.nodes?.[0] ?? null,
+		galleryHref: findGalleryHref(response.postBy)
 	};
 };
