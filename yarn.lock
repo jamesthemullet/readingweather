@@ -21,71 +21,71 @@
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.29.10.tgz#fe9920782f7ee34029165ac6f272984917a1641b"
   integrity sha512-NpugTzbKgGrNe45Ui32cN8vCFFMxVtP/9rtfwv0nP5FRDAjvYBxJcLVpYA9mr1jxP6cnIT7x9LUzuDTbWYYNRA==
 
-"@biomejs/biome@2.6.8":
-  version "2.6.8"
-  resolved "https://registry.yarnpkg.com/@biomejs/biome/-/biome-2.6.8.tgz#d34bff1f807642e84434299bb05fb6dfb6031533"
-  integrity sha512-kqZUFvX6/aYQOmzfRN5ANcfNS9wLH4aHLWWP/dQKyhRZVoA6rdWszA7DGugFcxPbMiznUyVYyukVl+ExZN4PQA==
+"@biomejs/biome@2.6.9":
+  version "2.6.9"
+  resolved "https://registry.yarnpkg.com/@biomejs/biome/-/biome-2.6.9.tgz#a0815bf6ea63992b4e446ed73533edc9c628ecfb"
+  integrity sha512-RelCBDzTXu4DBU8c35P4iMrDO80SUjW0OgjDA7CT1z3UcCU5IclWTZ2XnMelI4frQL//xg2K2BQxAhcOKxdPQA==
   optionalDependencies:
-    "@biomejs/cli-android-arm64" "2.6.8"
-    "@biomejs/cli-android-x64" "2.6.8"
-    "@biomejs/cli-darwin-arm64" "2.6.8"
-    "@biomejs/cli-darwin-x64" "2.6.8"
-    "@biomejs/cli-linux-arm64" "2.6.8"
-    "@biomejs/cli-linux-arm64-musl" "2.6.8"
-    "@biomejs/cli-linux-x64" "2.6.8"
-    "@biomejs/cli-linux-x64-musl" "2.6.8"
-    "@biomejs/cli-win32-arm64" "2.6.8"
-    "@biomejs/cli-win32-x64" "2.6.8"
+    "@biomejs/cli-android-arm64" "2.6.9"
+    "@biomejs/cli-android-x64" "2.6.9"
+    "@biomejs/cli-darwin-arm64" "2.6.9"
+    "@biomejs/cli-darwin-x64" "2.6.9"
+    "@biomejs/cli-linux-arm64" "2.6.9"
+    "@biomejs/cli-linux-arm64-musl" "2.6.9"
+    "@biomejs/cli-linux-x64" "2.6.9"
+    "@biomejs/cli-linux-x64-musl" "2.6.9"
+    "@biomejs/cli-win32-arm64" "2.6.9"
+    "@biomejs/cli-win32-x64" "2.6.9"
 
-"@biomejs/cli-android-arm64@2.6.8":
-  version "2.6.8"
-  resolved "https://registry.yarnpkg.com/@biomejs/cli-android-arm64/-/cli-android-arm64-2.6.8.tgz#f913134eeacce822a9ffdedf2e6826559291b723"
-  integrity sha512-X4JKPLK85kfUTwuuaORFplnBfGjKkp62PsFhhcL7F/Tpltc7pyUofjlkkMnlZZLWsifFl7LNB8ngVrwJg1uo1Q==
+"@biomejs/cli-android-arm64@2.6.9":
+  version "2.6.9"
+  resolved "https://registry.yarnpkg.com/@biomejs/cli-android-arm64/-/cli-android-arm64-2.6.9.tgz#e5d1e4ea6fa730018e799d540c830b8804dde6b5"
+  integrity sha512-/3Aj5aiG+Iz8yDBJJb/GFDsptr9ONk3n1wZUIERuU+pVXMIslBaOnrTYJI5QVVXZ9jE494myQHiIvFrjQCBYeQ==
 
-"@biomejs/cli-android-x64@2.6.8":
-  version "2.6.8"
-  resolved "https://registry.yarnpkg.com/@biomejs/cli-android-x64/-/cli-android-x64-2.6.8.tgz#740c43042c59abed9b539bc8107c879d28b8dd9f"
-  integrity sha512-C3Hk485vl+deEj53K08+SYYelPIPkdSZL3qHuD31Xi+qydVa4q2ze+aCYo1k3iJGWtvWtjHaGkDh7S2sX6wk8w==
+"@biomejs/cli-android-x64@2.6.9":
+  version "2.6.9"
+  resolved "https://registry.yarnpkg.com/@biomejs/cli-android-x64/-/cli-android-x64-2.6.9.tgz#604b7782f1e58647e9a793cdbe0dcf9b055d45b2"
+  integrity sha512-erjbUpD9KJhzTsGHY9oStJ1bSiUJ1ikUXgdr0iOFoIAMiKqW+GdVdEqAlEyqiZA6CBiFqf2fV+g0AVl3hYOuYg==
 
-"@biomejs/cli-darwin-arm64@2.6.8":
-  version "2.6.8"
-  resolved "https://registry.yarnpkg.com/@biomejs/cli-darwin-arm64/-/cli-darwin-arm64-2.6.8.tgz#342d28972e1e2564b9a64d4dddc1425bacac013c"
-  integrity sha512-DHyj+JnRHcn4YdvpiqgTFZMYKSPELMCfFpNNlEuu1L8DKTGXhzW7raIwdsbo2Ie9nCljQLAQkVWQk/mwM0ueiA==
+"@biomejs/cli-darwin-arm64@2.6.9":
+  version "2.6.9"
+  resolved "https://registry.yarnpkg.com/@biomejs/cli-darwin-arm64/-/cli-darwin-arm64-2.6.9.tgz#9ebacef67e0bcca833d355d3909d8c00fb57ddfc"
+  integrity sha512-fO67s0SF+lKGhNPQ7jUXiz0yXGl/1Qm3XTIn/4Hd2Z2z3ewQMrotWIMVdIPxZAgLJdQtRLBOzgsTRzTl981yWA==
 
-"@biomejs/cli-darwin-x64@2.6.8":
-  version "2.6.8"
-  resolved "https://registry.yarnpkg.com/@biomejs/cli-darwin-x64/-/cli-darwin-x64-2.6.8.tgz#c16e493545c23d4563d7b9e238c2b8efb5e1254a"
-  integrity sha512-QWWUPjlA0RnkkgYnFLUHZu+RrDc0FdK0A+wEPA+dENQJwsuSHMH89lspnAw2QUWWc9VHyfluGx1Xmp6Y2GZi8Q==
+"@biomejs/cli-darwin-x64@2.6.9":
+  version "2.6.9"
+  resolved "https://registry.yarnpkg.com/@biomejs/cli-darwin-x64/-/cli-darwin-x64-2.6.9.tgz#97505a493a5a17b02664f0696be2aa4433c871a3"
+  integrity sha512-RdjT3Z6dLlii0x6EroncTp9jg38FMx2R1aeaaU4BbZ4//3TJ2mA2R39KMIrZYxHdHXcfv9X2V5hwKkXhg08w/g==
 
-"@biomejs/cli-linux-arm64-musl@2.6.8":
-  version "2.6.8"
-  resolved "https://registry.yarnpkg.com/@biomejs/cli-linux-arm64-musl/-/cli-linux-arm64-musl-2.6.8.tgz#d01b5976be63b342af6cba7ee50aa0cc78ebda6f"
-  integrity sha512-WB9PhOitX+bRc0G3+GNJGlvbKoWn3JoB9z4E04JQizIC9aPCQyIvwvWG7QZHxw6k20Fi+dHLmZ2fSEmBa9HqiA==
+"@biomejs/cli-linux-arm64-musl@2.6.9":
+  version "2.6.9"
+  resolved "https://registry.yarnpkg.com/@biomejs/cli-linux-arm64-musl/-/cli-linux-arm64-musl-2.6.9.tgz#12d015830073dc1df84c106e8c7e5e7e134ae35a"
+  integrity sha512-qoG0R5MhJ8VFozVFZQC42V3qCI1TInDhL/YcPPg0oTzfv3vuh0ZDXj+2nNahq8gboHUMv7MWpGjRDLhpQatJ+A==
 
-"@biomejs/cli-linux-arm64@2.6.8":
-  version "2.6.8"
-  resolved "https://registry.yarnpkg.com/@biomejs/cli-linux-arm64/-/cli-linux-arm64-2.6.8.tgz#7b66e44eaf767fd96e3f27382c7bad93cdc34281"
-  integrity sha512-0Bjim8lKwnrvXUHoI4k3Tb51BjoiLEwDnovCI8nSzkk6wj3dShiuAjrx6+X0Hjf4ejR1sRZgTQiSDHlpy9vB7w==
+"@biomejs/cli-linux-arm64@2.6.9":
+  version "2.6.9"
+  resolved "https://registry.yarnpkg.com/@biomejs/cli-linux-arm64/-/cli-linux-arm64-2.6.9.tgz#5a0b7586e6a4561ff92026b4b5686b59b37bab09"
+  integrity sha512-x73OpQSuQLuvNfzXWEjf0mK95NxlJQX4eG/jmuSrGWOz+/jcLUE4N/21yBu3n0X+wa8bJ3NsWNvmNacLnyc2CQ==
 
-"@biomejs/cli-linux-x64-musl@2.6.8":
-  version "2.6.8"
-  resolved "https://registry.yarnpkg.com/@biomejs/cli-linux-x64-musl/-/cli-linux-x64-musl-2.6.8.tgz#d2129134f337c3e78883040b741fb431a482951a"
-  integrity sha512-64Yzo+J4fEk7Kf9SMnVdVxC+Y2A2e/L86QTP9JjGQ57lsddyELLpbBcNMxSJggre2T1AvISwwSrOApkBAHDqNA==
+"@biomejs/cli-linux-x64-musl@2.6.9":
+  version "2.6.9"
+  resolved "https://registry.yarnpkg.com/@biomejs/cli-linux-x64-musl/-/cli-linux-x64-musl-2.6.9.tgz#908cc57e965f9de4f2e0482628ed48b95da84311"
+  integrity sha512-o73Sk1hCbGOFOrDlxtpHGIubnLwMXscT32+ujMwUyq9o0f4onxO7OznzkFgcZGbwKy1R3ohroOkqZDXqj1u29g==
 
-"@biomejs/cli-linux-x64@2.6.8":
-  version "2.6.8"
-  resolved "https://registry.yarnpkg.com/@biomejs/cli-linux-x64/-/cli-linux-x64-2.6.8.tgz#b2a975b00d5fd1522c09af24d718f94ca3177abc"
-  integrity sha512-XIk3pLQT56I6Tti+u0DF8FtSNXjCMTPbxVTzfJ9cS2t1ImVKvrqV5b52GuEaJg6/wuiXvz0sjfb5saB4TPRjzA==
+"@biomejs/cli-linux-x64@2.6.9":
+  version "2.6.9"
+  resolved "https://registry.yarnpkg.com/@biomejs/cli-linux-x64/-/cli-linux-x64-2.6.9.tgz#94cb8d6b1f3a5e89cc00a84a78d00414a5cc5e10"
+  integrity sha512-uVrqS0HDjRzFlx88ZpfmlZvJ+xIwTU+110vunzrYvZQ5OqXl/1ugMTNvAs61hejH7jh7iequKJwagRVarrYcSQ==
 
-"@biomejs/cli-win32-arm64@2.6.8":
-  version "2.6.8"
-  resolved "https://registry.yarnpkg.com/@biomejs/cli-win32-arm64/-/cli-win32-arm64-2.6.8.tgz#fa6be3a94a5246fab8d9fed81c888a033b41610f"
-  integrity sha512-ezjCEZzHIWE2pdh83a7zLVcAAcDaERcTcvfA7uWlxqz/1CuDxgtfO19pDg9B6YY4wKYIDvYBw2QCMnqIshSwmw==
+"@biomejs/cli-win32-arm64@2.6.9":
+  version "2.6.9"
+  resolved "https://registry.yarnpkg.com/@biomejs/cli-win32-arm64/-/cli-win32-arm64-2.6.9.tgz#f3b50df21925bb047e647930b8e893b66dc472d3"
+  integrity sha512-4yvNG4nQGJsJA/PTVAt8IBFXvY6hXk4UdjtPlTf4QTMIjH7ysOwBew78bKThkRv1eyRwH2mGLIk4lAZp8tfAdw==
 
-"@biomejs/cli-win32-x64@2.6.8":
-  version "2.6.8"
-  resolved "https://registry.yarnpkg.com/@biomejs/cli-win32-x64/-/cli-win32-x64-2.6.8.tgz#f563b8c9238dda8e3f8e1d4f23a99b6684067468"
-  integrity sha512-cD6HvGczZUiAYsY8s2TxxXj2AHFzEdMomvVJfEjzOjBM45nGqIDfBpbtvwGQzDCN8X2yKKk9u1jnDZisT2nxIg==
+"@biomejs/cli-win32-x64@2.6.9":
+  version "2.6.9"
+  resolved "https://registry.yarnpkg.com/@biomejs/cli-win32-x64/-/cli-win32-x64-2.6.9.tgz#78e0b2248d4326e60c37f3568d3beae214ed8019"
+  integrity sha512-mwarNc4GEg5JknsRaJDyJDFr4kICD7snsGM8yYFOoIHimSU1ekWNbcZ44QDa6/30fUZC9077wbBpXE8fp03aug==
 
 "@emnapi/core@1.11.2":
   version "1.11.2"
@@ -655,13 +655,12 @@
   integrity sha512-VT3qmUb8pRV2QrZjd8iAmtg8lf4W0TIjZbvXtz5MKei/q96teWZgGJyyidJzOjzZzvdq616eSRVeMYIQChUTAQ==
 
 "@sveltejs/vite-plugin-svelte@^7.0.0":
-  version "7.3.1"
-  resolved "https://registry.yarnpkg.com/@sveltejs/vite-plugin-svelte/-/vite-plugin-svelte-7.3.1.tgz#93f642883e09ef234325fb043a50821723f7fffc"
-  integrity sha512-ZPsLN8B1e/En+Ak5s4V7srFDT532oS0qieLsQwu63NGKsS+iAjoO2Js1BochlHlglcU+Pt7WAO3C5Ee+4f6gVA==
+  version "7.3.2"
+  resolved "https://registry.yarnpkg.com/@sveltejs/vite-plugin-svelte/-/vite-plugin-svelte-7.3.2.tgz#65f1efdd7b9fb02393b044cfee7e111957a57e48"
+  integrity sha512-86J4nBLeTqYYIx/paBIRqYJMFYlpTS2sepUdQ6tUyU1jxqRV72ejOrIV2wsqlOsKlkM+h0G1SgwoHI30N+n9CA==
   dependencies:
     deepmerge "^4.3.1"
-    magic-string "^1.0.0"
-    obug "^2.1.0"
+    obug "^3.0.0"
     vitefu "^1.1.2"
 
 "@testing-library/dom@9.x.x || 10.x.x":
@@ -1030,9 +1029,9 @@ js-tokens@^4.0.0:
   integrity sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==
 
 knip@^6.0.0:
-  version "6.47.0"
-  resolved "https://registry.yarnpkg.com/knip/-/knip-6.47.0.tgz#5a2341d86c0a770ff93233c687bdaaf315b9aacc"
-  integrity sha512-nYmQnk0YqDXIJrYViJz88c8xw3tBDkpuAmofo58EkVPnKr6DnRKYtf6oIqcGVHZvXDE+gtmFuYx277/QsWng+A==
+  version "6.48.0"
+  resolved "https://registry.yarnpkg.com/knip/-/knip-6.48.0.tgz#e86e0959b14d96dd1cfd8e31c30a822284fe4ce7"
+  integrity sha512-v+Gfp6uiOeXaaj+Khk2Z7/fTTZYWLnDwxZapQUyy8WoQFLYXiUHXqRdFJTwRnrKNA1gPXTPi5NGTKKLXyImVrg==
   dependencies:
     formatly "^0.11.4"
     get-tsconfig "4.14.3"
@@ -1144,13 +1143,6 @@ magic-string@^0.30.11:
   dependencies:
     "@jridgewell/sourcemap-codec" "^1.5.5"
 
-magic-string@^1.0.0:
-  version "1.4.2"
-  resolved "https://registry.yarnpkg.com/magic-string/-/magic-string-1.4.2.tgz#508aef4aac7319496dc074ec60ea511c49daf138"
-  integrity sha512-vG+rjFRj1PqdIBozIxAGMjPlOhaVe+GXpbttY/iSK7rGcJRMlwNJO7dcUwmUqkymsFLJiNGI06t4D7Fr7yRC9g==
-  dependencies:
-    "@jridgewell/sourcemap-codec" "^1.6.0"
-
 magic-string@^1.2.3, magic-string@^1.4.5:
   version "1.4.5"
   resolved "https://registry.yarnpkg.com/magic-string/-/magic-string-1.4.5.tgz#201c852d51eb0664d6f66cf7ab93b20b416e48d9"
@@ -1172,11 +1164,6 @@ nanoid@^3.3.20:
   version "3.3.20"
   resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-3.3.20.tgz#dfd4444d85aa10111ef66ba85ed72e08ba0855d8"
   integrity sha512-uKdg2G3GNCKQn9byYOpxbGqrT2fGO5KRt5J/8b3pok8rT6qxGWF6hxMyJiEYtAf+FVyYuD9hRaDqX5uPFYJ4ZQ==
-
-obug@^2.1.0:
-  version "2.2.1"
-  resolved "https://registry.yarnpkg.com/obug/-/obug-2.2.1.tgz#9c453efeeda822050eb9774242e969c784d64d78"
-  integrity sha512-XrsrhT5sybtKI6wakr2SPOlGZWWYbUXZ7a0jT8/QOeAPau+1X/bSegNe5YR75oJmEZQbKningirmGOEJCIk61Q==
 
 obug@^3.0.0:
   version "3.0.0"
@@ -1513,9 +1500,9 @@ vite@^8.0.12:
     fsevents "~2.3.3"
 
 vitefu@^1.1.2:
-  version "1.1.3"
-  resolved "https://registry.yarnpkg.com/vitefu/-/vitefu-1.1.3.tgz#59b9885b1c200856319d7e9ceb0e99a065430009"
-  integrity sha512-ub4okH7Z5KLjb6hDyjqrGXqWtWvoYdU3IGm/NorpgHncKoLTCfRIbvlhBm7r0YstIaQRYlp4yEbFqDcKSzXSSg==
+  version "1.1.4"
+  resolved "https://registry.yarnpkg.com/vitefu/-/vitefu-1.1.4.tgz#4cb72879498f8a44b7573c0df36478cb3ba6490f"
+  integrity sha512-qbEIDswfXH3x3IYRMScl/bf1AVW0dn7Z8qkr7g7nohkusfuC7tcFa7t5EoTOz60AunosLM9sDrDjHxsX+Up+CQ==
 
 vitest@^5.0.0:
   version "5.1.1"
